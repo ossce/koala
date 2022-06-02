@@ -27,7 +27,7 @@
 
 <table>
     <tr>
-        <td><img src="http://www.ossce.org.cn/attachment/images/2/2022/06/lH2xXkR5bFfGZ5s55ksr2oXGgfUgs5.png"/></td>
+        <td><img src="http://www.ossce.org.cn/attachment/images/2/2022/06/lLO17mZljLjp77Zll3dmm73ZmbMY47.png"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-7f20dd0edba25e5187c5c4dd3ec7d3d9797.png"/></td>
     </tr>
     <tr>
