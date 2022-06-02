@@ -6,15 +6,10 @@
 用户名：ossce
 口令：123456a?
 <p align="center">
-	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-dd77653d7c9f197dd9d93684f3c8dcfbab6.png">
+	<img alt="logo" src="http://www.ossce.org.cn/attachment/images/2/2022/04/J6fWg4b5w8bc5D3zB8669IDGgWz8g6.jpg">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v4.7.4</h1>
-<h4 align="center">基于SpringBoot开发的轻量级Java快速开发框架</h4>
-<p align="center">
-	<a href="https://gitee.com/y_project/RuoYi/stargazers"><img src="https://gitee.com/y_project/RuoYi/badge/star.svg?theme=gvp"></a>
-	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.4-brightgreen.svg"></a>
-	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
-</p>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">koala v2.3.1</h1>
+<h4 align="center">OSSCE开源知识付费平台搭建平台</h4>
 
 ## 平台简介
 
@@ -52,11 +47,11 @@
 
 ## 在线体验
 
-- admin/admin123  
-- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
+- 后台账号：ossce
+- 后台口令：123456a?
 
-演示地址：http://ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
+前台演示地址：http://www.ossce.org.cn/2/  
+后台演示地址：http://www.ossce.org.cn/web/home.php#/platform
 
 ## 演示图
 
