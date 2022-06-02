@@ -1,0 +1,187 @@
+﻿@charset "utf-8";
+
+/* 海报图片 */
+.qrcode_wrap {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+.qrcode_inner{
+	text-align: center;
+}
+.qrcode_inner img {
+	margin-top: 5px;
+    height: 480px;
+	border-radius: 15px;
+}
+.qrcode_footer{
+	padding: 0 10px;
+	background-color: #fff;
+	border-top: 1px solid #f2f2f2;
+}
+.qrcode_footer .tips{
+	color: #666;
+	font-size: 14px;
+	text-align: center;
+	padding: 10px 0;
+}
+.qrcode_footer .qrcode_thum_wrap{
+	white-space: nowrap;
+}
+.qrcode_footer .qrcode_thum_wrap .qrcode_thum{
+	margin-right: 20px;
+	height: 90px;
+	width: 70px;
+	position: relative;
+	display: inline-block;
+}
+.qrcode_footer .qrcode_thum_wrap .qrcode_thum img{
+	pointer-events: none;
+	height: 100%;
+	width: 100%;
+	border-radius: 10px;
+    -ms-interpolation-mode: bicubic;
+    display: block;
+    border: 0;
+}
+.qrcode_footer .qrcode_thum_wrap .qrcode_thum .checked{
+	top: calc(50% - 10px);
+    left: calc(50% - 10px);
+	pointer-events: none;
+	height: 20px;
+	width: 20px;
+	position: absolute;
+}
+
+/* 右上角按钮 */
+.sharecard__entry, .sharecard__entry-global {
+    height: 28px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    box-sizing: border-box;
+}
+.sharecard__entry-global {
+    width: 100%;
+    max-width: 640px;
+    position: fixed;
+    top: 70px;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    z-index: 999;
+    cursor: pointer;
+    pointer-events: none;
+    transition: top .5s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+.sharecard__entry {
+    position: absolute;
+    right: 0;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.2);
+    background-color: hsla(0,0%,100%,.85);
+    border-radius: 20px 0 0 20px;
+    z-index: 1000;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 5px 0 8px;
+    font-size: 12px;
+    line-height: 12px;
+    pointer-events: auto;
+    color: #333;
+}
+.sharecard__entry, .sharecard__entry-global {
+    height: 30px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    box-sizing: border-box;
+}
+.sharecard__entry-icon {
+    margin-right: 3px;
+    width: 15px;
+    position: relative;
+    top: 1px;
+}
+.sharecard__entry-icon img {
+    margin: 0;
+    width: 100%;
+}
+
+/* 免费学习规则 */
+.act-group-notice-mask {
+    background-color: rgba(0,0,0,.8);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.act-group-notice {
+    background-color: #fff;
+    width: 80%;
+	height:80%;
+    border-radius: .5rem;
+    position: relative;
+}
+.act-group-notice .close {
+    position: absolute;
+    top: .4rem;
+    right: .3rem;
+    z-index: 2;
+}
+.act-group-notice .notice-title {
+    width: 100%;
+    color: #151516;
+    font-size: 1rem;
+    line-height: 3rem;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+	display: block;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.act-group-notice .notice-body {
+	max-height: 85%;
+    padding: .5rem 1rem;
+	overflow-y: auto;
+}
+
+.act-group-notice .notice-sub-title {
+    margin-left: .12rem;
+    position: relative;
+    color: #6f6f6f;
+    margin-top: .1rem;
+    line-height: 1.8rem;
+}
+.act-group-notice .notice-number{
+	color: #4285f4;
+    font-weight: bold;
+}
+.act-group-notice .my-invite{
+	color: #e6600f;
+    font-weight: bold;
+}

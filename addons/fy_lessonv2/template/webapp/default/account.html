@@ -1,0 +1,314 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="security flex flex-v commonTitle">
+				<div class="title">账号安全</div>
+				<div class="commonContent flex flex-v">
+					<dl class="items flex flex-vc yes" id="password">
+						<dt><i class="iconfont icon-password" style="color:#ea9e08;"></i></dt>
+						<dd class="flex flex1 flex-vc">
+							<h1>登录密码</h1>
+							<p class="tips flex1">建议密码为数字和字母的组合并且长度在6~18位之间</p>
+							<a class="handle" id="btnChangePassword" href="javascript:;">修改密码</a>
+						</dd>
+					</dl>
+					<dl class="items flex flex-vc ">
+						<dt><i class="iconfont icon-mobile" style="color:#e9511b;"></i></dt>
+						<dd class="flex flex1 flex-vc">
+							<h1>{php echo $member['mobile'] ? '修改手机' : '绑定手机';}</h1>
+							<p class="tips flex1">{php echo $member['mobile'] ? '已绑定手机号码'.$encrypt_mobile : '请您先绑定手机号码。';}</p>
+							<a class="handle" id="btnBindMobile" href="javascript:;">{php echo $member['mobile'] ? '修改手机' : '绑定手机';}</a>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 修改登录密码 -->
+<div class="out-model-shadebg password-model-bg"></div>
+<div class="out-model-shade password-model">
+	<span class="btn-close" title="关闭"><i class="iconfont icon-close"></i></span>
+	<table>
+		<caption>修改登录密码</caption>
+		<tr>
+			<td width="120">原登录密码：</td>
+			<td><input type="password" class="inp" name="old_pwd" placeholder="请输入原登录密码" /></td>
+		</tr>
+		<tr>
+			<td>新登录密码：</td>
+			<td><input type="password" class="inp" name="new_pwd" placeholder="请输入新的登录密码" /></td>
+		</tr>
+		<tr>
+			<td>确认密码：</td>
+			<td><input type="password" class="inp" name="new_pwd2" placeholder="请再次输入新的登录密码" /></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" class="btn-submit" id="btn-reset-password" value="提交" /></td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	$("#btnChangePassword").click(function(){
+		$(".password-model").show();
+		$('.password-model').addClass("ani");
+		$(".password-model-bg").show();
+	});
+
+	$(".btn-close").click(function(){
+		$(".password-model-bg").hide();
+		$('.password-model').removeClass("ani");
+		$(".password-model").hide();
+	});
+
+	var again_login = false;
+	$("#btn-reset-password").click(function(){
+		var old_pwd  = $("input[name=old_pwd]").val();
+		var new_pwd  = $("input[name=new_pwd]").val();
+		var new_pwd2 = $("input[name=new_pwd2]").val();
+		if(old_pwd==''){
+			swal("系统提示", "请输入原登录密码", "error");
+			return false;
+		}
+		if(new_pwd.length < 6){
+			swal("系统提示", "新登录密码长度至少6位", "error");
+			return false;
+		}
+		if(old_pwd === new_pwd){
+			swal("系统提示", "新登录密码不能和原登录密码一样", "error");
+			return false;
+		}
+		if(new_pwd != new_pwd2){
+			swal("系统提示", "两次密码不一致，请重新输入", "error");
+			return false;
+		}
+
+		$("#loadingToast").show();
+		$.ajax({
+			url: "/{$uniacid}/account.html?op=resetPassword",
+			type: 'POST',
+			data: {old_pwd:old_pwd, new_pwd:new_pwd, new_pwd2:new_pwd2},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+				if(res.code==0){
+					again_login = true;
+					swal("系统提示", res.message, "success");
+				}else{
+					swal("系统提示", res.message, "error");
+				}
+			},
+			error: function(data, status, e) {
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			}
+		})
+	});
+	$(document).on("click",".swal-confirm",function(){
+		if(again_login){
+			window.location.href = "/{$uniacid}/logout.html";
+		}
+	});
+</script>
+
+<!-- 修改手机号码 -->
+<div class="out-model-shadebg mobile-model-bg"></div>
+<div class="out-model-shade mobile-model">
+	<span class="btn-close" title="关闭"><i class="iconfont icon-close"></i></span>
+	<table>
+		<caption>{php echo $member['mobile'] ? '修改' : '绑定';}手机号码</caption>
+		{if $member['mobile']}
+		<tr>
+			<td width="120">已绑定手机：</td>
+			<td>{$encrypt_mobile}</td>
+		</tr>
+		<tr>
+			<td width="120">原手机号码：</td>
+			<td><input type="text" class="inp" name="old_mobile" placeholder="请输入原手机号码" /></td>
+		</tr>
+		{/if}
+		<tr>
+			<td>{php echo $member['mobile'] ? '新' : '';}手机号码：</td>
+			<td><input type="text" class="inp" name="new_mobile" placeholder="请输入{php echo $member['mobile'] ? '新' : '';}手机号码" /></td>
+		</tr>
+		<tr>
+			<td>验证码：</td>
+			<td><input type="text" class="inp" name="verify_code" placeholder="请输入短信验证码"style="width:180px;" /><a href="javascript:;" id="btn-send-code" class="smBtn btn-default m-l-10 m-t-2" style="height:37px; line-height:37px;">获取验证码</a></td>
+		</tr>
+		{if $setting['privacy_agreement']}
+		<tr>
+			<td></td>
+			<td><input type="checkbox" name="privacy_agreement" value="1" style="vertical-align:-2px;" checked> 我已阅读并同意<a href="javascript:;" id="btn-agreement">《用户服务(隐私)协议》</a></td>
+		</tr>
+		<div class="agreement-area-mask" style="display:none;">
+			<div class="agreement-area">
+				<div class="close">
+					<img src="{MODULE_URL}static/webapp/{$template}/images/btn-close.png" width="32" height="32">
+				</div>
+				<h3 class="notice-title">用户服务(隐私)协议</h3>
+				<ul class="notice-body">
+					{php echo htmlspecialchars_decode($setting['privacy_agreement'])}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<tr>
+			<td colspan="2"><input type="button" class="btn-submit" id="btn-reset-mobile" value="提交" /></td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	$("#btnBindMobile").click(function(){
+		$(".mobile-model").show();
+		$('.mobile-model').addClass("ani");
+		$(".mobile-model-bg").show();
+	});
+
+	$(".btn-close").click(function(){
+		$(".mobile-model-bg").hide();
+		$('.mobile-model').removeClass("ani");
+		$(".mobile-model").hide();
+	});
+
+	var countdown = 60;
+	$("#btn-send-code").click(function(){
+		var result = checkMobile();
+		if(!result){
+			return;
+		}
+		if ($('#btn-send-code').hasClass('has_send')) {
+			return false;
+		}
+
+		var mobile = $('input[name="new_mobile"]').val();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/sendcode.html",
+			data: {mobile:mobile},
+			success: function (data) {
+				if(data.code==0){
+					settime($("#btn-send-code"));
+					swal("系统提示", "短信发送成功，请注意查收", "success");
+				}else{
+					swal("系统提示", data.msg, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	});
+
+	//发送验证码倒计时
+	function settime(obj) {
+		if(countdown == 0) {
+			$('#btn-send-code').removeClass('has_send').text('重新发送');
+			countdown = 60;
+			return;
+		} else {
+			$('#btn-send-code').addClass('has_send').text('重新获取(' + countdown + ')');
+			countdown--;
+		}
+		setTimeout(function() {
+			settime(obj)
+		}, 1000)
+	}
+
+	//校验手机号是否合法
+	function checkMobile() {
+		var mobile = $('input[name="new_mobile"]').val();
+		var myreg = /^((1)+\d{10})$/;
+		if(!myreg.test(mobile)) {
+			swal("系统提示", "请输入有效的手机号码", "error");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	var reload = false;
+	$("#btn-reset-mobile").click(function(){
+		var old_mobile = '';
+		{if $member['mobile']}
+			old_mobile  = $("input[name=old_mobile]").val();
+			if(old_mobile==''){
+				swal("系统提示", "请输入原手机号码", "error");
+				return false;
+			}
+		{/if}
+
+		var new_mobile  = $("input[name=new_mobile]").val();
+		var verify_code = $("input[name=verify_code]").val();
+		if(new_mobile == ''){
+			swal("系统提示", "请输入{php echo $member['mobile'] ? '新' : '';}手机号码", "error");
+			return false;
+		}
+		if(verify_code ==''){
+			swal("系统提示", "请输入短信验证码", "error");
+			return false;
+		}
+
+		{if $setting['privacy_agreement']}
+			var agreement = false;
+			$("input[name='privacy_agreement']").each(function () {
+				if ($(this).is(":checked")) {
+					agreement = true;
+				}
+			});
+			if(!agreement){
+				swal("系统提示", "请阅读并同意用户服务(隐私)协议", "error");
+				return false;
+			}
+		{/if}
+		
+
+		$("#loadingToast").show();
+		$.ajax({
+			url: "/{$uniacid}/account.html?op=resetMobile",
+			type: 'POST',
+			data: {old_mobile:old_mobile, new_mobile:new_mobile, verify_code:verify_code},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+				if(res.code==0){
+					reload = true;
+					swal("系统提示", res.message, "success");
+				}else{
+					swal("系统提示", res.message, "error");
+				}
+			},
+			error: function(data, status, e) {
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			}
+		})
+	});
+	$(document).on("click",".swal-confirm",function(){
+		if(reload){
+			location.reload();
+		}
+	});
+
+	//查看协议
+	$("#btn-agreement").click(function(){
+		$('.agreement-area-mask').show();
+	});
+	$(".close").click(function(){
+		$('.agreement-area-mask').hide();
+	});
+</script>
+
+
+{php include $this->template($template.'/_footer')}

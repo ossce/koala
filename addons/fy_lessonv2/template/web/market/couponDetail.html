@@ -1,0 +1,99 @@
+<style type="text/css">
+.form-group{padding: 20px 0;}
+</style>
+<div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			优惠券详情
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员ID/昵称</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{$member_coupon['uid']} / {$member_coupon['nickname']}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员姓名/手机号码</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{$member_coupon['realname']} / {$member_coupon['mobile']}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券状态</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						{if $member_coupon['status']==0}
+							<span class="label label-success">未使用</span>
+						{elseif $member_coupon['status']==1}
+							<span class="label label-danger">已使用</span>
+						{elseif $member_coupon['status']==-1}
+							<span class="label label-default">已过期</span>
+						{/if}
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券面值</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{$member_coupon['amount']} 元</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">使用条件</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">订单满{$member_coupon['conditions']}元，{$category_name}可用</p>
+				</div>
+			</div>
+			{if $lesson_list}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">可使用课程</label>
+				<div class="col-sm-9">
+					<ul class="form-control-static select2-choices">
+						{loop $lesson_list $item}
+							<li class="select2-search-choice select-item" style="padding-left:8px;">
+								<div>(ID: {$item['id']}){$item['bookname']}</div>
+							</li>
+						{/loop}
+					</ul>
+				</div>
+			</div>
+			{/if}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券有效期</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{php echo date('Y-m-d H:i:s', $member_coupon['validity']);}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">使用订单号</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{php echo $member_coupon['ordersn'] ? $member_coupon['ordersn'] : "无";}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">使用时间</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+					{if $member_coupon['update_time']>0}
+						{php echo date('Y-m-d H:i:s', $member_coupon['update_time']);}
+					{else}
+						无
+					{/if}
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">来源</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">
+						{$source[$member_coupon['source']]}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<input type="button" onclick="window.history.go(-1);" value="返回" class="btn btn-default col-lg-1">
+	</div>
+</div>

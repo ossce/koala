@@ -1,0 +1,350 @@
+<!-- 
+ * 我的订单
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-order.css?v={$versions}">
+
+{if $op=='display'}
+	<div class="searchbar_wrap">
+		<div class="searchbar_input">
+			<div class="search-icon">
+				<i class="icon-search"></i>
+			</div>
+			<input type="text" id="order_kwd" placeholder="搜索全部订单" />
+		</div>
+		<div class="btn-search-shoporder">搜索</div>
+	</div>
+
+	<div class="my_order_nav">
+		<div class="my_order_nav_inner">
+			<div class="my_order_nav_list">
+				<div data-type="" class="my_order_nav_list_item cur">
+					<div class="nav_item_title">全部</div>
+				</div>
+				<div data-type="waitPay" class="my_order_nav_list_item">
+					<div class="nav_item_title">
+						待付款<span class="nav_item_num" id="waitPay"></span>
+					</div>
+				</div>
+				<div data-type="waitSend" class="my_order_nav_list_item">
+					<div class="nav_item_title">
+						待发货<span class="nav_item_num" id="waitSend"></span>
+					</div>
+				</div>
+				<div data-type="waitReceive" class="my_order_nav_list_item">
+					<div class="nav_item_title">
+						待收货<span class="nav_item_num" id="waitReceive"></span>
+					</div>
+				</div>
+				<div data-type="waitComment" class="my_order_nav_list_item">
+					<div class="nav_item_title">
+						待评价<span class="nav_item_num" id="waitComment"></span>
+					</div>
+				</div>
+				<div data-type="complete" class="my_order_nav_list_item">
+					<div class="nav_item_title">已完成</div>
+				</div>
+				<div data-type="refunding" class="my_order_nav_list_item">
+					<div class="nav_item_title">
+						退款中<span class="nav_item_num" id="returning"></span>
+					</div>
+				</div>
+				<div data-type="refunded" class="my_order_nav_list_item">
+					<div class="nav_item_title">已退款</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="order-wrapper"></div>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:;" id="btn_Page" style="display:inline;"><img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多</a>
+	</div>
+
+{elseif $op=='details'}
+	<section class="order-details">
+		<div class="order-list">
+			<div class="order-status" {if $order['show_process']}style="padding:30px 15px;margin-bottom:40px;"{/if}>
+				<i class="iconfont {$status_icon}"></i>
+				{$status_name}
+			</div>
+			{if $order['show_process']}
+			<div class="order-process" style="bottom:-40px;">
+				<div class="order-process-hd">
+					<strong class="color-fd5a45" id="delivery-time">-天-时-分-秒</strong> 后将自动确认收货
+				</div>
+				<div class="order-process-bd"><i class="iconfont icon-pull-right"></i></div>
+			</div>
+			{/if}
+		</div>
+		<div class="h-10"></div>
+		<div class="order-goods-info ">
+			<div class="order-goods-title">商品清单</div>
+		</div>
+		<div class="bg-fff">
+			{loop $goods_list $goods}
+			<div class="order-details-goods-item" data-goodsid="{$goods['goods_id']}">
+				<div class="order-goods-item-hd">
+					<img src="{$_W['attachurl']}{$goods['cover']}" alt="商品图片">
+				</div>
+				<div class="order-goods-item-bd">
+					<h2>{$goods['title']}</h2>
+					<p>{$goods['sku_name']}</p>
+					<div class="order-text">
+						<span class="order-text-hd">
+							{if $goods['sell_type'] == 1}
+								{$goods['integral']} 积分
+							{elseif $goods['sell_type'] == 2}
+								￥{$goods['price']}
+							{elseif $goods['sell_type'] == 3}
+								￥{$goods['price']}+{$goods['integral']} 积分
+							{/if}
+						</span>
+						<span class="order-text-bd">x{$goods['total']}</span>
+					</div>
+				</div>
+			</div>
+			{/loop}
+		</div>
+		<div class="order-total-price">
+			<div class="order-up-flex">
+				<div class="order-up-flex-hd">商品总额</div>
+				<div>￥{$order['price']}</div>
+			</div>
+			<div class="order-up-flex">
+				<div class="order-up-flex-hd">商品积分</div>
+				<div>{$order['integral']} 积分</div>
+			</div>
+			<div class="order-up-flex">
+				<div class="order-up-flex-hd">运费</div>
+				<div>￥{$order['express_price']}</div>
+			</div>
+			<div class="order-up-flex">
+				<div class="order-up-flex-hd">实付款</div>
+				<div class="total-price">
+					{if $order['total_amount']==0 && $order['integral']}
+						{$order['integral']} 积分
+					{elseif $order['total_amount']>0 && !$order['integral']}
+						￥{$order['total_amount']}
+					{elseif $order['total_amount']>0 && $order['integral']}
+						￥{$order['total_amount']}+{$order['integral']} 积分
+					{/if}
+				</div>
+			</div>
+		</div>
+		{if $order['is_virtual'] && $order['paytime']}
+		<div class="order-details-box">
+			<div class="details-item">
+				卡密信息：
+				{loop $goods_list $goods}
+					<p>{$goods['virtual_text']}</p>
+				{/loop}
+			</div>
+		</div>
+		{/if}
+		<div class="order-details-box">
+			<div class="details-item">订单编号：{$order['ordersn']}</div>
+			<div class="details-item">下单时间：{php echo date('Y-m-d H:i:s', $order['addtime'])}</div>
+			{if $order['paytime']}
+			<div class="details-item">支付时间：{php echo date('Y-m-d H:i:s', $order['paytime'])}</div>
+			{/if}
+			{if $order['deliver_time']}
+			<div class="details-item">发货时间：{php echo date('Y-m-d H:i:s', $order['deliver_time'])}</div>
+			{/if}
+			{if $order['finish_time']}
+			<div class="details-item">完成时间：{php echo date('Y-m-d H:i:s', $order['finish_time'])}</div>
+			{/if}
+			{if $order['paytype']}
+			<div class="details-item">支付方式：{$paytype_list[$order['paytype']]}</div>
+			{/if}
+			{if $order['remark']}
+			<div class="details-item">订单备注：{$order['remark']}</div>
+			{/if}
+		</div>
+		<div class="order-details-box">
+			<div class="details-item">收货人：{$order['receive_name']}</div>
+			<div class="details-item">手机号码：{$order['receive_mobile']}</div>
+			<div class="details-item">收货地址：{$order['address']}</div>
+		</div>
+	</section>
+	<div class="order-details-footer">
+		<div class="tabBar-item-wrap" data-id="{$order['id']}">
+			{if $order['status'] == 0}
+				<a class="tabBar-item btn_pay">
+					<span class="tabBar-item-text active">付款</span>
+				</a>
+				<a class="tabBar-item btn_cancel">
+					<span class="tabBar-item-text">取消订单</span>
+				</a>
+			{/if}
+			{if $order['status'] == 1}
+				<a class="tabBar-item btn_refund">
+					<span class="tabBar-item-text">申请退款</span>
+				</a>
+			{/if}
+			{if $order['status'] == 2}
+				<a class="tabBar-item btn_received">
+					<span class="tabBar-item-text active">确认收货</span>
+				</a>
+				{if !$order['is_virtual']}
+				<a class="tabBar-item btn_shipping">
+					<span class="tabBar-item-text">查看物流</span>
+				</a>
+				{/if}
+				<a class="tabBar-item btn_refund">
+					<span class="tabBar-item-text">申请退款</span>
+				</a>
+			{/if}
+			{if $order['status'] == 3}
+				{if !$order['commented']}
+					{if $shop_setting['comment_order'] && $order['finish_time']+86400*$shop_setting['comment_order'] > time()}
+						<a class="tabBar-item btn_comment">
+							<span class="tabBar-item-text active">评价</span>
+						</a>
+					{/if}
+					{if !$shop_setting['comment_order']}
+						<a class="tabBar-item btn_comment">
+							<span class="tabBar-item-text active">评价</span>
+						</a>
+					{/if}
+				{/if}
+				{if $shop_setting['refund_order'] && $order['finish_time']+86400*$shop_setting['refund_order'] > time()}
+					<a class="tabBar-item btn_refund">
+						<span class="tabBar-item-text">申请退款</span>
+					</a>
+				{/if}
+				{if !$order['is_virtual'] && $order['finish_time']+30*86400 > time()}
+				<a class="tabBar-item btn_shipping">
+					<span class="tabBar-item-text">查看物流</span>
+				</a>
+				{/if}
+				<a class="tabBar-item btn_delete">
+					<span class="tabBar-item-text">删除订单</span>
+				</a>
+			{/if}
+			{if $order['status'] == '-1'}
+				<a class="tabBar-item btn_delete">
+					<span class="tabBar-item-text">删除订单</span>
+				</a>
+			{/if}
+			{if $order['status'] == '-2'}
+				<a class="tabBar-item btn_refund">
+					<span class="tabBar-item-text">退款详情</span>
+				</a>
+			{/if}
+			{if $order['status'] == '-3'}
+				<a class="tabBar-item btn_refund">
+					<span class="tabBar-item-text">已退款</span>
+				</a>
+				<a class="tabBar-item btn_delete">
+					<span class="tabBar-item-text">删除订单</span>
+				</a>
+			{/if}
+		</div>
+	</div>
+
+{elseif $op=='shipping'}
+	<div class="shipping-info">
+		<div class="shipping_info_item">
+			<p class="shipping_info_item_label">订单编号：</p>
+			<div class="shipping_info_item_content">{$order['ordersn']}</div>
+		</div>
+		<div class="order_goods">
+			{loop $goods_list $item}
+			<div class="order_goods_img">
+				<img src="{$_W['attachurl']}{$item['cover']}">
+				<span class="number">x{$item['total']}</span>
+			</div>
+			{/loop}
+		</div>
+	</div>
+
+	<div class="express-warning">您的订单已拆分成多个包裹发出，您可在下方查看各个包裹物流跟踪。</div>
+	<div class="my_express_nav">
+		<div class="my_express_nav_inner">
+			<div class="my_express_nav_list">
+				{loop $express_info $key $item}
+				<div class="my_express_nav_list_item {if $key==0}cur{/if}">
+					<div class="nav_item_title">{if $express_count == 1}物流信息{else}包裹{php echo $key+1;}{/if}</div>
+				</div>
+				{/loop}
+			</div>
+		</div>
+	</div>
+
+	<div class="shipping-details">
+		{loop $express_info $key $item}
+		<div class="express-list" {if $key!=0}style="display:none;"{/if}>
+			<div class="shipping-info" style="margin-bottom:0;">
+				<div class="shipping_info_item">
+					<p class="shipping_info_item_label">快递公司：</p>
+					<div class="shipping_info_item_content">{$item['express_title']}</div>
+				</div>
+				<div class="shipping_info_item">
+					<p class="shipping_info_item_label">物流单号：</p>
+					<div class="shipping_info_item_content">{$item['express_no']}</div>
+				</div>
+				{if $item['express_remark']}
+				<div class="shipping_info_item">
+					<p class="shipping_info_item_label">包裹备注：</p>
+					<div class="shipping_info_item_content">{$item['express_remark']}</div>
+				</div>
+				{/if}
+			</div>
+			<h2 class="title">物流跟踪</h2>
+			{if $item['logistics']['status'] == 0}
+				<ul class="shipping-details-content">
+					{loop $item['logistics']['result']['list'] $v}
+					<li class="shipping-details-content-item">
+						<em class="shipping-details-content-icon"></em>
+						<p>{$v['status']}</p>
+						<p class="mar-t-10">{$v['time']}</p>
+					</li>
+					{/loop}
+				</ul>
+			{else}
+			<div class="my_empty">
+				<div class="empty_bd my_course_empty">
+					<p>{$item['logistics']['msg']}</p>
+				</div>
+			</div>
+			{/if}
+		</div>
+		{/loop}
+	</div>
+{/if}
+
+{if $like_list}
+	<!-- 为您推荐商品列表 -->
+	{template 'shoporderLike'}
+{/if}
+
+<script type="text/javascript">
+	window.config = {
+			     op: "{$op}",
+		  attachurl: "{$_W['attachurl']}",
+		  moduleurl: "{MODULE_URL}",
+		   orderurl: "{php echo $this->createMobileUrl('shoporder')}",
+		   goodsurl: "{php echo $this->createMobileUrl('shopgoods')}",
+	     commenturl: "{php echo $this->createMobileUrl('shopcomment')}",
+		 refundurl: "{php echo $this->createMobileUrl('shoprefund')}",
+	 updateorderurl: "{php echo $this->createMobileUrl('shopupdateorder')}",
+	    payorderurl: "./index.php?i={$uniacid}&c=entry&ordertype=buygoods&do=pay&m=fy_lessonv2",
+
+		<?php if($op=='details'){ ?>
+			  order: {php echo json_encode($order)},
+		<?php } ?>
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shoporder.js?v={$versions}"></script>
+
+{template '_footer'}

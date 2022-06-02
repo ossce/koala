@@ -1,0 +1,521 @@
+﻿@charset "utf-8";
+
+/* 申请讲师  */
+.applyteacher_main {
+	height: auto;
+	padding: 10px 12px;
+}
+
+.applyteacher_main .text {
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #666;
+}
+
+.applyteacher_main .text span {
+	color: #f6914b;
+}
+
+.applyteacher_main .text1 {
+	padding: 5px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #666;
+}
+
+.applyteacher_main .text1 span {
+	color: #f6914b;
+}
+
+.applyteacher_main .textarea {
+	width: 100%;
+	font-size: 14px;
+	margin: 5px 0;
+	background: #fff;
+	border-radius: 5px;
+}
+
+.applyteacher_main .textarea textarea {
+	padding: 0 7px;
+	height: 85px;
+	width: 96%;
+	border-radius: 5px;
+}
+
+.applyteacher_main .inputs {
+	height: 36px;
+	margin: 5px 0;
+	background: #fff;
+	border-radius: 5px;
+	line-height: 22px;
+	padding-left: 7px;
+}
+
+.applyteacher_main .inputs input {
+	width: 98%
+}
+
+.applyteacher_main .sub {
+	width: 100%;
+	height: 40px;
+	background: #e53c39;
+	margin-top: 14px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 40px;
+	color: #fff;
+	font-size: 16px;
+	border: none;
+}
+
+.applyteacher_main .title {
+	height: 30px;
+	margin-top: 20px;
+	font-size: 12px;
+	line-height: 30px;
+	color: #666;
+}
+
+.vip_main {
+	height: 140px;
+	background: #fff;
+	border-radius: 4px;
+}
+
+.vip_main .vip {
+	padding: 12px;
+	border-bottom: 1px solid #f1f1f1;
+	overflow: hidden;
+	font-size: 12px;
+	color: #999;
+}
+
+.vip_main .vip .ico1 {
+	height: 36px;
+	width: 36px;
+	background: #32cd32;
+	border-radius: 18px;
+	color: #fff;
+	font-size: 20px;
+	line-height: 36px;
+	text-align: center;
+	float: left;
+}
+
+.vip_main .vip .ico2 {
+	height: 36px;
+	width: 36px;
+	background: #fece00;
+	border-radius: 18px;
+	color: #fff;
+	font-size: 22px;
+	line-height: 40px;
+	text-align: center;
+	float: left;
+}
+
+.vip_main .vip .text {
+	height: 45px;
+	margin-left: 12px;
+	float: left;
+}
+
+.vip_main .vip .text .t1 {
+	height: 18px;
+	font-size: 15px;
+	color: #666;
+	line-height: 18px;
+}
+
+.vip_main .vip .text .t2 {
+	height: 18px;
+	font-size: 13px;
+	color: #999;
+	line-height: 18px;
+}
+
+.help-block img {
+	height: 95px;
+}
+
+.teacher-info {
+	display: inline-block;
+	margin-top: 10px;
+}
+
+input,  textarea {
+	height: 36px;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+}
+
+
+/* 讲师中心  */
+body {
+	margin: 0px;
+	background: #eee;
+	font-family: '微软雅黑';
+}
+
+.teacher-topbar {
+	height: 40px;
+	padding: 10px;
+	background: #fff;
+	margin-top: 10px;
+}
+
+.teacher-topbar .user_face {
+	height: 40px;
+	width: 40px;
+	background: #ccc;
+	float: left;
+}
+
+.teacher-topbar .user_face img {
+	height: 100%;
+	width: 100%;
+}
+
+.teacher-topbar .user_info {
+	height: 40px;
+	width: auto;
+	float: left;
+	margin-left: 12px;
+}
+
+.teacher-topbar .user_info .user_name {
+	height: 24px;
+	width: 100%;
+	font-size: 16px;
+	line-height: 24px;
+	color: #666;
+}
+
+.teacher-topbar .user_info .user_name span {
+	font-size: 14px;
+	color: #11ABE6
+}
+
+.teacher-topbar .user_info .user_date {
+	height: 14px;
+	width: 100%;
+	font-size: 14px;
+	line-height: 14px;
+	color: #999;
+}
+
+.teacher-top {
+	height: 180px;
+	padding: 5px;
+	color: #000;
+	background: #FFFFFF;
+	margin: 10px auto;
+}
+
+.teacher-top .top_1 {
+	height: 114px;
+	width: 100%;
+}
+
+.teacher-top .top_1 .text {
+	height: 114px;
+	width: auto;
+	float: left;
+	line-height: 50px;
+	font-size: 14px;
+}
+
+.teacher-top .top_1 .ico {
+	font-size: 14px;
+	padding: 2px 6px;
+	float: right;
+	margin-top: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.teacher-top .top_1 .no_status {
+	color: #4285f4;
+}
+
+.teacher-top .top_2 {
+	color: #ff6629;
+	height: 66px;
+	width: 100%;
+	font-size: 40px;
+	line-height: 66px;
+}
+
+.teacher-top .top_2 span {
+	height: 32px;
+	width: auto;
+	border: 1px solid #ccc;
+	font-size: 14px;
+	line-height: 32px;
+	margin-top: 17px;
+	padding: 0px 15px;
+	float: right;
+	border-radius: 5px;
+}
+
+.teacher-top .top_2 .disabled {
+	color: #999;
+	border: 1px solid #999;
+}
+
+.teache-menu {
+	overflow: hidden;
+	background: #fff;
+}
+
+.teache-menu .nav {
+	width: 33%;
+	float: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.teache-menu .nav .title {
+	height: 24px;
+	width: 100%;
+	text-align: center;
+	font-size: 14px;
+	color: #666;
+}
+
+.teache-menu .nav .con {
+	height: 20px;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+	color: #999;
+}
+
+.teache-menu .nav .con span {
+	color: #f90;
+}
+
+.teache-menu .nav .ico {
+	width: 48px;
+	height: 48px;
+	display: block;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	background-size: cover;
+}
+
+.teache-menu .nav .ico-mylesson {
+	background-image: url("../../images/ico-mylesson.png");
+}
+
+.teache-menu .nav .ico-lesson-income {
+	background-image: url("../../images/ico-lesson-income.png");
+}
+
+.teache-menu .nav .ico-lessoncash-log {
+	background-image: url("../../images/ico-lessoncash-log.png");
+}
+
+.teache-menu .nav .ico-account {
+	background-image: url("../../images/ico-account.png");
+}
+
+.teache-menu .nav .ico-myteacher {
+	background-image: url("../../images/ico-teacher.png");
+}
+
+.teache-menu .nav .ico-income {
+	background-image: url("../../images/ico-income.png");
+}
+
+.teache-menu .nav .ico-income-log {
+	background-image: url("../../images/ico-income-log.png");
+}
+
+.teache-menu .nav1,.teache-menu .nav2,.teache-menu .nav3 {
+	border-bottom: 1px solid #f1f1f1;
+	border-right: 1px solid #f1f1f1;
+	text-align: center;
+}
+
+
+/* 课程收入明细  */
+.lesson_income_list {
+	height: 40px;
+	padding: 10px;
+	background: #fff;
+	margin-top: 5px;
+}
+
+.lesson_income_list .left {
+	height: 40px;
+	width: 100%;
+	float: left;
+	color: #999;
+	margin-right: -20%;
+	font-size: 14px;
+}
+
+.lesson_income_list .left .inner {
+	width: 100%;
+	margin-right: -20%
+}
+
+.lesson_income_list .left span {
+	color: #666;
+	font-size: 13px;
+	line-height: 28px;
+}
+
+.lesson_income_list .right {
+	height: 40px;
+	width: 30%;
+	float: right;
+	font-size: 14px;
+	text-align: right;
+	line-height: 22px;
+	margin-left: -20%;
+}
+
+.lesson_income_list .right span {
+	color: #f90;
+}
+
+.log_no {
+	height: 100px;
+	width: 100%;
+	margin: 50px 0px 60px;
+	color: #ccc;
+	font-size: 12px;
+	text-align: center;
+}
+
+#log_loading {
+	padding: 10px;
+	color: #666;
+	text-align: center;
+}
+
+
+/* 讲师收入提现记录 */
+.lesson_cash_list {
+	height: 82px;
+	padding: 10px;
+	background: #fff;
+	margin-top: 5px;
+}
+
+.lesson_cash_list .left {
+	height: 82px;
+	width: 100%;
+	float: left;
+	color: #999;
+	margin-right: -20%;
+	font-size: 14px;
+}
+
+.lesson_cash_list .left .inner {
+	width: 70%;
+	height: 82px;
+	margin-right: -20%;
+	overflow: hidden;
+}
+
+.lesson_cash_list .left span {
+	color: #666;
+	font-size: 13px;
+	line-height: 28px;
+}
+
+.lesson_cash_list .right {
+	height: 82px;
+	width: 30%;
+	float: right;
+	font-size: 14px;
+	text-align: right;
+	line-height: 25px;
+	margin-left: -20%;
+}
+
+.lesson_cash_list .right span {
+	color: #f90;
+}
+
+.log_no {
+	height: 100px;
+	width: 100%;
+	margin: 50px 0px 60px;
+	color: #ccc;
+	font-size: 12px;
+	text-align: center;
+}
+
+#log_loading {
+	padding: 10px;
+	color: #666;
+	text-align: center;
+}
+
+/* 讲师账号设置 */
+.balance_img {
+	height: 80px;
+	width: 80px;
+	margin: 30px auto 0px;
+	background: #ffb400;
+	border-radius: 40px;
+	color: #fff;
+	font-size: 70px;
+	text-align: center;
+	line-height: 90px;
+	background-size: 80px 80px;
+}
+
+.balance_text {
+	height: 20px;
+	width: 100%;
+	margin-top: 16px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	color: #666;
+}
+
+.balance_num {
+	width: 100%;
+	margin-top: 10px;
+	text-align: center;
+	line-height: 24px;
+	font-size: 22px;
+	color: #444;
+}
+
+.balance_sub {
+	height: 44px;
+	width: 94%;
+	margin: 14px 3% 0px;
+	background: #31cd00;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 18px;
+	line-height: 44px;
+	color: #fff;
+}
+
+.disabled {
+	background: #ccc;
+}
+
+/* 短信验证码按钮 */
+.verify_code {
+	position: absolute;
+	width: 120px !important;
+	right: 12px;
+	color: #fff;
+	padding: 0 18px;
+	border-radius: 5px;
+	background-color: #F97C33;
+}

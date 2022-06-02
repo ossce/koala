@@ -1,0 +1,291 @@
+<!-- 
+ * 退货退款
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-refund.css?v={$versions}">
+
+{if $op == 'display'}
+<div class="refund_info">
+	<div class="refund_title">商品清单</div>
+	<ul class="goods-wrap-ul">
+		{loop $goods_list $item}
+		<li class="goods-wrap">
+			<div class="product_info">
+				<img src="{$_W['attachurl']}{$item['cover']}" class="goods_cover">
+				<div class="goods_title">{$item['title']}</div>
+				<p class="sku_name">{$item['sku_name']}</p>
+				<p class="sku_price">
+					<span class="price_area">
+						{if $item['sell_type'] == 1}
+							<span class="large_text">{$item['integral']}</span>积分
+						{elseif $item['sell_type'] == 2}
+							¥<span class="large_text">{$item['price']}</span>
+						{elseif $item['sell_type'] == 3}
+							¥<span class="large_text">{$item['price']}</span>+<span class="large_text">{$item['integral']}</span>积分
+						{/if}
+					</span>
+				</p>
+			</div>
+			<div class="sku">
+				<div class="sku_num">×{$item['total']}</div>
+			</div>
+		</li>
+		{/loop}
+	</ul>
+	<div class="refund_reason">
+		<ul class="refund_reason_ul">
+			<li class="reason">
+				<strong class="fl">退款原因 <span class="required">*</span></strong>
+				<div class="reason_content text-r">请选择...</div>
+			</li>
+			<input type="hidden" id="refund_reason" value="">
+		</ul>
+	</div>
+	<div class="weui-cell weui-cell_active pad-l-r-0 pad-b-10">
+		<div class="weui-cell__hd"><label class="weui-label">退款金额 <span class="required">*</span></label></div>
+		<div class="weui-cell__bd">
+			<input type="number" id="refund_amount" class="weui-input color-fd5a45" value="{$order['total_amount']}">
+		</div>
+		<div class="weui-cell__ft">
+			<button class="weui-btn_default weui-vcode-btn color-fd5a45 fs-14" style=";height:19px;line-height:19px;">元</button>
+		</div>
+	</div>
+	<div class="weui-form__tips-area text-l" style="margin: 0 5px 15px 10px;">
+		<p class="weui-form__tips fs-12">最多{$order['total_amount']}元，含发货邮费{$order['express_price']}元</p>
+	</div>
+	<div class="weui-cell weui-cell_active pad-l-r-0">
+		<div class="weui-cell__hd"><label class="weui-label">退还积分 <span class="required">*</span></label></div>
+		<div class="weui-cell__bd">
+			<input class="weui-input" value="{$order['integral']}" readonly>
+		</div>
+		<div class="weui-cell__ft">
+			<button class="weui-btn_default weui-vcode-btn color-666 fs-14" style="height:19px;line-height:19px;">积分</button>
+		</div>
+	</div>
+	<div class="weui-cells__group weui-cells__group_form">
+		<div class="weui-cells__title pad-l-r-0 mar-t-10 color-666">退款说明</div>
+		<div class="weui-cells weui-cells_form">
+			<div class="weui-cell pad-l-r-0 fs-14">
+				<div class="weui-cell__bd">
+					<textarea id="refund_desc" class="weui-textarea" placeholder="请填写退款详细说明" rows="3"></textarea>
+				</div>
+			</div>
+		</div>
+	 </div>
+	 <div class="weui-uploader">
+		<div class="weui-uploader__hd pad-t-10">
+			<p class="weui-uploader__title">上传图片</p>
+		</div>
+		<div class="weui-uploader__bd">
+			<ul class="weui-uploader__files"></ul>
+			<div class="weui-uploader__input-box">
+				<input class="weui-uploader__input" name="file" accept="image/*" type="file" onchange="uploadimgs(this, {$item['goods_id']})">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="h-10"></div>
+<div class="submit_buttom apply-refund">
+	<a class="btn-submit">提交</a>
+</div>
+
+{elseif $op == 'details'}
+<div class="refund-details">
+	<div class="order-list">
+		<div class="order-status">
+			<i class="iconfont {$status_icon}"></i>
+			{$status_name}
+		</div>
+	</div>
+	<div class=" pad-15 bg-fff">
+		<div class="refund_title">商品清单</div>
+		<ul class="goods-wrap-ul pad-b-0">
+			{loop $goods_list $item}
+			<li class="goods-wrap">
+				<div class="product_info">
+					<img src="{$_W['attachurl']}{$item['cover']}" class="goods_cover">
+					<div class="goods_title">{$item['title']}</div>
+					<p class="sku_name">{$item['sku_name']}</p>
+					<p class="sku_price">
+						<span class="price_area">
+							{if $item['sell_type'] == 1}
+								<span class="large_text">{$item['integral']}</span>积分
+							{elseif $item['sell_type'] == 2}
+								¥<span class="large_text">{$item['price']}</span>
+							{elseif $item['sell_type'] == 3}
+								¥<span class="large_text">{$item['price']}</span>+<span class="large_text">{$item['integral']}</span>积分
+							{/if}
+							
+						</span>
+					</p>
+				</div>
+				<div class="sku">
+					<div class="sku_num">×{$item['total']}</div>
+				</div>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	<div class="h-1"></div>
+	<div class="refund-order-info refund-flexcell">
+		<div class="refund-wrap refund-flexcell">
+			<div class="refund-flexcell">退款总金额</div>
+			<div class="refund-amount">
+				<span class="fs-13">￥</span><span class="value">{$refund['refund_amount']}</span>
+			</div>
+		</div>
+	</div>
+	<div class="h-1"></div>
+	<div class="refund-order-info refund-flexcell">
+		<div class="refund-wrap refund-flexcell">
+			<div class="refund-flexcell">退款总积分</div>
+			<div class="refund-amount">
+				<span class="value">{$refund['integral']}</span><span class="fs-13"> 积分</span>
+			</div>
+		</div>
+	</div>
+	<div class="h-1"></div>
+	<div class="refund-order-info refund-flexcell">
+		<div class="refund-wrap refund-flexcell">
+			<div class="refund-flexcell">退款原因</div>
+			<div class="fs-14">{$refund['reason']}</div>
+		</div>
+	</div>
+	{if $refund['express_title']}
+	<div class="h-1"></div>
+	<div class="refund-order-info refund-flexcell">
+		<div class="refund-wrap refund-flexcell">
+			<div class="refund-flexcell">退货物流公司</div>
+			<div class="fs-14">{$refund['express_title']}</div>
+		</div>
+	</div>
+	{/if}
+	{if $refund['express_no']}
+	<div class="h-1"></div>
+	<div class="refund-order-info refund-flexcell">
+		<div class="refund-wrap refund-flexcell">
+			<div class="refund-flexcell">退货物流单号</div>
+			<div class="fs-14">{$refund['express_no']}</div>
+		</div>
+	</div>
+	{/if}
+	{if $order['status'] == -2}
+		{if $refund['status']==1 && !$refund['express_no']}
+		<div class="h-15"></div>
+		<div class="refund_info" style="border-radius:10px;">
+			<div class="refund_title">请填写退货物流</div>
+			<div class="refund_reason">
+				<ul class="refund_reason_ul">
+					<li class="reason">
+						<strong class="fl">物流公司 <span class="required">*</span></strong>
+						<div class="express_content text-r">请选择...</div>
+					</li>
+					<input type="hidden" id="express_code" value="" />
+				</ul>
+			</div>
+			<div class="weui-cell weui-cell_active pad-l-r-0 pad-b-10">
+				<div class="weui-cell__hd"><label class="weui-label">物流单号 <span class="required">*</span></label></div>
+				<div class="weui-cell__bd">
+					<input type="text" id="express_no" class="weui-input" />
+				</div>
+			</div>
+			<div class="submit_buttom bg-fff btn-submit-express">
+				<a class="btn-submit">提交</a>
+			</div>
+		</div>
+		{/if}
+		{if $refund['status']=='0' || ($refund['status']==1  && $refund['express_no'])}
+		<div class="weui-cells__group weui-cells__group_form pad-15 bg-fff" style="padding-bottom:0 !important;">
+			<div class="weui-cells__title pad-l-r-0 mar-t-10 color-666">补充说明</div>
+			<div class="weui-cells weui-cells_form">
+				<div class="weui-cell pad-l-r-0 fs-14">
+					<div class="weui-cell__bd">
+						<textarea id="refund_desc" class="weui-textarea" placeholder="请填写退款补充说明" rows="3"></textarea>
+					</div>
+				</div>
+			</div>
+		 </div>
+		 <div class="weui-uploader pad-15 bg-fff" style="padding-top:0 !important;">
+			<div class="weui-uploader__hd pad-t-10">
+				<p class="weui-uploader__title">上传图片</p>
+			</div>
+			<div class="weui-uploader__bd">
+				<ul class="weui-uploader__files"></ul>
+				<div class="weui-uploader__input-box">
+					<input class="weui-uploader__input" name="file" accept="image/*" type="file" onchange="uploadimgs(this, {$item['goods_id']})">
+				</div>
+			</div>
+		</div>
+		<div class="submit_buttom bg-fff append-refund">
+			<a class="btn-submit">提交</a>
+		</div>
+		{/if}
+	{/if}
+
+	<div class="h-15"></div>	
+	<div class="refund-flex-view bg-fff">
+		<div class="refund_title pad-15">协商历史</div>
+		<div class="refund-flex-view consult-history">
+			{loop $refund_log $key $item}
+			<div class="refund-flex-view" style="flex-direction:row;justify-content:flex-start;">
+				<div class="refund-flex-view" style="flex-direction:column;width:50px;align-items:center;">
+					<div class="refund-flex-view {if $key>0}bg-f6f6f6{/if}" style="height:20px;width:1px;"></div>
+					<div class="refund-flex-view {php echo $key==0 ? 'active-circle' : 'empty-circle';}"></div>
+					<div class="refund-flex-view {if count($refund_log)>$key+1}flex-110{/if}" style="width:1px;background-color:#F6F6F6;"></div>
+				</div>
+				<div class="refund-flex-view" style="flex-direction:column;flex:1 1 0%;">
+					<div class="h-15"></div>
+					<div class="refund-flex-view pad-r-10" style="flex-direction:column;">
+						<strong class="ds-in-block mar-b-10 fs-15 color-333">{$item['title']}</strong>
+						<span class="ds-in-block mar-b-7 fs-14 color-333">{$item['content']}</span>
+						{if $item['picture']}
+						<div class="refund picture">
+							{loop $item['picture'] $img}
+							<span class="img">
+								<img src="{$_W['attachurl']}{$img}">
+							</span>
+							{/loop}
+						</div>
+						{/if}
+						<span class="ds-in-block fs-13 color-666">{php echo date('Y-m-d H:i:s', $item['addtime']);}</span>
+						<div class="h-15"></div>
+					</div>
+				</div>
+			</div>
+			{/loop}
+		</div>
+	</div>
+
+	<!-- 非微信接口图片预览 -->
+	<div class="cmt-picture-view cmt-modal-mask">
+		<div class="cmt-picture-view cmt-modal-main">
+			<img src="" style="width:100%;">
+		</div>
+	</div>
+</div>
+{/if}
+
+<script type="text/javascript">
+	window.config = {
+			     op: "{$op}",
+		  userAgent: "{$userAgent}",
+			  order: {php echo json_encode($order)},
+	  express_label: {php echo json_encode($express_label)},
+	   reason_label: {php echo json_encode($reason_label)},
+	      moduleurl: "{MODULE_URL}",
+	      uploadurl: "{php echo $this->createMobileUrl('uploadimage',array('type'=>'base64'));}",
+		  refundurl: "{php echo $this->createMobileUrl('shoprefund');}",
+	};
+</script>
+<script src="{MODULE_URL}static/mobile/js/lrz.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shoprefund.js?v={$versions}"></script>
+
+{template '_footer'}

@@ -1,0 +1,49 @@
+﻿/* 讲师账号设置 */
+.balance_img {
+	height: 80px;
+	width: 80px;
+	margin: 30px auto 0px;
+	background: #ffb400;
+	border-radius: 40px;
+	color: #fff;
+	font-size: 70px;
+	text-align: center;
+	line-height: 90px;
+	background-size: 80px 80px;
+}
+
+.balance_text {
+	height: 20px;
+	width: 100%;
+	margin-top: 16px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	color: #666;
+}
+
+.balance_num {
+	width: 100%;
+	margin-top: 10px;
+	text-align: center;
+	line-height: 24px;
+	font-size: 22px;
+	color: #444;
+}
+
+.balance_sub {
+	height: 44px;
+	width: 94%;
+	margin: 14px 3% 0px;
+	background: #31cd00;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 18px;
+	line-height: 44px;
+	color: #fff;
+	border: none;
+}
+
+.disabled {
+	background: #ccc;
+}

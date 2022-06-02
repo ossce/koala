@@ -1,0 +1,151 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/suggest.css?v={$versions}">
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="w-1200 m-auto">
+		<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; {$title}
+		</div>
+	</div>
+	<div class="suggest">
+		<div class="suggest_flex suggest_flex1">
+			<span><strong class="ftc-fc0503">*</strong> {php echo $suggest_page['type'] ? $suggest_page['type'] : '投诉类型';}：</span>
+			<ul class="radio_list">
+				{loop $suggest_category $key $item}
+				<li>
+					<label class="curpter">
+						<input type="radio" name="category_id" value="{$item['id']}" {if $key==0}checked{/if}>
+						<span class="category_name">{$item['title']}</span>
+					</label>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+		<div class="suggest_flex suggest_flex_s">
+			<span><strong class="ftc-fc0503">*</strong> {php echo $suggest_page['content'] ? $suggest_page['content'] : '投诉内容';}：</span>
+			<textarea id="content" placeholder="{php echo $suggest_page['content_tips'] ? $suggest_page['content_tips'] : '请填写您的投诉内容，最多1000个字符';}" maxlength="1000"></textarea>
+		</div>
+		<div class="suggest_flex">
+			<span><strong class="ftc-fc0503">*</strong> 联系方式：</span>
+			<input type="number" id="mobile" placeholder="请输入手机号码">
+		</div>
+		<div class="suggest_flex suggest_flex_s">
+			<span>上传图片：</span>
+			<div class="suggest_picture">
+			</div>
+			<div>
+				<div>
+					<i></i>
+					<p>上传图片</p>
+					<input type="file" name="file" accept="image/jpg,image/jpeg,image/png" onchange="uploadimgs(this)">
+				</div>
+			</div>
+		</div>
+		
+		<a class="btn-submit">提交</a>
+	</div>
+	<div class="hg-40"></div>
+</div>
+
+<script src="{MODULE_URL}static/webapp/{$template}/js/lrz.min.js?v={$versions}"></script>
+<script type="text/javascript">
+	var attachurl = "{$_W['attachurl']}";
+	//上传图片
+	function uploadimgs(obj) {
+		var files = obj.files;
+		var len = files.length <= 6 ? files.length : 6;
+
+		for (var i=0; i < len; i++) {
+			lrz(files[i], {width: 1024, fieldName: "file"}).then(function (data) {
+				$.post("/{$uniacid}/ajaxUploadImage.html?type=base64", {imageData: data.base64}, function (res) {
+					var chtml = '<div class="picture_item" style="background-image: url(' + attachurl + res.imagePath + ')">';
+						chtml += '	<input type="hidden" name="images" value="' + res.imagePath + '">';
+						chtml += '	<i class="remove curpter" onclick="removePicture(this);"></i>';
+						chtml += '</div>';
+					$(".suggest_picture").append(chtml);
+
+					
+					var number = $(obj).parent().parent().prev().children('.picture_item').length;
+					if(number>=6){
+						$(obj).parent().parent().hide();
+					}
+				}, 'json');
+
+			}).then(function (data) {
+
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}
+	}
+
+	//移除图片
+	function removePicture(obj){
+		$(obj).parent().parent().next().show();
+		$(obj).parent().remove();
+	}
+
+	//提交
+	$(".btn-submit").click(function(){
+		var category_id = $("input[name=category_id]:checked").val();
+		var content = $("#content").val();
+		var mobile = $("#mobile").val();
+		var myreg = /^((1)+\d{10})$/;
+
+		if(!category_id){
+			swal("系统提示", "请选择{php echo $suggest_page['type'] ? $suggest_page['type'] : '投诉类型';}");
+			return false;
+		}
+		if(content == ''){
+			swal("系统提示", "请填写{php echo $suggest_page['content'] ? $suggest_page['content'] : '投诉内容';}");
+			return false;
+		}
+		if(mobile == ''){
+			swal("系统提示", "请填写联系手机号码");
+			return false;
+		}else if(!myreg.test(mobile)) {
+			swal("系统提示", "您输入的手机号码有误");
+			return false;
+		}
+
+		var postData = {
+			category_id: category_id,
+				content: content,
+				 mobile: mobile,
+				picture: [],
+		};
+
+		var inputs = $(".suggest_picture").find("input");
+		inputs.each(function(j){
+			postData.picture[j] = $(this).val();
+		})
+
+		$("#loadingToast").show();
+		$.ajax({
+			type: "POST",
+			url: "/{$uniacid}/suggest.html?op=submitSuggest",
+			data:{postData:postData},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+
+				if(res.code == 0){
+					swal("系统提示", res.message, "success");
+					setTimeout(function(){
+						window.location.href = "/{$uniacid}/index.html";
+					},3000)
+				}else if(res.code == '-1'){
+					swal("系统提示", res.message, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍后重试", "error");
+			}
+		 });
+	})
+</script>
+
+
+{php include $this->template($template.'/_footer')}

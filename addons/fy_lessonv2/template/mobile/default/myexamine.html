@@ -1,0 +1,140 @@
+<!-- 
+ * 我的考试
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/myexamine.css?v={$versions}" rel="stylesheet" />
+{if !$isMobile}
+<style type="text/css">
+	.right_menu_wrap{display: none;}
+</style>
+{/if}
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+	<a href="./index.php?i={$uniacid}&c=entry&do=examlist&m=fy_lessonv2_plugin_exam" class="ico go-index"></a>
+</div>
+
+<ul class="tab_wrap bg-eee">
+	<li class="tab_item {if $_GPC['finished']==''}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('myexamine');}" class="fs-15">全部</a>
+	</li>
+	<li class="tab_item {if $_GPC['finished']=='1'}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('myexamine', array('finished'=>1));}" class="fs-15">已交卷</a>
+	</li>
+	<li class="tab_item {if $_GPC['finished']=='0'}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('myexamine', array('finished'=>0));}" class="fs-15">未交卷</a>
+	</li>
+</ul>
+
+
+{if $total}
+	<div class="examine-wrap" id="examine-list">
+	</div>
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+{else}
+	<div class="my_empty">
+	    <div class="empty_bd my_course_empty">
+	        <h3>未找到相关的考试</h3>
+	    </div>
+	</div>
+{/if}
+	
+
+<script type="text/javascript">
+var ajaxUrl = "{php echo $this->createMobileUrl('myexamine', array('finished'=>$_GPC['finished']));}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var errorUrl = "./index.php?i={$uniacid}&c=entry&do=myexamine&m=fy_lessonv2_plugin_exam&id=";
+var certUrl = "./index.php?i={$uniacid}&c=entry&do=cert&m=fy_lessonv2_plugin_exam&id=";
+var reviewUrl = "./index.php?i={$uniacid}&c=entry&do=review&m=fy_lessonv2_plugin_exam&id=";
+var examineUrl = "./index.php?i={$uniacid}&c=entry&do=examine&m=fy_lessonv2_plugin_exam&id=";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true; //允许获取状态
+
+$(function () {
+    var nowPage = 1;
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxUrl, {page: page}, function (data) {  
+				loadingToast.style.display = 'none';
+				
+				var jsonObj = JSON.parse(data);
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {
+        var mainDiv =$("#examine-list");
+        var chtml = '';
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<div class="content-wrap">';
+			chtml += '	<a href="' + examineUrl + result[j].examine_id + '" class="title text-break-model">';
+			chtml += '		<span class="test-name">' + result[j].title + '</span>';
+			chtml += '		<div class="check-end">' + result[j].status_name + '</div>';
+			chtml += '	</a>';
+			chtml += '	<div class="related-lesson-warp">';
+			chtml += '		<div class="related-lesson">' + result[j].lesson + '</div>';
+			chtml += '	</div>';
+			if(result[j].finished==1){
+				chtml += '<div class="submit-status-wrap">';
+				chtml += '	<div class="submit-time">交卷时间: ' + result[j].submit_time + '</div>';
+				chtml += '</div>';
+			}
+			chtml += '	<div class="result-wrap">';
+			if(result[j].finished==1){
+				chtml += '	<a href="' + errorUrl + result[j].id + '" class="error-btn">错题本</a>';
+				if(result[j].cert==1){
+					chtml += '<a href="' + certUrl + result[j].id + '" class="cert-btn">查看证书</a>';
+				}
+				chtml += '	<a href="' + reviewUrl + result[j].id + '" class="score-btn">考试成绩</a>';
+			}else{
+				chtml += '	<a href="' + examineUrl + result[j].examine_id + '" class="continue-btn">继续考试</a>';
+			}
+			chtml += '	</div>';
+			chtml += '</div>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+  
+});
+</script>
+
+{template $template.'/_footerv2'}

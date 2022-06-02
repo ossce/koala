@@ -1,0 +1,87 @@
+<!--
+ * 关注公众号
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template $template.'/_headerv2'}
+<style type="text/css">
+.pwpage {
+	background-color: #42424E;
+	position: relative;
+	width: 280px;
+	margin: 50px auto;
+	background-color: #fff;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	text-align: center;
+	overflow: hidden
+}
+
+.pwd {
+	padding: 10px 10px 15px 10px;
+}
+
+.pwpage h1 {
+	font-family: "微软雅黑";
+	font-size: 18px;
+	text-align: center;
+	margin: 5px 0 5px 0;
+	color: #ff5b35
+}
+
+.pwpage .erweima {
+	width: 250px;
+}
+
+.pwpage .title {
+	font-size: 14px;
+}
+
+.pwpage .blue
+.pwpage .key {
+	font-size: 14px;
+	color: #ff5b35;
+	margin-top: 5px;
+}
+</style>
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div class="pwpage">
+	<div class="pwd">
+		<h1>{php echo $follow_page['first_title'] ? $follow_page['first_title'] : '您可关注公众号方便下次学习'}</h1>
+		<p class="title">{php echo $follow_page['second_title'] ? $follow_page['second_title'] : '学习海量课程，尽在微课堂'}</p>
+		<img class="erweima" id="erweima" src="{$_W['attachurl']}{$setting['qrcode']}">
+		<p class="title" id="follow_tip" style="color:#909090;">{php echo $follow_page['app_tip'] ? $follow_page['app_tip'] : '长按识别关注公众号，方便下次进入学习'}</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var wxapp_exist  = "{$wxapp_exist}";
+	var wxapp_qrcode = "{$wxapp_qrcode}";
+
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		var miniprogram_environment = false;
+		wx.miniProgram.getEnv(function(res) {
+			if(res.miniprogram) {
+				miniprogram_environment = true;
+			}
+		})
+		if(window.__wxjs_environment === 'miniprogram' || miniprogram_environment) {
+			var wxapp_tip = "{php echo $follow_page['wxapp_tip'] ? $follow_page['wxapp_tip'] : '小程序不支持长按识别二维码，您可长按二维码发送给好友，返回微信对话框里长按识别二维码哦'}";
+			$('#follow_tip').text(wxapp_tip);
+		}
+	});
+</script>
+
+{template $template.'/_footerv2'}

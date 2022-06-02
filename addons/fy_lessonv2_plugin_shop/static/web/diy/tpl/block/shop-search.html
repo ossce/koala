@@ -1,0 +1,23 @@
+<script type="text/template" id="tpl_block_search">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div class="block_content" style="padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>; background: <%= style.background %>">
+			<div class="shop-navBar">
+				<a href="javascript:;" class="shop-navBar-item">
+					<i class="shop-top-icon" style="background-image:url(<%= style.icon_category %>);"></i>
+				</a>
+				<div class="shop-center">
+					<div class="shop-search-box">
+						<i class="shop-top-icon icon-search" style="background-image:url(<%= style.icon_search %>);"></i>
+						<input type="text" name="keyword" autocorrect="off" value="<%= style.input_placeholder %>" style="color:<%= style.text_color %>;background-color:<%= style.input_background %>;border-radius:<%= style.searchbar_radius %>;">
+					</div>
+				</div>
+				<a href="javascript:;" class="shop-navBar-item">
+					<i class="shop-top-icon" style="background-image:url(<%= style.icon_cart %>);"></i>
+				</a>
+			</div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

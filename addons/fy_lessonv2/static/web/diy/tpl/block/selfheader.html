@@ -1,0 +1,27 @@
+<script type="text/template" id="tpl_block_selfheader">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="<% if(style.show_background==1){ %>background:<%= style.background %>;<% } %>padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+		<div class="mine_head" style="background-image:url(<%= style.bg_imgsrc %>);border-radius:<%= style.bg_radius %>;color:<%= style.nickname_color %>;">
+			<a class="aui-member-setting" style="<% if(style.show_setting!=1){ %>display:none;<% } %>;">
+				<img src="<%= style.setting_imgsrc %>">
+			</a>
+			<div class="mine_head_body">
+				<div class="tx" style="border-radius:<%= style.avatar_radius %>;">
+					<img src="{MODULE_URL}static/web/diy/img/selfheader_avatar.jpg">
+				</div>
+				<div class="nickname" style="<% if(style.show_nickname != 1){ %>display:none;<% } %>">Expect</div>
+				<div class="idno">
+					<a style="<% if(style.show_vip != 1){ %>display:none;<% } %>"><img src="{MODULE_URL}static/web/diy/img/selfheader_vip.png" class="vip_crown"></a>
+					<span style="<% if(style.show_nickname != 1){ %>display:none;<% } %>">学号：1</span>
+				</div>
+			</div>
+			<div class="signin-button" style="<% if(style.show_sign!=1){ %>display:none;<% } %>;">
+				<a style="color:<%= style.sign_color %>;border-radius:<%= style.sign_radius %>">
+					<i class="icon icon-pic" style="background-image:url(<%= style.sign_imgsrc %>);"></i>签到
+				</a>
+			</div>
+		</div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

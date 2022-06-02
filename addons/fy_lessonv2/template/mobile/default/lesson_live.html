@@ -1,0 +1,1624 @@
+<!-- 
+ * 课程详情页【直播课程】
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/qunService.css?v={$versions}" rel="stylesheet" />
+<link href="{MODULE_URL}static/mobile/{$template}/css/lesson.css?v={$versions}" rel="stylesheet" />
+<link href="{MODULE_URL}static/mobile/{$template}/css/swiper.fylesson.css?v={$versions}" rel="stylesheet" />
+
+<style type="text/css">
+{if $_GPC['play']}
+	.d-buynow,footer{display:none;}
+	.chat_form_area{display:block;}
+{/if}
+.swiper-pagination-bullet-active{
+	width: 7px;
+    height: 5px;
+}
+.swiper-container-horizontal>.swiper-pagination{
+	right: 8px;
+}
+</style>
+
+<div class="header-2 cbox">
+	<a href="javascript:;" id="lesson-back" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+	<a href="{php echo $this->createMobileUrl('index', array('t'=>1))}" class="ico go-index"></a>
+</div>
+
+{if $poster_show && !$_GPC['play']}
+<!-- 赚取佣金 S -->
+<div class="sharecard__entry-global max-width-640 ios-system" style="top:50px;z-index:1000;" onclick="location.href='{php echo $this->createMobileUrl('lessonqrcode', array('lessonid'=>$id));}'">
+	<div class="sharecard__entry">
+		<div class="sharecard__entry-icon">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/lesson-money.png" />
+		</div>
+		{if $commisson1_amount && $comsetting['is_sale']}
+			{php echo $lesson_page['shareIncome'] ? $lesson_page['shareIncome'] : '赚'.$commisson1_amount.'元';}
+		{else}
+			{php echo $lesson_page['inviteCard'] ? $lesson_page['inviteCard'] : '邀请卡';}
+		{/if}
+	</div>
+</div>
+<!-- 赚取佣金 E -->
+{/if}
+
+<div class="content-inner" onbeforeunload="goodbye()">
+	<!-- 视频区域 S -->
+	<div class="video-wrap" id="video_wrap">
+		{if $_GPC['play']}
+			{if $live_info['password'] && !$_SESSION[$uniacid.'_'.$id]}
+				<!-- 密码验证 -->
+				<div class="password-wrap">
+					<span class="enter-password">{php echo $lesson_page['visit_password'] ? $lesson_page['visit_password'] : '请输入访问密码';}</span>
+					<form class="form" action="{$_W['siteurl']}" method="post">
+						<input type="password" name="visit_password" placeholder="输入密码" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+						<button type="submit">提交</button>
+					</form>
+				</div>
+			{else}
+				{if $live_info['live_speed'] && ($live_info['type']==1 || $live_info['type']==2)}
+				<!-- 快直播 -->
+					{if $live_info['type']==1}
+					<!-- 腾讯云快直播 -->
+						<div id="J_prismPlayer"></div>
+						<script src="{MODULE_URL}static/public/tcplayerlite/TcPlayer-2.4.1.js"></script>
+						<script type="text/javascript">
+							var player = new TcPlayer('J_prismPlayer', {
+								"m3u8"     : "{$live_url}",
+								"autoplay" : true,
+								"width"    : "100%",
+								"height"   : "220px",
+							});
+						</script>
+					{else}
+					<!-- 阿里云快直播 -->
+						<video id="video" src="{$live_url}" width="100%" height="200px" controls="controls" autobuffer="autobuffer" x5-playsinline="" playsinline="" webkit-playsinline=""></video>
+						<script src="{MODULE_URL}static/public/aliyunRTS/aliyun-rts-sdk.js"></script>
+						<script type="text/javascript">
+							var aliRts = new AliRTS();
+							aliRts.startLiveStream("{$live_url}", video);
+						</script>
+					{/if}
+				{else}
+				<!-- 标准直播 -->
+					<div class="video-live-error"></div>
+					<link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css" />
+					<script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
+					<script type="text/javascript" src="//player.alicdn.com/aliplayer/presentation/js/aliplayercomponents.min.js"></script>
+					<div class="prism-player" id="J_prismPlayer"></div>
+					<style type="text/css">
+						.prism-player .prism-big-play-btn{
+							left: 50% !important;
+							bottom: 50% !important;
+							margin-left: -32px;
+							margin-bottom: -32px;
+						}
+					</style>
+					<script>
+						var player = new Aliplayer({
+							id: "J_prismPlayer",
+							width:"100%",
+							height:"210px",
+							autoplay: true,
+							playsinline: true,
+							preload: true,
+							controlBarVisibility:"click",
+							rePlay: true,
+							useH5Prism: true,
+							isLive: true,
+							showBarTime:"3000",
+							useFlashPrism: false,
+							x5_type:"",
+							x5_video_position:"center",
+							x5_fullscreen: false,
+							source: "{$live_url}",
+							liveRetry: 5,
+							"skinLayout": [
+								{
+								  "name": "bigPlayButton",
+								  "align": "blabs",
+								  "x": 30,
+								  "y": 80
+								},
+								{
+								  "name": "errorDisplay",
+								  "align": "tlabs",
+								  "x": 0,
+								  "y": 0
+								},
+								{
+								  "name": "infoDisplay"
+								},
+								{
+								  "name": "controlBar",
+								  "align": "blabs",
+								  "x": 0,
+								  "y": 0,
+								  "children": [
+									{
+									  "name": "liveDisplay",
+									  "align": "tlabs",
+									  "x": 15,
+									  "y": 6
+									},
+									{
+									  "name": "fullScreenButton",
+									  "align": "tr",
+									  "x": 10,
+									  "y": 10
+									},
+									{
+									  "name": "volume",
+									  "align": "tr",
+									  "x": 5,
+									  "y": 10
+									}
+								  ]
+								}
+							]
+						},function (player) {
+							$('.prism-live-display').text('直播');
+							$('#J_prismPlayer>video').removeAttr("x5-playsinline").attr({"x5-video-player-type":"h5-page","x5-video-player-fullscreen":"true"}).get(0).addEventListener("x5videoexitfullscreen", function(){player.play();});
+						});
+
+						$("video").on('webkitbeginfullscreen', function() {
+							player.play();
+						}).on('webkitendfullscreen', function() {
+							player.play();
+						});
+
+						player.on('onM3u8Retry',function(){
+							//console.log('主播暂时离开，请稍后......');
+						});
+						player.on('liveStreamStop',function(){
+							$('.video-live-error').show();
+						});
+					</script>
+				{/if}
+
+				<script type="text/javascript">
+					var prismPlayer_width = document.getElementById('video_wrap').clientWidth;
+					var prismPlayer_height = (prismPlayer_width * 9)/16;
+					if(prismPlayer_height > 150){
+						document.getElementById('J_prismPlayer').style.height = prismPlayer_height + 'px';
+					}
+				</script>
+				<input type="hidden" id="realPlayTime" value="0" />
+			{/if}
+		{else}
+			<img src="{$_W['attachurl']}{$lesson['images']}" alt="{$lesson['bookname']}" width="100%" style="display:block;"/>
+			{if $setting['show_study_number']}
+			<div class="learned">
+				{if $lesson['price']>0}
+					{php echo $lesson['buynum']+$lesson['virtual_buynum']+$lesson['vip_number']+$lesson['teacher_number'];}
+				{else}
+					{php echo $lesson['buynum']+$lesson['virtual_buynum']+$lesson['vip_number']+$lesson['teacher_number']+$lesson['visit_number'];}
+				{/if}
+				{php echo $index_page['liveLessonNum'] ? $index_page['liveLessonNum'] : '人已观看';}
+			</div>
+			{/if}
+			{if $live_status==0}
+				<div class="live-count-down" id="live-count-down">
+					<span class="live-title">直播倒计时</span>
+					<span class="live-timmer countdown-main">
+						<span class="timmer_unit" id="live_time_hour">--</span>
+						<span class="timmer_unit" id="live_time_minute">--</span>
+						<span class="timmer_unit timmer_second" id="live_time_second">--</span>
+					</span>
+					<span class="live-tips">{php echo date('Y-m-d H:i', $starttime);} 开播</span>
+				</div>
+				<script type="text/javascript">
+					setTimeout("live_count_time()",1000);
+					var live_time_hour = document.getElementById("live_time_hour");
+					var live_time_minute = document.getElementById("live_time_minute");
+					var live_time_second = document.getElementById("live_time_second");
+					 
+					var live_time_start = new Date("<?php echo date('Y/m/d H:i:s', $starttime); ?>");
+					live_time_start = live_time_start.getTime();
+					 
+					function live_count_time(){
+						var live_time_now = new Date();
+						live_time_now = live_time_now.getTime();
+						var live_time_distance = live_time_start - live_time_now;
+						var live_int_hour, live_int_minute, live_int_second;
+						if(live_time_distance >= 0){
+							// 时分秒换算
+							live_int_hour = Math.floor(live_time_distance/3600000)
+							live_time_distance -= live_int_hour * 3600000;
+							live_int_minute = Math.floor(live_time_distance/60000)
+							live_time_distance -= live_int_minute * 60000;
+							live_int_second = Math.floor(live_time_distance/1000)
+
+							// 时分秒为单数时、前面加零站位
+							if(live_int_hour < 10)
+							live_int_hour = "0" + live_int_hour;
+							if(live_int_minute < 10)
+							live_int_minute = "0" + live_int_minute;
+							if(live_int_second < 10)
+							live_int_second = "0" + live_int_second;
+
+							// 显示时间
+							live_time_hour.innerHTML = live_int_hour;
+							live_time_minute.innerHTML = live_int_minute;
+							live_time_second.innerHTML = live_int_second;
+
+							setTimeout("live_count_time()",1000);
+						}else{
+							<?php if($uid && $play){ ?>
+								window.location.href = "{$_W['siteurl']}&play=1";
+							<?php }else{ ?>
+								window.location.reload();
+							<?php } ?>
+						}
+					}
+
+					var video_wrap_width = document.getElementById('video_wrap').clientWidth;
+					var video_wrap_height = ((video_wrap_width/1.64)- 160) / 2;
+					<?php if($systemType=='android'){ ?>
+						video_wrap_height -= 8;
+					<?php } ?>
+					document.getElementById('live-count-down').style.marginTop = video_wrap_height + 'px';
+				</script>
+			{else}
+				<div class="icon-live {$icon_live_status}" {if $live_status==1}onclick="joinLive()"{/if}></div>
+			{/if}
+			{if $virtual_buyinfo && $live_status!=-1}
+				<div class="newbuy_wrap">
+					<div class="newbuy_info">
+						<div class="newbuy_info_item"></div>
+					</div>
+				</div>
+			{/if}
+		{/if}
+	</div>
+	<!-- 视频区域 E -->
+	{if $discount_endtime && !$show_isbuy && $live_status!=-1}
+	<!-- 限时折扣 S -->
+	<div class="discount-limit-price ios-system">
+		<div class="discount-limit-price-left">
+			<div class="discount-sale-price weui-flex">
+				<span class="discount-sale-num">
+					<span class="discount-sale-num-text">￥</span>
+					<span class="discount-sale-num-main">{$diacount_price[0]}</span>
+					<span class="discount-sale-num-point">.</span>
+					<span class="discount-sale-num-sub">{$diacount_price[1]}</span>
+				</span>
+			<div class="weui-flex-item text-left flash-sale-original">
+				<div class="original-cost">￥{$market_price}</div>
+					<span class="original-tips">限时折扣</span>
+				</div>
+			</div>
+		</div>
+		<div class="discount-limit-price-right discount-sale-countdown text-center">
+			<p class="discount-sale-text">距离特价结束仅剩</p>
+			<div class="time-item discount-sale-time">
+				<span class="discount-sale-time-day" id="time_d">-天</span>
+				<span class="discount-sale-time-item" id="time_h">--</span>
+				<span class="discount-sale-time-mh">:</span>
+				<span class="discount-sale-time-item" id="time_m">--</span>
+				<span class="discount-sale-time-mh">:</span>
+				<span class="discount-sale-time-item" id="time_s">--</span>
+			</div>
+		</div> 
+	</div>
+	<script type="text/javascript">
+		setTimeout("show_time()",1000);
+		var time_d = document.getElementById("time_d");
+		var time_h = document.getElementById("time_h");
+		var time_m = document.getElementById("time_m");
+		var time_s = document.getElementById("time_s");
+		 
+		var time_end = new Date("<?php echo $discount_endtime; ?>"); // 设定结束时间
+		time_end = time_end.getTime();
+		 
+		function show_time(){
+			var time_now = new Date(); // 获取当前时间
+			time_now = time_now.getTime();
+			var time_distance = time_end - time_now; // 结束时间减去当前时间
+			var int_day, int_hour, int_minute, int_second;
+			if(time_distance >= 0){
+				// 天时分秒换算
+				int_day = Math.floor(time_distance/86400000)
+				time_distance -= int_day * 86400000;
+				int_hour = Math.floor(time_distance/3600000)
+				time_distance -= int_hour * 3600000;
+				int_minute = Math.floor(time_distance/60000)
+				time_distance -= int_minute * 60000;
+				int_second = Math.floor(time_distance/1000)
+
+				// 时分秒为单数时、前面加零站位
+				if(int_hour < 10)
+				int_hour = "0" + int_hour;
+				if(int_minute < 10)
+				int_minute = "0" + int_minute;
+				if(int_second < 10)
+				int_second = "0" + int_second;
+
+				// 显示时间
+				time_d.innerHTML = int_day + '天';
+				time_h.innerHTML = int_hour;
+				time_m.innerHTML = int_minute;
+				time_s.innerHTML = int_second;
+
+				setTimeout("show_time()",1000);
+			}else{
+				time_d.innerHTML = time_d.innerHTML;
+				time_h.innerHTML = time_h.innerHTML;
+				time_m.innerHTML = time_m.innerHTML;
+				time_s.innerHTML = time_s.innerHTML;
+			}
+		}
+	</script>
+	<!-- 显示折扣 E -->
+	{/if}
+	
+	<!-- 导航目录 S -->
+	<ul class="course-tab flex0_1">
+		<li {if !$_GPC['play']}class="curr"{/if}>{php echo $lesson_page['details'] ? $lesson_page['details'] : '详情'}</li>
+		<li {if $_GPC['play']}class="curr"{/if}>{php echo $lesson_page['chatroom'] ? $lesson_page['chatroom'] : '互动'}</li>
+		{if $lesson_config['document'] && $document_list}
+		<li>{php echo $lesson_page['document'] ? $lesson_page['document'] : '课件'}({php echo count($document_list)})</li>
+		{/if}
+	</ul>
+	<!-- 导航目录 E -->
+
+	<div class="course-container">
+		<!-- 课程介绍 S -->
+		<div class="js-tab" {if !$_GPC['play']}style="display: block;"{/if}>
+			<ul class="course-intro">
+				<li style="padding-bottom: 10px;">
+					<p class="title-bar__title">{if $lesson['section_status']==0}<span class="section-status-btn fs-14 vertical-botton">已完结</span>{/if} {$lesson['bookname']}</p>
+					<p class="lesson-bar clear">
+						<span class="grid_info mar15-left fl ios-system">
+							{if $setting['lesson_vip_status']!=1 && !$discount_lesson}
+								<span class="price index_price_lesson font-bold flex_g0 ios-system">
+								{if $lesson['price']>0}
+									¥{$lesson['price']}
+								{else}
+									免费
+								{/if}
+								</span>
+								<span class="mar5 ios-system">|</span>
+							{/if}
+							{if $section_count}
+								<span>{$section_count}节</span>
+							{/if}
+						</span>
+						{if $setting['lesson_vip_status']!=1}
+						<span class="vnum fr">
+							{if $lesson['integral_rate']>0}
+								赠{$lesson['integral_rate']}倍{php echo $common['self_page']['credit1'] ? $common['self_page']['credit1'] : '积分';}
+							{elseif $lesson['integral']>0}
+								赠{$lesson['integral']}{php echo $common['self_page']['credit1'] ? $common['self_page']['credit1'] : '积分';}
+							{/if}
+						</span>
+						{/if}
+					</p>
+					<div class="flex1" style="margin: 5px 15px 0 15px;">
+						<div class="grid_info flex0">
+							{$lesson['teacher']}
+						</div>
+						<span class="teacher flex_g0">
+							{if $setting['stock_config'] && $lesson['stock']>0}
+								<span class="fl sale-on-btn">剩余{$lesson['stock']}个名额</span>
+							{elseif $setting['stock_config'] && $lesson['stock']==0}
+								已售罄
+							{/if}
+						</span>
+					</div>
+				</li>
+				{if $lesson_config['lesson_all_qun']}
+				<li class="details">
+					<div class="teacher-main">
+						<div class="teacher-avatar">
+							<img src="{$_W['attachurl']}{$lesson['teacherphoto']}">
+						</div>
+						<div class="teacher-info">
+							<div class="teacher-name">{$lesson['teacher']}<span class="all-lesson">(总共{$lessonNumber}{php echo $lesson_page['lessonNum'] ? $lesson_page['lessonNum'] : '个课程'})</span></div>
+							<div class="teacher-home">
+								<a class="cell" href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$lesson['teacherid']));}">{php echo $lesson_page['allLesson'] ? $lesson_page['allLesson'] : '全部课程'}</a>
+								{if $userAgent && !empty($now_service)}
+									<a id="join-qun" class="cell" href="javascript:;">粉丝群</a>
+								{/if}
+								{if $userAgent && !$member['follow']}
+								<a id="follow-wechat" class="cell" href="javascript:;">关注公众号</a>
+								{/if}
+							</div>
+						</div>
+					</div>
+				</li>
+				{/if}
+				<li class="details">
+					<div class="index_title bor flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/lesson_introduce.png" style="width: 20px;">
+						</div>
+						<div class="flex_all">{php echo $lesson_page['lessonIntroduce'] ? $lesson_page['lessonIntroduce'] : '课程介绍'}</div>
+					</div>
+					<div class="lesson-content chapter-content" id="lesson_desc" style="overflow:hidden;">
+						{php echo htmlspecialchars_decode($lesson['descript']);}
+					</div>
+					<div id="lesson_desc_more" style="display:none;">
+						<span class="more">显示全部 <i class="fa fa-angle-double-down"></i></span>
+					</div>
+				</li>
+				{if $lesson_config['teacher_introduce']}
+				<li class="details teacher_introduce">
+					<div class="index_title bor flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/lesson_teacher_introduce.png" style="width: 20px;">
+						</div>
+						<div class="flex_all">{php echo $lesson_page['teacherIntroduce'] ? $lesson_page['teacherIntroduce'] : '讲师介绍'}</div>
+					</div>
+					<div class="chapter-content">
+						<div> 
+							{php echo htmlspecialchars_decode($lesson['teacherdes']);}
+						</div>
+					</div>
+				</li>
+				{/if}
+
+				{if $like_list}
+				<div class="index_unit ">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/icon_like_lesson.svg" style="width: 20px;">
+						</div>
+						<div class="flex_all index_recommend_title">{php echo $lesson_page['like_lesson'] ? $lesson_page['like_lesson'] :'为您推荐';}</div>
+					</div>
+					<div class="small_grid">
+						{loop $like_list $item}
+						<a href="{php echo $this->createMobileUrl('lesson',array('id'=>$item['id']))}" class="small_grid_a pad-b-0">
+							<div class="img-box">
+								<div class="img">
+									<img src="{$_W['attachurl']}{$item['images']}" />
+									<div class="icon-live {$item['icon_live_status']}"></div>
+								</div>
+							</div>
+							<div class="grid_title flex1">{$item['bookname']} </div>
+							<div class="grid_info flex0">
+								{if $item['price']==0}
+									<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+								{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+									<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+								{else}
+									<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+								{/if}
+							</div>
+						</a>
+						{/loop}
+					</div>
+				</div>
+				{/if}
+			</ul>
+		</div>
+		<!-- 课程介绍 E -->
+
+		<!-- 互动 S -->
+		<div class="js-tab chat_wrap" id="chat_wrap" style="display: block;">			
+			{if !$im_config['type'] || !$live_info['chatroom']}
+				<div class="chat_tips">管理员未开启聊天室</div>
+			{elseif !$uid}
+				<div class="chat_tips"><a href="{$_W['siteurl']}&req_login=1" class="login-btn">点击登录</a> 后即可交流互动</div>
+			{else}
+				{if $live_info['password'] && !$_SESSION[$uniacid.'_'.$id]}
+					<div class="chat_tips">请输入直播课程密码</div>
+				{else}
+					<div class="chat_bd" id="chat_bd">
+						<div class="chat_main">
+							{if !empty($chat_history)}
+								{loop $chat_history $item}
+									{if $item['extra'] != 'award'}
+										{if $item['time']}
+										<div class="history_message">{$item['time']}</div>
+										{/if}
+										<ul class="{php echo $item['uid']==$uid ? 'chat_self' : 'chat_list';}">
+											<li class="chat_me">
+												{if $item['uid'] == $uid}
+												<div class="chat_flex"></div>
+												{/if}
+												<div class="chat_item">
+													<p>
+														{if $lesson['teacher_uid'] == $item['uid']}
+														<span class="teacher_ident">主讲</span>
+														{/if}
+														{$item['name']}
+													</p>
+													<div class="chat_msg {if $item['extra'] == 'image'}bg-none{/if}">
+														{if $item['extra'] == 'image'}
+															<img src="{$item['body']}" class="chat_msg_img" style="max-width:120px;">
+														{else}
+															{$item['body']}
+														{/if}
+													</div>
+												</div>
+											</li>
+										</ul>
+									{else}
+										<div class="history_message award_message" onclick="showAward();">
+											<img src="{MODULE_URL}static/mobile/{$template}/images/award_redpack.png">{$item['body']}
+										</div>
+									{/if}
+								{/loop}
+							{/if}
+						</div>
+					</div>
+					<div class="online_wrap" style="display:none;">
+						<div class="online_inner">
+							<i class="fa fa-eye"></i> <span id="onlineNum">0</span>
+						</div>
+					</div>
+					<div style="top:0;position:absolute;width:100%;max-width:640px;">
+						<div class="swiper-container live-banner" style="margin-top:-6px;">
+							<div class="swiper-wrapper">
+								{loop $live_info['banner'] $item}
+								<div class="swiper-slide">
+									<a><img class="swiper-lazy" src="{$item}"></a>
+								</div>
+								{/loop}
+							</div>
+							<div class="swiper-pagination live-banner-pagination" style="text-align:right;"></div>
+						</div>
+					</div>
+				{/if}
+			{/if}
+		</div>
+
+		{if $plays && (!$live_info['password'] || ($live_info['password'] && $_SESSION[$uniacid.'_'.$id]))}
+			<div class="chat_form_area max-width-640">
+				{if $uid}
+				<div class="chat_form" {if !$allow_chat}style="display:none;"{/if}>
+					<div class="state">
+						<input id="chat_input" class="chat_input allow-chat" type="text" placeholder="我也来聊几句..">
+						{if $im_config['award_switch']}
+						<div id="icon_award" class="icon_award">
+							<img src="{php echo $im_config['icon_award'] ? $_W['attachurl'].$im_config['icon_award'] : MODULE_URL.'static/mobile/'.$template.'/images/icon-live-award.png'}">
+						</div>
+						{/if}
+						{if $im_config['image_switch']}
+						<div id="send_image" class="send_image">
+							<img src="{php echo $im_config['icon_image'] ? $_W['attachurl'].$im_config['icon_image'] : MODULE_URL.'static/mobile/'.$template.'/images/icon-live-image.png'}">
+						</div>
+						<input type="file" accept="image/*" id="uploadFile" name="uploadFile" class="hide">
+						{/if}
+						<button class="chat_send allow-chat" id="chat_send">发送</button>
+					</div>
+				</div>
+				<div class="stop_chat_form" {if $allow_chat}style="display:none;"{/if}>
+					禁言中...
+				</div>
+				{/if}
+
+				<div class="window-masking"></div>
+				<div class="window-container fix">
+					<h2 style="display: block;">确认发送?</h2>
+					<div class="window-content">
+						<p class="window-text">
+							<img src="" id="preview-send-img" style="height:100px;">
+						</p>
+					</div>
+					<div class="window-btn fix">
+						<a class="cancel-button ds-inline fl" id="cancel-send-img">取消</a>
+						<a class="confirm-button ds-inline fr" id="confirm-send-img">确定</a>
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		{if $im_config['award_switch'] && $uid}
+			<div class="award_wrap">
+				<div class="award_wrap_mask"></div>
+				<div class="award_body_contain">
+					<div class="award_body">
+						<div class="award_body_window">
+							<div class="award_reward_avatar"><img src="{$_W['attachurl']}{$lesson['teacherphoto']}"></div>
+							<div class="award_reward_info">
+								<p class="award_reward_info-name">{$lesson['teacher']}</p>
+								<p class="award_reward_info-desc">{php echo $video_live['page_font']['title'] ? $video_live['page_font']['title'] : '赞赏是一种美德';}</p>
+							</div>
+							<div class="award_reward_button">
+								<button class="award_reward__item go_award_item" data-amount="{php echo $video_live['award_amount'][0] ? $video_live['award_amount'][0] : '3';}">{php echo $video_live['award_amount'][0] ? $video_live['award_amount'][0] : '3';}元</button>
+								<button class="award_reward__item go_award_item" data-amount="{php echo $video_live['award_amount'][1] ? $video_live['award_amount'][1] : '6';}">{php echo $video_live['award_amount'][1] ? $video_live['award_amount'][1] : '6';}元</button>
+								<button class="award_reward__item go_award_item" data-amount="{php echo $video_live['award_amount'][2] ? $video_live['award_amount'][2] : '10';}">{php echo $video_live['award_amount'][2] ? $video_live['award_amount'][2] : '10';}元</button>
+								<button class="award_reward__item go_award_item" data-amount="{php echo $video_live['award_amount'][3] ? $video_live['award_amount'][3] : '15';}">{php echo $video_live['award_amount'][3] ? $video_live['award_amount'][3] : '15';}元</button>
+								<button class="award_reward__item go_award_item" data-amount="{php echo $video_live['award_amount'][4] ? $video_live['award_amount'][4] : '30';}">{php echo $video_live['award_amount'][4] ? $video_live['award_amount'][4] : '30';}元</button>
+
+								{if $video_live['award_amount'][5]}
+									<button class="award_reward__item go_award_item" data-amount="{$video_live['award_amount'][5]}">{$video_live['award_amount'][5]}元</button>
+								{else}
+									<button class="award_reward__item">
+										<input type="number" id="award_amount" class="award_amount" placeholder="自定义" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+									</button>
+								{/if}
+							</div>
+							<div class="btn_award_wrap">
+								<a href="javascript:;" class="btn_award">{php echo $video_live['page_font']['award_btn'] ? $video_live['page_font']['award_btn'] : '打赏';}</a>
+							</div>
+						</div>
+						<div class="award_reward_close">
+							<img src="{MODULE_URL}static/mobile/default/images/icon-close.png">
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+		
+		<?php if($im_config['type']==2){ ?>
+			<script src="{MODULE_URL}static/public/aodianyunIM/tis-1.1.js"></script>
+			<script src="{MODULE_URL}static/public/aodianyunIM/tis-api-1.1.js"></script>
+		<?php } ?>
+		<script type="text/javascript">
+			$(function(){
+				<?php if(!$_GPC['play']){ ?>
+					var video_wrap_width = document.getElementById('video_wrap').clientWidth;
+					var video_wrap_height = video_wrap_width/1.64;
+					var chat_wrap_height = document.body.clientHeight - video_wrap_height - 140;
+					$("#chat_wrap").hide();
+				<?php }else{ ?>
+					var chat_wrap_height = document.body.clientHeight - prismPlayer_height - 145;
+					document.getElementById("page-container").style.paddingBottom = '0px';
+				<?php } ?>
+				document.getElementById("chat_wrap").style.height = chat_wrap_height + 'px';
+
+				<?php if($userAgent){ ?>
+					/* 微信(非小程序)隐藏标题栏，则互动区域加上标题栏高度 */
+					setTimeout(function(){
+						var header_status = $(".header-2").is(":hidden");
+						if(header_status){
+							document.getElementById("chat_wrap").style.height = document.getElementById("chat_wrap").offsetHeight + 47 + 'px';
+						}
+					},3000)
+
+					$(document).on('click','.chat_msg .chat_msg_img',function(){
+						let imgs = [];
+						let imgObj = document.querySelectorAll('.chat_msg img');
+						let l=imgObj.length;
+						for (let i = 0; i < l; i++) {
+							imgs.push(imgObj[i].src);
+						}
+
+						WeixinJSBridge.invoke("imagePreview", {
+							"urls": imgs,
+							"current": this.src
+						})
+					})
+				<?php }else{ ?>
+					$(document).on('click','.chat_msg_img,.cmt-modal-mask',function(){
+						$('.cmt-modal-mask').toggleClass('show');
+						if($('.cmt-modal-mask').hasClass('show')){
+							$('.cmt-picture-view.cmt-modal-main > img').attr('src', this.src);
+						}
+					})
+				<?php } ?>
+
+				var chat_bd = document.getElementById("chat_bd");
+				if(chat_bd){
+					chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+				}
+			})
+
+			var uniacid = "{$uniacid}";
+			var lessonid = "{$id}";
+			var teacher_uid = "{$lesson['teacher_uid']}";
+			var roomid = "{$tisId}";
+			var nickname = "{$nickname}";
+			var check_content = <?php echo intval($live_info['audit_content']); ?>;
+			var attachurl = "{$_W['attachurl']}";
+			var last_msg_time = now_msg_time = 0;
+			<?php if($room_status){ ?>
+				$(".online_wrap,.swiper-container").show();
+
+				$(function () {
+					var first_load = true;
+					var api = TISAPI.New("{php echo $this->createMobileUrl('aodianyunim');}", {tisId: "{$tisId}"}, false);
+					window.tis = TIS(".chat_main", {
+						api: api,
+						useSSL: "{$_W['ishttps']}",
+						name: nickname,
+						generateUserEvent: true,
+						template: '',
+						onInitUI: onInitUI,
+						onReceiveMessage: onReceiveMessage,
+						version: 1.1,
+						failure: function (error, when) {
+
+							if (typeof error != "string") {
+								if (when == "sendMsg" && error.code == 400 && error.error == "instance closed") {
+									showSingleDialog("TIS实例已关闭");
+									return;
+								}
+								//showSingleDialog("网络请求错误，请刷新页面重试");
+							} else {
+								//showSingleDialog("网络请求错误，请刷新页面重试");
+							}
+						},
+						onSendSuccess: function (data) {
+							chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+						},
+						onReconnect: function () {
+						},
+						onConnect: function () {
+						},
+						onLoadComponent: function () {
+						},
+						updateUser: function (total, clientId) {
+							if(first_load){
+								localStorage.setItem(uniacid + '_' + lessonid, "{$live_info['virtual_num']}");
+								var now_number = localStorage.getItem(uniacid + '_' + lessonid);
+
+								first_load = false;
+								window.setInterval(function () {
+									var submiting = false;
+									if(!submiting){
+										$.get("{php echo $this->createMobileUrl('getliveinfo',array('op'=>'getNumber','type'=>1,'lessonid'=>$id));}", {}, function (res){
+											var jsonObj = JSON.parse(res);
+											localStorage.setItem(uniacid + '_' + lessonid, jsonObj.number);
+										});
+										submiting = true;
+									}
+								}, 1000*15);
+							}else{
+								var now_number = localStorage.getItem(uniacid + '_' + lessonid);
+							}
+
+							var nowtotal = parseInt(total) + parseInt(now_number);
+							if(nowtotal >= 10000){
+								nowtotal = (nowtotal/10000).toFixed(1) + '万';
+							}
+							$("#onlineNum").html(nowtotal);
+						}
+					});
+
+					function onInitUI(container, options) {}
+					function onReceiveMessage(data, container, faceMap) {
+						if(data.extra == 'award'){
+							appendTisAward(data);
+						}else{
+							var new_msg = {name:data.name,time:data.time,body:data.body,extra:data.extra};
+							if(data.name != nickname){
+								appendTisMessage(new_msg, 'chat_list');
+							}
+						}
+						chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+					}
+					$("#chat_send").click(function(){
+						var chat_input = $("#chat_input").val().replace(/^\s*|\s*$/g, "");
+						var send_time = (new Date()).getTime();
+						send_time = parseInt(send_time/1000);
+						if(chat_input===''){
+							return false;
+						}else{
+							<?php if(!$live_info['audit_content']){ ?>
+								tis.SendMessage(chat_input);
+							<?php } ?>
+							
+							var data = {name:nickname,time:send_time,body:chat_input,lessonid:lessonid,roomid:roomid,check_content:check_content,extra:''};
+							appendTisMessage(data, 'chat_self');
+							$.post("{php echo $this->createMobileUrl('chatrecord')}",data,function(){});
+							$("#chat_input").val('');
+							$(".send_image").show();
+							$("#chat_send").hide();
+							chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+						}
+					})
+
+					$("#chat_input").on('blur', function() {
+						window.scroll(0, 0);
+					});
+
+
+
+					function appendTisMessage(data, style) {
+						//讲师标识
+						if (data.name.toString().indexOf('(' + teacher_uid + ')') > -1) {
+							var is_teacher = true;
+						}else{
+							var is_teacher = false;
+						}
+						
+						//发送时间
+						now_msg_time = Date.parse(new Date());
+						if(now_msg_time - last_msg_time > 60000){
+							last_msg_time = now_msg_time;
+							var send_time = timestampToTime(data.time, true);
+						}else{
+							var send_time = '';
+						}
+
+						var welcome_html = '';
+
+						if(send_time != ''){
+							welcome_html += '<div class="history_message">' + send_time + '</div>';
+						}
+						welcome_html += '<ul class="' + style + '">';
+						welcome_html += '	<li class="chat_me">';
+						if(style=='chat_self'){
+							welcome_html += '		<div class="chat_flex"></div>';
+						}
+						welcome_html += '		<div class="chat_item">';
+						welcome_html +=				'<p>';
+						if(is_teacher){
+							welcome_html +=				'<span class="teacher_ident">主讲</span>';
+						}
+						welcome_html += data.name
+						welcome_html +=				'</p>';
+						if(data.extra == 'image'){
+							welcome_html += '		<div class="chat_msg bg-none">';
+							welcome_html += 			'<img src="' + data.body + '" class="chat_msg_img" style="max-width:120px;">';
+							welcome_html += '		</div">';
+						}else{
+							welcome_html += '		<div class="chat_msg">';
+							welcome_html += 			data.body;
+							welcome_html += '		</div">';
+						}
+						
+						welcome_html += '		</div>';
+						welcome_html += '	</li>';
+						welcome_html += '</ul>';
+						
+						$('.chat_main').append(welcome_html);
+					}
+
+					function appendTisAward(data){
+						$('.chat_main').append('<div class="history_message award_message" onclick="showAward();"><img src="{MODULE_URL}static/mobile/{$template}/images/award_redpack.png">' + data.body + '</div>');
+					}
+
+					//显示、隐藏发送按钮
+					$("#chat_input").bind("input propertychange change keyup paste",function(){
+						if($(this).val() == ''){
+							$(".send_image").show();
+							$("#chat_send").hide();
+						}else{
+							$(".send_image").hide();
+							$("#chat_send").show();
+						}
+					});
+
+					//上传图片
+					$("#send_image").click(function(){
+						document.getElementById("uploadFile").click();
+					})
+					//预览图片
+					$("#uploadFile").change(function(){
+						var upfile_info = document.getElementById("uploadFile").files[0];
+						var rFilter = /^(image\/jpg|image\/jpeg|image\/png|image\/gif)$/i;
+						if (!rFilter.test(upfile_info.type)) {
+							showSingleDialog('图片仅支持jpg、png和gif格式');
+							return false;
+						}else{
+							$(".window-masking,.window-container").show();
+							var reader = new FileReader();
+							reader.readAsDataURL(upfile_info);
+							reader.onload = function(e){
+								$("#preview-send-img").attr('src',e.target.result);
+							}
+						}
+					});
+					//取消发送图片
+					$("#cancel-send-img,#confirm-send-img").click(function(){
+						$(".window-masking,.window-container").hide();
+					})
+					//确认发送图片
+					$("#confirm-send-img").click(function(){					
+						var upfile_info = document.getElementById("uploadFile").files[0];
+						lrz(upfile_info, {width: 1024, fieldName: "file"
+						}).then(function (data) {
+							$.post("{php echo $this->createMobileUrl('ajaxuploadimage',array('type'=>'base64'))}", {imageData: data.base64}, function (res) {
+								if(res.path){
+									<?php if(!$live_info['audit_content']){ ?>
+										tis.SendMessage(attachurl + res.path, '', 'image');
+									<?php } ?>
+
+									var send_time = (new Date()).getTime();
+									send_time = parseInt(send_time/1000);									
+									var data = {name:nickname,time:send_time,body:attachurl + res.path,lessonid:lessonid,roomid:roomid,check_content:check_content,extra:'image'};
+									appendTisMessage(data, 'chat_self');
+									$.post("{php echo $this->createMobileUrl('chatrecord')}",data,function(){});
+									chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+								}else{
+									showSingleDialog(res.message);
+								}
+							}, 'json');
+
+						}).catch(function (err) {
+							showSingleDialog(res.err);
+						});
+					})
+				});
+
+				chat_bd.scrollTop = document.getElementById("chat_bd").scrollHeight;
+			<?php } ?>
+
+
+			//时间戳转为时间格式
+			function timestampToTime(nS, showYMD) {  
+				var date = new Date(nS * 1000);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+				var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+				var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+				
+				if(!showYMD){
+					return h + m;
+				}else{
+					return M + D + h + m;
+				}
+			}
+
+			window.setInterval(function () {
+				$.get("{php echo $this->createMobileUrl('getliveinfo',array('op'=>'getChat','type'=>1,'lessonid'=>$id));}", {}, function (res){
+					var jsonObj = JSON.parse(res);
+					if(jsonObj.allow_chat == true){
+						$(".chat_form").show();
+						$(".stop_chat_form").hide();
+					}else{
+						$(".chat_form").hide();
+						$(".stop_chat_form").show();
+					}
+
+					//直播商品处理
+					var goods_html = '';
+					if(jsonObj.live_goods && jsonObj.live_goods.length > 0){
+						var goods_serial = jsonObj.live_goods.length;
+						for(var j=0; j < jsonObj.live_goods.length; j++){
+							goods_html += '<div class="shop-hot-list-img">';
+							goods_html += '	<a href="./index.php?i=' + uniacid + '&c=entry&do=shopgoods&id=' + jsonObj.live_goods[j].id + '&live_lessonid=' + lessonid + '&m=fy_lessonv2_plugin_shop" class="position-re ds-block">';
+							goods_html += '		<div class="goods-cover">';
+							goods_html += '			<div class="img-cover">';
+							goods_html += '				<img src="' + attachurl + jsonObj.live_goods[j].cover + '">';
+							goods_html += '			</div>';
+							goods_html += '		</div>';
+							goods_html += '		<div class="goods-serial">' + goods_serial + '</div>';
+							goods_html += '	</a>';
+							goods_html += '	<a href="./index.php?i=' + uniacid + '&c=entry&do=shopgoods&id=' + jsonObj.live_goods[j].id + '&live_lessonid=' + lessonid +  '&m=fy_lessonv2_plugin_shop" class="goods-title">' + jsonObj.live_goods[j].title + '</a>';
+							goods_html += '	<h2>' + jsonObj.live_goods[j].show_price + '</h2>';
+							goods_html += '</div>';
+							goods_serial--;
+						}
+
+						
+					}else{
+						goods_html += '<div class="my_empty">';
+						goods_html += '	<div class="empty_bd  my_course_empty">';
+						goods_html += '		<h3>商品列表空空如也~</h3>';
+						goods_html += '	</div>';
+						goods_html += '</div>';
+					}
+					$(".shop-recommend-two").html(goods_html);
+
+					<?php if($_GPC['play']){ ?>
+					if(jsonObj.is_end == 1){
+						window.location.href = "{php echo $this->createMobileUrl('lesson',array('id'=>$id));}";
+					}
+					<?php } ?>
+				});
+			}, 1000*20);
+		</script>
+		<!-- 互动 E -->
+
+		<!-- 课件列表 S -->
+		{if $lesson_config['document'] && $document_list}
+		<div class="js-tab">
+			<ul class="course-chapter">
+				<li>
+					{if !empty($document_list)}
+						<ul class="course-sections">
+							{loop $document_list $key $document}
+							<li>
+								<a href="{if $plays}{php echo $this->createMobileUrl('downloadfile', array('fileid'=>$document['id']));}{else}javascript:showSingleDialog('请您先登录或购买课程');{/if}" class="wxapp-download-tip">
+									<div>
+										<i class="fa fa-file-text-o"></i>&nbsp;
+										{php echo $key+1;}、{$document['title']}
+									</div>
+								</a>
+							</li>
+							{/loop}
+						</ul>
+					{else}
+						<ul class="course-sections">
+							<li style="height:auto;padding:10%;">
+								<a style="text-align:center;">暂时没有任何{php echo $lesson_page['document'] ? $lesson_page['document'] : '课件'}~</a>
+							</li>
+						</ul>
+					{/if}
+				</li>
+			<ul>
+		</div>
+		{/if}
+		<!-- 课件列表 E -->
+	</div>
+</div>
+
+
+<!-- 遮罩层 -->
+<div class="flick-menu-mask hide" onclick="closeSpec();"></div>
+
+<!--VIP列表start-->
+<div class="spec-menu-content vip-menu-show max-width-640 hide">
+	<div class="spec-menu-top bdr-b">
+		<div class="spec-first-pic">
+			<img id="spec_image" src="{MODULE_URL}static/mobile/{$template}/images/lesson_buy_vip.png" onerror="imgErr(this)">
+		</div>
+		<a class="rt-close-btn-wrap spec-menu-close" onclick="closeSpec();">
+			<p class="flick-menu-close"></p>
+		</a>
+		<div class="spec-price vip-price-color" style="display: block">
+			<span class="yang-pic spec-yang-pic"></span>
+			<span id="discount_price"></span>
+			<span id="level_price" style="color:#333;font-weight:normal;margin-left:8px;text-decoration:line-through;"></span>
+			<div id="discount_info" style="display:none;color:#f36f0f;font-weight:normal;margin-left:6px;margin-top:6px;font-size:.8rem;"><i class="fa fa-info-circle"></i> 限时开通即可享受<span id="discount_number"></span>折优惠</div>
+		</div>
+	</div>
+	<div class="spec-menu-middle">
+		<div class="prod-spec">
+			<div class="spec-desc" style="margin-bottom: 5px;">
+				<span class="part-note-msg">已选</span>
+				<div id="specDetailInfo_vip" class="base-txt">
+				</div>
+			</div>
+			<div class="nature-container">
+				<div class="pro-color">
+					<span class="part-note-msg" style="width:50px;">VIP等级</span>
+					<p>
+					{loop $lesson_vip_list $item}
+						<a class="a-item vip_{$item['id']}" href="javascript:;" onclick="selectVipSpec('{$item[id]}','{$item[level_price]}','{$item[discount_price]}','{$item[open_discount]}','{$item[level_validity]}','{$item[level_name]}-{$item[level_validity]}天')">{$item[level_name]}-{$item[level_validity]}天</a>
+					{/loop}
+					</p>
+					<input type="hidden" id="vip_id" value=""/>
+				</div>
+			</div>
+			{if $comsetting['vip_agreement']}
+			<div class="weui-cells weui-cells_checkbox">
+				<label class="weui-cell weui-cell_active weui-check__label" for="vip_agreement">
+					<div class="weui-cell__hd" style="padding-right:10px;">
+						<input type="checkbox" class="weui-check" id="vip_agreement" checked />
+						<i class="weui-icon-checked vip_agreement_checked"></i>
+					</div>
+					<div class="weui-cell__bd agreement_tips">
+						<p>我已阅读并同意<a href="javascript:;" id="view_agreement">《VIP服务协议》</a></p>
+					</div>
+				</label>
+			</div>
+			<div class="privacy_agreement_notice-mask" style="display:none;">
+				<div class="privacy_agreement_notice">
+					<div class="close">
+						<img src="{MODULE_URL}static/mobile/default/images/btn-close.png?v=6" width="32" height="32">
+					</div>
+					<h3 class="notice-title">VIP服务协议</h3>
+					<ul class="notice-body">
+						{php echo htmlspecialchars_decode($comsetting['vip_agreement'])}<p><br></p>
+					</ul>
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+	<div class="flick-menu-btn spec-menu-btn">
+		<a class="btn-buy-vip" id="buy_vip">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</a>
+	</div>
+</div>
+<!--VIP列表end-->
+
+
+{template $template.'/writemsg'}
+
+
+<ul class="d-buynow max-width-640">
+	<li class="btn-qq {if !$lesson_vip_list || $show_isbuy || $setting['lesson_vip_status']<=1 || ($setting['stock_config'] && !$lesson['stock']) || $live_status==-1}one-btn-qq{/if}">
+		<a href="{php echo $this->createMobileUrl('index', array('t'=>1))}"><i class="ico ico-gohome"></i>首页</a>
+	</li>
+	<li class="btn-collect {if !$lesson_vip_list || $show_isbuy || $setting['lesson_vip_status']<=1 || ($setting['stock_config'] && !$lesson['stock']) || $live_status==-1}one-btn-collect{/if}" id="btn-collect">
+		<a href="javascript:;" {if !empty($collect)}class="cur"{/if}><i class="ico ico-collect"></i>收藏</a>
+	</li>
+
+	{if $show_isbuy}
+		{if $live_status==0}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now study" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>等待开播</p></a></li>
+		{elseif $live_status==-1}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>直播已结束</p></a></li>
+		{else}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now study" onclick="joinLive()"><p class="num"><em class="money"></em>
+				{if !$_GPC['play']}
+					{php echo $study_name ? $study_name : '进入直播';}
+				{else}
+					直播中
+				{/if}
+			</p></a></li>
+		{/if}
+	{else}
+		{if $live_status==-1}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>直播已结束</p></a></li>
+		{elseif $setting['stock_config'] && !$lesson['stock']}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>已售罄</p></a></li>
+		{else}
+			{if $setting['lesson_vip_status']==0}
+				<!-- 仅显示立即购买 -->
+				<li class="btn-buy one-btn-buy no-ios" {if empty($buynow_link) || $buynow_link=='#'}id="buy-now"{/if}><a href="{if !empty($buynow_link) && $buynow_link!='#'}{$buynow_link}{else}javascript:;{/if}" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+				<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+			{elseif $setting['lesson_vip_status']==1}
+				<!-- 仅显示开通VIP -->
+				{if $lesson_vip_list}
+					<li class="btn-buy one-btn-buy no-ios" {if empty($config['buy_vip_link'])}id="buy-vip"{/if}><a href="{if !empty($config['buy_vip_link'])}{$config['buy_vip_link']}{else}javascript:;{/if}" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+					<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+				{else}
+					<li class="btn-buy one-btn-buy no-ios" id="buy-now"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+					<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+				{/if}
+			{elseif $setting['lesson_vip_status']==2}
+				<!-- 显示开通VIP和立即购买 -->
+				{if $lesson_vip_list}
+					<li class="btn-buy two-btn-buy no-ios" {if empty($config['buy_vip_link'])}id="buy-vip"{/if}><a href="{if !empty($config['buy_vip_link'])}{$config['buy_vip_link']}{else}javascript:;{/if}" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+					<li class="btn-buy two-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+				{/if}
+				<li class="btn-buy {if $lesson_vip_list}two-btn-buy{else}one-btn-buy{/if} no-ios" id="buy-now"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+				<li class="btn-buy {if $lesson_vip_list}two-btn-buy{else}one-btn-buy{/if} is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+			{/if}
+		{/if}
+	{/if}
+</ul>
+
+<!-- 右侧悬浮商品菜单 -->
+<div class="right-icon-goods cursor">
+	<img src="{php echo $im_config['icon_goods'] ? $_W['attachurl'].$im_config['icon_goods'] : MODULE_URL.'static/mobile/'.$template.'/images/icon-live-goods.png'}">
+</div>
+<div class="live_goods_main">
+	<div class="main">
+		<div class="close live_goods_close"></div>
+		<div class="body shop-recommend-two">
+		{if $like_goods_list}
+			{loop $like_goods_list $key $item}
+			<div class="shop-hot-list-img">
+				<a href="./index.php?i={$uniacid}&c=entry&do=shopgoods&id={$item['id']}&live_lessonid={$id}&m=fy_lessonv2_plugin_shop" class="position-re ds-block">
+					<div class="goods-cover">
+						<div class="img-cover">
+							<img src="{$_W['attachurl']}{$item['cover']}">
+						</div>
+					</div>
+					<div class="goods-serial">{php echo count($like_goods_list)-$key;}</div>
+				</a>
+				<a href="./index.php?i={$uniacid}&c=entry&do=shopgoods&id={$item['id']}&live_lessonid={$id}&m=fy_lessonv2_plugin_shop"
+				class="goods-title">{$item['title']}</a>
+				<h2>{$item['show_price']}</h2>
+			</div>
+			{/loop}
+		{else}
+			<div class="my_empty">
+				<div class="empty_bd  my_course_empty">
+					<h3>商品列表空空如也~</h3>
+				</div>
+			</div>
+		{/if}
+		</div>
+	</div>
+</div>
+
+
+{if $isfollow['follow_lesson'] && $member['follow']==0 && $userAgent}
+<div class="force-contact-main max-width-640 follow_qrcode">
+	<div class="force-contact-content_new">
+		<p class="force-contact-tips">{php echo $setting['lesson_follow_title'] ? $setting['lesson_follow_title'] : '长按指纹识别二维码, 关注公众号';}</p>
+		<p class="force-contact-desc">{php echo $setting['lesson_follow_desc'] ? $setting['lesson_follow_desc'] : '关注后继续学习, 可接收最新课程通知';}</p>
+		<img class="receive-red-packet-contact-touch" src="{$dirpath}lesson_{$id}.jpg">
+	</div>
+	{if $isfollow['follow_lesson_close']}
+	<div class="follow_lesson_close">
+		<img src="{MODULE_URL}static/mobile/{$template}/images/index-coupon-close.png">
+	</div>
+	{/if}
+</div>
+{/if}
+
+<div class="aui-dialog follow-wechat">
+	<div class="listInformation background_default" style="padding: 18px 0;background: rgb(245, 245, 245);">
+		<div class="listInformationWord">
+			<p class="t6 color-ff5b35" style="width:100%;text-align:center;">{php echo $common['follow_page']['first_title'] ? $common['follow_page']['first_title'] : '您可关注公众号方便下次学习'}</p>
+		</div>
+	</div>
+	<div class="textCenter" style="padding-top: 0.3rem;">
+		<p style="padding:10px 0;"><img src="{$_W['attachurl']}{$setting['qrcode']}" class="erweima"></p>
+		<p class="c3 p-b-10">{php echo $common['follow_page']['app_tip'] ? $common['follow_page']['app_tip'] : '长按识别关注公众号，方便下次进入学习'}</p>
+	</div>
+	<div class="listInformationBtn t2 c3 flagDiv"><span onclick="closeTip()" class="listInformationBtnChild">关闭</span></div>
+</div>
+
+<div class="aui-dialog lesson-qun" {if $show_service}style="display:block;"{/if}>
+	<div class="listInformation background_default " style="background: rgb(245, 245, 245);"><span class="listInformationImg listInformationImg2"><img src="{$_W['attachurl']}{$now_service['avatar']}"></span>
+		<div class="listInformationWord">
+			<p class="t2 c8" style="width: 100%; text-align: left;">HI，我是 {$now_service['nickname']}</p>
+			<p class="t1 c2" style="width: 100%; text-align: left;">{php echo $common['other_page']['invite_join'] ? $common['other_page']['invite_join'] : '邀请你加入用户粉丝群'}</p>
+		</div>
+	</div>
+	<div class="textCenter" style="padding-top: 0.3rem;">
+		<p style="padding-top: 0.3rem;"><img src="{$_W['attachurl']}{$now_service['qrcode']}" class="erweima"></p>
+		<p class="c3 p-b-10">微信里长按识别二维码</p>
+	</div>
+	<div class="listInformationBtn t2 c3 flagDiv"><span onclick="closeTip()" class="listInformationBtnChild">关闭</span></div>
+</div>
+<div class="aui-mask" {if $show_service}style="display:block;"{/if}></div>
+<script type="text/javascript">
+	$("#follow-wechat").on('click', function(){
+		$(".follow-wechat").show();
+		$(".aui-mask").show();
+	})
+	$("#join-qun").on('click', function(){
+		$(".lesson-qun").show();
+		$(".aui-mask").show();
+	})
+	function closeTip(){
+		$(".follow-wechat").hide();
+		$(".lesson-qun").hide();
+		$(".aui-mask").hide();
+	}
+</script>
+
+<script type="text/javascript">
+	var iosBuyTip = '';
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		var miniprogram_environment = false;
+		wx.miniProgram.getEnv(function(res) {
+			if(res.miniprogram) {
+				miniprogram_environment = true;
+			}
+		})
+		if((window.__wxjs_environment === 'miniprogram' || miniprogram_environment)) {
+			wx.miniProgram.getEnv(function(res) {
+				wx.miniProgram.postMessage({ 
+					data: {
+						'title': "{$sharelesson['title']}",
+						'images': "{$sharelesson['images']}",
+					}
+				})
+			});
+			$("#qq-consult").attr("href","javascript:;");
+			$("#qqgroup-consult").attr("href","javascript:;");
+			$("#all-consult").attr("href","javascript:;");
+			$(".follow_qrcode").hide();
+
+			<?php if($systemType=='ios'){ ?>
+				$('.no-ios').hide();
+				$('.is-ios').show();
+				$('.is-ios a p').html('不支持');
+			<?php } ?>
+
+			$(".wxapp-download-tip").click(function(){
+				showSingleDialog("小程序环境暂不支持下载");
+			})
+		}
+	});
+
+	<?php if($userAgent && $systemType=='ios' && !$setting['ios_pay']){ ?>
+		iosBuyTip = "{php echo $lesson_page['iosBuyTip'] ? $lesson_page['iosBuyTip'] : '根据公众号相关运营规范，iOS端公众号不支持开通VIP或购买课程'}";
+		$('.no-ios').hide();
+		$('.is-ios').show();
+		$('.is-ios').click(function(){
+			showSingleDialog(iosBuyTip);
+		})
+	<?php } ?>
+
+	<?php if($_GPC['play']){ ?>
+		var space_time = 60;
+		var recordurl = "{php echo $this->createMobileUrl('record', array('lessonid'=>$_GPC['id'],'sectiontype'=>1,'lesson_type'=>3,'playtoken'=>random(8)));}";
+		var realPlayTime = document.getElementById("realPlayTime").value;
+
+		setInterval(function(){
+			realPlayTime = parseInt(realPlayTime) + parseInt(1);
+			$("#realPlayTime").val(realPlayTime);
+			if(realPlayTime!=0 && realPlayTime%space_time==0){
+				$.get(recordurl, {currentTime:realPlayTime}, function (data){});
+				$.get(recordurl+'&op=realPlay', {realPlayTime:space_time}, function (data){});
+			}
+		},1000);
+	<?php } ?>
+
+	function joinLive(){
+		var lessonid = "{$lesson['id']}";
+		$("#loadingToast").show();
+
+		$.ajax({
+			type: 'get',
+			url: "{php echo $this->createMobileUrl('sectionstudystatus',array('op'=>'live'))}",
+			data: {id:lessonid},
+			dataType: 'json',     
+			success: function(data){
+				$("#loadingToast").hide();
+				if(data.code==0){
+					location.href = "{php echo $this->createMobileUrl('lesson')}&id=" + lessonid + "&play=1";
+				}else if(data.code==-99){
+					showSingleDialog(iosBuyTip ? iosBuyTip : data.msg);
+				}else{
+					showSingleDialog(data.msg);
+				}
+			},
+			error: function(error){
+				$("#loadingToast").hide();
+				showSingleDialog('网络繁忙，请稍候重试');
+			}
+		});
+	}
+
+	$(".follow_lesson_close").click(function(){
+		$(".follow_qrcode").hide();
+	})
+
+	$(".right-icon-goods,.live_goods_close").click(function(){
+		$(".live_goods_main").toggleClass('show');
+	})
+</script>
+
+<script type="text/javascript">
+	//聊天轮播图片
+	var myLiveBanner = new Swiper('.live-banner', {
+		pagination: '.live-banner-pagination',
+		effect: 'coverflow',
+		paginationClickable: true,
+		centeredSlides: true,
+		autoplay: 4000,
+		autoplayDisableOnInteraction: false,
+		preloadImages: false,
+		lazyLoading: true
+	});
+
+
+	// “章节”、“课程详情”tab切换
+	$(".course-tab").on("click", 'li', function() {
+		var $currItem = $(this),
+		index = $currItem.index();
+
+		$currItem.addClass('curr').siblings().removeClass('curr');
+		$(".js-tab").hide().eq(index).show();
+
+		if(index==1){
+			$(".d-buynow").hide();
+			$("footer").hide();
+			<?php if($uid){ ?>
+				$(".chat_form_area").show();
+				document.getElementById("chat_bd").scrollTop = document.getElementById("chat_bd").scrollHeight;
+			<?php } ?>
+		}else{
+			$(".d-buynow").show();
+			$("footer").show();
+			<?php if($live_status==1){ ?>
+				$(".chat_form_area").hide();
+			<?php } ?>
+		}
+	});
+
+	//购买课程下一步
+	$("#buy-now").click(function(){
+		<?php if($setting['mustinfo'] && $writemsg){ ?>
+			$(".writemsg_shade").show();
+			$(".writemsg_wrap").show();
+		<?php }else{ ?>
+			location.href = "{php echo $this->createMobileUrl('confirm', array('id'=>$lesson['id'],'spec_id'=>$spec_list[0]['spec_id']));}";
+		<?php } ?>
+	});
+
+	//关闭课程和VIP规格
+	function closeSpec(){
+		$(".flick-menu-mask").addClass('hide');
+		$(".vip-menu-show").addClass('hide');
+	}
+
+	//查看VIP服务协议
+	$("#view_agreement").click(function(){
+		$('.privacy_agreement_notice-mask').fadeIn(200).unbind('click').click(function(){
+			$(this).fadeOut(100);
+		})
+	});
+
+	//开通VIP
+	$("#buy-vip").click(function() {
+		<?php if($setting['mustinfo'] && $writemsg){ ?>
+			$(".writemsg_shade").show();
+			$(".writemsg_wrap").show();
+		<?php }else{ ?>
+			$(".flick-menu-mask").removeClass('hide');
+			$(".vip-menu-show").removeClass('hide');
+		<?php } ?>
+	});
+	//提交VIP订单
+	$("#buy_vip").click(function(){
+		var vip_id = $("#vip_id").val();
+		if(!vip_id){
+			showSingleDialog("请选择要购买的VIP等级");
+			return false;
+		}
+
+		<?php if($comsetting['vip_agreement']){ ?>
+		if(!$("#vip_agreement").is(':checked')){
+			showSingleDialog("请阅读并同意VIP服务协议");
+			return false;
+		}
+		<?php } ?>
+
+		location.href = "{php echo $this->createMobileUrl('vip', array('op'=>'buyvip'));}&level_id="+vip_id;
+	});
+
+
+	//收藏按钮
+	<?php if($uid){ ?>
+		$("#btn-collect").click(function(){
+			var id = "<?php echo $id; ?>";
+			var ajaxurl = "{php echo $this->createMobileUrl('updatecollect', array('ctype'=>'lesson'));}";
+			$.ajax({
+				type:'post',
+				url:ajaxurl,
+				data:{id:id},
+				dataType:'json',     
+				success:function(data){
+					if(data=='1'){
+						$("#btn-collect a").addClass("cur");
+					}else if(data=='2'){
+						$("#btn-collect a").removeClass("cur");
+					}
+				}
+			});
+		});
+	<?php } ?>
+
+	//选择vip规格
+	function selectVipSpec(level_id, level_price, discount_price, open_discount, level_validity, level_name){
+		$(".a-item").removeClass("vip-selected");
+		$(".vip_"+level_id).addClass("vip-selected");
+		$("#vip_id").val(level_id);
+		$("#discount_price").html('￥' + discount_price);
+		if(level_price*1 != discount_price){
+			$("#level_price").html('￥' + level_price);
+			$("#discount_info").show();
+			$("#discount_number").html(open_discount*0.1);
+		}else{
+			$("#level_price").html('');
+			$("#discount_info").hide();
+		}
+
+		$("#specDetailInfo_vip").html(level_name);
+	}
+
+	//删除返回直播间删除商品参数
+	var uniacid = {$uniacid};
+	sessionStorage.setItem(uniacid + "_live_lessonid", "");
+
+<?php if($lesson_config['hide_lesson_descript']){ ?>
+	//课程介绍查看更多
+	$(function(){
+		var lesson_desc_more = document.getElementById('lesson_desc_more');
+		var lesson_desc = document.getElementById('lesson_desc');
+		if(lesson_desc.clientHeight > 500){
+			lesson_desc.style.height = 500 + 'px';
+			lesson_desc_more.style.display = 'block';
+		}
+
+		$("#lesson_desc_more").click(function(){
+			lesson_desc.style.height = 'auto';
+			lesson_desc_more.style.display = 'none';
+		})
+	});
+<?php } ?>
+
+<?php if($virtual_buyinfo && $live_status!=-1){ ?>
+	var buyinfo = {php echo json_encode($virtual_buyinfo);};
+	var time = buyinfo_serial = 0;
+	var timer = setInterval(function(){
+		if(time == 0 || time%13 == 0){
+			$(".newbuy_info_item").html(buyinfo[buyinfo_serial]);
+			$(".newbuy_wrap").animate({opacity: 'show'}, 'slow');
+			buyinfo_serial ++;
+
+			setTimeout(function(){
+				$(".newbuy_wrap").animate({opacity: 'hide'}, 'slow');
+			}, 8000);
+		}
+		if(buyinfo_serial >= buyinfo.length){
+			clearInterval(timer);
+		}
+		time++;
+	},1000);
+<?php } ?>
+
+<?php if($im_config['award_switch']){ ?>
+	$("#icon_award").click(function(){
+		$(".award_wrap").show();
+	});
+	function showAward(){
+		$(".award_wrap").show();
+	}
+	$(".award_reward_close").click(function(){
+		$(".award_wrap").hide();
+	});
+	function goAward(amount){
+		$("#loadingToast").show();
+		$.ajax({
+            type:"POST",
+            url:"{php echo $this->createMobileUrl('liveaward', array('lessonid'=>$id))}",
+            data:{amount:amount},
+            dataType: "json",
+            success:function(res){
+				$("#loadingToast").hide();
+				if(res.code == '0'){
+					location.href = res.goUrl;
+				}else if(res.code == '-1'){
+					showSingleDialog(res.message);
+					return false;
+				}
+            },
+			error: function(){
+				$("#loadingToast").hide();
+				showSingleDialog('网络繁忙，请稍后重试');
+				return false;
+            }
+         });
+	}
+
+	$(".go_award_item").click(function(){
+		var award_amount = $(this).data('amount');
+		if(award_amount <=0 ){
+			showSingleDialog("打赏金额有误，请重新选择");
+			return false;
+		}
+		goAward(award_amount);
+	})
+	$(".btn_award").click(function(){
+		var award_amount = $("#award_amount").val();
+		if(award_amount <=0 ){
+			showSingleDialog("打赏金额有误，请重新输入");
+			return false;
+		}
+		goAward(award_amount);
+	})
+<?php } ?>
+</script>
+
+<script type="text/javascript">
+<?php if($userAgent){ ?>
+	$(function(){
+		$("li.details img").click(function(){
+			let imgs = [];
+			let imgObj = document.querySelectorAll('li.details img');
+			let l=imgObj.length;
+			for (let i = 0; i < l; i++) {
+				imgs.push(imgObj[i].src);
+			}
+
+			WeixinJSBridge.invoke("imagePreview", {
+				"urls": imgs,
+				"current": this.src
+			})
+		})
+	})
+<?php } ?>
+
+	wx.ready(function(){
+		var shareData = {
+			title: "{$sharelesson['title']}",
+			desc: "{$sharelesson['desc']}",
+			link: "{$sharelesson['link']}",
+			imgUrl: "{$sharelesson['images']}",
+			trigger: function (res) {},
+			complete: function (res) {},
+			success: function (res) {
+				$.post("{php echo $this->createMobileUrl('sharecoupon');}");
+			},
+			cancel: function (res) {},
+			fail: function (res) {}
+		};
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareWeibo(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+</script>
+
+{template $template.'/_footerv2'}

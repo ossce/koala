@@ -1,0 +1,49 @@
+<div class="main">
+	<div class="alert alert-info">
+	    更换章节的音视频自定义域名后，可使用该功能来批量变更音视频自定义域名，单次更新数量不宜过多，重复更新不影响功能。
+	</div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">批量更新音视频域名</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">更新数量</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="upnumber" value="1000" checked /> 1000条</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="upnumber" value="3000" /> 3000条</label>
+						&nbsp;
+						<label class="radio-inline"><input type="radio" name="upnumber" value="5000" /> 5000条</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 原音视频域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="old_domain" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 新音视频域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="new_domain" class="form-control">
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}static/mobile/{$template}/images//download.gif"><span class="mloading-text">同步数据中，请勿关闭或刷新...</span></div>
+<div id="overlay"></div>
+<script type="text/javascript">
+/* 显示遮罩层 */
+function showOverlay() {
+    $("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0);
+	$(".mloading-bar").show();
+}
+</script>

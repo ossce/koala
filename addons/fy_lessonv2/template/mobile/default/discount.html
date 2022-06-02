@@ -1,0 +1,199 @@
+<!-- 
+ * 限时折扣
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/discount.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $op == 'display'}
+<div class="section">
+	{if !empty($banner)}
+	<div class="nctouch-banner">
+		<img src="{$_W['attachurl']}{$banner['picture']}" style="animation: fade 400ms 0s;">
+	</div>
+	{/if}
+	{if !empty($list)}
+	<div class="count">
+		<h2 class="nctouch-title">
+			<div class="inner">
+				<p>距离结束还剩</p>
+			</div>
+		</h2>
+		<div class="time-box">
+			<div class="time-inner">
+				<span>
+					<em id="time_d">0</em>
+					<label>天</label>
+					<em id="time_h">0</em>
+					<label>小时</label>
+					<em id="time_m">0</em>
+					<label>分</label>
+					<em id="time_s">0</em>
+					<label>秒</label>
+				</span>
+				<div class="bdrx1"></div>
+			</div>
+		</div>
+	</div>
+	<section class="nctouch-wap">
+		<div class="goods-list">
+		</div>
+	</section>
+	
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+	{else}
+	<div class="my_empty" style="top:100px;">
+	    <div class="empty_bd  my_course_empty">
+	        <h3>未找到任何折扣课程~</h3>
+	        <p><a href="{php echo $this->createMobileUrl('index');}">到首页去看看</a></p>
+	    </div>
+	</div>
+	{/if}
+</div>
+
+<div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+
+<script type="text/javascript">
+var ajaxUrl = "{php echo $this->createMobileUrl('discount', array('discount_id'=>$discount_id));}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var lessonUrl = "{php echo $this->createMobileUrl('lesson');}";
+var loading = document.getElementById("loading");
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {  
+        nowPage++;
+        $.get(ajaxUrl, {page: page}, function (data) {  
+            if (data.length > 0) {
+				loading.style.display = 'none';
+                var jsonObj = JSON.parse(data);
+                insertDiv(jsonObj);  
+            }
+        });  
+       
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$(".goods-list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {  
+            chtml += '<a href="' + lessonUrl + '&id=' + result[j].id + '">'; 
+            chtml += '	<div class="goods-img">';
+			chtml += '		<div class="img-wraper">';
+			chtml += '			<img src="'+attachUrl+result[j].images + '" class="animated">';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="price ios-system">';
+			chtml += '		<p class="new-price">';
+			chtml += '			<span class="price-type">¥</span>';
+			chtml += '			<span class="new-price-number">'+result[j].discount_price+'</span>';
+			chtml += '		</p>';
+			chtml += '		<p class="old-price">';
+			chtml += '			<span class="old-price-number">¥'+result[j].price+'</span>';
+			chtml += '		</p>';
+			chtml += '		<span class="discount">'+result[j].discount_name+'</span>';
+			chtml += '	</div>';
+			chtml += '	<p class="goods-name">'+result[j].bookname+'</p>';
+			chtml += '</a>';			
+        }
+		mainDiv.append(chtml);
+		if(result.length==0){
+			document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+		}
+    }  
+  
+    //==============核心代码=============  
+    var msg_list_loading = false;
+	$('.weui_tab').on('scroll', function(){
+		if (!msg_list_loading){
+			load_more_msg();
+		}
+	})
+	function load_more_msg(){     
+		var msg_list = $('.weui_tab');
+		if (msg_list.height() + msg_list[0].scrollTop >= msg_list[0].scrollHeight) {
+			msg_list_loading = true;
+			$("#btn_Page").hide();
+			getData(nowPage);
+			msg_list_loading = false;
+		}
+		$("#btn_Page").show();
+	}
+
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+		loading.style.display = 'block';
+        getData(nowPage);
+    });
+});
+</script>
+
+<script type="text/javascript">
+setTimeout("show_time()",1000);
+var time_d = document.getElementById("time_d");
+var time_h = document.getElementById("time_h");
+var time_m = document.getElementById("time_m");
+var time_s = document.getElementById("time_s");
+ 
+var time_end = new Date("{php echo date('Y/m/d H:i:s', $discount['endtime']);}"); // 设定结束时间
+time_end = time_end.getTime();
+ 
+function show_time(){
+	var time_now = new Date(); // 获取当前时间
+	time_now = time_now.getTime();
+	var time_distance = time_end - time_now; // 结束时间减去当前时间
+	var int_day, int_hour, int_minute, int_second;
+	if(time_distance >= 0){
+		// 天时分秒换算
+		int_day = Math.floor(time_distance/86400000)
+		time_distance -= int_day * 86400000;
+		int_hour = Math.floor(time_distance/3600000)
+		time_distance -= int_hour * 3600000;
+		int_minute = Math.floor(time_distance/60000)
+		time_distance -= int_minute * 60000;
+		int_second = Math.floor(time_distance/1000)
+
+		// 时分秒为单数时、前面加零站位
+		if(int_hour < 10)
+		int_hour = "0" + int_hour;
+		if(int_minute < 10)
+		int_minute = "0" + int_minute;
+		if(int_second < 10)
+		int_second = "0" + int_second;
+
+		// 显示时间
+		time_d.innerHTML = int_day;
+		time_h.innerHTML = int_hour;
+		time_m.innerHTML = int_minute;
+		time_s.innerHTML = int_second;
+
+		setTimeout("show_time()",1000);
+	}else{
+		time_d.innerHTML = time_d.innerHTML;
+		time_h.innerHTML = time_h.innerHTML;
+		time_m.innerHTML = time_m.innerHTML;
+		time_s.innerHTML = time_s.innerHTML;
+	}
+}
+</script>
+{/if}
+
+{template $template.'/_footerv2'}

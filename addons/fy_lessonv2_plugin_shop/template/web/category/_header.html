@@ -1,0 +1,6 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('category');}">分类列表</a></li>
+	<li {if $op=='post'}class="active"{/if}><a href="{php echo $this->createWebUrl('category',array('op'=>'post','id'=>$_GPC['id']));}">{if $_GPC['id']>0}编辑{else}添加{/if}分类</a></li>
+</ul>

@@ -1,0 +1,424 @@
+<!-- 
+ * 微课堂首页
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 。
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+
+{if $op=='display'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/search.css?v={$versions}" rel="stylesheet" />
+
+<!-- 顶部搜索框 -->
+<div class="fix_grid_96">
+	<div class="fix_grid">
+		<div class="search_grid">
+			<div class="search flex0">
+				<i class="fa fa-search"></i>
+				<input type="text" name="keyword" value="{$_GPC['keyword']}" placeholder="{php echo $index_page['searchBox'] ? $index_page['searchBox'] : '搜索您感兴趣的课程';}">
+				<button class="search-btn">搜索</button>
+			</div>
+		</div>
+
+		<div class="list_menu_grid flex0_1">
+			<div class="list_menu flex-al1 flex9" onclick="showsort()">
+				<span>{$sortname}</span><i class="icon_down"></i>
+			</div>
+			<div class="list_menu flex-al1 flex9" onclick="showcategory()">
+				<span>{$catname}</span><i class="icon_down"></i>
+			</div>
+			{if $lesson_attribute['attribute1']}
+			<div class="list_menu flex-al1 flex9" onclick="showattribute1()">
+				<span>{$attr1_name}</span><i class="icon_down"></i>
+			</div>
+			{/if}
+			{if $lesson_attribute['attribute2']}
+			<div class="list_menu flex-al1 flex9" onclick="showattribute2()">
+				<span>{$attr2_name}</span><i class="icon_down"></i>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+<!-- /顶部搜索框 -->
+
+<!-- 筛选条件 -->
+<div class="sort_list_grid sort_list hidden">
+	<a href="{php echo $this->createMobileUrl('search')}" {if !$_GPC['sort']}class="curr"{/if}>综合排序</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'price'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='price'}class="curr"{/if}>价格优先</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'hot'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='hot'}class="curr"{/if}>人气优先</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'score'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='score'}class="curr"{/if}>好评优先</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'general'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='general'}class="curr"{/if}>普通课程</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'live'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='live'}class="curr"{/if}>直播课程</a>
+	<a href="{php echo $this->createMobileUrl('search', array('sort'=>'apply'))}&keyword={$keyword}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}&attr2={$attr2}" {if $_GPC['sort']=='apply'}class="curr"{/if}>报名课程</a>
+</div>
+<!-- /筛选条件 -->
+
+<!-- 课程分类 -->
+<div class="nav hidden" data-active="cate">
+	<div class="nav_panel nav_panel-cate">
+		<!-- 顶级分类 -->
+		<ul class="nav_menu nav_panel_cate_mt">
+			{if !empty($hot_category)}
+			<a href="javascript:;">
+				<li class="nav_menu_item {if !$_GPC['pid']}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{MODULE_URL}static/mobile/{$template}/images/ico-allcategory.png">推荐分类</li>
+			</a>
+			{/if}
+			{loop $categorylist $key $parent}
+			<a href="javascript:;">
+				<li class="nav_menu_item {if $_GPC['pid']==$parent['id'] || (empty($hot_category) && $key=='0')}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{$_W['attachurl']}{$parent['ico']}">{$parent['name']}</li>
+			</a>
+			{/loop}
+		</ul>
+
+		{if !empty($hot_category)}
+		<!-- 推荐二级分类 -->
+		<ul class="nav_menu nav_panel-cate_st" {if !$_GPC['pid']}style="display:block;"{/if}">
+			<a href="{php echo $this->createMobileUrl('search')}&keyword={$keyword}&sort={$sort}">
+				<li class="nav_menu_item {if !$_GPC['cat_id']}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{$all_category_ico}">全部</li>
+			</a>
+			{loop $hot_category $hot}
+			<a href="{php echo $this->createMobileUrl('search', array('cat_id'=>$hot['id']))}&keyword={$keyword}&sort={$sort}">
+				<li class="nav_menu_item {if !$_GPC['pid'] && ($_GPC['cat_id']==$hot['id'])}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{$_W['attachurl']}{$hot['ico']}">{$hot['name']}</li>
+			</a>
+			{/loop}
+		</ul>
+		{/if}
+		<!-- 二级分类 -->
+		{loop $categorylist $key $category}
+			<ul class="nav_menu nav_panel-cate_st" {if $_GPC['pid']==$category['id'] || (empty($hot_category) && $key=='0')}style="display:block;"{/if}>
+				<a href="{php echo $this->createMobileUrl('search', array('cat_id'=>$category['id'],'pid'=>$category['id'])).'&keyword='.$keyword.'&sort='.$sort;}">
+					<li class="nav_menu_item {if ($_GPC['pid']==$_GPC['cat_id']) && ($_GPC['cat_id']==$category['id'])}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{$_W['attachurl']}{$category['ico']}">{$category['name']}</li>
+				</a>
+				{loop $category['child'] $child}
+				<a href="{php echo $this->createMobileUrl('search', array('cat_id'=>$child['id'],'pid'=>$child['parentid'])).'&keyword='.$keyword.'&sort='.$sort;}">
+					<li class="nav_menu_item {if $_GPC['cat_id']==$child['id']}nav_menu_item_selected{/if}"><img class="nav_menu_item-icon" src="{$_W['attachurl']}{$child['ico']}">{$child['name']}</li>
+				</a>
+				{/loop}
+			</ul>
+		{/loop}
+	</div>
+</div>
+<!-- /课程分类 -->
+
+<!-- 课程属性 -->
+{if $lesson_attribute['attribute1']}
+<div class="sort_list_grid attribute1 hidden">
+	<a href="{php echo $this->createMobileUrl('search')}&keyword={$keyword}&sort={$sort}&cat_id={$cat_id}&pid={$pid}&attr2={$attr2}" {if !$_GPC['attr1']}class="curr"{/if}>不限</a>
+	{loop $attribute1 $item}
+		{if in_array($item['id'], $cat_attribute1)}
+			<a href="{php echo $this->createMobileUrl('search', array('attr1'=>$item['id']))}&keyword={$keyword}&sort={$sort}&cat_id={$cat_id}&pid={$pid}&attr2={$attr2}" {if $_GPC['attr1']==$item['id']}class="curr"{/if}>{$item['name']}</a>
+		{/if}
+	{/loop}
+</div>
+{/if}
+{if $lesson_attribute['attribute2']}
+<div class="sort_list_grid attribute2 hidden">
+	<a href="{php echo $this->createMobileUrl('search')}&keyword={$keyword}&sort={$sort}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}" {if !$_GPC['attr2']}class="curr"{/if}>不限</a>
+	{loop $attribute2 $item}
+		{if in_array($item['id'], $cat_attribute2)}
+			<a href="{php echo $this->createMobileUrl('search', array('attr2'=>$item['id']))}&keyword={$keyword}&sort={$sort}&cat_id={$cat_id}&pid={$pid}&attr1={$attr1}" {if $_GPC['attr2']==$item['id']}class="curr"{/if}>{$item['name']}</a>
+		{/if}
+	{/loop}
+</div>
+{/if}
+<!-- /课程属性 -->
+<div class="mark hidden"></div>
+
+<!-- 课程列表 -->
+<div class="section">
+	{if $total}
+		<div class="list_grid" id="lesson-list">
+		</div>
+		<div id="loading_div" class="loading_div" style="padding:15px 0 30px 0;">
+			<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+		</div>
+	{else}
+		<div class="my_empty">
+			<div class="empty_bd  my_course_empty">
+				<h3>没有找到任何课程~</h3>
+				<p><a href="{php echo $this->createMobileUrl('index', array('t'=>1));}">去首页看看...</a></p>
+			</div>
+		</div>
+	{/if}
+</div>
+<!-- /课程列表 -->
+
+<script type="text/javascript">
+/* 搜索 */
+$(".search-btn").click(function() {
+	var keywords = $.trim($("input[name=keyword]").val());
+    if (keywords == '') {
+        searchUrl = "{php echo $this->createMobileUrl('search');}";
+    } else {
+        searchUrl = searchUrl = "{php echo $this->createMobileUrl('search');}&keyword=" + encodeURIComponent(keywords);
+    }
+    document.location.href = searchUrl;
+    return false;
+});
+
+/* 综合排序 */
+function showsort() {
+	closeCondition();
+	$(".sort_list").removeClass("hidden");
+	$(".mark").removeClass("hidden");
+}
+
+/* 课程分类 */
+function showcategory(){
+	closeCondition();
+	$(".nav").removeClass("hidden");
+	$(".mark").removeClass("hidden");
+}
+$(".nav_panel_cate_mt").on("click", 'a', function() {
+	var $currItem = $(this),
+	index = $currItem.index();
+
+	$(".nav_panel_cate_mt a li").removeClass('nav_menu_item_selected');	
+	$currItem.addClass('nav_menu_item_selected').siblings().removeClass('nav_menu_item_selected');
+	$(".nav_panel-cate_st").hide().eq(index).show();
+});
+
+/* 课程属性 */
+function showattribute1() {
+	closeCondition();
+	$(".attribute1").removeClass("hidden");
+	$(".mark").removeClass("hidden");
+}
+
+function showattribute2() {
+	closeCondition();
+	$(".attribute2").removeClass("hidden");
+	$(".mark").removeClass("hidden");
+}
+
+/* 关闭所有选项 */
+$(".mark, .sort_list_grid").click(function(){
+	closeCondition();
+})
+function closeCondition() {
+  $(".sort_list_grid").addClass("hidden");
+  $(".nav").addClass("hidden");
+  $(".attribute1").addClass("hidden");
+  $(".attribute2").addClass("hidden");
+  $(".mark").addClass("hidden");
+}
+</script>
+
+<script type="text/javascript">
+var uniacid = "{$uniacid}";
+//首页检索跳转过来的清掉缓存
+var clear = "{php echo intval($_GPC['clear']);}";
+if(clear==1){
+	localStorage.removeItem('lesson_back_'+uniacid);
+}
+
+var localStorage = window.localStorage;
+var ajaxUrl   = "{php echo $_W['siteUrl'];}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var lessonUrl = "{php echo $this->createMobileUrl('lesson');}";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true;
+$(function () {
+	var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxUrl, {page: page}, function (data) {
+				var jsonObj = JSON.parse(data);
+				loadingToast.style.display = 'none';
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载数据
+	var lesson_back = localStorage.getItem('lesson_back_'+uniacid);
+	var lesson_list = localStorage.getItem('lesson_list_'+uniacid);
+
+	if(lesson_back==1 && lesson_list){
+		$("#lesson-list").append(lesson_list);
+		$(".section").scrollTop(localStorage.getItem('section_top_'+uniacid));
+		nowPage = localStorage.getItem('nowPage_'+uniacid);
+		loadingToast.style.display = 'none';
+		localStorage.removeItem('lesson_back_'+uniacid);
+	}else{
+		getData(1);
+	}
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#lesson-list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<a href="' + lessonUrl + '&id=' + result[j].id + '" class="normal_grid flex0_1">';
+			chtml += '	<div class="normal_grid_a flex_g0">';
+			chtml += '		<div class="img-box flex_g0">';
+			chtml += '			<div class="img"><img src="' + attachUrl + result[j].images + '"></div>';
+			chtml += '			<div class="icon-live ' + result[j].icon_live_status + '"></div>';
+		<?php if($setting['show_study_number']){ ?>
+			chtml += '			<div class="learned ' + result[j].learned_hide + '">' + result[j].buyTotal + result[j].study_word + '</div>';
+		<?php } ?>
+			chtml += '			<i class="ico_common '+ result[j].ico_name +'"></i>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="flex-al1 flex10">';
+			chtml += '		<div>';
+			chtml += '			<div class="grid_title2">' + result[j].bookname + '</div>';
+			chtml += '			<div class="grid_info flex0">';
+			if(result[j].price==0){
+				chtml += '		<span class="price flex_g0 index_price_lesson fs-14">免费</span>';
+			}else if(result[j].show_vip==1){
+				chtml += '		<span class="price flex_g0 index_price_lesson fs-14">VIP免费</span>';
+			}else{
+				chtml += '		<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥' + result[j].price + '</span>';
+			}
+			if(result[j].soncount>0){
+					chtml += '		<span class="index_section_number mar-l-a">' + result[j].soncount + '节</span>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '		<div class="grid_bottom2 flex1">';
+			if(result[j].score>0){
+					chtml += '	<span class="eva index_lesson_evaluation">' + result[j].score_rate + '%好评</span>';
+			}
+			chtml += '	<div class="text">';
+			if(result[j].section_status==0){
+				chtml += '已完结';
+			}
+			chtml += '	</div>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '</a>';
+        }
+		mainDiv.append(chtml);
+		
+		//存储当前课程列表信息
+		if($("#lesson-list").html()){
+			localStorage.setItem('lesson_list_'+uniacid, $("#lesson-list").html());
+			localStorage.setItem('nowPage_'+uniacid, nowPage);
+		}
+    }  
+  
+    //==============核心代码=============
+	var msg_list_loading = false;
+	$('.section').on('scroll', function(){
+		if (!msg_list_loading){
+			load_more_msg();
+		}
+
+		//记录滚动条位置
+		localStorage.setItem('section_top_'+uniacid, $(".section").scrollTop());
+	})
+	function load_more_msg(){     
+		var msg_list = $('.section');
+		if (msg_list.height() + msg_list[0].scrollTop >= msg_list[0].scrollHeight) {
+			msg_list_loading = true;
+			$("#btn_Page").hide();
+			getData(nowPage);
+			msg_list_loading = false;
+		}
+		$("#btn_Page").show();
+	}
+
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+    	loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+});
+
+var nav_panel_height = parseInt(document.body.clientHeight * 0.7);
+var head = document.head || document.getElementsByTagName('head')[0];
+var style = document.createElement('style');
+style.innerHTML = '.nav_panel-cate{height:' + nav_panel_height + 'px !important;}';
+head.appendChild(style);
+</script>
+
+{elseif $op=='allcategory'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/all-category.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title" style="max-width:80%;">{$title}</div>
+</div>
+
+<!-- 分类 START-->
+<div class="fui-fullHigh-group iphone-max-height max-width-640" {if $userAgent}style="top:0;"{/if}>
+	<div class="category-inner menu">
+		{if !empty($hot_category)}
+		<nav class="category-switch on">推荐分类</nav>
+		{/if}
+		{loop $categorylist $key $item}
+		<nav class="category-switch {if empty($hot_category) && $key=='0'}on{/if}">{$item['name']}</nav>
+		{/loop}
+	</div>
+	<div class="category-inner container">
+		{if !empty($hot_category)}
+		<div class="all-category-son">
+			<div class="category-right">
+				<a href="{php echo $this->createMobileUrl('search');}" class="category-item">
+					<div class="icon radius">
+						<img src="{$all_category_ico}">
+					</div>
+					<div class="text">全部课程</div>
+				</a>
+				{loop $hot_category $hot}
+				<a href="{php echo $this->createMobileUrl('search',array('cat_id'=>$hot['id']));}" class="category-item">
+					<div class="icon radius">
+						<img src="{$_W['attachurl']}{$hot['ico']}">
+					</div>
+					<div class="text">{$hot['name']}</div>
+				</a>
+				{/loop}
+			</div>
+		</div>
+		{/if}
+
+		{loop $categorylist $key $parent}
+		<div class="all-category-son" {if empty($hot_category) && $key=='0'}{else}style="display:none;"{/if}>
+			<div class="category-right">
+				<a href="{php echo $this->createMobileUrl('search', array('cat_id'=>$parent['id'],'pid'=>$parent['id']));}" class="category-item">
+					<div class="icon radius">
+						<img src="{$_W['attachurl']}{$parent['ico']}">
+					</div>
+					<div class="text">{$parent['name']}</div>
+				</a>
+
+				{loop $parent['child'] $son}
+				<a href="{php echo $this->createMobileUrl('search', array('cat_id'=>$son['id'],'pid'=>$parent['id']));}" class="category-item">
+					<div class="icon radius">
+						<img src="{$_W['attachurl']}{$son['ico']}">
+					</div>
+					<div class="text">{$son['name']}</div>
+				</a>
+				{/loop}
+			</div>
+		</div>
+		{/loop}
+	</div>
+</div>
+<!-- 分类 END-->
+<script type="text/javascript">
+	$(".category-inner").on("click", 'nav', function() {
+		var $currItem = $(this),
+		index = $currItem.index();
+		
+		$currItem.addClass('on').siblings().removeClass('on');
+		$(".all-category-son").hide().eq(index).show();
+	})
+</script>
+
+{/if}
+
+{template $template.'/_footerv2'}

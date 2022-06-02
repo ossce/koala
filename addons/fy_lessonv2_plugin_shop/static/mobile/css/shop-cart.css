@@ -1,0 +1,280 @@
+.shop-navBar{
+	position: fixed;
+	width: 100%;
+}
+.shop-navBar .cart-operation{
+	display: inline-block;
+    font-size: 15px;
+    color: #333;
+    line-height: 48px;
+}
+
+.main{
+	padding-top: 48px;
+	padding-bottom: 110px;
+}
+
+/* 商品列表 */
+.cart-block {
+    display: flex;
+    padding: 10px 10px 0;
+    background-color: #fff;
+	border-bottom: 1px solid #F1F1F1;
+}
+.checkbox-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.checkbox-wrap .lose{
+    font-size: 12px;
+    min-width: 40px;
+    padding: 2px 0;
+    color: #fff;
+    background: #999;
+    text-align: center;
+    border-radius: 15px;
+}
+.checkbox-wrap .tick {
+    width: 20px;
+}
+.checkbox-wrap .checkbox {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    opacity: 0;
+}
+.cart-block .cart-goods-img {
+    width: 90px;
+    height: 90px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+.cart-block .cart-goods-info {
+    width: 65%;
+    padding-bottom: 17px;
+}
+.cart-block .cart-goods-info .cart-goods-name {
+	width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1D1D1D;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.cart-block .cart-goods-info .cart-goods-sku {
+	color: #b7b7b7;
+    font-size: 13px;
+    margin-top: 8px;
+    height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.cart-block .cart-goods-info .price-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+	height: 24px;
+    line-height: 24px;
+    position: relative;
+}
+.cart-block .cart-goods-info .price-wrap span {
+    color: #EB2E15;
+    font-size: 12px;
+}
+.cart-block .cart-goods-info .price-wrap .price,.cart-block .cart-goods-info .price-wrap .integral{
+	font-size: 14px;
+}
+.cart-block .cart-goods-info .price-wrap .num-wrap{
+	position: absolute;
+    right: 0px;
+    top: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
+    height: 100%;
+    border: 1px solid #e0e0e0;
+}
+.cart-block .cart-goods-info .price-wrap .num-wrap a{
+	display: inline-block;
+    width: 23px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    background: #fff;
+    font-size: 16px;
+}
+.cart-block .cart-goods-info .price-wrap .num-wrap .minus{
+	border-right: 1px solid #e0e0e0;
+}
+.cart-block .cart-goods-info .price-wrap .num-wrap .num-input{
+	width: 32px;
+    text-align: center;
+    border: none;
+    display: inline-block;
+    height: 100%;
+    box-sizing: border-box;
+    vertical-align: top;
+	color: #333;
+	font-size: 12px;
+}
+.cart-block .cart-goods-info .price-wrap .num-wrap .plus{
+	border-left: 1px solid #e0e0e0;
+}
+
+.total-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 12px;
+	position: fixed;
+    width: 100%;
+    background-color: #fff;
+    bottom: 52px;
+    box-shadow: 0px -1px 0px rgb(235 235 235);
+}
+.total-wrap .total-left {
+    display: flex;
+    align-items: center;
+    color: #1A1A1A;
+    font-size: 13px;
+}
+.total-wrap .checkbox-wrap {
+    top: 0;
+    margin-right: 10px;
+	position: relative;
+    display: flex;
+    align-items: center;
+}
+.total-wrap .total-right {
+    display: flex;
+    align-items: center;
+}
+.total-wrap .delete-btn{
+	display: none;
+}
+.total-wrap .total-right span {
+    color: #EF0F00;
+}
+.total-wrap .total-right .symbol{
+	font-size: 12px;
+}
+.total-wrap .total-right .price{
+	font-size: 14px;
+}
+.total-wrap .total-right .total-btn {
+    width: 90px;
+    line-height: 42px;
+    border: 0;
+    background-color: #EB2E15;
+    font-size: 15px;
+    color: #fff;
+    border-radius: 50px;
+    margin-left: 9px;
+}
+.total-wrap .total-right .total-btn span{
+	color: #fff;
+}
+
+
+/* 失效商品 */
+.lose_wrap{
+	position: relative;
+}
+.lose_wrap .lose_title{
+    display: flex;
+    overflow: hidden;
+    border-radius: 12px 12px 0px 0px;
+    background-color: rgb(255, 255, 255);
+    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    width: 100%;
+    height: 100%;
+    -webkit-box-direction: normal;
+}
+.lose_wrap .lose_title .lose_title_left{
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    overflow: hidden;
+    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    width: fit-content;
+    height: 44px;
+    -webkit-box-direction: normal;
+}
+.lose_wrap .lose_title .lose_title_left .title_info{
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    margin-right: 10px;
+    font-size: 15px;
+    place-self: center flex-start;
+    margin-left: 12px;
+    width: fit-content;
+    height: 100%;
+    justify-content: flex-start;
+    -webkit-box-pack: start;
+    align-items: center;
+    -webkit-box-align: center;
+    overflow: hidden;
+    max-width: none;
+}
+.lose_wrap .lose_title .lose_title_left .title_info span{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 18px;
+}
+.lose_wrap .lose_title .lose_title_right{
+    display: flex;
+    flex: 1 1 0%;
+    overflow: hidden;
+    justify-content: flex-end;
+    -webkit-box-pack: end;
+    align-items: center;
+    -webkit-box-align: center;
+    margin-right: 10px;
+    width: 0px;
+    -webkit-box-flex: 1;
+    height: 44px;
+    place-self: flex-start;
+}
+.lose_wrap .lose_title .lose_title_right .clear_info{
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    width: fit-content;
+    height: 44px;
+    -webkit-box-direction: normal;
+}
+.lose_wrap .lose_title .lose_title_right .clear_info .clear_info_item{
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-size: 13px;
+    place-self: center flex-end;
+    width: fit-content;
+    overflow: hidden;
+    max-width: 130px;
+    height: 100%;
+    justify-content: flex-start;
+    -webkit-box-pack: start;
+    align-items: center;
+    -webkit-box-align: center;
+}
+.lose_wrap .lose_title .lose_title_right .clear_info .clear_info_item span{
+	white-space: nowrap;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.lose_wrap .cart-block .cart-goods-info .cart-goods-name, .lose_wrap .cart-block .cart-goods-info .price-wrap span{
+	color: #999;
+}

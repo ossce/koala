@@ -1,0 +1,311 @@
+
+.flex-al1 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 20%;
+}
+.flex0 {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/* 用户信息 */
+.mine_head {
+	position: relative;
+	padding-bottom: 50%;
+	color: white;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	border-radius: 10px;
+	margin: 5px 15px 0;
+}
+
+.mine_head .aui-member-setting {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    text-shadow: 0 1px 0 #666;
+	z-index: 1;
+}
+
+.mine_head .aui-member-setting img {
+    width: 26px;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
+.mine_head.mine_head2 {
+  padding-bottom: 52%;
+}
+
+.mine_head .mine_head_body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.mine_head.mine_head2 .mine_head_body {
+  top: 58%;
+}
+
+.mine_head .tx {
+  margin: 0 auto;
+  width: 63px;
+  height: 63px;
+  font-size: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e0ef;
+  background-color: #e0e0ef;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.mine_head .tx img {
+  width: 100%;
+  height: 100%;
+}
+
+.mine_head .nickname,
+.mine_head .tip {
+  text-align: center;
+  font-size: 16px;
+}
+
+.mine_head .idno {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.mine_head .idno .vip_crown {
+	height: 20px;
+    vertical-align: -6px;
+	margin-right: 2px;
+}
+
+.mine_head .icon_setting {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  width: 19px;
+  height: 19px;
+  top: 15px;
+  right: 15px;
+  background-image: url("../image/icon_setting.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.mine_head .titlebar {
+  color: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  background-color: transparent;
+}
+
+.mine_head .signin-button{
+	position: absolute;
+    left: 0;
+    top: 0;
+    padding: 15px;
+	z-index: 1;
+}
+.mine_head .signin-button a {
+	display: inline-block;
+    background: rgba(255, 255, 255, 0.41);
+    color: #fff;
+    font-size: 13px;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 18px;
+}
+.mine_head .signin-button .icon-pic {
+	margin-right: 3px;
+    background-size: 14px;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAADyUlEQVRoQ+2aS4gVRxSGvx9f+AAXbhRBTSAKPkBQMaDLEYWQIJEg+Bjf6EyyEAyZheLAKAiaTSDJbIx5gImiIOMIwogbFQVFRUR8QDBCcJedGIOYIwV14c61+3bP1K257Z2ubXf953x1qk51nyoxyppGGS8lcKtHvIxwGeEWG4FySg83oGY2DzgM/AN0SLLharl+ZjYG+AGYBuyX9CREr9K3YRE2s0PAAS+8QtL1EAfNbCVw1Wv0SOoO0YsB3Avs8cJrJfWFOGhma4FzXqNXUmeI3pCBzWwJsB34CBjvBf4DTks6YWaDgIHzwHfAIsj9geOWwT1Je5OAzczZXw9M8PZfAX8CP0m6k2dAck1pM9sCHAfGJog+lfRhAvBj4GEeJxLemQssqI2wmT0DZiW8/xrYJenXLHuZwGY22zs+MUHsBdAl6ceUCP/uI5Jpx2u7CP8haWNKhL8CjgBTEnz5F5gr6e960JmOmJnLvPu9yDGgW5ITH9RqgUdiDZuZC4JLlvu8M4ckHQwFvgB84kWWSrqdJGhmbjC+9s/aJF3Oml71nptZG3CpMtCSvkmxuwy46Z/1S/osFHgAWOVFFkp6kGLYrbmzwCNgnaT/A4HHAWcAt79/LikxH5jZQuC+tzUgafWIAIfAhfQtgcsID54/ebJ0rjUcMi1D+saY0i4Dukzo2i3gZYiDEfpOBpZ63ZuSlocmrefAjAiOxpB8LmlmKLDbhubH8C6C5gNJbptKbUNdw9uAvyI4GiL5AXCi3IdThnCoEU790goJUUjfGFl61G1LTQM2s8XAHKAvrUbWMhE2s3bgF18t6ZTkKirvtJYAroF1kF+6IkNLAifAukLeF5LetBxwAuwpYFMarBuA93ZKp8BuyCroNw3YzKYCPb5s+v1QKh7DhW1qhGuKfSeB9jzQIbDNBl4DXKxKLA56c70pGQrbVGBvvAOo3j5+BnYkQTcCtunAeaEbBVsI4CzoRsIWBrgO9BX/71r5S/sN2Jq19dT7m2ratpTyFVS7pqtfC4YtVIQrZGaWBN0Q2EICJ0zvhsEWFtg75sqn091BeciarV06hVrDIaWbvH1L4AacLVWfDy+XVDmLzRuEqO+Z2cfADW/kgqRP6xnMU7X8tuqEvR9wpZZ3bgBEpUoXnwS42z2VA/ujkrpCgV2yuZZyoaVJnIlmXUVkmaS7QcA+w+70kU26xVMEaHeLZ7ck97NSt2VO6aoPCHdC545aqu9pZenHfh7nnlZsr0dSP3eER9KpmLZK4JijWwTtMsJFiEJMH8oIxxzdImi/BfN9bFvs3354AAAAAElFTkSuQmCC');
+}
+.mine_head .signin-button .icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border: none;
+    float: left;
+    background-size: 20px;
+    background-repeat: no-repeat;
+	margin-top: -1px;
+}
+
+/* 个人中心 */
+
+.mine_info_grid {
+	background-color: white;
+	padding: 10px 0;
+	border-radius: 10px;
+	margin: 15px;
+}
+
+.mine_info {
+  color: #494949;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.mine_info .num {
+	color: #d8b362;
+	font-size: 1.4rem;
+}
+
+.mine_info + .mine_info {
+  border-left: 1px solid #e4e5ea;
+}
+
+.line-grid + .line-grid {
+  border-top: 1px solid #f1f1f1;
+}
+
+.line-grid .img {
+  min-width: 20px;
+  margin-right: 10px;
+}
+
+.line-grid .boldtext {
+  font-size: 16px;
+  color: #1d1d1d;
+  font-weight: bold;
+}
+
+.mine_unit .line-grid .fa-toggle-off {
+    color: #bdbdbd;
+    font-size: 27px;
+}
+
+.mine_unit .line-grid .fa-toggle-on {
+    color: #f08e07;
+    font-size: 27px;
+}
+
+/* 个人中心导航条 */
+.mine_menu_grid {
+	background-color: white;
+	font-size: 0;
+	padding: 6px 0;
+	margin: 15px;
+	border-radius: 10px;
+}
+
+.mine_menu_grid .mine_menu {
+  display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: .9rem;
+    color: #494949;
+    text-align: center;
+}
+
+.mine_menu_grid .mine_menu .img {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 0;
+  margin-bottom: 5px;
+}
+
+.mine_menu_grid .mine_menu .img img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+/* 个人中心通用样式 */
+.mine_adv {
+	padding: 0 15px;
+	margin: 10px 0;
+}
+.mine_adv a{
+	width: 100%;
+	display: inline-block;
+}
+.mine_adv .adv_img{
+	width: 100%;
+}
+
+.mine_unit {
+	background-color: #fbfbfb;
+	padding: 0 15px;
+	margin: 10px 0;
+}
+.line-grid {
+    color: #494949;
+    min-height: 26px;
+    padding: 12px 5px;
+	font-size: .95rem;
+}
+.icon_right {
+    padding-right: 14px;
+    background-image: url(../images/self_order_right.png);
+    background-repeat: no-repeat;
+    background-size: 6px auto;
+    background-position: right center;
+}
+.flex1 {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.more {
+    font-size: 12px;
+    color: #969696;
+    font-weight: normal;
+}
+
+/* 退出按钮 */
+.logout {
+    margin: 15px;
+}
+.logout a {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border: #dcdcdc 1px solid;
+    margin-top: 14px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    color: #333333;
+    font-size: 16px;
+}

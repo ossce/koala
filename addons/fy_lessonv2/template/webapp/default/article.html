@@ -1,0 +1,105 @@
+{php include $this->template($template.'/_header')}
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="w-1200 m-auto">
+		<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/article.html" class="more ftc-414141">{$notice_title}</a> {if $op=='details'} &gt; {$article['title']}{/if}
+		</div>
+
+		{if $op=='display'}
+		<div class="w-all p-t-10 p-b-10 bd-bs-e7e7e7 ovhidden">
+			<ul class="w-1100 fl">
+				<li class="w-min80 w-max120 ovhidden fl">
+					<a href="/{$uniacid}/article.html" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['cate_id']}class_cur{/if}">全部</a>
+				</li>
+
+				{loop $category_list $item}
+				<li class="w-min80 w-max120 ovhidden m-l-24 fl">
+					<a href="/{$uniacid}/article.html?cate_id={$item['id']}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['cate_id']==$item['id']}class_cur{/if}">{$item['name']}</a>
+				</li>
+				{/loop}
+				<div class="clear"></div>
+			</ul>
+		</div>
+		<div class="w-all hg-24"></div>
+		<div class="w-840 fl">
+			{if $list}
+			<ul class="w-790 ql_news bg-c-ffffff p-l-20 p-r-30 p-b-10 fl ovhidden">
+				{loop $list $item}
+				<li class="w-all m-t-20 m-b-20 fl">
+					<a href="/{$uniacid}/article.html?op=details&aid={$item['id']}" class="dsblock ql_news_img w-120 hg-120 fl ps-r one_hidden">
+						<img src="{$item['images']}" alt="{$item['title']}">
+					</a>
+					<a href="/{$uniacid}/article.html?op=details&aid={$item['id']}" class="dsblock w-640 fr">
+						<h3 class="w-all fs-18 ftc-000000 one_hidden line-h30 m-b-10 fl">
+							{if $item['is_vip']}
+								<img src="{MODULE_URL}static/webapp/default/images/article-title-vip.png?v=3" height="22" style="vertical-align:-5px;" >
+							{/if}
+							{$item['title']}
+						</h3>
+						<p class="w-all txt-ind-2 tw_hidden fs-14 ftc-888888 line-h25 fl">{$item['content']}</p>
+						<span class="dsblock w-all fs-12 ftc-878686 line-h30 fl"><i class="dsblock w-14 hg-30 ql_icon ql_time m-r-6 fl"></i>{php echo date('Y-m-d H:i', $item['addtime']);}</span>
+					</a>
+				</li>
+				{/loop}
+				<div class="clear"></div>
+			</ul>
+			{else}
+			<div class="course-list">
+				<div class="no-content">
+					<div class="msg-inner">
+						<div class="msg-text">
+							<i class="iconfont i-info icon-information"></i> 未找到相关的公告：）
+						</div>
+					</div>
+				</div>
+			</div>
+			{/if}
+			<div class="w-all hg-30 fl"></div>
+			{$pager}
+			<div class="w-all hg-30 fl"></div>
+		</div>
+
+		{elseif $op=='details'}
+		<div class="w-930 fl">
+			<div class="w-860 bg-c-ffffff ovhidden p-l-35 p-r-35 fl">
+				<h3 class="w-all line-h30 m-t-20 m-b-30 text-c fs-20 ftc-000000 fl">
+					{if $article['is_vip']}
+						<img src="{MODULE_URL}static/mobile/default/images/article-title-vip.png?v=3" height="22" style="vertical-align:-5px;" >
+					{/if}
+					{$article['title']}
+				</h3>
+			</div>
+			<div class="w-860 bg-c-ffffff ovhidden p-l-35 p-r-35 fl">
+				<div class="w-860 bg-c-f2f2f2 ovhidden text-c m-b-25 fl">
+					<p class="fs-12 ftc-8b8b8b line-h30">发布时间：{php echo date('Y-m-d H:i', $article['addtime']);}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览数：{php echo $article['view'] + $article['virtual_view'];}</p>
+				</div>
+				<div class="w-860 ovhidden line-h28 m-b-25 article-content">
+					{php echo htmlspecialchars_decode($article['content']);}
+				</div>
+			</div>
+		</div>
+
+		{/if}
+
+		<div class="w-260 fr">
+			{if $article_avd}
+			<ul class="w-240 p-l-10 p-r-10 p-b-20 rig_scool bg-c-ffffff fl">
+				{loop $article_avd $key $item}
+				<li class="w-all m-b-2 fl">
+					<a {if $item['link']}href="{$item['link']}"{/if} class="qladv_news_img dsblock ovhidden fs-16 ftc-000000 line-34 tw_hidden fr {php echo $key ? 'm-t-20' : '';}" target="_blank">
+						<img src="{$_W['attachurl']}{$item['picture']}" class="ovhidden">
+					</a>
+				</li>
+				{/if}
+				<div class="clear"></div>
+			</ul>
+			{/loop}
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="hg-40"></div>
+</div>
+
+
+{php include $this->template($template.'/_footer')}

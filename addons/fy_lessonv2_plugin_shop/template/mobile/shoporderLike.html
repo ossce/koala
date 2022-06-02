@@ -1,0 +1,35 @@
+<div class="recommend-box">
+	<div class="flex shop-flex-title pad-15">
+		<div class="flex-box shop-recommend-title">
+			<i class="icon-title mar-r-8" style="background-image:url({MODULE_URL}static/mobile/images/icon-recommend-title.png);"></i>为您推荐<i class="icon-title mar-l-8" style="background-image:url({MODULE_URL}static/mobile/images/icon-recommend-title.png);"></i>
+		</div>
+	</div>
+	<div class="shop-goods-list">
+		{loop $like_list $item}
+		<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="shop-goods-list-item">
+			<div class="shop-goods-list-item-hd">
+				<img src="{$_W['attachurl']}{$item['cover']}" alt="商品图">
+			</div>
+			<div class="shop-goods-list-item-bd">
+				<h3>{$item['title']}</h3>
+				<p class="aui-special-etc">
+					<span class="aui-special-etc-hd">
+						{if $item['sell_type'] == 1}
+							{$item['integral']}<span class="fs-12">积分</span>
+						{elseif $item['sell_type'] == 2}
+							<span class="fs-12">￥</span>{$item['price']}
+						{elseif $item['sell_type'] == 3}
+							<span class="fs-12">￥</span>{$item['price']}+{$item['integral']}<span class="fs-12">积分</span>
+						{/if}
+					</span>
+					<span class="aui-special-etc-bd">
+						{if ($item['sell_type'] == 2 || $item['sell_type'] == 3) && $item['market_price'] > 0}
+							{$item['market_price']}
+						{/if}
+					</span>
+				</p>
+			</div>
+		</a>
+		{/loop}
+	</div>
+</div>

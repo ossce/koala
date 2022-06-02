@@ -1,0 +1,62 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/lesson.css?v={$versions}">
+
+{if !$common['article_copy']}
+	<style type="text/css">
+	*{margin:0px;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}img{pointer-events:none;-webkit-pointer-events:none;-ms-pointer-events:none;-moz-pointer-events:none;}
+	</style>
+{/if}
+
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="w-1200 m-auto">
+		<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; 《<a href="/{$uniacid}/lesson.html?id={$lesson['id']}" class="more ftc-414141">{$lesson['bookname']}</a>》 &gt; {$section['title']}
+		</div>
+		<div class="bg-c-ffffff ovhidden p-l-35 p-r-35">
+			<h3 class="w-all line-h30 m-t-20 m-b-30 text-c fs-20 ftc-000000">{$section['title']}</h3>
+		</div>
+		<div class="bg-c-ffffff ovhidden p-l-35 p-r-35">
+			<div class="ovhidden line-h28 m-b-25">
+				{if !$free_article}
+					{php echo htmlspecialchars_decode($section['content']);}
+				{else}
+					{php echo htmlspecialchars_decode($pageContent[0]);}
+					<div class="article-free">
+						<a href="/{$uniacid}/lesson.html?id={$lesson['id']}" class="more"><i class="iconfont icon-information-o fs-24"></i> 试读已结束，购买后阅读全文</a>
+					</div>
+				{/if}
+			</div>
+		</div>
+		<ul class="m-t-10 m-b-10 ovhidden">
+                <li class="fl">
+					<a {if $lastAndNext['prev_article']}href="/{$uniacid}/lesson.html?id={$id}&sectionid={$lastAndNext['prev_article']['id']}"{/if} class="dsblock fl w-500 p-l-30 one_hidden ftc-676767 fs-15 line-h60 text-l">上一节：{php echo $lastAndNext['prev_article'] ? $lastAndNext['prev_article']['title'] : '没有了'}</a>
+				</li>
+                <li class="fr">
+					<a {if $lastAndNext['next_article']}href="/{$uniacid}/lesson.html?id={$id}&sectionid={$lastAndNext['next_article']['id']}"{/if} class="dsblock fl w-500 p-r-30 one_hidden ftc-676767 fs-15 line-h60 text-r">下一节：{php echo $lastAndNext['next_article'] ? $lastAndNext['next_article']['title'] : '没有了'}</a>
+				</li>
+            </ul>
+	</div>
+	<div class="hg-40"></div>
+</div>
+
+<script type="text/javascript">
+<?php if($sectionid>0 && $uid>0){ ?>
+	var second = 0;
+	window.setInterval(function () {
+		second ++;
+		var submiting = false;
+		
+		//每分钟记录一次，超过10分钟不再记录
+		if(!submiting && second%60==0 && second<=600){
+			var recordurl = "/{$uniacid}/record.html?lessonid={$_GPC['id']}&sectionid={$_GPC['sectionid']}&playtoken={php echo random(8)}";
+			$.get(recordurl, {currentTime:second}, function (data){});
+			$.get(recordurl+'&op=realPlay', {realPlayTime:second}, function (data){});
+			submiting = true;
+		}
+	}, 1000);
+<?php } ?>
+</script>
+
+
+{php include $this->template($template.'/_footer')}

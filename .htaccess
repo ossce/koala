@@ -1,0 +1,5 @@
+  RewriteEngine On 
+RewriteBase / 
+RewriteRule ^([0-9]+)-([0-9]+).html$            /app/index.php?i=$1&a=webapp&c=entry&eid=$2%1 [L,QSA]
+RewriteRule ^([0-9]+)/$				            /app/index.php?i=$1&a=webapp&c=entry&do=index&m=fy_lessonv2 [L,QSA]
+RewriteRule ^([0-9]+)/([0-9a-zA-Z]+).html$	    /app/index.php?i=$1&a=webapp&c=entry&do=$2&m=fy_lessonv2 [L,QSA]

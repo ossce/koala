@@ -1,0 +1,56 @@
+.clearfix:after, .container:after, .lesson-tab-nav:after {
+	  content: ".";
+	  display: block;
+	  height: 0;
+	  clear: both;
+	  visibility: hidden;
+	}
+	.tab-group {
+	  position: relative;
+	  border: 1px solid #eee;
+	  margin: 50px auto 20px;
+	  border-radius: 0 0 10px 10px;
+	}
+	.tab-group section {
+	  opacity: 0;
+	  height: 0;
+	  padding: 15px 5px;
+	  overflow: hidden;
+	  transition: opacity 0.4s ease, height 0.4s ease;
+	}
+	.tab-group section.active {
+	  opacity: 1;
+	  height: auto;
+	  overflow: visible;
+	}
+
+	.lesson-tab-nav {
+	  list-style: none;
+	  margin: -46px -1px 0 0;
+	  padding: 0;
+	  height: 45px;
+	  overflow: hidden;
+	}
+	.lesson-tab-nav li {
+	  display: inline;
+	}
+	.lesson-tab-nav li a {
+	  top: 1px;
+	  position: relative;
+	  display: block;
+	  float: left;
+	  border-radius: 10px 10px 0 0;
+	  background: #eee;
+	  line-height: 37px;
+	  padding: 0 20px;
+	  text-decoration: none;
+	  color: grey;
+	  margin-top: .5em;
+	  margin-right: 1px;
+	  transition: background .2s ease, line-height .2s ease, margin .2s ease;
+	}
+	.lesson-tab-nav li.active a {
+	  background: #6EB590;
+	  color: white;
+	  line-height: 37px;
+	}

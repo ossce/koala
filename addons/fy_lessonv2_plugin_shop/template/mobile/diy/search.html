@@ -1,0 +1,32 @@
+<style>
+.search-input::-webkit-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+.search-input::-webkit-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+.search-input:-moz-placeholder{
+	color: {$diy['style']['text_color']};
+}
+.search-input::-moz-placeholder{
+	color: {$diy['style']['text_color']};
+} 
+.search-input:-ms-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+</style>
+
+<header class="shop-navBar" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<a href="{$diy['style']['category_link']}" class="shop-navBar-item">
+		<i class="icon-common" style="background-image:url({$diy['style']['icon_category']});"></i>
+	</a>
+	<div class="shop-center">
+		<div class="shop-search-box">
+			<i class="icon-common icon-search" style="background-image:url({$diy['style']['icon_search']});"></i>
+			<input type="search" class="search-input search-goods-keyword" name="keyword" value="{$_GPC['keyword']}" placeholder="{$diy['style']['input_placeholder']}" style="color:{$diy['style']['text_color']};background-color:{$diy['style']['input_background']};border-radius:{$diy['style']['searchbar_radius']};">
+		</div>
+	</div>
+	<a href="{$diy['style']['cart_link']}" class="shop-navBar-item">
+		<i class="icon-common" style="background-image:url({$diy['style']['icon_cart']});"></i>
+	</a>
+</header>

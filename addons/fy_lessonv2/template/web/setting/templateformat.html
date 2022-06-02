@@ -1,0 +1,262 @@
+<div class="main">
+	<form method="post" class="form-horizontal form">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				【{$tpl_name}】模版消息格式
+			</div>
+			<div class="panel-body">
+				<!-- 购买成功 -->
+				{if $tpl_code=='buysucc'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> 购买VIP开头语</span>
+							<input type="text" name="buysucc_format[first1]" value="{$buysucc_format['first1']}" class="form-control">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买VIP备注信息</span>
+							<input type="text" name="buysucc_format[remark1]" value="{$buysucc_format['remark1']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买课程开头语</span>
+							<input type="text" name="buysucc_format[first2]" value="{$buysucc_format['first2']}" class="form-control">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买课程备注信息</span>
+							<input type="text" name="buysucc_format[remark2]" value="{$buysucc_format['remark2']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买讲师开头语</span>
+							<input type="text" name="buysucc_format[first3]" value="{$buysucc_format['first3']}" class="form-control">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买讲师备注信息</span>
+							<input type="text" name="buysucc_format[remark3]" value="{$buysucc_format['remark3']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买商品开头语</span>
+							<input type="text" name="buysucc_format[first4]" value="{$buysucc_format['first4']}" class="form-control">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买商品备注信息</span>
+							<input type="text" name="buysucc_format[remark4]" value="{$buysucc_format['remark4']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 佣金提醒 -->
+				{elseif $tpl_code=='cnotice'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;VIP分销佣金开头语</span>
+							<input type="text" name="cnotice_format[vip_first]" value="{$cnotice_format['vip_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> VIP分销佣金备注信息</span>
+							<input type="text" name="cnotice_format[vip_remark]" value="{$cnotice_format['vip_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;课程分销佣金开头语</span>
+							<input type="text" name="cnotice_format[lesson_first]" value="{$cnotice_format['lesson_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 课程分销佣金备注信息</span>
+							<input type="text" name="cnotice_format[lesson_remark]" value="{$cnotice_format['lesson_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;讲师课程佣金开头语</span>
+							<input type="text" name="cnotice_format[teacher_first]" value="{$cnotice_format['teacher_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 讲师课程佣金备注信息</span>
+							<input type="text" name="cnotice_format[teacher_remark]" value="{$cnotice_format['teacher_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;购买讲师佣金开头语</span>
+							<input type="text" name="cnotice_format[buyteacher_first]" value="{$cnotice_format['buyteacher_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买讲师佣金备注信息</span>
+							<input type="text" name="cnotice_format[buyteacher_remark]" value="{$cnotice_format['buyteacher_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 成员加入提醒 -->
+				{elseif $tpl_code=='newjoin'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="newjoin_format[first]" value="{$newjoin_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="newjoin_format[remark]" value="{$newjoin_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 订单通知(管理员) -->
+				{elseif $tpl_code=='neworder'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;VIP订单开头语</span>
+							<input type="text" name="neworder_format[vip_first]" value="{$neworder_format['vip_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> VIP订单备注信息</span>
+							<input type="text" name="neworder_format[vip_remark]" value="{$neworder_format['vip_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;课程订单开头语</span>
+							<input type="text" name="neworder_format[lesson_first]" value="{$neworder_format['lesson_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 课程订单备注信息</span>
+							<input type="text" name="neworder_format[lesson_remark]" value="{$neworder_format['lesson_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> 购买讲师订单开头语</span>
+							<input type="text" name="neworder_format[buyteacher_first]" value="{$neworder_format['buyteacher_first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 购买讲师订单备注信息</span>
+							<input type="text" name="neworder_format[buyteacher_remark]" value="{$neworder_format['buyteacher_remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 提现申请通知(管理员) -->
+				{elseif $tpl_code=='newcash'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="newcash_format[first]" value="{$newcash_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="newcash_format[remark]" value="{$newcash_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 讲师申请通知(管理员) -->
+				{elseif $tpl_code=='apply_teacher'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="apply_teacher_format[first]" value="{$apply_teacher_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 申请信息</span>
+							<input type="text" name="apply_teacher_format[keyword2]" value="{$apply_teacher_format['keyword2']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="apply_teacher_format[remark]" value="{$apply_teacher_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 申请讲师结果通知 -->
+				{elseif $tpl_code=='teacher_notice'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="teacher_notice_format[first]" value="{$teacher_notice_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 审核事项</span>
+							<input type="text" name="teacher_notice_format[keyword1]" value="{$teacher_notice_format['keyword1']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="teacher_notice_format[remark]" value="{$teacher_notice_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 订单发货通知 -->
+				{elseif $tpl_code=='deliver'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="deliver_format[first]" value="{$deliver_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="deliver_format[remark]" value="{$deliver_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<!-- 考试成绩通知 -->
+				{elseif $tpl_code=='grade'}
+				<div class="form-group">
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon"> &nbsp;&nbsp;&nbsp;开头语</span>
+							<input type="text" name="grade_format[first]" value="{$grade_format['first']}" class="form-control">
+						</div>
+						<div style="height:5px;"></div>
+						<div class="input-group">
+							<span class="input-group-addon"> 备注信息</span>
+							<input type="text" name="grade_format[remark]" value="{$grade_format['remark']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				{/if}
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="tpl_code" value="{$tpl_code}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>

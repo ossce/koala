@@ -1,0 +1,6 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<ul class="nav nav-tabs">
+	<li {if $op=='display' || $op=='suggestDetails' || $op=='suggestCategory'}class="active"{/if}><a href="{php echo $this->createWebUrl('others');}">投诉建议</a></li>
+	<li {if $op=='syslog' || $op=='deleteSyslog'}class="active"{/if}><a href="{php echo $this->createWebUrl('others', array('op'=>'syslog'));}">日志列表</a></li>
+	<li {if $op=='clearcache'}class="active"{/if}><a href="{php echo $this->createWebUrl('others', array('op'=>'clearcache'));}">清空缓存</a></li>
+</ul>

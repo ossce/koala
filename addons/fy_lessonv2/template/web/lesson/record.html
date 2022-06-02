@@ -1,0 +1,167 @@
+<style>
+.col-lg-3{width:22%;}
+</style>
+
+<div class="main">
+	<div class="alert alert-info">
+	    会员最近学习记录为非严格精确统计数据，每分钟记录一次，图文章节单次最多仅记录10分钟(超过不再记录)，数据仅供作为参考，请您知悉。
+	</div>
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="" method="get" class="form-horizontal form" enctype="multipart/form-data" onkeydown="if(event.keyCode==13){return false;}">
+				<input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="lesson" />
+                <input type="hidden" name="op" value="record" />
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <div class='input-group'>
+                            <input type="text" id='bookname' maxlength="30" class="form-control" value="{$_GPC['keyword']}" readonly />
+							<input type="hidden" id='lessonid' name="lessonid" value="{$_GPC['lessonid']}"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-menus').modal();">选择课程</button>
+                            </div>
+                        </div>
+                        <div id="modal-module-menus"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择课程</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="{$_GPC['keyword']}" id="search-kwd" placeholder="请输入课程名称" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_lesson();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-menus" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">选择用户</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <div class='input-group'>
+                            <input type="text" id="nickname" maxlength="30" class="form-control" value="{$_GPC['kmember']}" readonly />
+							<input type="hidden" id="uid" name="uid" value="{$_GPC['uid']}"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-member').modal();">选择用户</button>
+                            </div>
+                        </div>
+                        <div id="modal-module-member"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择用户</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="kmember" id="kmember" value="{$_GPC['kmember']}" placeholder="请输入用户昵称/姓名/手机号" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_member();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-member" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">学习时间</label>
+                    <div class="col-sm-2 col-lg-3">
+                        {php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">课程类型</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<label class="radio-inline"><input type="radio" name="live_type" value="1" {if  $_GPC['live_type']}checked{/if}>直播课程</label>&nbsp;&nbsp;
+						<label class="radio-inline"><input type="radio" name="live_type" value="0" {if !$_GPC['live_type']}checked{/if}>录播课程</label>
+					</div>
+					<div class="col-sm-3 col-lg-3">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+					</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <form action="" method="post" class="form-horizontal form" >
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="width:30%;">课程章节</th>
+						<th style="width:15%;">最长学习时间</th>
+						<th style="width:15%;">学习次数</th>
+						<th style="width:23%;">昵称/姓名/手机号</th>
+						<th style="width:17%;">最近学习时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td>《{$item['bookname']}》<br/>{$item['title']}</td>
+						<td>{$item['playtime']}</td>
+						<td>{$item['playcount']} 次</td>
+						<td>{$item['user']['nickname']}<br/>{$item['user']['realname']}，{$item['user']['mobile']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $item['addtime']);}</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				{$pager}
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+function search_lesson() {
+	var uniacid = {php echo $uniacid};
+	if ($.trim($('#search-kwd').val()) == '') {
+		document.getElementById('search-kwd').focus();
+		return;
+	}
+	$("#module-menus").html("正在搜索....");
+	$.get("{php echo $this->createWebUrl('getlessonormember', array('op'=>'getLesson'))}", { 
+		uniacid:uniacid,keyword: $.trim($('#search-kwd').val())
+	}, function (dat) {
+		$('#module-menus').html(dat);
+	});
+}
+function select_lesson(obj) {
+	$("#bookname").val(obj.bookname);
+	$("#search-kwd").val(obj.bookname);
+	$("#lessonid").val(obj.id);
+	$("#price").val(obj.price);
+	$("#teacher_income").val(obj.teacher_income);
+	$("#validity").val(obj.validity);
+}
+
+function search_member() {
+	var uniacid = {php echo $uniacid};
+	if ($.trim($('#kmember').val()) == '') {
+		document.getElementById('kmember').focus();
+		return;
+	}
+	$("#module-member").html("正在搜索....");
+	$.get("{php echo $this->createWebUrl('getlessonormember', array('op'=>'getMember'))}", { 
+		uniacid:uniacid,keyword: $.trim($('#kmember').val())
+	}, function (dat) {
+		$('#module-member').html(dat);
+	});
+}
+function select_member(obj) {
+	$("#nickname").val(obj.nickname);
+	$("#kmember").val(obj.nickname);
+	$("#uid").val(obj.uid);
+}
+</script>

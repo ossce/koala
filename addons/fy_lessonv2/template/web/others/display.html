@@ -1,0 +1,111 @@
+<style type="text/css">
+.descript {
+    height: 52px;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: inherit !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+</style>
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="./index.php" method="get" class="form-horizontal" role="form">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="module_name" value="fy_lessonv2" />
+				<input type="hidden" name="do" value="others" />
+				<input type="hidden" name="op" value="display" />
+				<input type="hidden" name="search" value="1" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">会员信息</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}" placeholder="会员昵称/姓名/手机号码">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">投诉类型</label>
+					<div class="col-sm-2 col-lg-3">
+						<select name="category_id" class="form-control">
+							<option value="">不限</option>
+							{loop $suggest_category $item}
+							<option value="{$item['id']}" {if $_GPC['category_id'] == $item['id']}selected{/if}>{$item['title']}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">投诉状态</label>
+					<div class="col-sm-2 col-lg-3">
+						<select name="status" class="form-control">
+							<option value="">不限</option>
+							<option value="0" {if $_GPC['status'] == '0'} selected{/if}>未处理</option>
+							<option value="1" {if $_GPC['status'] == 1} selected{/if}>处理中</option>
+							<option value="2" {if $_GPC['status'] == 2} selected{/if}>已处理</option>
+						</select>
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">投诉时间</label>
+					<div class="col-sm-2 col-lg-2">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+					</div>
+					<div class="col-sm-3 col-lg-3" style="width: 22%;">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('others',array('op'=>'suggestCategory'))}" class="btn btn-success"><i class="fa fa-plus"></i> 投诉类型</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			总数：{$total}
+		</div>
+		<div class="panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:70px;">编号</th>
+						<th style="width:12%;">昵称/姓名/手机</th>
+						<th style="width:10%;text-align:center;">投诉类型</th>
+						<th style="width:42%;">投诉内容</th>
+						<th style="width:10%;text-align:center;">状态</th>
+						<th style="width:12%;">投诉时间</th>
+						<th style="text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+						<td>{$item['id']}</td>
+						<td>
+							{$item['nickname']}<br/>
+							{$item['realname']},{$item['mobile']}
+						</td>
+						<td style="text-align:center;">{$suggest_cate[$item['category_id']]}</td>
+						<td class="descript" data-toggle="tooltip" data-placement="bottom" data-original-title="{$item['content']}">{$item['content']}</td>
+						<td style="text-align:center;">
+							{if $item['status'] == '0'}
+								<span class="label label-default">未处理</span>
+							{elseif $item['status'] == 1}
+								<span class="label label-warning">处理中</span>
+							{elseif $item['status'] == 2}
+								<span class="label label-success">已处理</span>
+							{/if}
+						</td>
+						<td>{php echo date('Y-m-d H:i',$item['addtime']);}</td>
+						<td style="text-align:right;">
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('others',array('op'=>'suggestDetails','id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" data-toggle="tooltip" data-placement="bottom" data-original-title="查看详情"><i class="fa fa-pencil"></i></a>
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('others',array('op'=>'deleteSuggest','id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" data-toggle="tooltip" data-placement="bottom" data-original-title="删除"><i class="fa fa-remove"></i></a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</div>

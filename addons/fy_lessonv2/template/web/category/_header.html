@@ -1,0 +1,7 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('category');}">分类列表</a></li>
+    {if $op=='post'}
+	<li class="active"><a href="{php echo $this->createWebUrl('category',array('op'=>'post','id'=>$_GPC['id']));}">{if $_GPC['id']>0}编辑{else}添加{/if}分类</a></li>
+	{/if}
+	<li {if $op=='hotList'}class="active"{/if}><a href="{php echo $this->createWebUrl('category',array('op'=>'hotList'));}">推荐分类</a></li>
+</ul>

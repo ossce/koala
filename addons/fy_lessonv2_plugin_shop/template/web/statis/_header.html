@@ -1,0 +1,7 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('statis');}">订单数据</a></li>
+	<li {if $op=='goods'}class="active"{/if}><a href="{php echo $this->createWebUrl('statis',array('op'=>'goods'));}">商品数据</a></li>
+	<li {if $op=='commission'}class="active"{/if}><a href="{php echo $this->createWebUrl('statis',array('op'=>'commission'));}">佣金数据</a></li>
+</ul>

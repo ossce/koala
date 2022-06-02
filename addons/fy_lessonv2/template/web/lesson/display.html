@@ -1,0 +1,787 @@
+<div class="main">
+	<form id="uploadLessonForm" action="{php echo $this->createWebUrl('lesson',array('op'=>'batchUploadLesson'));}" method="post" enctype="multipart/form-data">
+		<input type="file" name="lessonFile" id="lessonFile" accept="application/vnd.ms-excel" onchange="changeLessonFile();" style="display:none;">
+		<input type="hidden" name="token" value="{$_W['token']}">
+	</form>
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="lesson" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" id="" type="text" value="{$_GPC['bookname']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">讲师名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="teacher" id="" type="text" value="{$_GPC['teacher']}">
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程类型</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="lesson_type" class="form-control">
+                            <option value="">不限</option>
+							{loop $lessonTypeList $key $item}
+							<option value="{$key}" {if $_GPC['lesson_type']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程状态</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							{loop $lessonStatusList $key $item}
+							<option value="{$key}" {if $_GPC['status']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+							<option value="999" {if $_GPC['status']==999}selected{/if}>库存紧张</option>
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程分类</label>
+                    <div class="col-sm-2 col-lg-2">
+                        <select name="pid" class="form-control" id="category_parent" onchange="renderCategory(this.value)">
+                            <option value="">请选择一级分类</option>
+							{loop $category $cat}
+							   <option value="{$cat['id']}">{$cat['name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<div class="col-sm-2 col-lg-2">
+                        <select name="cid" class="form-control" id="category_child" onchange="renderChildCategory(this.value)">
+                            <option value="">请选择二级分类</option>
+                        </select>
+                    </div>
+                </div>
+				{if ($lesson_attribute['attribute1']) || ($lesson_attribute['attribute2'])}
+				<div class="form-group">
+					{if $lesson_attribute['attribute1']}
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">{$lesson_attribute['attribute1']}</label>
+                    <div class="col-sm-2 col-lg-2">
+                        <select class="form-control" name="attribute1" id="attribute1">
+                            <option value="">不限</option>
+							{loop $attribute1 $item}
+								{if in_array($item['id'], $cat_attribute1)}
+								<option value="{$item['id']}" {if $_GPC['attribute1']==$item['id']}selected{/if}>{$item['name']}</option>
+								{/if}
+							{/loop}
+                        </select>
+                    </div>
+					{/if}
+					{if $lesson_attribute['attribute2']}
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">{$lesson_attribute['attribute2']}</label>
+					<div class="col-sm-2 col-lg-2">
+						<select class="form-control" name="attribute2" id="attribute2">
+							<option value="">不限</option>
+							{loop $attribute2 $key $item}
+								{if in_array($item['id'], $cat_attribute2)}
+								<option value="{$item['id']}" {if $_GPC['attribute2']==$item['id']}selected{/if}>{$item['name']}</option>
+								{/if}
+							{/loop}
+						</select>
+					</div>
+					{/if}
+				</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程板块 </label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="recid" class="form-control">
+                            <option value="">不限</option>
+							{loop $rec_list $rec}
+							   <option value="{$rec['id']}" {if $_GPC['recid']==$rec['id']}selected{/if}>{$rec['rec_name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">VIP等级 </label>
+                    <div class="col-sm-2 col-lg-2">
+                        <select name="vip_id" class="form-control">
+                            <option value="">不限</option>
+							{loop $vip_list $vip}
+							   <option value="{$vip['id']}" {if $_GPC['vip_id']==$vip['id']}selected{/if}>{$vip['level_name']}</option>
+							{/loop}
+							<option value="-1" {if $_GPC['vip_id']=='-1'}selected{/if}>不支持VIP等级</option>
+                        </select>
+                    </div>
+					<div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+						<a class="btn btn-success mar-l-10 w-117 import-lesson-btn"><i class="fa fa-plus"></i> 添加课程</a>
+						<ul class="pull-down-ul file-upload">
+							<li class="pull-down-ul__item">
+								<a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson'));}">添加单个课程</a>
+							</li>
+							<li class="pull-down-ul__item upload-lesson-btn">
+								<a href="javascript:;">批量导入课程</a>
+							</li>
+							<li class="pull-down-ul__item">
+								<a href="{MODULE_URL}static/web/xls/LessonTpl_v2.xls" download="LessonTpl_v2.xls">下载课程模板</a>
+							</li>
+						</ul>
+						<button name="export" value="1" class="btn btn-warning mar-l-10"><i class="fa fa-arrow-down"></i> 导出</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<ul class="page-nav page-nav-tabs" style="background:none;float: left;margin-left: 0px;padding-left: 0px;border-bottom:1px #c5d0dc solid;">
+				<li {if $_GPC['status']==''}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson');}">全部课程</a>
+				</li>
+				<li {if $_GPC['status']==1}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson',array('status'=>1));}">上架的课程</a>
+				</li>
+				<li {if $_GPC['status']=='0'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson',array('status'=>0));}">下架的课程</a>
+				</li>
+				<li {if $_GPC['status']==2}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson',array('status'=>2));}">待审核课程</a>
+				</li>
+				<li {if $_GPC['status']==3}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson',array('status'=>3));}">隐藏的课程</a>
+				</li>
+				<li {if $_GPC['status']=='-1'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('lesson',array('status'=>'-1'));}">暂停销售课程</a>
+				</li>
+				<li style="float:right;">
+					<a style="font-weight:bold;color:#d9534f;">课程总数：{$total}</a>
+				</li>
+			</ul>
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:60px;">全选</th>
+							<th style="width:8%;text-align:center;">排序</th>
+							<th style="width:25%;">课程名称</th>
+							<th style="width:8%;text-align:center;">分类/讲师名称</th>
+							<th style="width:8%;text-align:center;">价格</th>
+							<th style="width:8%;text-align:center;">销量/库存</th>
+							<th style="width:8%;text-align:center;">总访问量</th>
+							<th style="width:12%;text-align:center;">vip/讲师服务访问量</th>
+							<th style="width:8%;text-align:center;">课程状态</th>
+							<th style="text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $parent}
+						<tr>
+							<td><input type="checkbox" name="ids[]" value="{$parent['id']}" ></td>
+							<td style="text-align:center;"><input type="text" class="form-control" name="lessonorder[{$parent['id']}]" value="{$parent['displayorder']}" style="width: 70px;display:inline-block;"></td>
+							<td style="word-break:break-all;">[ID:{$parent['id']}] {if $parent['lesson_type']==3}<img src="{MODULE_URL}static/mobile/{$template}/images/icon-live.png" height="18">{/if}{$parent['bookname']}</td>
+							<td style="text-align:center;"><span class="label label-info">{$parent['category']['name']}</span><br/>{$parent['teacher']}</td>
+							<td style="text-align:center;">{$parent['price']}</td>
+							<td style="text-align:center;">{$parent['buynum']}/{$parent['stock']}</td>
+							<td style="text-align:center;">{$parent['visit_number']}</td>
+							<td style="text-align:center;">{$parent['vip_number']}/{$parent['teacher_number']}</td>
+							<td style="text-align:center;">
+								<span class="label {if $parent['status']==-1 || $parent['status']==0 || $parent['status']==3}label-default{elseif $parent['status']==1}label-success{elseif $parent['status']==2 }label-danger{/if}">{$lessonStatusList[$parent['status']]}</span>
+								<br/>
+								{if $parent['section_status']==1}
+									<span class="label label-success" style="margin-top:5px; display:inline-block;">更新中</span>
+								{elseif $parent['section_status']==0}
+									<span class="label label-default" style="margin-top:5px; display:inline-block;">已完结</span>
+								{/if}
+							</td>
+							<td style="text-align:center;">
+								<div class="btn-group btn-group-sm">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="javascript:;">功能列表 <span class="caret"></span></a>
+									<ul class="dropdown-menu dropdown-menu-left" role="menu" style="z-index:99999">
+										{if $parent['lesson_type']!=3}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson', 'id'=>$parent['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])));}"><i class="fa fa-edit"></i> 编辑课程</a></li>
+										{else}
+										<li><a href="./index.php?c=site&a=entry&op=postlesson&id={$parent['id']}&do=lesson&module_name=fy_lessonv2_plugin_live&refurl={php echo urlencode($_W['siteurl']);}"><i class="fa fa-edit"></i> 编辑课程</a></li>
+										{/if}
+
+										{if $parent['lesson_type']!=3}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'viewsection','pid'=>$parent['id']));}"><i class="fa fa-plus"></i> &nbsp;章节管理</a></li>
+										{/if}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'document','pid'=>$parent['id']));}"><i class="fa fa-file-word-o"></i> 课件资料</a></li>
+										{if $parent['lesson_type']!=3}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'sectionTitle','pid'=>$parent['id']));}"><i class="fa fa-list-ol"></i> 课程目录</a></li>
+										{/if}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'qrcode','lessonid'=>$parent['id']));}"><i class="fa fa-download"></i> 下载二维码</a></li>
+										{if $parent['lesson_type']!=3}
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'copylesson','lessonid'=>$parent['id']));}" onclick="$('#loadingToast').show();"><i class="fa fa-copy"></i> 复制课程</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=transform&id={$parent['id']}&do=lesson&module_name=fy_lessonv2_plugin_live" onclick="return confirm('确认转为直播课程？');return false;"><i class="fa fa-exchange"></i> 转为直播课</a></li>
+										<li><a href="{php echo $this->createWebUrl('comment', array('op'=>'addComment','lessonid'=>$parent['id']));}" target="_blank"><i class="fa fa-comment"></i> 发布评价</a></li>
+										{/if}
+										
+										{if $parent['lesson_type']==3}
+										<li><a href="./index.php?c=site&a=entry&op=auditContent&id={$parent['id']}&do=lesson&module_name=fy_lessonv2_plugin_live"><i class="fa fa-check-square-o"></i> 审核聊天内容</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=transform&id={$parent['id']}&do=lesson&module_name=fy_lessonv2_plugin_live" onclick="return confirm('确认转为录播课程？');return false;"><i class="fa fa-exchange"></i> 转为录播课</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=destroyGroup&id={$parent['id']}&do=lesson&module_name=fy_lessonv2_plugin_live&refurl={php echo urlencode($_W['siteurl']);}"><i class="fa fa-recycle"></i> 重置聊天室</a></li>
+										{/if}
+
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'informStudent','lessonid'=>$parent['id']));}"><i class="fa fa-volume-up"></i> 开课提醒</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'delete','pid'=>$parent['id']));}" onclick="return confirm('确认删除此课程吗？');return false;"><i class="fa fa-remove"></i> &nbsp;删除课程</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table relative">
+					<tbody>
+						<tr>
+							<td>
+								<input type="checkbox" id="selAll" style="margin-right:10px;">
+								<input name="submit" type="submit" class="btn btn-primary mar-r-15" value="批量排序" />
+								<a href="javascript:;" class="btn btn-warning w-117 mar-r-15 batch-setting">批量设置</a>
+								<ul class="pull-down-ul batch-setting-ul" style="top:-108px;left:137px;">
+									<li class="pull-down-ul__item">
+										<a href="javascript:;" id="setVIP">免费学习等级</a>
+									</li>
+									<li class="pull-down-ul__item">
+										<a href="javascript:;" id="dragPlay">拖拽播放</a>
+									</li>
+									<li class="pull-down-ul__item">
+										<a href="javascript:;" id="setCategory">课程分类</a>
+									</li>
+								</ul>
+
+								{if $_GPC['status']!=1}
+									<a href="javascript:;" id="online" data-type="online" class="btn btn-success w-80 mar-r-15">上架</a>
+								{/if}
+								{if $_GPC['status']!='0'}
+									<a href="javascript:;" id="offline" data-type="offline" class="btn btn-danger w-80 mar-r-15">下架</a>
+								{/if}
+								{if $_GPC['status']=='0'}
+									<a href="javascript:;" id="delAll" class="btn btn-danger">批量删除</a>
+								{/if}
+								<input type="hidden" name="token" value="{$_W['token']}">
+								<input type="hidden" name="pid" value="{$pid}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+	
+	<!-- 批量设置VIP免费学习等级 -->
+	<div class="modal fade in" id="vipStudyModal" tabindex="-1">
+		<form class="form-horizontal form">
+			<div class="we7-modal-dialog modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<div class="modal-title">批量设置VIP免费学习等级</div>
+					</div>
+					<div class="modal-body">
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">免费学习等级</label>
+								<div class="form-controls col-sm-9">
+									{if !empty($level_list)}
+										<label class="radio-inline">
+											<input type="checkbox" id="selAllVip" />
+											<span class="label-middle">全选</span>
+										</label>
+									{/if}
+									{loop $level_list $item}
+										<label class="radio-inline pad-l-5">
+											<input type="checkbox" name="vipview[]" value="{$item['id']}" />
+											<span class="label-middle">{$item['level_name']}</span>
+										</label>
+									{/loop}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btn-setvip">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- 批量设置拖拽播放 -->
+	<div class="modal fade in" id="dragPlayModal" tabindex="-1">
+		<form class="form-horizontal form">
+			<div class="we7-modal-dialog modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<div class="modal-title">批量设置拖拽播放</div>
+					</div>
+					<div class="modal-body">
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">批量设置</label>
+								<div class="col-sm-9">
+									<label class="radio-inline pad-l-30 pad-b-10">
+										<input type="radio" name="drag_play" value="1">
+										<span class=" ">允许所选课程拖拽播放</span>	
+									</label>
+									<label class="radio-inline pad-b-10">
+										<input type="radio" name="drag_play" value="2">
+										<span class=" ">一键允许所有课程拖拽播放</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="drag_play" value="-1">
+										<span class=" ">禁止所选课程拖拽播放</span>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="drag_play" value="-2">
+										<span class=" ">一键禁止所有课程拖拽播放</span>
+									</label>
+									<span class="help-block">禁止课程拖拽播放后，课程的所有音视频章节在未完整学习完成前将无法拖拽快进播放。</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btn-dragplay">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<!-- 批量设置课程分类 -->
+	<div class="modal fade in" id="categoryModal" tabindex="-1">
+		<form class="form-horizontal form">
+			<div class="we7-modal-dialog modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<div class="modal-title">批量设置课程分类</div>
+					</div>
+					<div class="modal-body">
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程分类</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="batchPid"  onchange="renderCategory(this.value)">
+										<option value="">请选择一级分类</option>
+										{loop $category $cat}
+										   <option value="{$cat['id']}">{$cat['name']}</option>
+										{/loop}
+									</select>
+								</div>
+								<div class="col-sm-4">
+									<select class="form-control" id="batchCid">
+										<option value="">请选择二级分类</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btn-setcategory">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+/* 课程分类检索 START */
+	var category = {php echo json_encode($category);};
+	var pid = {php echo $_GPC['pid'] ? $_GPC['pid'] : 0};
+	var cid = {php echo $_GPC['cid'] ? $_GPC['cid'] : 0};
+	var html = '<option value="0">请选择一级分类</option>';
+	var lesson_attribute1 = {php echo $_GPC['attribute1'] ? $_GPC['attribute1'] : 0};
+	var lesson_attribute2 = {php echo $_GPC['attribute2'] ? $_GPC['attribute2'] : 0};
+	var attribute1 = {php echo json_encode($attribute1);};
+	var attribute2 = {php echo json_encode($attribute2);};
+
+
+	$(function(){
+		$("#category_parent").find("option[value='"+pid+"']").attr("selected",true);
+		document.getElementById("category_parent").onchange();
+	});
+
+	//选择一级分类
+	function renderCategory(id){
+		var chtml = '<option value="0">请选择二级分类</option>';
+		var chtml_attribute1 = chtml_attribute2 = '<option value="0">请选择</option>';
+
+		if(id>0){
+			for(var i in category){
+				if(category[i].id==id){
+					var child = category[i].child;
+					for(var j in child){
+						if(child[j].id==cid){
+							chtml += '<option value="' + child[j].id+'" selected>' + child[j].name + '</option>';
+						}else{
+							chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+						}
+					}
+					$("#category_child").html(chtml);
+					$("#batchCid").html(chtml);
+
+					//课程属性1
+					for(var k in category[i].attribute1){
+						var attribute1_item = category[i].attribute1[k];
+						for(var l in attribute1){
+							if(attribute1[l].id==attribute1_item){
+								if(attribute1[l].id==lesson_attribute1){
+									chtml_attribute1 += '<option value="' + attribute1[l].id + '" selected>' + attribute1[l].name + '</option>';
+								}else{
+									chtml_attribute1 += '<option value="' + attribute1[l].id + '">' + attribute1[l].name + '</option>';
+								}
+							}
+						}
+						
+					}
+					$("#attribute1").html(chtml_attribute1);
+
+					//课程属性2
+					for(var m in category[i].attribute2){
+						var attribute2_item = category[i].attribute2[m];
+						for(var n in attribute2){
+							if(attribute2[n].id==attribute2_item){
+								if(attribute2[n].id==lesson_attribute2){
+									chtml_attribute2 += '<option value="' + attribute2[n].id + '" selected>' + attribute2[n].name + '</option>';
+								}else{
+									chtml_attribute2 += '<option value="' + attribute2[n].id + '">' + attribute2[n].name + '</option>';
+								}
+							}
+						}
+					}
+					$("#attribute2").html(chtml_attribute2);
+				}
+			}
+		}else{
+			$("#category_child").html(chtml);
+		}
+	}
+
+	//选择二级分类
+	function renderChildCategory(id){
+		var chtml_attribute1 = chtml_attribute2 = '<option value="0">请选择</option>';
+		var select_pid = $("#category_parent").val();
+		
+		if(id>0){
+			for(var i in category){
+				if(category[i].id==select_pid){
+					var child = category[i].child;
+					for(var j in child){
+						if(child[j].id==id){
+							
+
+							//课程属性1
+							for(var k in child[j].attribute1){
+								var attribute1_item = child[j].attribute1[k];
+								for(var l in attribute1){
+									if(attribute1[l].id==attribute1_item){
+										if(attribute1[l].id==lesson_attribute1){
+											chtml_attribute1 += '<option value="' + attribute1[l].id + '" selected>' + attribute1[l].name + '</option>';
+										}else{
+											chtml_attribute1 += '<option value="' + attribute1[l].id + '">' + attribute1[l].name + '</option>';
+										}
+									}
+								}
+								
+							}
+							$("#attribute1").html(chtml_attribute1);
+
+							//课程属性2
+							for(var m in child[j].attribute2){
+								var attribute2_item = child[j].attribute2[m];
+								for(var n in attribute2){
+									if(attribute2[n].id==attribute2_item){
+										if(attribute2[n].id==lesson_attribute2){
+											chtml_attribute2 += '<option value="' + attribute2[n].id + '" selected>' + attribute2[n].name + '</option>';
+										}else{
+											chtml_attribute2 += '<option value="' + attribute2[n].id + '">' + attribute2[n].name + '</option>';
+										}
+									}
+								}
+								
+							}
+							$("#attribute2").html(chtml_attribute2);
+						}
+					}
+				}
+			}
+		}
+		
+	}
+/* 课程分类检索 END */
+
+/* 添加课程 START */
+	$(".import-lesson-btn").click(function(){
+		if ($('.file-upload').css("display") == "none") {
+			$('.file-upload').fadeIn(200);
+			return false;
+		}
+	})
+	$(".upload-lesson-btn").click(function(){
+		document.getElementById("lessonFile").click();
+	})
+	function changeLessonFile(){
+		$("#loadingToast").show();
+		document.getElementById("uploadLessonForm").submit();
+	}
+/* 添加课程 END */
+
+/* 批量设置 START */
+	$(".batch-setting").click(function(){
+		if ($('.batch-setting-ul').css("display") == "none") {
+			$('.batch-setting-ul').fadeIn(200);
+			return false;
+		}
+	})
+/* 批量设置 END */
+
+/* 关闭下拉菜单 START */
+	$("body").click(function(){
+		if ($('.file-upload').css("display") == "block") {
+			$('.file-upload').fadeOut(100);
+		}
+		if ($('.batch-setting-ul').css("display") == "block") {
+			$('.batch-setting-ul').fadeOut(100);
+		}
+	});
+/* 关闭下拉菜单 END */
+
+/* 批量上下架课程 START */
+	var ids = document.getElementsByName("ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	function checkStatus(){
+		var checkids = "";
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			util.message('未选中任何课程', '', 'error');
+			return false;
+		}else{
+			return checkids;
+		}
+	}
+
+	var lessonids = '';
+	$("#online,#offline").click(function(){
+		lessonids = checkStatus();
+		var request_type = $(this).data('type');
+		if(request_type=='online'){
+			var confirm_msg = '确认批量上架?';
+		}else if(request_type=='offline'){
+			var confirm_msg = '确认批量下架?';
+		}
+
+		if(lessonids && confirm(confirm_msg)){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('lesson',array('op'=>'batchSetting'));}",
+				data: {lessonids:lessonids, type:request_type},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						},1500);
+					}else{
+						util.message(res.msg, '', 'error');
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+/* 批量上下架课程 END */
+
+/* 批量设置VIP免费学习等级 START */
+	$("#setVIP").click(function(){
+		lessonids = checkStatus();
+		if(lessonids){
+			$('#vipStudyModal').modal();
+		}
+	});
+
+	var selectVipAll = false;
+	var vipChecks = document.getElementsByName("vipview[]");
+	$("#selAllVip").click(function(){
+		selectVipAll = !selectVipAll;
+		for(var i=0; i<vipChecks.length; i++){
+			vipChecks[i].checked = selectVipAll;
+		}
+	});
+
+	$("#btn-setvip").click(function(){
+		var vipview = document.getElementsByName("vipview[]");
+		var vips = "";
+		for(var i=0; i<vipview.length; i++){
+			if(vipview[i].checked){
+				vips += (vips === '' ? vipview[i].value : ',' + vipview[i].value);
+			}
+		}
+		
+		if(vips==''){
+			util.message('未选中任何VIP等级', '', 'error');
+			return false;
+		}else{
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('lesson',array('op'=>'batchSetting','type'=>'setVIP'));}",
+				data: {lessonids:lessonids,vips:vips},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						},1500);
+					}else{
+						util.message(res.msg, '', 'error');
+						return false;
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+/* 批量设置VIP免费学习等级 END */
+
+/* 批量设置拖拽播放 START */
+	$("#dragPlay").click(function(){
+		lessonids = checkStatus();
+		if(lessonids){
+			$('#dragPlayModal').modal();
+		}
+	});
+
+	$("#btn-dragplay").click(function(){
+		lessonids = checkStatus();
+
+		var drag_play = $("input[name=drag_play]:checked").val();
+		if(!drag_play){
+			util.message('请选择批量设置项', '', 'error');
+			return false;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "{php echo $this->createWebUrl('lesson',array('op'=>'batchSetting','type'=>'dragPlay'));}",
+			data: {lessonids:lessonids,drag_play:drag_play},
+			dataType:"json",
+			success: function(res){
+				if(res.code===0){
+					util.message(res.msg, '', 'success');
+					setTimeout(function(){
+						location.reload();
+					},1500);
+				}else{
+					util.message(res.msg, '', 'error');
+					return false;
+				}
+			},
+			error: function(error){
+				util.message('网络请求超时，请稍后重试', '', 'error');
+			}
+		});
+	});
+/* 批量设置拖拽播放 END */
+
+/* 批量设置课程分类 START */
+	$("#setCategory").click(function(){
+		lessonids = checkStatus();
+		if(lessonids){
+			$('#categoryModal').modal();
+		}
+	});
+
+	$("#btn-setcategory").click(function(){
+		lessonids = checkStatus();
+		var batch_pid = $("#batchPid").val();
+		var batch_cid = $("#batchCid").val();
+
+		if(!batch_pid){
+			util.message('请选择课程分类', '', 'error');
+			return false;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "{php echo $this->createWebUrl('lesson',array('op'=>'batchSetting','type'=>'category'));}",
+			data: {lessonids:lessonids,batch_pid:batch_pid,batch_cid:batch_cid},
+			dataType:"json",
+			success: function(res){
+				if(res.code===0){
+					util.message(res.msg, '', 'success');
+					setTimeout(function(){
+						location.reload();
+					},1500);
+				}else{
+					util.message(res.msg, '', 'error');
+					return false;
+				}
+			},
+			error: function(error){
+				util.message('网络请求超时，请稍后重试', '', 'error');
+			}
+		});
+	});
+/* 批量设置课程分类 END */
+
+/* 批量删除课程 START */
+	$("#delAll").click(function(){
+		lessonids = checkStatus();
+
+		if(lessonids && confirm('该操作不可恢复，确认删除?')){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('lesson',array('op'=>'batchSetting','type'=>'delete'));}",
+				data: {lessonids:lessonids},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						},1500);
+					}else{
+						util.message(res.msg, '', 'error');
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+/* 批量删除课程 END */
+	
+</script>

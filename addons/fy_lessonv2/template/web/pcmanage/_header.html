@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage');}">PC端基本设置</a>
+	</li>
+	<li {if $op=='about'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage', array('op'=>'about'));}">关于我们</a>
+	</li>
+	<li {if $op=='navigation' || $op=='addNav'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage', array('op'=>'navigation'));}">导航栏管理</a>
+	</li>
+</ul>

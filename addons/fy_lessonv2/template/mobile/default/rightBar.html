@@ -1,0 +1,28 @@
+<?php if($lesson['lesson_type']!=3){ ?>
+	
+	<div class="btn_mark">
+		<div class="btn_home">
+			<i class="mt15 fa">{php echo $common['index_page']['right_menu'] ? $common['index_page']['right_menu'] : '菜单';}</i>
+		</div>
+		<div class="btn_mark_bg"></div>
+		{loop $right_menu $key $item}
+		<a class="btn_menu {if $key==0}btn_index{elseif $key==1}btn_spread{elseif $key==2}btn_course{elseif $key==3}btn_my{/if}" href="{$item['url_link']}"><img src="{$_W['attachurl']}{$item['unselected_icon']}" width="24" class="mt9"></a>
+		{/loop}
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$(".weui_tabbar a").click(function() {
+				$(this).addClass("weui_bar_item_on").siblings().removeClass("weui_bar_item_on");
+			});
+			$(".btn_home").click(function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				$(this).parent().toggleClass("active");
+			});
+			$(".btn_mark").click(function(e) {
+				$(this).toggleClass("active");
+			});
+		})
+	</script>
+
+<?php } ?>

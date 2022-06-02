@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="author" content="" />
+		<link rel="stylesheet" type="text/css" href="alert.css"/>
+		
+		<script type="text/javascript" src="../jsv2/jquery.min.js"></script>
+		<script type="text/javascript" src="alert.js" ></script>
+		
+		<title>弹窗公共部分样式</title>
+	</head>
+	<body>
+		<button class="open-window">游客不能访问</button>
+		<button class="open-window-simulate">提交回复</button>
+		<button class="open-window-title">网络异常下单失败</button>
+		<button class="open-window-2btn">模拟账户输入交易密码</button>
+		<button class="open-window-please-top-up">资金不足请充值</button>
+		<button class="open-window-close-out-fail">平仓失败</button>
+		<button class="open-window-set-orders">修改挂单提示</button>
+		<button class="open-window-set-orders-fail">修改挂单失败提示</button>
+		<button class="open-window-set-indent-fail">修改订单失败</button>
+		<button class="open-window-loading">页面加载中...</button>
+		<script type="text/javascript">
+			//游客不能登录提示框，执行此代码
+			var setTitle = '';
+			var setContents = '';
+			var setButton = '';
+			$('.open-window').on('click',function(){
+				
+				setTitle = '提示';
+				setContents = '您好，游客不能访问，请登录后访问';
+				setButton = '["取消","确定"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//网络异常下单失败提示，执行此代码
+			$('.open-window-title').on('click',function(){
+				setTitle = '提示';
+				setContents = '网络异常提交失败，请稍后再试';
+				setButton = '["确定"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//模拟账户输入交易密码，或者开立真实账户提示，执行此代码
+			$('.open-window-2btn').on('click',function(){
+				setTitle = '提示';
+				setContents = '为了确保您的模拟账户的资金安全请输入您的交易密码<input type="password" class="jy-password" />';
+				setButton = '["真实账户","确定"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//模拟账号未开户提示，执行此代码
+			$('.open-window-simulate').on('click',function(){
+				setContents = '模拟账号未开户，请点击一键开户';
+				setButton = '["取消","一键开户"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//资金不足请充值，执行此代码
+			$('.open-window-please-top-up').on('click',function(){
+				
+				//设置按钮个数和链接
+				setContents = '资金不足，请及时充值';
+				setButton = '["取消","删除"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//网络异常平仓失败，请稍后再试，执行此代码
+				
+			$('.open-window-close-out-fail').on('click',function(){
+				setTitle = '提示';
+				setContents = '网络异常平仓失败，请稍后再试';
+				setButton = '["确认"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//修改挂单提示执行此代码
+			$('.open-window-set-orders').on('click',function(){
+				setTitle = '提示';
+				setContents = '订单：#5725799 GOLD，buy limit at 1187.00';
+				setButton = '["取消","删除"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//修改挂单失败执行此代码
+			$('.open-window-set-orders-fail').on('click',function(){
+				setTitle = '提示';
+				setContents = '网络异常修改失败，请稍后再试';
+				setButton = '["确认"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//修改订单失败执行此代码
+			$('.open-window-set-indent-fail').on('click',function(){
+				
+				setTitle = '提示';
+				setContents = '网络异常修改失败，请稍后再试';
+				setButton = '["确认"]';
+				$(this).openWindow(setTitle,setContents,setButton);
+			});
+			//加载中蒙版
+			$('.open-window-loading').on('click',function(){
+				$('.loading').show();
+			});
+		</script>
+		<div class="loading">
+			<img src="images/loading.gif" />
+		</div>
+	</body>
+</html>

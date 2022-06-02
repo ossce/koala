@@ -1,0 +1,38 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson');}">课程列表</a></li>
+	
+	{if $op=='postlesson'}
+	<li {if $op=='postlesson'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson','id'=>$_GPC['pid']));}">{if $_GPC['id']>0}编辑{else}添加{/if}课程</a></li>
+	{/if}
+
+	<li {if $op=='auditsection'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'auditsection'));}">待审核章节</a></li>
+
+	{if $op=='postsection'}
+	<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postsection','pid'=>$_GPC['pid'],'id'=>$_GPC['id']));}">{if $_GPC['id']>0}编辑{else}添加{/if}章节</a></li>
+	{/if}
+
+	{if $op=='viewsection'}
+	<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'viewsection', 'pid'=>$_GPC['pid']));}">章节列表</a></li>
+	{/if}
+
+	{if $op=='sectionTitle' || $op=='postSectionTitle'}
+	<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'sectionTitle', 'pid'=>$_GPC['pid']));}">课程目录</a></li>
+	{/if}
+
+	{if $op=='document' || $op=='postDocument'}
+	<li class="active"><a href="">课件资料</a></li>
+	{/if}
+
+	{if $op=='previewVideo'}
+	<li class="active"><a href="javascript:;">预览章节</a></li>
+	{/if}
+
+	<li {if $op=='attribute'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'attribute'));}">课程属性</a></li>
+	<li {if $op=='qrcodeList' || $op=='editQrcode'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'qrcodeList'));}">课程海报</a></li>
+	<li {if $op=='inform' || $op=='informStudent'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'inform'));}">开课提醒</a></li>
+	<li {if $op=='updomain'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson', array('op'=>'updomain'));}">更新音视频域名</a></li>
+</ul>
+
+{template 'web/_loadingToast'}

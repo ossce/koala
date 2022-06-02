@@ -1,0 +1,54 @@
+<script type="text/template" id="tpl_block_notice">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div class="block_content flex" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+			<div class="shop-news">
+				<img src="<%= style.icon_image %>" />
+			</div>
+			<div class="flex-box h-45">
+				<div class="news-line">
+					<ul style="margin-top:0px;">
+					<% _.each(data, function(item) { %>
+						<li>
+							<a href="javascript:;"><em style="<% if(!item.em_title){ %>padding:0;<% } %>color:<%= item.em_color %>;"><%= item.em_title %></em><%= item.title %></a>
+						</li>
+					<% }); %>
+					</ul>
+               </div>
+           </div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_notice_item">
+    <div class="notice-item ep-item">
+        <div class="notice-sort-icon">
+            <i class="fa fa-arrows"></i>
+        </div>
+        <div class="notice-params">
+            <div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">公告标题</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].title %>" data-type="data" data-key="title" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                <input type="color" class="form-control input-sm input_color input_binding" value="<%= data[0].color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+					<i class="fa fa-remove"></i>
+                </span>
+            </div>
+			<div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">公告标识</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].em_title %>" data-type="data" data-key="em_title" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                <input type="color" class="form-control input-sm input_color input_binding" value="<%= data[0].em_color %>" data-type="data" data-key="em_color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FF1010').trigger('change')">
+					<i class="fa fa-remove"></i>
+                </span>
+            </div>
+            <div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">公告链接</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="跳转链接以http://或https://开头"/>
+                <span class="input-group-addon hide"></span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+    </div>
+</script>

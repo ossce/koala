@@ -1,0 +1,435 @@
+<style type="text/css">
+.w100{min-width:100px;}
+.w110{min-width:110px;}
+.w130{min-width:130px;}
+.input-group .form-control{color:#454545 !important;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+            <div class="panel-heading">手机端页面文字</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">首页</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">搜索框</span>
+							<input type="text" name="index_page[searchBox]" value="{$index_page['searchBox']}" class="form-control" />
+							<span class="input-group-addon w100">名师风采</span>
+							<input type="text" name="index_page[teacher]" value="{$index_page['teacher']}" class="form-control" />
+							<span class="input-group-addon w100">最新更新</span>
+							<input type="text" name="index_page[newLesson]" value="{$index_page['newLesson']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">悬浮"菜单"</span>
+							<input type="text" name="index_page[right_menu]" value="{$index_page['right_menu']}" class="form-control" placeholder="手机端右侧的悬浮菜单"/>
+							<span class="input-group-addon w100">关注提示语</span>
+							<input type="text" name="follow_word" value="{$setting['follow_word']}" class="form-control" />
+							<span class="input-group-addon w100">立即查看</span>
+							<input type="text" name="index_page[lookBtn]" value="{$index_page['lookBtn']}" class="form-control" placeholder="引导关注右侧“立即查看”"/>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">x人已学习</span>
+							<input type="text" name="index_page[videoLessonNum]" value="{$index_page['videoLessonNum']}" class="form-control" placeholder="普通课程使用"/>
+							<span class="input-group-addon w100">x人已学习</span>
+							<input type="text" name="index_page[appointLessonNum]" value="{$index_page['appointLessonNum']}" class="form-control" placeholder="报名课程使用"/>
+							<span class="input-group-addon w100">x人已学习</span>
+							<input type="text" name="index_page[liveLessonNum]" value="{$index_page['liveLessonNum']}" class="form-control" placeholder="直播课程使用"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">课程页面</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w110">详情</span>
+							<input type="text" name="lesson_page[details]" value="{$lesson_page['details']}" class="form-control" />
+							<span class="input-group-addon w110">目录</span>
+							<input type="text" name="lesson_page[directory]" value="{$lesson_page['directory']}" class="form-control" />
+							<span class="input-group-addon w110">测验</span>
+							<input type="text" name="lesson_page[test]" value="{$lesson_page['test']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">课件</span>
+							<input type="text" name="lesson_page[document]" value="{$lesson_page['document']}" class="form-control" />
+							<span class="input-group-addon w110">互动</span>
+							<input type="text" name="lesson_page[chatroom]" value="{$lesson_page['chatroom']}" class="form-control" />
+							<span class="input-group-addon w110">评价</span>
+							<input type="text" name="lesson_page[evaluate]" value="{$lesson_page['evaluate']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">课程介绍</span>
+							<input type="text" name="lesson_page[lessonIntroduce]" value="{$lesson_page['lessonIntroduce']}" class="form-control" />
+							<span class="input-group-addon w110">讲师介绍</span>
+							<input type="text" name="lesson_page[teacherIntroduce]" value="{$lesson_page['teacherIntroduce']}" class="form-control" />
+							<span class="input-group-addon w110">X个课程</span>
+							<input type="text" name="lesson_page[lessonNum]" value="{$lesson_page['lessonNum']}" class="form-control" placeholder="讲师头像旁:总共x个课程" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">章节介绍</span>
+							<input type="text" name="lesson_page[sectionIntroduce]" value="{$lesson_page['sectionIntroduce']}" class="form-control" />
+							<span class="input-group-addon w110">课时</span>
+							<input type="text" name="lesson_page[classHour]" value="{$lesson_page['classHour']}" class="form-control" placeholder="目录列表里:[x课程]" />
+							<span class="input-group-addon w110">赚x元</span>
+							<input type="text" name="lesson_page[shareIncome]" value="{$lesson_page['shareIncome']}" class="form-control" placeholder="付费课程右上角课程海报入口" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">邀请卡</span>
+							<input type="text" name="lesson_page[inviteCard]" value="{$lesson_page['inviteCard']}" class="form-control" placeholder="免费课程右上角课程海报入口" />
+							<span class="input-group-addon w110">学习</span>
+							<input type="text" name="lesson_page[studyFont]" value="{$lesson_page['studyFont']}" class="form-control" placeholder="课程封面图右下角:x人已学习" />
+							<span class="input-group-addon w110">全部课程</span>
+							<input type="text" name="lesson_page[allLesson]" value="{$lesson_page['allLesson']}" class="form-control" placeholder="讲师头像右下方:全部课程" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">试听结束提示</span>
+							<input type="text" name="lesson_page[auditionTip]" value="{$lesson_page['auditionTip']}" class="form-control" />
+							<span class="input-group-addon w110">ios公众号拦截</span>
+							<input type="text" name="lesson_page[iosBuyTip]" value="{$lesson_page['iosBuyTip']}" class="form-control" placeholder="ios公众号购买拦截提示"/>
+							<span class="input-group-addon w110">免费试听</span>
+							<input type="text" name="lesson_page[freeTip]" value="{$lesson_page['freeTip']}" class="form-control" placeholder="试听章节的“免费试听”字体"/>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">点击播放</span>
+							<input type="text" name="lesson_page[playTip]" value="{$lesson_page['playTip']}" class="form-control" placeholder="付费章节的“免费试听”位置字体"/>
+							<span class="input-group-addon w110">未购买提示</span>
+							<input type="text" name="lesson_page[nobuyTip]" value="{$lesson_page['nobuyTip']}" class="form-control" placeholder="提示“请先购买课程再学习”字体"/>
+							<span class="input-group-addon w110">输入访问密码</span>
+							<input type="text" name="lesson_page[visit_password]" value="{$lesson_page['visit_password']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">开始学习提示</span>
+							<input type="text" name="lesson_page[study_tips]" value="{$lesson_page['study_tips']}" class="form-control" placeholder="重复点击开始学习后提示" />
+							<span class="input-group-addon w110">关注标题</span>
+							<input type="text" name="lesson_follow_title" value="{$setting['lesson_follow_title']}" class="form-control" placeholder="强制关注公众号标题"/>
+							<span class="input-group-addon w110">关注描述</span>
+							<input type="text" name="lesson_follow_desc" value="{$setting['lesson_follow_desc']}" class="form-control" placeholder="强制关注公众号描述" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">距离活动结束</span>
+							<input type="text" name="lesson_page[appoint_validity]" value="{$lesson_page['appoint_validity']}" class="form-control" placeholder="距离活动结束仅剩X天提示" />
+							<span class="input-group-addon w110">搜索章节标题</span>
+							<input type="text" name="lesson_page[search_section]" value="{$lesson_page['search_section']}" class="form-control" />
+							<span class="input-group-addon w110">推广收益</span>
+							<input type="text" name="lesson_page[lately_commission]" value="{$lesson_page['lately_commission']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">为您推荐</span>
+							<input type="text" name="lesson_page[like_lesson]" value="{$lesson_page['like_lesson']}" class="form-control" />
+							<span class="input-group-addon w110"></span>
+							<input type="text" class="form-control" />
+							<span class="input-group-addon w110"></span>
+							<input type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">VIP服务</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">推广收益</span>
+							<input type="text" name="vip_page[lately_commission]" value="{$vip_page['lately_commission']}" class="form-control" />
+							<span class="input-group-addon w100">我的VIP</span>
+							<input type="text" name="vip_page[myvip]" value="{$vip_page['myvip']}" class="form-control" />
+							<span class="input-group-addon w100">订单记录</span>
+							<input type="text" name="vip_page[order_record]" value="{$vip_page['order_record']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">VIP服务卡密</span>
+							<input type="text" name="vip_page[vipcard]" value="{$vip_page['vipcard']}" class="form-control" />
+							<span class="input-group-addon w100">等级名称</span>
+							<input type="text" name="vip_page[level_name]" value="{$vip_page['level_name']}" class="form-control" />
+							<span class="input-group-addon w100">购买课程折扣</span>
+							<input type="text" name="vip_page[buy_discount]" value="{$vip_page['buy_discount']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">有效期</span>
+							<input type="text" name="vip_page[vip_validity]" value="{$vip_page['vip_validity']}" class="form-control" />
+							<span class="input-group-addon w100">去学习</span>
+							<input type="text" name="vip_page[go_study]" value="{$vip_page['go_study']}" class="form-control" />
+							<span class="input-group-addon w100">查看免费学...</span>
+							<input type="text" name="vip_page[free_lesson]" value="{$vip_page['free_lesson']}" class="form-control" placeholder="查看免费学习课程" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">申请讲师</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w110">页面标题</span>
+							<input type="text" name="apply_teacher[title]" value="{$apply_teacher['title']}" class="form-control" />
+							<span class="input-group-addon w110">尊敬的...</span>
+							<input type="text" name="apply_teacher[nickname]" value="{$apply_teacher['nickname']}" class="form-control" />
+							<span class="input-group-addon w110">欢迎申请...</span>
+							<input type="text" name="apply_teacher[first]" value="{$apply_teacher['first']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">身份证号</span>
+							<input type="text" name="apply_teacher[idcard]" value="{$apply_teacher['idcard']}" class="form-control" />
+							<span class="input-group-addon w110">手机号码</span>
+							<input type="text" name="apply_teacher[mobile]" value="{$apply_teacher['mobile']}" class="form-control" />
+							<span class="input-group-addon w110">讲师名称</span>
+							<input type="text" name="apply_teacher[teacherName]" value="{$apply_teacher['teacherName']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">讲师QQ</span>
+							<input type="text" name="apply_teacher[teacherQQ]" value="{$apply_teacher['teacherQQ']}" class="form-control" />
+							<span class="input-group-addon w110">QQ群</span>
+							<input type="text" name="apply_teacher[qqGroup]" value="{$apply_teacher['qqGroup']}" class="form-control" />
+							<span class="input-group-addon w110">讲师介绍</span>
+							<input type="text" name="apply_teacher[teacherDesc]" value="{$apply_teacher['teacherDesc']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">上传讲师头像</span>
+							<input type="text" name="apply_teacher[teacherPhoto]" value="{$apply_teacher['teacherPhoto']}" class="form-control" />
+							<span class="input-group-addon w110">微信二维码</span>
+							<input type="text" name="apply_teacher[teacherQrcode]" value="{$apply_teacher['teacherQrcode']}" class="form-control" />
+							<span class="input-group-addon w110">头像和二维...</span>
+							<input type="text" name="apply_teacher[photoDesc]" value="{$apply_teacher['photoDesc']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">讲师特权</span>
+							<input type="text" name="apply_teacher[descTitle]" value="{$apply_teacher['descTitle']}" class="form-control" />
+							<span class="input-group-addon w110">课程收入</span>
+							<input type="text" name="apply_teacher[incomeTitle]" value="{$apply_teacher['incomeTitle']}" class="form-control" />
+							<span class="input-group-addon w110">课程每出售...</span>
+							<input type="text" name="apply_teacher[incomeDesc]" value="{$apply_teacher['incomeDesc']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">自由提现</span>
+							<input type="text" name="apply_teacher[cashTitle]" value="{$apply_teacher['cashTitle']}" class="form-control" />
+							<span class="input-group-addon w110">收入存入帐...</span>
+							<input type="text" name="apply_teacher[cashDesc]" value="{$apply_teacher['cashDesc']}" class="form-control" />
+							<span class="input-group-addon w110"></span>
+							<input type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">讲师主页</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w110">课程数量</span>
+							<input type="text" name="teacher_home[lesson_num]" value="{$teacher_home['lesson_num']}" class="form-control" />
+							<span class="input-group-addon w110">学习人数</span>
+							<input type="text" name="teacher_home[study_num]" value="{$teacher_home['study_num']}" class="form-control" />
+							<span class="input-group-addon w110">关注</span>
+							<input type="text" name="teacher_home[collect]" value="{$teacher_home['collect']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w110">全部课程</span>
+							<input type="text" name="teacher_home[all_lesson]" value="{$teacher_home['all_lesson']}" class="form-control" />
+							<span class="input-group-addon w110">讲师介绍</span>
+							<input type="text" name="teacher_home[teacher_introduce]" value="{$teacher_home['teacher_introduce']}" class="form-control" />
+							<span class="input-group-addon w110"></span>
+							<input type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">讲师中心</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w130">加入时间</span>
+							<input type="text" name="teacher_page[joinTime]" value="{$teacher_page['joinTime']}" class="form-control" />
+							<span class="input-group-addon w130">可提现收入</span>
+							<input type="text" name="teacher_page[cashAmount]" value="{$teacher_page['cashAmount']}" class="form-control" />
+							<span class="input-group-addon w130">累计收入</span>
+							<input type="text" name="teacher_page[countAmount]" value="{$teacher_page['countAmount']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w130">我的课程</span>
+							<input type="text" name="teacher_page[mylesson]" value="{$teacher_page['mylesson']}" class="form-control" />
+							<span class="input-group-addon w130">讲师收入</span>
+							<input type="text" name="teacher_page[incomeLog]" value="{$teacher_page['incomeLog']}" class="form-control" />
+							<span class="input-group-addon w130">讲师收入明细</span>
+							<input type="text" name="teacher_page[incomeLog2]" value="{$teacher_page['incomeLog2']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w130">提现记录</span>
+							<input type="text" name="teacher_page[cashLog]" value="{$teacher_page['cashLog']}" class="form-control" />
+							<span class="input-group-addon w130">我的提现记录</span>
+							<input type="text" name="teacher_page[cashLog2]" value="{$teacher_page['cashLog2']}" class="form-control" />
+							<span class="input-group-addon w130">申请提现</span>
+							<input type="text" name="teacher_page[cash]" value="{$teacher_page['cash']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w130">讲师收入申请提现</span>
+							<input type="text" name="teacher_page[cash2]" value="{$teacher_page['cash2']}" class="form-control" />
+							<span class="input-group-addon w130">帐号管理</span>
+							<input type="text" name="teacher_page[account]" value="{$teacher_page['account']}" class="form-control" />
+							<span class="input-group-addon w130">登陆讲师平台凭证</span>
+							<input type="text" name="teacher_page[account2]" value="{$teacher_page['account2']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w130">讲师提现备注标题</span>
+							<input type="text" name="teacher_page[cash_title]" value="{$teacher_page['cash_title']}" class="form-control"  placeholder="讲师提现到微信备注信息" />
+							<span class="input-group-addon w130"></span>
+							<input type="text" class="form-control" />
+							<span class="input-group-addon w130"></span>
+							<input type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">个人中心</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">学号</span>
+							<input type="text" name="self_page[studentno]" value="{$self_page['studentno']}" class="form-control" />
+							<span class="input-group-addon w100">会员积分</span>
+							<input type="text" name="self_page[credit1]" value="{$self_page['credit1']}" class="form-control" />
+							<span class="input-group-addon w100">会员余额</span>
+							<input type="text" name="self_page[credit2]" value="{$self_page['credit2']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">收藏</span>
+							<input type="text" name="self_page[collect]" value="{$self_page['collect']}" class="form-control" />
+							<span class="input-group-addon w100">学习记录</span>
+							<input type="text" name="self_page[history]" value="{$self_page['history']}" class="form-control" />
+							<span class="input-group-addon w100">VIP服务</span>
+							<input type="text" name="self_page[vip]" value="{$self_page['vip']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">课程订单</span>
+							<input type="text" name="self_page[myorder]" value="{$self_page['myorder']}" class="form-control" />
+							<span class="input-group-addon w100">我的考试</span>
+							<input type="text" name="self_page[myexamine]" value="{$self_page['myexamine']}" class="form-control" />
+							<span class="input-group-addon w100">讲师服务</span>
+							<input type="text" name="self_page[myteacher]" value="{$self_page['myteacher']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">课程邀请</span>
+							<input type="text" name="self_page[reclesson]" value="{$self_page['reclesson']}" class="form-control" />
+							<span class="input-group-addon w100">讲师中心</span>
+							<input type="text" name="self_page[teacherCenter]" value="{$self_page['teacherCenter']}" class="form-control" />
+							<span class="input-group-addon w100">兑换课程</span>
+							<input type="text" name="self_page[lessonCard]" value="{$self_page['lessonCard']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">学习时长</span>
+							<input type="text" name="self_page[studyDuration]" value="{$self_page['studyDuration']}" class="form-control" />
+							<span class="input-group-addon w100">优惠券</span>
+							<input type="text" name="self_page[coupon]" value="{$self_page['coupon']}" class="form-control" />
+							<span class="input-group-addon w100">投诉建议</span>
+							<input type="text" name="self_page[suggest]" value="{$self_page['suggest']}" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">课程评价</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">总体评价</span>
+							<input type="text" name="evaluate_page[grade]" value="{$evaluate_page['grade']}" class="form-control" />
+							<span class="input-group-addon w100">综合评分</span>
+							<input type="text" name="evaluate_page[global_score]" value="{$evaluate_page['global_score']}" class="form-control" />
+							<span class="input-group-addon w100">内容实用</span>
+							<input type="text" name="evaluate_page[content_score]" value="{$evaluate_page['content_score']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">通俗易懂</span>
+							<input type="text" name="evaluate_page[understand_score]" value="{$evaluate_page['understand_score']}" class="form-control" />
+							<span class="input-group-addon w100">默认好评语</span>
+							<input type="text" name="evaluate_page[default_good]" value="{$evaluate_page['default_good']}" class="form-control" />
+							<span class="input-group-addon w100"></span>
+							<input type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">页面标题</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">全部课程</span>
+							<input type="text" name="page_title[search]" value="{$page_title['search']}" class="form-control" />
+							<span class="input-group-addon w100">VIP服务</span>
+							<input type="text" name="page_title[vip]" value="{$page_title['vip']}" class="form-control" />
+							<span class="input-group-addon w100">课程订单</span>
+							<input type="text" name="page_title[mylesson]" value="{$page_title['mylesson']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">讲师列表</span>
+							<input type="text" name="page_title[teacherlist]" value="{$page_title['teacherlist']}" class="form-control" />
+							<span class="input-group-addon w100">全部公告</span>
+							<input type="text" name="page_title[article]" value="{$page_title['article']}" class="form-control" />
+							<span class="input-group-addon w100">收藏课程</span>
+							<input type="text" name="page_title[collectLesson]" value="{$page_title['collectLesson']}" class="form-control" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">关注讲师</span>
+							<input type="text" name="page_title[collectTeacher]" value="{$page_title['collectTeacher']}" class="form-control" />
+							<span class="input-group-addon w100">VIP卡密开通</span>
+							<input type="text" name="page_title[vipcard]" value="{$page_title['vipcard']}" class="form-control" placeholder="VIP卡密开通服务"/>
+							<span class="input-group-addon w100">投诉建议</span>
+							<input type="text" name="page_title[suggest]" value="{$page_title['suggest']}" class="form-control" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">引导关注页面</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">顶部标题</span>
+							<input type="text" name="follow_page[title]" value="{$follow_page['title']}" class="form-control" placeholder="公众号二维码" />
+							<span class="input-group-addon w100">第一标题</span>
+							<input type="text" name="follow_page[first_title]" value="{$follow_page['first_title']}" class="form-control" placeholder="您可关注公众号方便下次学习" />
+							<span class="input-group-addon w100">第二标题</span>
+							<input type="text" name="follow_page[second_title]" value="{$follow_page['second_title']}" class="form-control" placeholder="学习海量课程，尽在微课堂" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">公众号提示</span>
+							<input type="text" name="follow_page[app_tip]" value="{$follow_page['app_tip']}" class="form-control" placeholder="长按识别关注公众号，方便下次进入学习" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon w100">小程序提示</span>
+							<input type="text" name="follow_page[wxapp_tip]" value="{$follow_page['wxapp_tip']}" class="form-control" placeholder="小程序不支持长按识别二维码，您可长按二维码发送给好友，返回微信对话框里长按识别二维码哦" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">其他文字</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">用户停止访问</span>
+							<input type="text" name="other_page[stop_visit]" value="{$other_page['stop_visit']}" class="form-control" placeholder="当前用户已被停止访问" />
+							<span class="input-group-addon w100">用户停止下单</span>
+							<input type="text" name="other_page[stop_order]" value="{$other_page['stop_order']}" class="form-control" placeholder="当前用户已被停止下单" />
+							<span class="input-group-addon w100">邀请你加入...</span>
+							<input type="text" name="other_page[invite_join]" value="{$other_page['invite_join']}" class="form-control" placeholder="邀请你加入用户粉丝群" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">投诉建议页面</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon w100">投诉类型</span>
+							<input type="text" name="suggest_page[type]" value="{$suggest_page['type']}" class="form-control" />
+							<span class="input-group-addon w100">投诉内容</span>
+							<input type="text" name="suggest_page[content]" value="{$suggest_page['content']}" class="form-control" />
+							<span class="input-group-addon w100">投诉内容提示</span>
+							<input type="text" name="suggest_page[content_tips]" value="{$suggest_page['content_tips']}" class="form-control" placeholder="请填写您的投诉内容，最多1000个字符" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+            <input type="hidden" name="id" value="{$comsetting['id']}" />
+            <input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+	</form>
+</div>

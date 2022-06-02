@@ -1,0 +1,275 @@
+<style type="text/css">
+.mobile_url{
+	width: 650px;
+    display: inline-block;
+    vertical-align: -3px;
+    margin-left: 10px;
+}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">基本设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页网址</label>
+					<div class="col-sm-9">
+						<input type="text" value="{php echo $setting_pc['site_root'] ? $setting_pc['site_root'] : $_W['siteroot']}{$uniacid}/" class="form-control" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="sitename" value="{$setting_pc['sitename']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">PC端模版</label>
+					<div class="col-sm-9">
+						<select name="template" class="form-control">
+							{loop $template_arr $name $value}
+							<option value="{$value}" {if $setting_pc['template']==$value}selected{/if}>{$name}</option>
+							{/loop}
+						</select>
+						<span class="help-block">默认模版为系统自带，自定义模版供用户自行二次开发使用</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">PC端首页</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">顶部logo</span>
+							{php echo tpl_form_field_image('logo', $setting_pc['logo']);}
+
+							<span class="input-group-addon">底部logo</span>
+							{php echo tpl_form_field_image('bottom_logo', $setting_pc['bottom_logo']);}
+
+							<span class="input-group-addon">手机端二维码</span>
+							{php echo tpl_form_field_image('mobile_qrcode', $setting_pc['mobile_qrcode']);}
+
+							<span class="input-group-addon">favorite icon</span>
+							{php echo tpl_form_field_image('favicon_icon', $setting_pc['favicon_icon']);}
+						</div>
+						<span class="help-block">网站logo建议尺寸240 * 70px，png格式；手机端二维码建议尺寸200 * 200px；favicon icon建议尺寸16*16px，是指显示在浏览器地址导航条的图标</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付方式</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="payment[credit][pay_switch]" value="1" {if $pc_payment['credit']['pay_switch']}checked{/if}>
+							<span class="label-middle">余额支付</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="payment[alipay][pay_switch]" value="1" {if $pc_payment['alipay']['pay_switch']}checked{/if}>
+							<span class="label-middle">支付宝</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="payment[wechat][pay_switch]" value="1" {if $pc_payment['wechat']['pay_switch']}checked{/if}>
+							<span class="label-middle">微信支付</span>
+						</label>
+						<span class="help-block">
+							开启对应支付方式后，PC端支付时将显示对应的支付入口，微信或支付宝支付参数需在框架里设置。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">常用设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="video_watermark" value="1" {if $setting_pc['video_watermark']}checked{/if}>
+							<span class="label-middle">开启视频移动水印</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="teacher_contact" value="1" {if $setting_pc['teacher_contact']}checked{/if}>
+							<span class="label-middle">开启讲师联系方式</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="login_register[reset_password]" value="1" {if $login_register['reset_password']}checked{/if}>
+							<span class="label-middle">开启扫码设置密码</span>
+						</label>
+						<span class="help-block">
+							1、开启视频移动水印，播放视频将出现用户的uid、手机号码和昵称信息，仅支持阿里云点播和对象存储方式的视频；<br/>
+							2、开启讲师联系方式，课程详情页右侧将显示讲师单独的联系方式；<br/>
+							3、开启扫码设置密码，pc端登录界面将显示忘记密码按钮，微信扫码后可设置帐号登录密码；
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">域名设置</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">PC端独立域名</span>
+							<input type="text" name="site_root" value="{$setting_pc['site_root']}" class="form-control" placeholder="请以http://或https://开头，以“/”结尾">
+							<span class="input-group-addon">公众号端域名</span>
+							<input type="text" name="mobile_site_root" value="{$setting_pc['mobile_site_root']}" class="form-control" placeholder="请以http://或https://开头，以“/”结尾">
+						</div>
+						<span class="help-block">
+							1、【增值服务功能】PC端独立域名需要单独创建站点绑定域名做解析和伪静态才可以使用，没有配置独立域名请不要填写，否则会导致站点出错。<br/>
+							2、如设置了PC端独立域名后，请设置公众号端域名，即微信公众号平台的网页授权登陆域名。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">PC端跳转手机端</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="jump_setting[switch]" value="0" onclick="jumpSetting(this.value)" {if !$jump_setting['switch']}checked{/if}> 关闭</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="jump_setting[switch]" value="1" onclick="jumpSetting(this.value)" {if $jump_setting['switch']}checked{/if}> 开启</label>
+						<input type="text" name="jump_setting[url]" value="{$jump_setting['url']}" class="form-control mobile_url" placeholder="微课堂手机端首页网址" {if !$jump_setting['switch']}style="display:none;"{/if}/>
+						<span class="help-block">用户使用手机端访问PC版时，自动跳转的网址，请填写公众号版的微课堂首页网址</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">热门搜索词</label>
+					<div class="col-sm-9">
+						<textarea name="hot_search" class="form-control" rows="2">{$setting_pc['hot_search']}</textarea>
+						<span class="help-block">多个关键词之间请用顿号（、）隔开</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站信息</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">电 话 号 码</span>
+							<input type="text" name="company_info[tel]" value="{$company_info['tel']}" class="form-control">
+							<span class="input-group-addon">邮 箱 地 址</span>
+							<input type="text" name="company_info[email]" value="{$company_info['email']}" class="form-control">
+							<span class="input-group-addon">公 司 地 址</span>
+							<input type="text" name="company_info[address]" value="{$company_info['address']}" class="form-control">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">ICP 备案号</span>
+							<input type="text" name="site_icp" value="{$setting_pc['site_icp']}" class="form-control" />
+							<span class="input-group-addon">联网备案号</span>
+							<input type="text" name="site_network" value="{$setting_pc['site_network']}" class="form-control">
+							<span class="input-group-addon">文网文编号</span>
+							<input type="text" name="site_culture" value="{$setting_pc['site_culture']}" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站关键词</label>
+					<div class="col-sm-9">
+						<textarea name="keywords" class="form-control" rows="2">{$setting_pc['keywords']}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站描述</label>
+					<div class="col-sm-9">
+						<textarea name="description" class="form-control" rows="3">{$setting_pc['description']}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微讲师链接</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">菜单名称</span>
+							<input type="text" name="teacher_platform[name]" value="{$teacher_platform['name']}" class="form-control">
+							<span class="input-group-addon">菜单链接</span>
+							<input type="text" name="teacher_platform[url]" value="{$teacher_platform['url']}" class="form-control" placeholder="链接以http://或https://开头">
+						</div>
+						<span class="help-block">如果您已购买微讲师插件，可填写微讲师链接，将在PC端的“个人中心~讲师中心”下显示出来</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索框右侧图片</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">链接</span>
+							<input type="text" name="service_right_url" value="{$setting_pc['service_right_url']}" class="form-control">
+							<span class="input-group-addon">图片</span>
+							{php echo tpl_form_field_image('service_right_pic', $setting_pc['service_right_pic']);}
+						</div>
+						<span class="help-block">图片建议尺寸200px * 70px，链接以http://或https://</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">最新通知</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="new_notice[font]" value="{$new_notice['font']}" class="form-control">
+							<span class="input-group-addon">显示数量</span>
+							<input type="text" name="new_notice[number]" value="{$new_notice['number']}" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="推荐显示4条">
+							<span class="input-group-addon">图标</span>
+							{php echo tpl_form_field_image('new_notice[icon]', $new_notice['icon']);}
+						</div>
+						<span class="help-block">图标建议尺寸50px * 50px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">名师风采</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="rec_teacher[font]" value="{$rec_teacher['font']}" class="form-control">
+							<span class="input-group-addon">显示数量</span>
+							<input type="text" name="rec_teacher[number]" value="{$rec_teacher['number']}" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="推荐显示3条">
+							<span class="input-group-addon">图标</span>
+							{php echo tpl_form_field_image('rec_teacher[icon]', $rec_teacher['icon']);}
+						</div>
+						<span class="help-block">图标建议尺寸50px * 50px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">最新更新课程</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="new_lesson[font]" value="{$new_lesson['font']}" class="form-control">
+							<span class="input-group-addon">显示数量</span>
+							<input type="text" name="new_lesson[number]" value="{$new_lesson['number']}" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="推荐显示4条">
+							<span class="input-group-addon">图标</span>
+							{php echo tpl_form_field_image('new_lesson[icon]', $new_lesson['icon']);}
+						</div>
+						<span class="help-block">显示课程数量为0表示关闭该版本，图标建议尺寸50px * 50px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">友情链接</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="friendly_link[font]" value="{$friendly_link['font']}" class="form-control">
+							<span class="input-group-addon">显示数量</span>
+							<input type="text" name="friendly_link[number]" value="{$friendly_link['number']}" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">登录页面背景图</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('login_register[login_bg]', $login_register['login_bg']);}
+						<span class="help-block">图片建议尺寸1920px * 1080px</span>
+					</div>
+				</div>
+				{if $_W['isfounder']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">重置版本号</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<a href="{php echo $this->createWebUrl('setting',array('op'=>'resetver'));}" class="btn btn-danger">重置版本号</a>
+						</div>
+						<span class="help-block">当因网络等原因升级不完整时，您可以尝试重置版本号。重置版本号不改变文件，重置版本号后请先更新缓存，再到应用管理里再次升级。</span>
+					</div>
+                </div>
+				{/if}
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function jumpSetting(obj){
+		if(obj==1){
+			$(".mobile_url").show();
+		}else{
+			$(".mobile_url").hide();
+		}
+	}
+</script>

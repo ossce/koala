@@ -1,0 +1,2 @@
+<?php
+ goto tpaq2; Dsqzt: include_once "\x63\x6f\155\x6d\x69\x73\163\x69\157\156\x2f\144\x69\x73\x70\154\x61\171\56\160\150\160"; goto Uc9fw; Uc9fw: XYpWY: goto zi_Q_; tpaq2: $pindex = max(1, intval($_GPC["\x70\x61\147\x65"])); goto aF6yG; sHj0L: if (!($op == "\x64\151\x73\160\x6c\x61\171")) { goto XYpWY; } goto Dsqzt; aF6yG: $psize = 15; goto sHj0L; zi_Q_: include $this->template("\x77\145\142\x2f\143\157\x6d\x6d\x69\x73\163\151\x6f\156");

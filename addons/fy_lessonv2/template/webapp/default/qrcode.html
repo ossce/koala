@@ -1,0 +1,99 @@
+{php include $this->template($template.'/_header')}
+<style type="text/css">
+fieldset{
+	display:none;
+}
+</style>
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="orderListContainer memberContent">
+				<ul class="commonTab flex flex-vc">
+					<li class="items actived"><a class="tabsCard" href="/{$uniacid}/{$qrcode_do}.html">{$title}</a></li>
+				</ul>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请方式一</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="flex flex-v flex1">
+							<dl class="flex items fs-14 m-b-10">
+								<dt>操作方式：</dt>
+								<dd>复制链接发送给好友，邀请好友注册</dd>
+							</dl>
+							<dl class="flex items">
+								<dt class="line-h35 fs-14">邀请链接：</dt>
+								<dd>
+									<input type="text" class="w-330 hg-26" id="reclesson_link" value="{$_W['siteroot']}{$uniacid}/index.html?rec_uid={$uid}" />
+									<a href="javascript:;" id="btn-copy-reclesson_link" class="smBtn btn-primary m-l-10 m-t-3 fs-12">复制链接</a>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请方式二</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="ordersInfo flex flex-v flex1">
+							<dl class="flex items">
+								<dt>操作方式：</dt>
+								<dd>微信扫码，进入页面后长按海报发送给好友</dd>
+							</dl>
+							<dl class="flex items" id="qrcode">
+								
+							</dl>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$('#btn-copy-reclesson_link').click(function(){
+						var content = document.getElementById('reclesson_link');
+						content.select();
+						document.execCommand("Copy");
+						swalalert('系统提示', '复制成功，赶紧发送给好友吧', 'success');
+					})
+
+					jQuery('#qrcode').qrcode({width: 160, height: 160, text: "{$qrcode_wap_url}"});
+				</script>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请方式三</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="ordersInfo flex flex-v flex1">
+							<dl class="flex items">
+								<dt class="line-h28">操作方式：</dt>
+								<dd>复制海报图片发送给好友 <a href="javascript:;" id="cut-style" class="smBtn btn-info m-l-10 fs-12">切换样式</a></dd>
+							</dl>
+							<dl class="flex items">
+								<img src="{$imagepath}" width="400" height="600">
+							</dl>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+$("#cut-style").click(function(){
+	var cut_style_url = "/{$uniacid}/{$_GPC['do']}.html?poster_no={php echo $poster_no+1;}";
+	window.location.href = cut_style_url;
+	$("#loadingToast").show();
+});
+</script>
+
+{php include $this->template($template.'/_footer')}

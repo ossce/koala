@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/bootstrap.min.css?v={$versions}">
+		<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/login.css?v={$versions}">
+		<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/jquery-1.11.3.min.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/jquery.qrcode.min.js"></script>
+		<title>微信扫码登录</title>
+	</head>
+
+	<body class="logobg_style" onunload="goodbye()">
+		<div class="top_box">
+			<div class="wid_con">
+				<div class="top_con">
+					<div class="top_logo">
+						<a href="/{$uniacid}/index.html">
+							<img src="{$_W['attachurl']}{$setting_pc['logo']}">
+						</a>
+					</div>
+					<div class="top_menu">
+						<ul>
+							{loop $top_navigation $item}
+							<li class=""><a href="{$item['url_link']}">{$item['nav_name']}</a></li>
+							{/loop}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="large-header" class="large-header login-page" {if $login_register['register_bg']}style="background-image: url({$_W['attachurl']}{$login_register['register_bg']});"{/if}>
+			<canvas id="demo-canvas" width="1590" height="711"></canvas>
+			<div class="Retrieve_style">
+				<div class="Retrieve-content">
+					<h1 class="title_name">微信扫码登录</h1>
+					<div class="reg-qrcode" id="reg-qrcode">
+					</div>
+					<p class="go-login">
+						<a href="/{$uniacid}/login.html">使用帐号密码登录 &gt;</a>
+					</p>
+				</div> 			
+			</div>
+		</div>
+		<div class="footer">
+			<p>{$setting['copyright']}</p>
+			<p>ICP备案号：<a href="http://beian.miit.gov.cn" target="_blank">{$setting_pc['site_icp']}</a></p>
+		</div>
+		<script src="{MODULE_URL}static/webapp/{$template}/js/login.js?v={$versions}"></script>
+		<script type="text/javascript">
+			jQuery('.reg-qrcode').qrcode({width: 250, height: 250, text: "{$mobile_url}"});
+
+			var countdown = 120;
+			setInterval(function() {
+				if(countdown>0){
+					countdown--;
+				}else{
+					document.getElementById("reg-qrcode").innerHTML = '<img src="{MODULE_URL}static/webapp/default/images/expire_qrcode.png"></img>';
+					window.clearInterval(login_status_int);
+					return;
+				}
+			}, 1000);
+
+			function checkLogin(){
+				var orderid = "{$_GPC['orderid']}";
+				var ordertype = "{$_GPC['ordertype']}";
+				$.ajax({
+					type: "post",
+					url: "/{$uniacid}/login.html?op=checkLogin",
+					dataType: "json",
+					data: {
+						login_token: "{$login_token}",
+						refurl: "{$_GPC['refurl']}",
+					},
+					success:function(res){
+						if(res.code == -1){
+							if(res.message){
+								swal("系统提示", res.message, "error");
+							}
+							return;
+						}else if(res.code == 0){
+							window.location.href = res.refurl;
+							window.clearInterval(login_status_int);
+						}
+					}, 
+					error:function(){   
+					},   
+				});
+			}
+			var login_status_int = self.setInterval(function(){checkLogin()},3000);
+		</script>
+	</body>
+</html>

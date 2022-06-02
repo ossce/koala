@@ -1,0 +1,248 @@
+{php include $this->template($template.'/_header')}
+<style type="text/css">
+.fieldwet-input{
+	font-size: 18px !important;
+}
+</style>
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="memberCoupon flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if !$_GPC['status']}actived{/if}"><a class="tabsCard" href="/{$uniacid}/coupon.html?status=0">未使用</a></li>
+					<li class="items {if $_GPC['status']==1}actived{/if}"><a class="tabsCard" href="/{$uniacid}/coupon.html?status=1">已使用</a></li>
+					<li class="items {if $_GPC['status']==-1}actived{/if}"><a class="tabsCard" href="/{$uniacid}/coupon.html?status=-1">已过期</a></li>
+					<li class="items convert"><a href="javascript:;" id="btn-convert-coupon" class="tabsCard"><i class="iconfont icon-convert-coupon vertical-middle"></i> 优惠码兑换</a></li>
+				</ul>
+				{if $list}
+				<div class="couponList">
+					<ul class="flex flex-vc flex-hw m-t-30">
+						{loop $list $item}
+						<li class="items flex flex-v {if $item['status']==1}used{elseif $item['status']==-1}Invalid{/if}">
+							<div class="topType flex flex-v">
+								<i class="toplit"></i>
+								<i class="middlelit"></i>
+								<div class="couponPrice">
+									<span class="money fs-24">¥{$item['amount']}</span>
+								</div>
+								<div class="limit fs-13">
+									{if $item['conditions']>0}
+										订单金额满{$item['conditions']} 元可用
+									{else}
+										任意订单金额可用
+									{/if}
+								</div>
+								<div class="time fs-13">有效期至 {php echo date('Y-m-d H:i:s', $item['validity']);}</div>
+							</div>
+							<div class="bootomType">
+								<div class="name">获取途径：<span class="ftc-878686">{$source[$item['source']]}</span></div>
+								<div class="tips">使用说明：<span class="ftc-878686">{$item['category_name']}，优惠券领取后即时生效，过期作废，每个订单最多使用1张。</span></div>
+								{if $common['give_coupon'] && $item['status'] == 0}
+									<a href="javaScript:;" class="dsblock name ftc-f76e3d m-t-10 text-c btn-give" data-id="{$item['id']}"><i class="iconfont icon-give fs-14"></i> 转赠好友</a>
+								{else}
+									<div style="height:15px;"></div>
+								{/if}
+								<div class="handle flex flex-vc flex-hc">
+									<a href="{$item['url']}" target="_blank">立即使用</a>
+								</div>
+								<div class="typeB"></div>
+								<div class="typeC"></div>
+								<i class="bottomlit"></i>
+							</div>
+						</li>
+						{/loop}
+					</ul>
+
+					{if $pager}
+					<div class="tfoot clearfix m-t-40">
+						<div class="tfoot-page">
+							<div class="pagination">
+								{$pager}
+							</div>
+						</div>
+					</div>
+					{/if}
+				</div>
+				{else}
+				<div class="empty-search">
+					<div class="block">
+						<i class="orders"></i>
+						<p>没有找到任何优惠券</p>
+					</div>
+				</div>
+			  {/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 优惠券转赠 -->
+<div class="out-model-shadebg give-model-bg"></div>
+<div class="out-model-shade give-model">
+	<span class="btn-close" title="关闭"><i class="iconfont icon-close"></i></span>
+	<table>
+		<caption class="m-b-20">优惠券转赠</caption>
+		<tr>
+			<td width="120"><span class="ft-w-b ftc-e9511b">*</span> 验证方式</td>
+			<td>
+				<label class="radio-inline m-r-15">
+					<input type="radio" name="open_type" class="vertical-minus-2 m-r-6" value="1" checked>{$studen_no}(uid)
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="open_type" class="vertical-minus-2 m-r-6" value="2">手机号码
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="ft-w-b ftc-e9511b">*</span>
+				<span class="open-type-name">{$studen_no}(uid)</span>
+			</td>
+			<td><input type="text" class="inp" id="give_user" maxlength="11" oninput="value=value.replace(/^\.+|[^\d]+/g,'')" placeholder="请输入对方的{$studen_no}(即uid)" /></td>
+		</tr>
+		<tr>
+			<input type="hidden" id="member_coupon_id" value="0" />
+			<td colspan="2"><input type="button" class="btn-submit" id="btn-submit-give" value="提交" /></td>
+		</tr>
+	</table>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		$(':radio[name="open_type"]').click(function() {
+			if($(this).val() == 1){
+				$(".open-type-name").text("{$studen_no}(uid)");
+				$("#give_user").attr("placeholder","请输入对方的{$studen_no}(即uid)");
+			}else if($(this).val() == 2){
+				$(".open-type-name").text("手机号码");
+				$("#give_user").attr("placeholder","请输入对方手机号码");
+			}
+		});
+	})
+
+	/* 转赠优惠券 */
+	$(".btn-give").click(function(){
+		if($(this).data('id')){
+			$(".give-model").show();
+			$('.give-model').addClass("ani");
+			$(".give-model-bg").show();
+			$("#member_coupon_id").val($(this).data('id'));
+		}else{
+			swal("系统提示", "优惠券状态错误，请刷新页面重试", "warning");
+			return false;
+		}
+	});
+	$(".btn-close").click(function(){
+		$(".give-model-bg").hide();
+		$('.give-model').removeClass("ani");
+		$(".give-model").hide();
+	});
+	$("#btn-submit-give").click(function(){
+		var member_coupon_id = $("#member_coupon_id").val();
+		var open_type = $("input[name=open_type]:checked").val();
+		var give_user = $("#give_user").val();
+		
+		if(!member_coupon_id){
+			swal("系统提示", "优惠券状态错误，请刷新页面重试", "warning");
+			return false;
+		}
+		if(open_type != 1 && open_type != 2){
+			swal("系统提示", "请选择验证方式", "warning");
+			return false;
+		}
+		if(open_type == 1 && give_user == ''){
+			swal("系统提示", "请输入对方{$studen_no}(uid)", "warning");
+			return false;
+		}
+		if(open_type == 2 && give_user == ''){
+			swal("系统提示", "请输入对方手机号码", "warning");
+			return false;
+		}
+
+		$("#loadingToast").show();
+		$.ajax({
+			url: "/{$uniacid}/coupon.html?op=give",
+			type: 'POST',
+			data: {member_coupon_id:member_coupon_id, open_type:open_type, give_user:give_user},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+				if(res.code==0){
+					swal("系统提示", res.message, "success");
+					setTimeout(function(){
+						window.location.reload();
+					},2000)
+				}else{
+					swal("系统提示", res.message, "error");
+				}
+			},
+			error: function(data, status, e) {
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			}
+		})
+	});
+
+
+
+	/* 优惠码兑换 */
+	var reload = false;
+	$("#btn-convert-coupon").click(function(){
+	    if(!login()) return false;
+
+		swal({
+			title: "课程优惠码转换",
+			text: "",
+			type: "input",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonColor: "#ec6c62",
+			cancelButtonColor: "#ec6c62",
+			animation: "slide-from-top",
+			inputPlaceholder: "请输入课程优惠码"
+		}, function(coupon_password) {
+			if (coupon_password === false)
+				return false;
+			if (coupon_password === "") {
+				swal.showInputError("请输入课程优惠码");
+				return false;
+			}
+			if (coupon_password.length != 18) {
+				swal.showInputError("课程优惠码长度有误，请重新输入");
+				return false;
+			}
+
+			$.ajax({
+				url:  "/{$uniacid}/lessonCoupon.html",
+				type: "POST",
+				data: {coupon_password:coupon_password}
+			}).done(function(resdata) {
+				var res =  JSON.parse(resdata);
+				if(res.code==0){
+					reload = true;
+					swal("系统提示", res.message, "success");
+				}else if(res.code==-1){
+					swal("系统提示", res.message, "error");
+				}
+			}).error(function(err) {
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			});
+		});
+	})
+
+	$(document).on('click', '.swal-confirm',function(){
+		if(reload){
+			location.reload();
+		}
+	});
+</script>
+
+
+{php include $this->template($template.'/_footer')}

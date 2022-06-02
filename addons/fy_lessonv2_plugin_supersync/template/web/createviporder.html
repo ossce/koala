@@ -1,0 +1,141 @@
+{template 'common/header'}
+
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">操作</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="fy_lessonv2_plugin_supersync" />
+                <input type="hidden" name="do" value="createviporder" />
+                <input type="hidden" name="op" value="create_order" />
+                
+				<div class="form-group">
+                    <div class="col-sm-3 col-lg-3">
+						<button type="submit" class="btn btn-success">生成订单</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">订单总数：{$total}<span style="margin-left:40px;">订单总额：{$statis[0]['vipmoney']}</span></div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:60px;">全选</th>
+                    <th style="width:15%;">订单编号</th>
+                    <th style="width:13%;">昵称/姓名/手机</th>
+                    <th style="width:12%;">服务内容</th>
+                    <th style="width:9%;">服务价格</th>
+					<th style="width:11%;">一二三级佣金</th>
+                    <th style="width:9%;">支付方式</th>
+                    <th style="width:9%;">订单状态</th>
+                    <th style="width:10%;">下单时间</th>
+                    <!--<th style="text-align:right;">操作</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+					<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+                    <td>
+                        {if $item['paytype']=='vipcard'}
+                        <!--<a href="{php echo $this->createWebUrl('viporder', array('op'=>'vipcard','ordersn'=>$item['ordersn']));}">-->
+                        {$item['ordersn']}
+                        <!--</a>-->
+                        {else}
+                        {$item['ordersn']}
+                        {/if}
+                    </td>
+                    <td>{$item['nickname']}<br/>{php echo $item['realname'] ? $item['realname'].'，' : ''}{$item['mobile']}</td>
+                    <td>{$level_name_list[$item['level_id']]}-{$item['viptime']}天</td>
+                    <td>{$item['vipmoney']} 元</td>
+					<td>{$item['commission1']} / {$item['commission2']} / {$item['commission3']}</td>
+                    <td>
+						<span class="label label-info">
+						{if $item['paytype']}
+							{$orderPayType[$item['paytype']]}
+						{else}
+							无
+						{/if}
+						</span>
+                    </td>
+                    <td>
+                        {if $item['status'] == 0}<span class="label label-danger">待付款</span>{/if}
+						{if $item['status'] == 1}<span class="label label-success">已付款</span>{/if}
+						{if $item['status'] == -2}<span class="label label-default">已退款</span>{/if}
+                    </td>
+                    <td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+      <!--              <td style="text-align:right;">-->
+						<!--<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('viporder', array('op' => 'detail', 'id' => $item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="查看订单"><i class="fa fa-pencil"></i></a>-->
+      <!--              </td>-->
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>
+							 <input type="checkbox" id="selAll" style="margin-right:10px;">
+							<input type="button" class="btn btn-danger" id="delAll" value="批量删除">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+            {$pager}
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var ids = document.getElementsByName("ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	$("#delAll").click(function(){
+		var checkids = "";
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			alert('请选择要操作的订单');
+			return;
+		}
+
+		if(!confirm('确定批量删除订单?')){
+			return;
+		}
+		
+		$.ajax({
+			type: 'post',
+			url: "{php echo $this->createWebUrl('createviporder', array('op'=>'delAll'))}",
+			data: {ids:checkids},
+			dataType:'json',
+			success: function(res){
+				if(res.code===0){
+					alert(res.msg);
+					location.reload();
+				}else{
+					alert('网络请求超时，删除失败');
+				}
+			},
+			error: function(error){
+				alert('网络请求超时，请稍后重试!');
+			}
+		});
+	});
+</script>
+
+{template 'common/footer'}

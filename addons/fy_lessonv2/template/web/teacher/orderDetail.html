@@ -1,0 +1,169 @@
+<style type="text/css">
+.table-form>tbody>tr>td{height:40px; padding:5px 15px;}
+</style>
+<div class="main">
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">订单信息</th>
+			</tr>
+			<tr>
+				<td class="table-label">订单遍号</td>
+				<td class="ng-binding">{$order['ordersn']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">购买服务</td>
+				<td class="ng-binding">[{$order['teacher_name']}]讲师服务-{$order['ordertime']}天</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">实付金额</td>
+				<td class="ng-binding">{$order['price']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['integral']>0}
+			<tr>
+				<td class="table-label">获赠积分</td>
+				<td class="ng-binding">{$order['integral']} 积分</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">付款方式</td>
+				<td class="ng-binding">
+					{if $order['paytype']}
+						{$orderPayType[$order['paytype']]}
+					{else}
+						无
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $pay_log['uniontid']}
+			<tr>
+				<td class="table-label">商户订单号</td>
+				<td class="ng-binding">{$pay_log['uniontid']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $pay_log['transaction']['transaction_id']}
+			<tr>
+				<td class="table-label">微信支付单号</td>
+				<td class="ng-binding">{$pay_log['transaction']['transaction_id']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">订单状态</td>
+				<td class="ng-binding">
+					{if $order['status'] == 1}<span class="label label-success">已付款</span>{/if}
+					{if $order['status'] == 0}<span class="label label-danger">待付款</span>{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">下单时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['addtime'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['paytime']>0}
+			<tr>
+				<td class="table-label">付款时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['paytime'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">昵称/姓名/手机号</td>
+				<td class="ng-binding">
+					<img src="{$avatar}" width="35" height="35">&nbsp;(uid:{$order['uid']})&nbsp;{$order['nickname']}&nbsp;/&nbsp;{$order['realname']}&nbsp;/&nbsp;{$order['mobile']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">微信/身份证/公司</td>
+				<td class="ng-binding">
+					{php echo $order['msn']?$order['msn']:'无';}&nbsp;/&nbsp;{php echo $order['idcard']?$order['idcard']:'无';}&nbsp;/&nbsp;{php echo $order['company']?$order['company']:'无';}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">职业/学校/班级</td>
+				<td class="ng-binding">
+					{php echo $order['occupation']?$order['occupation']:'无';}&nbsp;/&nbsp;{php echo $order['graduateschool']?$order['graduateschool']:'无';}&nbsp;/&nbsp;{php echo $order['grade']?$order['grade']:'无';}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">地址</td>
+				<td class="ng-binding">{$order['address']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+		</tbody>
+	</table>
+
+	{if $member1>0 && $order['commission1']>0}
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">佣金信息</th>
+			</tr>
+			{if $member1>0}
+			<tr>
+				<td class="table-label">一级佣金</td>
+				<td class="ng-binding">{$order['commission1']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">一级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar1}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member1']})&nbsp;{$member1['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $member2>0 && $order['commission2']>0}
+			<tr>
+				<td class="table-label">二级佣金</td>
+				<td class="ng-binding">{$order['commission2']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">二级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar2}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member2']})&nbsp;{$member2['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $member3>0 && $order['commission3']>0}
+			<tr>
+				<td class="table-label">三级佣金</td>
+				<td class="ng-binding">{$order['commission3']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">三级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar3}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member3']})&nbsp;{$member3['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+	{/if}
+		
+	<div class="form-group col-sm-12" style="margin-top:15px;">
+		<input type="button" onclick="javascript:window.history.back(-1);" value="返回列表" class="btn btn-primary col-lg-1">
+	</div>
+</div>

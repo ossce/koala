@@ -1,0 +1,109 @@
+{if $sections['sectiontype']==1}
+	{if $sections['savetype']==5}
+		<!-- 腾讯云点播 -->
+		<style type="text/css">
+			.video-js{margin:0 auto;}
+		</style>
+
+		{if empty($qcloudvod['player_name'])}
+			<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+			<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.12.4.js"></script>
+			<script src="{MODULE_URL}static/public/tcplayer/tcplayer.min.js"></script>
+		{else}
+			<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+			<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.13.2m.js"></script>
+			<script src="{MODULE_URL}static/public/tcplayer/tcplayer.v4.1.min.js"></script>
+		{/if}
+
+		<div class="main">
+			<div class="panel panel-default">
+				<div class="panel-heading">视频预览</div>
+				<div class="panel-body">
+					<video id="player-container-id" width="640" height="360" preload="auto" playsinline webkit-playsinline></video>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var player = TCPlayer('player-container-id', {
+				fileID: "<?php echo $sections['videourl']; ?>",
+				appID : "<?php echo $qcloudvod['appid']; ?>",
+			<?php if(empty($qcloudvod['player_name'])){ ?>
+				t	  : "<?php echo $res['t']; ?>",
+				us	  : "<?php echo $res['us']; ?>",
+				sign  : "<?php echo $res['sign']; ?>",
+				exper : "",
+			<?php }else{ ?>
+				psign  : "<?php echo $res; ?>",
+			<?php } ?>
+				plugins:{
+					ContinuePlay: {
+					   text:'上次播放至 ',
+					   btnText: '恢复播放',
+					},
+					ContextMenu: {
+						mirror: true,
+					},
+			   }
+			});
+		</script>
+	{elseif $sections['savetype']==2}
+		<!-- 内嵌代码方式 -->
+		<div style="margin-top:50px;text-align:center;">
+			{php echo htmlspecialchars_decode($sections['videourl'])}
+		</div>
+		<script type="text/javascript">
+			 document.getElementsByTagName('iframe')[0].style.width = '640px';
+			 document.getElementsByTagName('iframe')[0].style.height = '400px';
+		</script>
+	{else}
+		<!-- 阿里云点播 -->
+		<style type="text/css">
+		.prism-player{margin:0 auto;}
+		</style>
+		<link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.9.11/skins/default/aliplayer-min.css" />
+		<script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.9.11/aliplayer-min.js"></script>
+
+		<div class="main">
+			<div class="panel panel-default">
+				<div class="panel-heading">视频预览</div>
+				<div class="panel-body">
+					<div class="prism-player" id="J_prismPlayer"></div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var player = new Aliplayer({
+				id: "J_prismPlayer",
+				autoplay: false,
+				isLive:false,
+				playsinline:true,
+				width:"640px",
+				height:"360px",
+				controlBarVisibility:"hover",
+				showBarTime:"3000",
+				useH5Prism:false,
+				useFlashPrism:false,
+				x5_type:"h5",
+				x5_video_position:"top",
+				isLive: {$sections['is_live']},
+			{if $sections['savetype']==4}
+				vid: "<?php echo $sections['videourl']; ?>",
+				playauth: "<?php echo $playAuth; ?>",
+			{else}
+				source: "{php echo $playurl ? $playurl : $sections['videourl']}",
+			{/if}
+			});
+		</script>
+	{/if}
+
+{elseif $sections['sectiontype']==3}
+	<!-- 音频章节 -->
+	<div class="main">
+		<div class="panel panel-default">
+			<div class="panel-heading">音频预览</div>
+			<div class="panel-body">
+				<audio src="{$playurl}" controls="controls" style="width:500px;"></audio>
+			</div>
+		</div>
+	</div>
+{/if}

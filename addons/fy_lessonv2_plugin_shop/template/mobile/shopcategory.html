@@ -1,0 +1,50 @@
+<!-- 
+ * 商品分类
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-category.css?v={$versions}">
+
+<header class="shop-navBar bg-fff shop-category-header max-640">
+	<a href="javascript:history.go(-1);" class="shop-navBar-item">
+		<i class="icon-common icon-common-return"></i>
+	</a>
+	<div class="shop-center">
+		<div class="shop-search-box">
+			<i class="icon-common icon-search"></i>
+			<input type="search" class="search-input shop-category-input search-goods-keyword" name="keyword" placeholder="搜索商品" >
+		</div>
+	</div>
+	{template '_rightTopMenu'}
+</header>
+
+{template '_rightTopMenuList'}
+
+<div class="category-list-wrap iphone-max-height max-640">
+	<div class="category-inner menu">
+		{loop $list $key $item}
+		<nav class="first-category {if $key==0}on{/if}" data-id="{$item['id']}">{$item['name']}</nav>
+		{/loop}
+	</div>
+	<div class="category-inner all-son-category">
+	</div>
+</div>
+
+<script type="text/javascript">
+	window.config = {
+		     list: {php echo json_encode($list)},
+		attachurl: "{$_W['attachurl']}",
+		searchurl: "{php echo $this->createMobileUrl('shoplist')}",
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shopcategory.js?v={$versions}"></script>
+
+
+{template '_footer'}

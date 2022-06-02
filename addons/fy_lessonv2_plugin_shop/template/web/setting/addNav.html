@@ -1,0 +1,101 @@
+<style type="text/css">
+.navigation{height: 180px; overflow-y: auto;}
+.navigation-ul li{float:left;}
+.navigation-ul .name{width: 13%; text-align: right;}
+.navigation-ul .link{width: 85%;}
+</style>
+<div class="main">
+	<div class="alert alert-info navigation">
+		<ul class="navigation-ul">
+			<li class="name">商城首页：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shop&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">商品列表：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shoplist&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">商品分类：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shopcategory&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">我的订单：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shoporder&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">购物车：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shopcart&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">商城公告：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&op=list&do=shopnotice&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">收货地址：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shopaddress&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">佣金明细：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shopcommission&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+	</div>
+
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $_GPC['nav_id']}修改{else}添加{/if}菜单</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航栏位置</label>
+                    <div class="col-sm-3">
+						<select name="location" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $nav_location $key $item}
+								<option value="{$key}" {if $navigation['location'] == "$key"}selected="selected"{/if}>{$item}</option>
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="nav_name" class="form-control" value="{$navigation['nav_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航图标</label>
+					<div class="col-sm-9">
+                        {php echo tpl_form_field_image('menu_icon', $navigation['menu_icon'])}
+						<span class="help-block">建议尺寸64 * 64px，白色png格式图标</span>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="url_link" class="form-control" value="{$navigation['url_link']}">
+						<span class="help-block">链接请以http://或https://开头</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$navigation['displayorder']}">
+						<span class="help-block">序号越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="nav_id" value="{$nav_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>

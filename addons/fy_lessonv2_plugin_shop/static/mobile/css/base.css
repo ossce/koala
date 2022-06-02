@@ -1,0 +1,361 @@
+html,body{
+    color: #333333;
+    margin: 0;
+    height: 100%;
+    font-family: "Microsoft YaHei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif, "Helvetica Neue", Helvetica, Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: normal;
+}
+*{
+	margin: 0;
+	padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+a{
+	color: #333;
+    text-decoration: none;
+}
+a, label, button, input, select{
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+img{
+    max-width: 100%;
+    border: 0;
+}
+body{
+	font-size: .85rem;
+    background: #f4f4f4;
+    color: #666666;
+}
+button{
+    outline: 0;
+}
+button,input,optgroup,select,textarea{
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    outline: none;
+}
+li{
+    list-style: none;
+}
+.clearfix::after{
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.ds-block{
+	display: block !important;
+}
+.ds-none{
+	display: none !important;
+}
+.ds-in-block{
+	display: inline-block !important;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.text-l{
+	text-align: left;
+}
+.text-r{
+	text-align: right;
+}
+.text-c{
+	text-align: center;
+}
+
+.flex{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    position: relative;
+}
+.flex-box{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+    font-size: .9rem;
+    color: #333;
+}
+.max-640{
+	max-width: 640px;
+}
+.fs-12{
+	font-size: 12px !important;
+}
+.fs-13{
+	font-size: 13px !important;
+}
+.fs-14{
+	font-size: 14px !important;
+}
+.fs-15{
+	font-size: 15px !important;
+}
+.h-1{
+    height: 1px;
+}
+.h-5{
+    height: 5px;
+}
+.h-10{
+    height: 10px;
+}
+.h-15{
+    height: 15px;
+}
+.h-45{
+    height: 45px;
+}
+.h-70{
+    height: 70px;
+}
+.top-9{
+	top: 9px !important;
+}
+.mar-0-0-0-5{
+	margin: 0 5px 0 0 !important;
+}
+.mar-l-8{
+	margin-left: 8px !important;
+}
+.mar-l-10{
+	margin-left: 10px !important;
+}
+.mar-r-8{
+	margin-right: 8px !important;
+}
+.mar-r-10{
+	margin-right: 8px !important;
+}
+.mar-t-5{
+	margin-top: 5px !important;
+}
+.mar-t-10{
+	margin-top: 10px !important;
+}
+.mar-b-7{
+	margin-bottom: 7px !important;
+}
+.mar-b-10{
+	margin-bottom: 10px !important;
+}
+.pad-l-r-0{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.pad-r-10{
+	padding-right: 10px !important;
+}
+.pad-t-10{
+	padding-top: 10px !important;
+}
+.pad-b-0{
+	padding-bottom: 0px !important;
+}
+.pad-b-10{
+	padding-bottom: 10px !important;
+}
+.pad-b-70{
+	padding-bottom: 70px !important;
+}
+.pad-10{
+	padding: 10px !important;
+}
+.pad-15{
+	padding: 15px !important;
+}
+.color-fd5a45{
+	color: #fd5a45 !important;
+}
+.color-333{
+	color: #333 !important;
+}
+.color-666{
+	color: #666666 !important;
+}
+.color-green{
+	color: #06ae56 !important;
+}
+.bg-fff{
+	background-color: #fff;
+}
+.bg-f6f6f6{
+	background-color: #f6f6f6;
+}
+.no-background{
+	background: none !important;
+}
+.hidden{
+	display: none;
+}
+.line-f5f5f5 {
+    width: 92%;
+    margin: 0 auto;
+    height: 1px;
+    background: #f5f5f5;
+}
+.position-re{
+	position: relative;
+}
+.v-alin-center{
+	vertical-align: center;
+}
+.bor-bottom-eee{
+	border-bottom: #eee 1px solid;
+}
+.required{
+	color: #fd5a45;
+	font-weight: bold;
+}
+
+
+.icon-common {
+    width: 22px;
+    height: 22px;
+    display: block;
+    border: none;
+    float: left;
+    background-size: 22px;
+    background-repeat: no-repeat;
+}
+.icon-goods-image {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+.icon-hot {
+    background-image: url('../images/icon-hot.png');
+}
+.icon-new {
+    background-image: url('../images/icon-new.png');
+}
+.icon-add-cart{
+	background-image: url('../images/icon-add-cart.png?v=2');
+    position: absolute;
+    right: 0;
+    top: 2px;
+}
+.icon-common-return {
+    background-image: url('../images/icon-return.png');
+}
+.icon-common-cart {
+    background-image: url('../images/icon-common-cart.png');
+}
+.icon-right-top-menu {
+    background-image: url('../images/icon-right-top-menu.svg');
+}
+.icon-sell-num {
+	display: inline-block;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 10px;
+    font-size: .7rem;
+    position: absolute;
+    color: white;
+    font-weight: normal;
+    bottom: 5px;
+    right: 2px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 10px;
+}
+
+.footer-copyright {
+	position: relative;
+    font-size: .75rem;
+    text-align: center;
+	padding: 25px 0;
+}
+.footer-copyright a{
+	display: block;
+	color: #969696;
+}
+.weui-tabbar__label{
+	font-size: .8rem;
+}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
+	color: #fd5a45;
+}
+.footer-nav{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 101;
+	border-top: 1px solid #f1f0f5;
+}
+.footer-nav p{
+	color: #818085;
+}
+
+
+.mui-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 998;
+    overflow: hidden;
+	background-color: rgb(239, 239, 244);
+}
+.mui-content-padded {
+    margin: 10px;
+}
+.mui-message {
+    position: relative;
+    font-weight: 400;
+    text-align: center;
+    overflow: auto;
+}
+.mui-message .mui-message-icon {
+    margin-top: 50px;
+    text-align: center;
+}
+.mui-message .mui-msg-warning {
+    background: transparent url(../images/msg-warning.png) no-repeat center center;
+}
+.mui-message .mui-message-icon span {
+    display: block;
+    width: 95px;
+    height: 95px;
+    margin: 0 auto;
+    background-size: contain;
+}
+.mui-message h4.title {
+    margin-top: 30px;
+    font-weight: 400;
+	font-size: 1.1rem;
+}
+
+/* 文字提示itoast */
+.singleDialog_content:first-child {
+    color: #333;
+}
+.weui-toast_text{
+	width: auto;
+}

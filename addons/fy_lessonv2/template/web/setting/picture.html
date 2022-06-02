@@ -1,0 +1,113 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css">
+
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="setting" />
+                <input type="hidden" name="op" value="picture" />
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">名称</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+                        <input class="form-control" name="banner_name" type="text" value="{$_GPC['banner_name']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">位置类型</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="banner_type" class="form-control">
+                            <option value="">不限</option>
+							{loop $bannerType $key $item}
+							<option value="{$key}" {if $_GPC['banner_type'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">平台类型</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_pc" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if $_GPC['is_pc'] == '0'} selected="selected" {/if}>手机端</option>
+							<option value="1" {if $_GPC['is_pc'] == '1'} selected="selected" {/if}>PC端</option>
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_show" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if $_GPC['is_show'] == '0'} selected="selected" {/if}>隐藏</option>
+							<option value="1" {if $_GPC['is_show'] == '1'} selected="selected" {/if}>显示</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<a class="btn btn-success" href="{php echo $this->createWebUrl('setting', array('op'=>addPic));}"></i> 添加新广告</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <form action="" method="post" class="form-horizontal form" >
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:8%;">编号</th>
+					<th style="width:15%;">名称</th>
+                    <th style="width:14%;">缩略图</th>
+					<th style="width:13%;">平台类型</th>
+                    <th style="width:12%;">位置类型</th>
+					<th style="width:12%;">状态</th>
+                    <th style="width:16%;">添加时间</th>
+                    <th style="text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $list $item}
+                <tr>
+                    <td><input type="text" class="form-control" name="displayorder[{$item['banner_id']}]" value="{$item['displayorder']}" style="width:70px;"></td>
+					<td>{$item['banner_name']}</td>
+                    <td>
+						<a href="{$_W['attachurl']}{$item['picture']}" target="_blank">
+							<img src="{$_W['attachurl']}{$item['picture']}" width="80" height="40" />
+						</a>
+					</td>
+                    <td>
+						{if $item['is_pc'] == '0'}手机端
+						{elseif $item['is_pc'] == '1'}PC端
+						{/if}
+					</td>
+					<td>{$bannerType[$item['banner_type']]}</td>
+                    <td>
+						{if $item['is_show'] == 0}<span class="label label-default">隐藏</span>{/if}
+						{if $item['is_show'] == 1}<span class="label label-success">显示</span>{/if}
+					</td>
+					<td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('setting', array('op'=>'addPic','banner_id'=>$item['banner_id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('setting', array('op'=>'delPic','banner_id'=>$item['banner_id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+			<table class="table">
+				 <tbody>
+					 <tr>
+						 <td>
+							 <input name="submit" type="submit" class="btn btn-primary" value="批量排序">
+							 <input type="hidden" name="token" value="{$_W['token']}">
+						 </td>
+					 </tr>
+				 </tbody>
+			</table>
+            {$pager}
+        </div>
+    </div>
+    </form>
+</div>

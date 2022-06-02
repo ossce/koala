@@ -1,0 +1,536 @@
+<link href="{MODULE_URL}static/web/lessonTab/lesson-tab.css?v={$versions}" rel="stylesheet">
+<script type="text/javascript" src="{MODULE_URL}static/web/lessonTab/prefixfree.min.js?v={$versions}"></script>
+<script type="text/javascript" src="{MODULE_URL}static/web/lessonTab/jquery-tab.js?v={$versions}"></script>
+
+<link href="{MODULE_URL}static/web/poster/jquery.contextMenu.css?v={$versions}" rel="stylesheet">
+<link href="{MODULE_URL}static/web/poster/poster.css?v={$versions}" rel="stylesheet">
+<script type="text/javascript" src="{MODULE_URL}static/web/poster/designer.js?v={$versions}"></script>
+<script type="text/javascript" src="{MODULE_URL}static/web/poster/jquery.contextMenu.js?v={$versions}"></script>
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkData();">
+		<div class="tab-group">
+			<section id="tab1" title="基本信息" class="lesson-tab-section">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 商品类型</label>
+						<div class="col-sm-9">
+							{if empty($goods)}
+								{loop $goods_types $key $item}
+									<label class="radio-inline"><input type="radio" name="goods_type" value="{$key}" {if (empty($goods) && $key==1) || $goods['goods_type'] == $key}checked="true"{/if}/> {$item}</label>&nbsp;&nbsp;
+								{/loop}
+							{else}
+								<label class="radio-inline"><input type="radio" name="goods_type" value="{$goods['goods_type']}" checked="true" disabled /> {$goods_types[$goods['goods_type']]}</label>
+							{/if}
+							<span class="help-block color-red">发布商品成功后，商品类型不可再修改</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 商品名称</label>
+						<div class="col-sm-9">
+							<input type="text" name="title" class="form-control" value="{$goods['title']}" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 商品分类</label>
+						<div class="col-sm-8 col-xs-12">
+							<div class="row row-fix tpl-category-container">
+								<div class="col-xs-12 col-sm-3">
+									<select class="form-control" id="pid" name="pid" onchange="renderCategory(this.value)">
+										<option value="0">请选择一级分类</option>
+										{loop $category $item}
+										<option value="{$item['id']}">{$item['name']}</option>
+										{/loop}
+									</select>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<select class="form-control" id="cid" name="cid" onchange="renderSecondCategory(this.value)">
+										<option value="0">请选择二级分类</option>
+									</select>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<select class="form-control" id="ccid" name="ccid">
+										<option value="0">请选择三级分类</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 商品封面</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_image('cover', $goods['cover'])}
+							<span class="help-block">建议尺寸 500 * 500px</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 购买方式</label>
+						<div class="col-sm-9">
+							{loop $sell_types $key $item}
+								<label class="radio-inline"><input type="radio" name="sell_type" value="{$key}" {if (empty($goods) && $key==2) || $goods['sell_type'] == $key}checked="true"{/if}/> {$item}</label>&nbsp;&nbsp;
+							{/loop}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 减少库存方式</label>
+						<div class="col-sm-9">
+							{loop $reduce_stock $key $item}
+								<label class="radio-inline"><input type="radio" name="minus_total" value="{$key}" {if (empty($goods) && $key==1) || $goods['minus_total'] == $key}checked="true"{/if}/> {$item}</label>&nbsp;&nbsp;
+							{/loop}
+							<span class="help-block">虚拟商品默认且只为付款减库存，实物商品可以选择以上两种方式之一</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品单位</label>
+						<div class="col-sm-9">
+							<input type="text" name="unit" class="form-control" value="{$goods['unit']}" />
+							<span class="help-block">非必填项，商品的单位例如：件、条等</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">单次最多购买数量</label>
+						<div class="col-sm-9">
+							<input type="text" name="order_buy_num" class="form-control" value="{$goods['order_buy_num']}" />
+							<span class="help-block">用户单次下单最多可购买数量，0为不限制</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">初始销量</label>
+						<div class="col-sm-9">
+							<input type="text" name="virtual_sales" class="form-control" value="{$goods['virtual_sales']}" />
+							<span class="help-block">
+								前端显示销量 = 初始销量 + 真实销量
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">右上角标识</label>
+						<div class="col-sm-9">
+							<label class="radio-inline"><input type="radio" name="icon_name" value="icon-new" {if $goods['icon_name']=='icon-new'}checked{/if} /> New新品</label>
+							&nbsp;
+							<label class="radio-inline"><input type="radio" name="icon_name" value="icon-hot" {if $goods['icon_name']=='icon-hot'}checked{/if} /> Hot热销</label>
+							&nbsp;
+							<label class="radio-inline"><input type="radio" name="icon_name" value="" {if !$goods['icon_name']}checked{/if} /> 无</label>
+							<span class="help-block">选择的标识将显示在商品的右上角</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+						<div class="col-sm-9">
+							<input type="text" name="displayorder" class="form-control" value="{$goods['displayorder']}" />
+							<span class="help-block">序号越大，排序越靠前</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">相册</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_multi_image('album', $goods['album'])}
+							<span class="help-block">建议尺寸 500 * 500px</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 状态</label>
+						<div class="col-sm-9">
+							{loop $status_types $key $item}
+								<label class="radio-inline"><input type="radio" name="status" value="{$key}" {if (empty($goods) && $key==1) || $goods['status'] == "$key"}checked="true"{/if}/> {$item}</label>&nbsp;&nbsp;
+							{/loop}
+							<span class="help-block">下架的商品将无法访问</span>
+						</div>
+					</div>
+					{if $goods['id']}
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品链接</label>
+						<div class="col-sm-9">
+							<div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$_W['siteroot']}app/{php echo str_replace("./", "", $this->createMobileUrl('shopgoods', array('id'=>$goods['id'])));}</a></div>
+						</div>
+					</div>
+					{/if}
+				</div>
+			</section>
+			<section id="tab2" title="价格规格" class="lesson-tab-section">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 市场价</label>
+						<div class="col-sm-9">
+							<div class="input-group">
+								<input type="text" name="market_price" class="form-control" value="{$goods['market_price']}" {if $goods['goods_type']==1 && $goods['spec_switch']}readonly{/if}/>
+								<span class="input-group-addon">元</span>
+							</div>
+							<span class="help-block">
+								实物商品：添加“商品规格”后，系统将自动获取规格的最低市场价。<br/>
+								虚拟商品：请填写商品市场价。
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 销售价</label>
+						<div class="col-sm-9">
+							<div class="input-group">
+								<input type="text" name="price" class="form-control" value="{$goods['price']}" {if $goods['goods_type']==1 && $goods['spec_switch']}readonly{/if} />
+								<span class="input-group-addon">元</span>
+							</div>
+							<span class="help-block">
+								实物商品：添加“商品规格”后，系统将自动获取规格的最低销售价。<br/>
+								虚拟商品：请填写商品销售价。
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 兑换积分</label>
+						<div class="col-sm-9">
+							<div class="input-group">
+								<input type="text" name="integral" class="form-control" value="{$goods['integral']}" {if $goods['goods_type']==1 && $goods['spec_switch']}readonly{/if} />
+								<span class="input-group-addon">积分</span>
+							</div>
+							<span class="help-block">
+								实物商品：添加“商品规格”后，系统将自动获取规格的最低兑换积分。<br/>
+								虚拟商品：如需使用积分兑换，请填写兑换积分，否则请留空或写0。
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 总库存</label>
+						<div class="col-sm-9">
+							<input type="text" name="stock" id="stock" class="form-control" value="{$goods['stock']}" {if $goods['goods_type']==1 && $goods['spec_switch']}readonly{/if} />
+							<span class="help-block">
+								实物商品：添加“商品规格”后，系统将自动获取所有规格的库存之和。<br/>
+								虚拟商品：总库存以【虚拟属性】里的列表数为准。
+							</span>
+						</div>
+					</div>
+					{template 'web/goods/postGoodsSpec'}
+				</div>
+			</section>
+			<section id="tab3" title="商品详情" class="lesson-tab-section">
+				<div class="panel-body">
+					<!-- <div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送方式</label>
+						<div class="col-xs-9 col-sm-9" style="margin-top: 7px;">
+							{if !empty($express_list)}
+							<label style="margin-right:10px;"><input type="checkbox" id="selAllExpress"><span class="label-middle">全选</span></label>
+							{/if}
+							{loop $express_list $item}
+							<label style="margin-right:10px;"><input type="checkbox" name="express_ids[]" value="{$item['id']}" {if in_array($item['id'], $goods['express_ids'])}checked{/if}><span class="label-middle">{$item['title']}</span></label>
+							{/loop}
+
+						   <span class="help-block">配送方式需要在“<a href="{php echo $this->createWebUrl('express')}" target="_blank" style="color:#2378ce;">快递管理</a>”里设置后才显示在这里。虚拟商品无需选择配送方式</span>
+						</div>
+					</div> -->
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情</label>
+						<div class="col-sm-9">
+							{php echo tpl_ueditor('content', $goods['content']);}
+							<div class="help-block"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="tab4" title="虚拟属性" class="lesson-tab-section">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟卡密信息</label>
+						<div class="col-sm-9">
+							{if empty($goods)}
+								<textarea class="form-control" rows="10" name="virtual_keys" style="width:630px;"></textarea>
+								<span class="help-block">
+									1、每行内容为一条信息，一行即一个库存，购买成功后发送一行内容给用户，也可在订单详情里查看；<br/>
+									2、填写信息比如：<br/>
+									VP3ED8CC9E68CF1FBB<br/>
+									VPJ215E5EJ7FFJF5AC<br/>
+								</span>
+							{else}
+								{if $goods['goods_type']==2}
+									<a href="{php echo $this->createWebUrl('goods',array('op'=>'postVirtual','id'=>$id));}" class="btn btn-info">编辑商品虚拟信息</a>
+								{else}
+									<span class="help-block">实物商品无需编辑该属性</span>
+								{/if}
+							{/if}
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="tab5" title="分销分享" class="lesson-tab-section">
+				<div class="alert alert-warning pad-b-0">
+					<div><i class="fa fa-info-circle"></i> 分销佣金规则：</div>
+					<div style="margin:10px auto 20px;">
+						<p class="mar-b-5">1、商品购买方式为“积分兑换”，下级购买该商品，上级不会有佣金。</p>
+						<p class="mar-b-5">2、商品购买方式为“现金购买”，下级购买该商品，按下方的佣金比例或固定金额发放佣金。</p>
+						<p class="mar-b-5">3、商品购买方式为“现金+积分”，佣金类型为“按佣金比例”时，下级购买该商品，佣金 = 商品现金部分 x 佣金比例；佣金类型为“按固定金额”时，下级购买该商品，按下方的固定金额发放佣金。</p>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">佣金类型</label>
+						<div class="col-sm-9">
+							<label class="radio-inline">
+								<input type="radio" name="commission[commission_type]" value="0" {if $goods['commission']['commission_type']==0}checked{/if}>按佣金比例
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="commission[commission_type]" value="1" {if $goods['commission']['commission_type']==1}checked{/if}>按固定金额
+							</label>
+						</div>
+					</div>
+					<div class="form-group item">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">一级佣金</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="text" name="commission[commission1]" value="{$goods['commission']['commission1']}" class="form-control">
+								<span class="input-group-addon commission_type_name">{php echo $goods['commission']['commission_type'] ? '元' : '%'}</span>
+							</div>
+							<span class="help-block">
+								1、留空或为0表示使用系统全局佣金比例；(系统全局佣金比例指的是微课堂主模块分销管理里的佣金比例)<br/>
+								2、根据国家相关法规，各级分销佣金比例总和不得超过50%。
+							</span>
+						</div>
+					</div>
+					<div class="form-group item {if in_array($comsetting['level'],array('1'))}hide{/if}">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">二级佣金</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="text" name="commission[commission2]" value="{$goods['commission']['commission2']}" class="form-control">
+								<span class="input-group-addon commission_type_name">{php echo $goods['commission']['commission_type'] ? '元' : '%'}</span>
+							</div>
+							<span class="help-block">留空或为0表示使用系统全局佣金比例</span>
+						</div>
+					</div>
+					<div class="form-group item {if in_array($comsetting['level'],array('1','2'))}hide{/if}">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">三级佣金</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<input type="text" name="commission[commission3]" value="{$goods['commission']['commission3']}" class="form-control">
+								<span class="input-group-addon commission_type_name">{php echo $goods['commission']['commission_type'] ? '元' : '%'}</span>
+							</div>
+							<span class="help-block">留空或为0表示使用系统全局佣金比例</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享标题</label>
+						<div class="col-sm-9">
+							<input type="text" name="share[title]" class="form-control" value="{$goods['share']['title']}" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享图标</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_image("share[images]", $goods['share']['images'])}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信分享描述</label>
+						<div class="col-sm-9">
+							<textarea style="height:70px;" class="form-control" name="share[desc]">{$goods['share']['desc']}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 海报设计</label>
+						<div class="col-sm-9 col-xs-12">
+							<table style='width:100%;'>
+								<tr>
+									<td style="width:320px;padding:10px;" valign="top">
+										<div id='poster'>
+											{if !empty($goods['poster_bg'])}
+											<img src="{php echo tomedia($goods['poster_bg'])}" class="bg" />
+											{/if}
+											{if !empty($goods['poster_setting'])}
+												{loop $goods['poster_setting'] $key $d}
+												<div class="drag" type="{$d['type']}" index="{php echo $key+1}" style="zindex:{php echo $key+1};left:{$d['left']};top:{$d['top']};
+												width:{$d['width']};height:{$d['height']}" 
+												src="{$d['src']}" size="{$d['size']}" color="{$d['color']}"
+												> 
+												{if $d['type']=='qr'}
+												<img src="{MODULE_URL}static/web/poster/images/qr.jpg?v=1" />
+												{elseif $d['type']=='head'}
+												<img src="{MODULE_URL}static/web/poster/images/head.png" />
+												{elseif $d['type']=='nickname'}
+												<div class=text style="font-size:{$d['size']};color:{$d['color']};text-align:center;">昵称</div> 
+												{/if}
+												<div class="rRightDown"> </div><div class="rLeftDown"> </div><div class="rRightUp"> </div><div class="rLeftUp"> </div><div class="rRight"> </div><div class="rLeft"> </div><div class="rUp"> </div><div class="rDown"></div>
+												</div>
+												{/loop} 
+											{/if}
+										</div>
+									</td>
+									<td valign="top" style="padding:10px;">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<div class="form-group" id="bgset">
+													<label class="col-xs-12 col-sm-3 col-md-2 control-label">背景图片</label>
+													<div class="col-sm-9 col-xs-12">
+														{php echo tpl_form_field_image('poster_bg',$goods['poster_bg'])}
+														<span class="help-block">背景图片尺寸: 640 * 960px，格式为jpg或png格式</span>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-xs-12 col-sm-3 col-md-2 control-label">海报元素</label>
+													<div class="col-sm-9 col-xs-12">
+														<button class="btn btn-default btn-com" type="button" data-type="head">头像</button>
+														<button class="btn btn-default btn-com" type="button" data-type="nickname">昵称</button>
+														<button class="btn btn-default btn-com" type="button" data-type="qr">二维码</button>
+													</div>
+												</div>
+												<div id="qrset" style="display:none">
+													<div class="form-group">
+														<label class="col-xs-12 col-sm-3 col-md-2 control-label">二维码尺寸</label>
+														<div class="col-sm-9 col-xs-12">
+															<select id="qrsize" class="form-control">
+																<option value="1">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div id="nameset" style="display:none">
+													<div class="form-group">
+														<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称颜色</label>
+														<div class="col-sm-9 col-xs-12">
+															{php echo tpl_form_field_color('color')}
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称大小</label>
+														<div class="col-sm-4">
+															<div class="input-group">
+																<input type="text" id="namesize" class="form-control namesize" placeholder="例如: 14,16" />
+																<div class="input-group-addon">px</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="tab6" title="关联商品" class="lesson-tab-section">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 展示商品</label>
+						<div class="col-sm-9">
+							<label class="radio-inline"><input type="radio" name="goods_like_type" value="0" {if !$goods['goods_like_type']}checked{/if}/> 全部商品</label>&nbsp;&nbsp;
+							<label class="radio-inline"><input type="radio" name="goods_like_type" value="1" {if $goods['goods_like_type']==1}checked{/if}/> 指定商品</label>
+							<span class="help-block">展示的商品将显示在商品详情页底部的“猜您喜欢”列表里</span>
+						</div>
+					</div>
+					<div class="form-group like-type-goods" {if !$goods['goods_like_type']}style="display:none;"{/if}>
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+						<div class="col-sm-9">
+							<a class="btn btn-default" style="display:inline-block; margin-bottom:15px; vertical-align:-6px;" onclick="searchGoods();"><i class="fa fa-plus"></i> 选择商品</a>
+							<div class="select-goods-choices">
+								{loop $like_goods_list $item}
+								<div class="select-item bg-size" data-id="{$item['id']}" data-title="{$item['title']}" data-cover="{$_W['attachurl']}{$item['cover']}" style="background:#eee url({$_W['attachurl']}{$item['cover']});" title="{$item['title']}">
+									<a href="javascript:;" class="remove_goods" onclick="remove_goods(this);" title="移除商品"></a>
+									<div class="text">{$item['title']}</div>
+									<input type="hidden" name="like_goods_ids[]" value="{$item['id']}">
+								</div>
+								{/loop}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$goods['id']}" />
+			<input type="hidden" name="poster_setting" value="" />
+        </div>
+	 </form>
+</div>
+
+<div class="modal fade modals-select-goods" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">选择商品</h4>
+			</div>
+			<div class="item-search">
+				<div class="select-form">
+					<div class="select-list">
+						<select class="form-control" id="goods_type">
+							<option value="">商品类型</option>
+							<option value="1">实体商品</option>
+							<option value="2">虚拟商品</option>
+						</select>
+					</div>
+				</div>
+				<div class="select-form">
+					<div class="select-list">
+						<select class="form-control" id="goods_status">
+							<option value="">状态</option>
+							{loop $status_types $key $item}
+							<option value="{$key}" {if $key==1}selected{/if}>{$item}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="input-group">
+					<input type="text" name="search-kwd" id="search-kwd" class="form-control" autocomplete="off" placeholder="请输入商品名称" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default search-button" onclick="searchGoods();">
+							<span class="fa fa-search"></span>搜索
+						</button>
+					</span>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="item-content clearfix text-c" id="modal-goods-list"></div>
+			</div>
+			<div class="modal-footer" style="padding-top:10px;">
+				<ul class="pagination pagination-centered">
+					<li>
+						<a href="javascript:;" data-name="prev" class="goods-pager-nav">«上一页</a>
+					</li>
+					<li>
+						<a><span id="curr_page">0</span> / <span id="total_page">0</span></a>
+					</li>
+					<li>
+						<a href="javascript:;" data-name="next" class="goods-pager-nav">下一页»</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<?php if($id){ ?>
+	require(['jquery', 'util'], function($, util){
+		$(function(){
+			util.clip($("#copy-btn")[0], $("#copy-btn").text());
+		});
+	});
+	<?php } ?>
+
+
+	var GoodsSkuData;
+    {if $sku}
+		GoodsSkuData = new Array({php echo count($sku)});
+		{loop $sku $k $v}
+		GoodsSkuData['{$v[value_ids]}'] = {
+			id: "{$v['id']}",
+			cover: "{$v['cover']}",
+			unit: "{$v['unit']}",
+			integral: "{$v['integral']}",
+			market_price: "{$v['market_price']}",
+			price: "{$v['price']}",
+			total: "{$v['total']}",
+			sales: "{$v['sales']}",
+		};
+		{/loop}
+    {/if}
+	window.GoodsSkuData = GoodsSkuData;
+	window.goods_config = {php echo json_encode($goods_config);};
+	window.getGoodsUrl	= "{php echo $this->createWebUrl('getgoods')}";
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/web/js/jquery.md5.js?v={$versions}"></script>
+<script type="text/javascript" src="{MODULE_URL}static/web/js/postGoods.js?v={$versions}"></script>

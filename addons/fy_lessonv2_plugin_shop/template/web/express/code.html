@@ -1,0 +1,25 @@
+<div class="main">
+	<div class="alert alert-info">
+	    仅列出常用的快递公司名称和编码
+	</div>
+	<div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th>快递名称</th>
+                    <th>快递编码</th>
+                </tr>
+                </thead>
+                <tbody>
+					{loop $express_list $item}
+                    <tr>
+						<td>{$item['name']}</td>
+						<td>{$item['code']}</td>
+					</tr>
+					{/loop}
+				</tbody>
+            </table>
+		</div>
+	</div>
+</div>

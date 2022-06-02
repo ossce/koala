@@ -1,0 +1,120 @@
+ <!-- 
+ * 一键复制
+ * ============================================================================
+ * 版权所有 2015-2018 微课堂团队，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('authdomain', array('op'=>'display'));}">域名授权</a>
+	</li>
+	<li {if $op=='addDomain'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('authdomain', array('op'=>'addDomain'));}">新增/修改授权</a>
+	</li>
+</ul>
+
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+		<div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="m" value="fy_lessonv2_plugin_supersync">
+                <input type="hidden" name="do" value="authdomain">
+                <input type="hidden" name="op" value="display">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">域名</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="key" type="text" value="{$_GPC['key']}">
+                    </div>
+				
+					<div class="col-sm-3 col-lg-3">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!--<a class="btn btn-success" href="{php echo $this->createWebUrl('authdomain', array('op'=>'addDomain'));}"> 添加</a>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <form action="" method="post" class="form-horizontal form" >
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:15%;">域名</th>
+					<th style="width:15%;">状态</th>
+                    <th style="width:15%;">添加时间</th>
+                    <th style="width:15%;">备注</th>
+                    <th style="text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $domain $item}
+                <tr>
+					<td>{$item['domain_name']}</td>
+					<td>{$item['status']}</td>
+					<td>{$item['create_time']}</td>
+					<td>{$item['remark']}</td>
+					
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('authdomain', array('op'=>'addDomain', 'id'=>$item['id']))}"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('authdomain', array('op'=>'delDomain', 'id'=>$item['id']))}" title="删除" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="fa fa-times"></i></a>
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('authdomain', array('op'=>'delDomaindata', 'id'=>$item['id']))}" title="清空" onclick="return confirm('此操作不可恢复，确认清空？');return false;">清空子站课程</a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+        </form>
+    </div>
+    
+</div>
+
+
+<div id="loadingToast" style="display:none;">
+	<div class="loading-mask_white"></div>
+	<div class="loadEffect">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function checkSubmit(){
+		if(!confirm('该操作无法撤销，请确认继续操作?')){
+			return false;
+		}
+
+		$("#loadingToast").show();
+	}
+
+	$('input[name=clear_data]').click(function(){
+		var clear_data = $(this).val();
+
+		if(clear_data==1){
+			$('.hide_setting').hide();
+		}else{
+			$('.hide_setting').show();
+		}
+	});
+</script>
+
+{template 'common/footer'}

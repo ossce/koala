@@ -1,0 +1,33 @@
+<style type="text/css">
+.form-controls{display: inline-block; width:70px;}
+.cblock{display:block !important;}
+.cnone{display:none !important;}
+</style>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css?v={$versions}">
+<div class="main">
+    <div class="category">
+        <form action="" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+					<div class="dd" id="div_nestable">
+						{loop $category $row}
+						<ol class="dd-list" style="margin-bottom:15px;">
+							<li class="dd-item">
+								<div class="dd-handle" style="width:100%;background:#eff5e9;">
+									<input type="text" class="form-control" name="category[{$row['id']}]" value="{$row['displayorder']}" style="width: 70px;display:inline-block;">&nbsp;&nbsp;
+									<img src="{if !empty($row['ico'])}{$_W['attachurl']}{$row['ico']}{else}{MODULE_URL}static/mobile/{$template}/images//nopic.png{/if}" width="30" height="30"> &nbsp;&nbsp;[ID: {$row['id']}] {$row['name']}
+									<span class="pull-right">
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op' => 'post', 'id' => $row['id']))}" title="修改"><i class="fa fa-edit"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op' => 'delete', 'id' => $row['id']))}" title="删除" onclick="return confirm('该操作不可恢复，确定删除？');return false;"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+							</li>
+						</ol>
+						{/loop}
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

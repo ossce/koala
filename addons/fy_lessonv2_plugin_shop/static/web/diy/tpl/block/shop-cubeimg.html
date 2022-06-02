@@ -1,0 +1,79 @@
+<script type="text/template" id="tpl_block_cubeimg">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+        <div class="block_content cubeimg_block" style="<%if (style.type == 1){ %>padding-bottom: 50%<% } %>">
+            <% if (style.type == 1) { %>
+            <div class="diy-col diy-col-50 cubeimg-left">
+				<% if (data[0]) { %>
+                <img src="<%= data[0].imgurl %>"/>
+				<% } %>
+            </div>
+            <div class="diy-col diy-col-50 cubeimg-right">
+                <div class="cubeimg-top">
+					<% if (data[1]) { %>
+                    <img src="<%= data[1].imgurl %>"/>
+					<% } %>
+                </div>
+                <div class="cubeimg-bottom">
+                    <div class="diy-col diy-col-50 cubeimg-bottom-one">
+						<% if (data[2]) { %>
+                        <img src="<%= data[2].imgurl %>"/>
+						<% } %>
+                    </div>
+                    <div class="diy-col diy-col-50 cubeimg-bottom-two">
+						<% if (data[3]) { %>
+                        <img src="<%= data[3].imgurl %>"/>
+						<% } %>
+                    </div>
+                </div>
+            </div>
+            <% } else if (style.type == 2) { %>
+                <% _.each(data, function(item) { %>
+                <div class="diy-col diy-col-50">
+                    <div class="ware">
+                        <img src="<%= item.imgurl %>"/>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else if (style.type == 3) { %>
+                <% _.each(data, function(item) { %>
+                <div class="diy-col diy-col-33">
+                    <div class="ware">
+                        <img src="<%= item.imgurl %>"/>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else if (style.type == 4) { %>
+                <% _.each(data, function(item) { %>
+                <div class="diy-col diy-col-25">
+                    <div class="ware">
+                        <img src="<%= item.imgurl %>"/>
+                    </div>
+                </div>
+                <% }); %>
+            <% } %>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_cubeimg_item">
+    <div class="cubeimg-item ep-item">
+        <div class="cubeimg-image">
+            <img src="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+            <div class="ep-select-image">更换</div>
+        </div>
+        <div class="cubeimg-params">
+            <div class="input-group" style="margin-bottom: .8rem">
+                <input type="text" class="form-control input-sm" value="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+            </div>
+            <div class="input-group">
+				<span class="input-group-addon">链接</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].link %>" placeholder="跳转链接以http://或https://开头" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                <span class="input-group-addon hide"></span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+    </div>
+</script>

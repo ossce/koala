@@ -1,0 +1,3 @@
+<?php defined('IN_IA') or exit('Access Denied');?><div style="background:<?php  echo $diy['style']['background'];?>;padding:<?php  echo $diy['style']['vertical_padding'];?> <?php  echo $diy['style']['horizontal_padding'];?>;">
+    <div style="width: 100%;height: 0;border-top-style: solid;border-top-width:<?php  echo $diy['style']['height'];?>; border-top-color:<?php  echo $diy['style']['color'];?>;"></div>
+</div>

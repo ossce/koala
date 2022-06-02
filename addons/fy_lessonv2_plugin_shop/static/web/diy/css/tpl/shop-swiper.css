@@ -1,0 +1,41 @@
+.swiper_block {
+    overflow: hidden;
+}
+.swiper_block img{
+    width: 100%;
+}
+
+.editor-swiper .swiper-item {
+    border: 1px solid #e1e1e1;
+    background: #fcfcfc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.editor-swiper .swiper-item .swiper-image {
+    width: 120px;
+    height: 70px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #ececec;
+    text-align: center;
+    vertical-align: middle;
+}
+.editor-swiper .swiper-item .swiper-image img {
+    height: 70px;
+}
+.editor-swiper .swiper-item .swiper-params {
+    margin-left: 130px;
+}
+.editor-swiper .swiper-item .swiper-params input:last-child {
+    margin-top: 10px;
+}
+.swiper-slider-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6.5rem;
+    width: 100%;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+}

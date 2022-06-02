@@ -1,0 +1,52 @@
+<div class="main">
+	<div class="alert alert-info">
+		请按照手册《14-F、小程序提交审核步骤》在下方操作后，再回到微课堂主模块里上传小程序，预览没问题后即可提交小程序审核。
+	</div>
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序端操作</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline" style="padding-left:0;"><input name="hidden_sale" type="checkbox" value="1" {if $comsetting['hidden_sale']}checked{/if}> 开启小程序模式</label>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序码</label>
+                    <div class="col-sm-9">
+							<div class="input-group " style="margin-top:.5em;">
+							{if file_exists($wxapp_follow)}
+								<a href="{$wxapp_follow}" target="_blank">
+									<img src="{$wxapp_follow}" onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150">
+								</a>
+							{else}
+								<img src="" onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150">
+							{/if}
+							</div>
+						
+						<span class="help-block">
+							如小程序码显示暂无图片，请点击“<a href="{php echo $this->createWebUrl('wxapp', array('op'=>'updateWxappCode'))}" style="color:#428bca;">更新小程序码</a>”后，使用微信重新进入小程序后即可自动生成小程序码。
+						</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">图文课程</label>
+                    <div class="col-sm-9">
+						<a href="{php echo $this->createWebUrl('wxapp',array('op'=>'sysncWxapp'));}" class="btn btn-warning" onclick="javascript:$('#loadingToast').show();">导入图文课程</a>
+						<span class="help-block">
+							系统将自动把两篇图文课程导入微课堂的课程列表里，课程类型为：小程序审核。
+						</span>
+                    </div>
+                </div>
+				
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{template 'web/loadingToast'}

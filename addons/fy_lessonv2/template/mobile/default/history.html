@@ -1,0 +1,202 @@
+<!-- 
+ * 我的足迹
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $op=='display'}
+	<link href="{MODULE_URL}static/mobile/{$template}/css/search.css?v={$versions}" rel="stylesheet" />
+	{if !empty($list)}
+		<div class="list_grid" id="lesson-list">
+		</div>
+		<div id="loading_div" class="loading_div">
+			<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+		</div>
+	{else}
+		<div class="my_empty">
+			<div class="empty_bd  my_course_empty">
+				<h3>没有找到任何记录</h3>
+				<p><a href="{php echo $this->createMobileUrl('index');}">到首页去看看</a></p>
+			</div>
+		</div>
+	{/if}
+
+	<script type="text/javascript">
+	var ajaxurl = "{php echo $this->createMobileUrl('history', array('type'=>'getlist'));}";
+	var attachUrl = "{php echo $_W['attachurl'];}";
+	var loadingToast = document.getElementById("loadingToast");
+	var get_status = true; //允许获取状态
+
+	$(function () {
+		var nowPage = 1;
+		function getData(page) {
+			if(get_status){
+				nowPage++;
+				$.get(ajaxurl, {page: page}, function (data) {  
+					loadingToast.style.display = 'none';
+					
+					var jsonObj = JSON.parse(data);
+					if (jsonObj.length > 0) {
+						insertDiv(jsonObj);
+					}else{
+						get_status = false;  //没有数据后，禁止请求获取数据
+						document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+					}
+				});
+			}
+		} 
+		
+		getData(1);//初始化加载第一页数据
+
+		//生成数据html,append到div中  
+		function insertDiv(result) {  
+			var mainDiv =$("#lesson-list");
+			var chtml = '';
+			for (var j = 0; j < result.length; j++) {
+				chtml += '<a href="' + result[j].lessonUrl + ' " class="normal_grid flex0_1">';
+				chtml += '	<div class="normal_grid_a flex_g0">';
+				chtml += '		<div class="img-box flex_g0">';
+				chtml += '			<div class="img"><img src="' + attachUrl + result[j].images + '"></div>';
+				chtml += '			<div class="icon-live ' + result[j].icon_live_status + '"></div>';
+				chtml += '			<div class="learned">' + result[j].addtime + '</div>';
+				chtml += '		</div>';
+				chtml += '	</div>';
+				chtml += '	<div class="flex-al1 flex10">';
+				chtml += '		<div>';
+				chtml += '			<div class="grid_title2">' + result[j].bookname + '</div>';
+				chtml += '			<div class="grid_info history_play_record">';
+				if(result[j].lesson_type=='0'){
+					chtml += '			<span>课程学习进度：</span><span class="red-color">' + result[j].study_process + '%</span>';
+				}else if(result[j].lesson_type==3){
+					chtml += '			<span>累计学习时间：</span><span class="section-title">' + result[j].playtime + '</span>';
+				}
+				chtml += '			</div>';
+				chtml += '		</div>';
+				if(result[j].section_title!='' && result[j].lesson_type!=3){
+					chtml += '	<div class="flex1 history">';
+					chtml += '		<span class="progress_tips">最近学习：' + result[j].section_title + '</span>';
+					chtml += '	</div>';
+				}
+				chtml += '	</div>';
+				chtml += '	</a>';
+			}
+			mainDiv.append(chtml);
+		}  
+	  
+		//定义鼠标滚动事件
+		var scroll_loading = false;
+		$(window).scroll(function(){
+		　　var scrollTop = $(this).scrollTop();
+		　　var scrollHeight = $(document).height();
+		　　var windowHeight = $(this).height();
+		　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+				scroll_loading = true;
+				getData(nowPage);  
+				scroll_loading = false;
+		　　}
+		});
+		$("#btn_Page").click(function () {
+			loadingToast.style.display = 'block';
+			getData(nowPage);
+		});
+	  
+	});
+	</script>
+{elseif $op=='details'}
+	<link href="{MODULE_URL}static/mobile/{$template}/css/recordlist.css?v={$versions}" rel="stylesheet" />
+	<div class="mar10-top mar10-left-right" id="lesson-list">
+		<div class="list-order-title text-center history-bookname">
+			课程名称：<strong class="amount">{$lesson['bookname']}</strong>
+			{if empty($list)}
+				<p class="text-center"><a href="{php echo $this->createMobileUrl('lesson',array('id'=>$lessonid))}" class="history-study">前往学习</a></p>
+			{/if}
+		</div>
+	</div>
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+
+	<script type="text/javascript">
+	var ajaxurl = "{php echo $this->createMobileUrl('history', array('op'=>'details','type'=>'getlist','lessonid'=>$lessonid));}";
+	var lessonUrl = "{php echo $this->createMobileUrl('lesson', array('id'=>$lessonid));}";
+	var loadingToast = document.getElementById("loadingToast");
+	var get_status = true; //允许获取状态
+
+	$(function () {
+		var nowPage = 1;
+		function getData(page) {
+			if(get_status){
+				nowPage++;
+				$.get(ajaxurl, {page: page}, function (data) {  
+					loadingToast.style.display = 'none';
+					
+					var jsonObj = JSON.parse(data);
+					if (jsonObj.length > 0) {
+						insertDiv(jsonObj);
+					}else{
+						get_status = false;  //没有数据后，禁止请求获取数据
+						document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+					}
+				});
+			}
+		} 
+		
+		getData(1);//初始化加载第一页数据
+
+		//生成数据html,append到div中  
+		function insertDiv(result) {  
+			var mainDiv =$("#lesson-list");
+			var chtml = '';
+			for (var j = 0; j < result.length; j++) {
+				chtml += '<div class="list-order-box">';
+				chtml += '	<a href="javascript:void(0);" class="list-well-item">';
+				chtml += '		<div class="list-well-item-bd">';
+				chtml += '			<h3>章节名称：' + result[j].title + '</h3>';
+				chtml += '		</div>';
+				chtml += '	</a>';
+				chtml += '	<p class="list-order-fl list-order-address">章节总时长：' + result[j].duration + '</p>';
+				chtml += '	<p class="list-order-fl list-order-address">最长学习时间：' + result[j].playtime + '</p>';
+				chtml += '	<p class="list-order-fl list-order-door">累计学习次数：<strong class="color-fc9153">' + result[j].playcount + '</strong> 次</p>';
+				chtml += '	<p class="list-order-fl list-order-door">章节学习进度：<strong class="' + result[j].progress_color + '">' + result[j].progress + '%</strong></p>';
+				chtml += '	<p class="list-order-fl list-order-time">最后一次学习：' + result[j].addtime + '</p>';
+				chtml += '	<p class="text-center"><a href="' + lessonUrl + '&sectionid=' + result[j].sectionid + '" class="history-study">前往学习</a></p>';
+				chtml += '</div>';
+			}
+			mainDiv.append(chtml);
+		}
+	  
+		//定义鼠标滚动事件
+		var scroll_loading = false;
+		$(window).scroll(function(){
+		　　var scrollTop = $(this).scrollTop();
+		　　var scrollHeight = $(document).height();
+		　　var windowHeight = $(this).height();
+		　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+				scroll_loading = true;
+				getData(nowPage);  
+				scroll_loading = false;
+		　　}
+		});
+		$("#btn_Page").click(function () {
+			loadingToast.style.display = 'block';
+			getData(nowPage);
+		});
+	  
+	});
+	</script>
+{/if}
+
+{template $template.'/_footerv2'}

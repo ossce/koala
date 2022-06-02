@@ -1,0 +1,10 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting');}">基本设置</a></li>
+	<li {if $op=='diy' || $op=='addDiy'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting',array('op'=>'diy'));}">页面模板</a></li>
+	<li {if $op=='adv'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting',array('op'=>'adv'));}">广告位管理</a></li>
+	<li {if $op=='navigation' || $op=='addNav'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting',array('op'=>'navigation'));}">导航栏管理</a></li>
+	<li {if $op=='share'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting',array('op'=>'share'));}">分享设置</a></li>
+	<li {if $op=='refund'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting',array('op'=>'refund'));}">退款原因</a></li>
+</ul>

@@ -1,0 +1,11 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+    <li {if $_GPC['do']=='agent' || $_GPC['do']=='team'} class="active"{/if}><a href="{php echo $this->createWebUrl('agent');}">分销(用户)管理</a></li>
+	<li {if $_GPC['do']=='commission' && $op=='commissionlog'} class="active"{/if}><a href="{php echo $this->createWebUrl('commission', array('op'=>'commissionlog'));}">分销佣金明细</a></li>
+	<li {if $_GPC['do']=='commission' && $op=='statis'} class="active"{/if}><a href="{php echo $this->createWebUrl('commission', array('op'=>'statis'));}">分销佣金统计</a></li>
+	<li {if $_GPC['do']=='commission' && $op=='level'} class="active"{/if}><a href="{php echo $this->createWebUrl('commission', array('op'=>'level'));}">分销商等级</a></li>
+	<li {if $_GPC['do']=='comsetting' && $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('comsetting');}">分销设置</a></li>
+	<li {if $_GPC['do']=='poster'}class="active"{/if}><a href="{php echo $this->createWebUrl('poster');}">分销海报</a></li>
+	<li {if $_GPC['do']=='comsetting' && $op=='font'}class="active"{/if}><a href="{php echo $this->createWebUrl('comsetting', array('op'=>'font'));}">分销文字</a></li>
+</ul>

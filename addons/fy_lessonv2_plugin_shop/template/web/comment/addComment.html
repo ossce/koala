@@ -1,0 +1,143 @@
+<style type="text/css">
+.xing_hui{width: 24px;}
+</style>
+<div class="main">
+	<form id="commomForm" method="post" class="form-horizontal form" onsubmit="return checksubmit();">
+        <div class="panel panel-default">
+            <div class="panel-heading">新增商品评价</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+                    <div class="col-sm-9">
+						<input type="text" value="{$goods['title']}" class="form-control" readonly>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">规格名称</label>
+                    <div class="col-sm-9">
+						<input type="text" name="sku_name" class="form-control">
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 用户昵称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="virtual_nickname" class="form-control" >
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 用户头像</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('virtual_avatar', '');}
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 评分</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							<label>
+								<input type="radio" name="score" value="5" checked/> <span class="label" style="background-color:#FB5B5B;">5分</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="score" value="4"/> <span class="label" style="background-color:#FB5B5B;">4分</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="score" value="3"/> <span class="label label-warning">3分</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="score" value="2"/> <span class="label label-success">2分</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="score" value="1"/> <span class="label label-success">1分</span>
+							</label>
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 评价内容</label>
+					<div class="col-sm-9">
+                        <p class="form-control-static">
+							<textarea name="content"  class="form-control" style="height:80px;"></textarea>
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">评价图片</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_multi_image('picture', '')}
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 评价状态</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+							<label>
+								<input type="radio" name="status" value="0"/>
+								<span class="label label-primary" style="vertical-align:text-top;">待审核</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="status" value="1" checked/>
+								<span class="label label-success" style="vertical-align:text-top;">已审核</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="status" value="-1"/>
+								<span class="label label-default" style="vertical-align:text-top;">审核未通过</span>
+							</label>
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">回复内容</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							<textarea name="reply"  class="form-control" style="height:80px;"></textarea>
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 评价时间</label>
+					<div class="col-sm-9">
+						{php echo _tpl_form_field_date('addtime', date('Y-m-d H:i:s', time()), true);}
+						<span class="help-block" style="color:red;">注意：评价时间不能大于当前时间</span>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9">
+						<input type="hidden" name="goodsid" value="{$goodsid}" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+                        <input type="submit" name="submit" class="btn btn-primary" value="提交" />
+                    </div>
+                </div>
+            </div>
+        </div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function checksubmit(){
+		var virtual_nickname = $('input[name="virtual_nickname"]').val();
+		var virtual_avatar = $('input[name="virtual_avatar"]').val();
+		var content = $('textarea[name="content"]').val();
+		
+		if(!virtual_nickname){
+			util.message('请填写用户昵称');
+			return false;
+		}
+		if(!virtual_avatar){
+			util.message('请上传用户头像');
+			return false;
+		}
+		if(!content){
+			util.message('请填写评价内容');
+			return false;
+		}
+
+		document.getElementById("commentForm").submit();
+	}
+</script>

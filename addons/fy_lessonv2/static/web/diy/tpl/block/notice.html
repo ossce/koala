@@ -1,0 +1,43 @@
+<script type="text/template" id="tpl_block_notice">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div class="block_content notice_block flex0_1" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+            <div class="notice_image" style="border-color:<%= style.vertical_color %>;">
+                <img src="<%= style.imgurl %>"/>
+            </div>
+            <div class="notice_list flex_all">
+                <ul>
+                    <li>
+                       <div class="notice_title" style=" color: <%= data[0].color %>;"><%= data[0].title %></div>
+                    </li>
+                </ul>
+            </div>
+			<a class="flex_g0 notice_more" data-type="style" data-key="more_color" data-name="<%= name %>" data-guid="<%= guid %>" style=" color: <%= style.more_color %>;border-color:<%= style.vertical_color %>;"><%= style.more_font %> <i class="fa fa-angle-right"></i></a>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_notice_item">
+    <div class="notice-item ep-item">
+        <div class="notice-sort-icon">
+            <i class="fa fa-arrows"></i>
+        </div>
+        <div class="notice-params">
+            <div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">标题</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].title %>" data-type="data" data-key="title" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                <input type="color" class="form-control input-sm input_color input_binding" value="<%= data[0].color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+					<i class="fa fa-remove"></i>
+                </span>
+            </div>
+            <div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">链接</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="跳转链接以http://或https://开头"/>
+                <span class="input-group-addon hide"></span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="1"></span>
+    </div>
+</script>

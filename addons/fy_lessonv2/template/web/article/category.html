@@ -1,0 +1,50 @@
+<style type="text/css">
+.form-controls{display: inline-block; width:70px;}
+.cblock{display:block !important;}
+.cnone{display:none !important;}
+</style>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css">
+<div class="main">
+    <div class="category">
+        <form action="" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body" style="width:600px;">
+					<div class="dd">
+						<ol class="dd-list">
+						{loop $list $item}
+							 <li class="dd-item" onclick="{$item['id']}">
+								<div class="dd-handle" style="width:100%;">
+								    <input type="text" class="form-control form-controls" name="displayorder[{$item['id']}]" value="{$item['displayorder']}" style="padding-left:5px;">
+									&nbsp;[ID: {$item['id']}] {$item['name']}
+									<span class="pull-right">
+										{if $item['status']}
+											<span class="label label-success">显示</span>
+										{else}
+											<span class="label label-default">隐藏</span>
+										{/if}
+										&nbsp;
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('article', array('op'=>'postCategory','cate_id'=>$item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="编辑"><i class="fa fa-pencil"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('article', array('op'=>'delCategory','cate_id'=>$item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="删除" onclick="return confirm('确认删除该分类？');return false;"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+							 </li>
+						{/loop}
+						</ol>
+						<table class="table">
+							 <tbody>
+								 <tr>
+									 <td>
+										<input name="submit" type="submit" class="btn btn-primary" value="批量排序" style="margin-right:20px;">
+										<a class="btn btn-success" href="{php echo $this->createWebUrl('article', array('op'=>'postCategory'));}"><i class="fa fa-plus"></i> 添加分类</a>
+										<input type="hidden" name="token" value="{$_W['token']}">
+									 </td>
+								 </tr>
+							 </tbody>
+						</table>
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

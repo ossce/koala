@@ -1,0 +1,98 @@
+<!-- 
+ * 开屏广告
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background: #E6EAEB;
+	font-family: Arial, '微软雅黑', '宋体', sans-serif
+}
+.alert-box {
+	position: relative;
+	margin: 90px auto 0;
+	border-radius: 10px 10px 0 0;
+	color: #FFF;
+	text-align: center;
+	z-index:1;
+}
+.alert-circle {
+	position: absolute;
+	top: -115px;
+	right: 3px;
+}
+.alert-sec-circle {
+	stroke-dashoffset: 0;
+	stroke-dasharray: 150;
+	transition: stroke-dashoffset 1s linear
+}
+.alert-sec-text {
+	position: absolute;
+    top: -70px;
+    right: 14px;
+    color: #000;
+    font-size: 14px;
+}
+.adv-bg{
+	position:fixed;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+}
+</style>
+
+<div class="alert-box">
+	<svg class="alert-circle" width="80" height="80">
+		<circle cx="55" cy="55" r="20" fill="#FFF" stroke="#43AEFA" stroke-width="6"></circle>
+		<circle id="js-sec-circle" class="alert-sec-circle" cx="55" cy="55" r="20" fill="transparent" stroke="#F4F1F1" stroke-width="7" transform="rotate(-90 55 55)"></circle>
+		<text class="alert-sec-unit" x="82" y="172" fill="#BDBDBD"></text>
+	</svg>
+	<div id="js-sec-text" class="alert-sec-text">跳过</div>
+</div>
+
+<div id="go-adv" class="adv-bg">  
+	<img src="{$_W['attachurl']}{$advs['picture']}" width="100%" height="100%"/>
+</div>
+
+
+<script type="text/javascript">
+(function() {
+    var t = 5, n = document.getElementById("js-sec-circle");
+    setInterval(function() {
+        if (0 == t){
+			location.href="{php echo $this->createMobileUrl('index',array('uid'=>$_GPC['uid'],'t'=>time()));}";
+		}else {
+            t -= 1,
+            document.getElementById("js-sec-text").innerHTML = '跳过';
+            var e = Math.round(t / 5 * 150);
+            n.style.strokeDashoffset = e - 150;
+        }
+    },
+    950);
+})();
+
+$("#js-sec-text").click(function(){
+	location.href="{php echo $this->createMobileUrl('index',array('uid'=>$_GPC['uid'],'t'=>time()));}";
+});
+
+$("#go-adv").click(function(){
+	var link = "{php echo $advs['link'] ? $advs['link'] : '';}";
+	if(link){
+		location.href="{php echo $advs['link'];}&uid={php echo $_GPC['uid']}";
+	}else{
+		return false;
+	}
+});
+
+</script>

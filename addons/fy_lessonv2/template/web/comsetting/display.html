@@ -1,0 +1,460 @@
+<style>
+.item_box img{
+	width: 100%;
+	height: 100%;
+}
+.focus-setting{
+	border-bottom:1px #428BCA dashed;
+	padding-bottom:20px;
+}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+            <div class="panel-heading">分销功能</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销功能</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="is_sale" value="1" id="issale1" {if $comsetting['is_sale'] == 1}checked{/if} /> 开启</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="is_sale" value="0" id="issale2"  {if empty($comsetting) || $comsetting['is_sale'] == 0}checked{/if} /> 关闭</label>
+						&nbsp;
+						<label class="radio-inline"><input name="hidden_login" type="checkbox" value="1" {if $comsetting['hidden_login']}checked{/if}> <span class="label-middle">关闭微信端强制登录</span></label>
+						<span class="help-block">
+							关闭微信端强制登录后，微信里访问首页、全部课程、文章公告、获取优惠券和课程详情页将不再检查是否登录。
+						</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销内购</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="self_sale" value="1" {if $comsetting['self_sale'] == 1}checked{/if} /> 开启</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="self_sale" value="0" {if empty($comsetting) || $comsetting['self_sale'] == 0}checked{/if} /> 关闭</label>
+                        <span class="help-block ">
+							1、开启分销内购，购买人获得一级分销佣金；<br/>
+							<span class="color-red">2、根据国家相关法规，关闭分销内购后，最高只能做二级分销，请自觉遵守国家法律法规进行合法运营。</span>
+						</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">推广绑定模式</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="sale_model" value="0" {if empty($comsetting) || $comsetting['sale_model'] == 0}checked{/if} /> 永久模式</label>&nbsp;
+                        <label class="radio-inline"><input type="radio" name="sale_model" value="1" {if $comsetting['sale_model'] == 1}checked{/if} /> 保护期模式</label>
+                        <span class="help-block ">
+							1、【永久模式】用户的上级不会发生改变，始终为用户第一次进入课堂时的上级。<br/>
+							2、【保护期模式】用户在保护期内，上级不会发生变化，过了保护期后满足条件，用户访问别的分销员推广海报或链接，可成为别的分销员下级。
+						</span>
+                    </div>
+                </div>
+				<div class="form-group sale-model" {if $comsetting['sale_model'] == 0}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-8">
+                        <div class="input-group">
+							<span class="input-group-addon">【保护期】上下级关系在</span>
+							<input type="text" name="protect_time" class="form-control" value="{$comsetting['protect_time']}">
+							<span class="input-group-addon">小时内受到保护</span>
+                        </div>
+                        <span class="help-block">留空或为0表示未开启保护期。在保护期内，用户访问别的分销员推广海报或链接，用户的上级不会发生变化。</span>
+                    </div>
+				</div>
+				<div class="form-group sale-model" {if $comsetting['sale_model'] == 0}style="display:none;"{/if}>
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9">
+						<label class="control-label">推广绑定模式：</label>
+						<label class="radio-inline"><input type="radio" name="protect_rank" value="0" {if $comsetting['protect_rank'] == 0}checked{/if} /> 任何人</label>&nbsp;
+                        <label class="radio-inline"><input type="radio" name="protect_rank" value="1" {if $comsetting['protect_rank'] == 1}checked{/if} /> 非VIP会员</label>
+                        <span class="help-block ">
+							1、【任何人】在保护期外，任何用户访问分销员推广海报或链接，用户的上级都会变为该分销员。<br/>
+							2、【非VIP用户】在保护期外，只有非VIP用户访问分销员推广海报或链接，用户的上级才会变为该分销员。
+						</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销商默认状态</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="agent_status" value="1" {if $comsetting['agent_status'] == 1}checked{/if} onclick="changeAgentStatus(this.value)"/> {$agentStatusList[1]}</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="agent_status" value="0" {if empty($comsetting) || $comsetting['agent_status'] == 0}checked{/if} onclick="changeAgentStatus(this.value)"/> {$agentStatusList[0]}</label>
+                        <span class="help-block">{$agentStatusList[1]}状态即用户进入微课堂即成为分销商，可以发展下级；{$agentStatusList[0]}状态的分销商不能发展下级，需要满足分销商条件后转为{$agentStatusList[1]}状态方可发展下级。</span>
+                    </div>
+                </div>
+				<div class="form-group {if $comsetting['agent_status']==1}hide{/if}" id="agent_condition">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">分销商{$agentStatusList[0]}状态转{$agentStatusList[1]}： 购买订单累计金额满</span>
+							<input type="text" name="order_amount" value="{$agent_condition['order_amount']}" class="form-control" placeholder="0表示不限制">
+							<span class="input-group-addon">元</span>
+							<span class="input-group-addon">购买订单笔数累计满</span>
+							<input type="text" name="order_total" value="{$agent_condition['order_total']}" class="form-control" placeholder="0表示不限制">
+							<span class="input-group-addon">单</span>
+						</div>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他常用设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="show_lately_cashlog" value="1" {if $comsetting['show_lately_cashlog']}checked{/if}>
+							<span class="label-middle">最近提现记录</span>
+						</label>
+						<label class="radio-inline hide">
+							<input type="checkbox" name="commission_credit" value="1" {if $comsetting['commission_credit']}checked{/if}>
+							<span class="label-middle">分销credit</span>
+						</label>
+						<span class="help-block">
+							1、勾选最近提现记录后，手机端分销中心将滚动显示最近提现记录。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销获得佣金身份</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="sale_rank" value="1" {if empty($comsetting) || $comsetting['sale_rank'] == 1}checked{/if} /> 任何人</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="sale_rank" value="2" {if $comsetting['sale_rank'] == 2}checked{/if} /> VIP身份</label>
+                        <span class="help-block">分销身份是指用户A推广了下级B，下级B消费付款时，上级A即可获得佣金(或上级A必须为VIP身份时才能获得佣金)</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">佣金提现方式</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline" style="padding-left:0;"><input name="cash_way[]" type="checkbox" value="credit" {if in_array('credit',$cash_way)}checked{/if} /><span class="label-middle">系统余额</span></label>
+						<label class="radio-inline"><input name="cash_way[]" type="checkbox" value="weachat" {if in_array('weachat',$cash_way)}checked{/if} /><span class="label-middle">微信钱包</span></label>
+						<label class="radio-inline"><input name="cash_way[]" type="checkbox" value="alipay" {if in_array('alipay',$cash_way)}checked{/if} /><span class="label-middle">支付宝</span></label>
+						<label class="radio-inline"><input name="cash_way[]" type="checkbox" value="bank" {if in_array('bank',$cash_way)}checked{/if} /><span class="label-middle">银行卡</span></label>
+						<label class="radio-inline"><input name="cash_way[]" type="checkbox" value="qrcode" {if in_array('qrcode',$cash_way)}checked{/if} /><span class="label-middle">二维码收款</span></label>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">佣金提现处理方式</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="cash_type" value="1" id="cashtype1" {if empty($comsetting) || $comsetting['cash_type'] == 1}checked{/if} /> 人工审核 <span class="label label-success">推荐</span></label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="cash_type" value="2" id="cashtype2"  {if $comsetting['cash_type'] == 2}checked{/if} /> 自动到账</label>
+                        <span class="help-block">
+							1、系统余额只能用于系统里面消费，默认自动到账；<br/>
+							2、提现到微信钱包可设置人工审核或自动到账，<span class="color-red">强烈建议设置为人工审核，且平时不要存放太多金额在微信支付商户号里，防止后台密码泄漏被盗刷。</span><br/>
+							3、支付宝、银行卡、二维码收款提现方式没有在线转账接口，提现后须管理员人工处理，该方式主要用于过渡新开通微信没法开通微信企业付款。
+						</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现最低金额</label>
+					<div class="col-sm-9">
+                        <div class="input-group">
+							<span class="input-group-addon">普通用户最低提现</span>
+							<input type="text" name="cash_lower_common" class="form-control" value="{$comsetting['cash_lower_common']}">
+							<span class="input-group-addon">元起</span>
+
+							<span class="input-group-addon">VIP用户最低提现</span>
+							<input type="text" name="cash_lower_vip" class="form-control" value="{$comsetting['cash_lower_vip']}">
+							<span class="input-group-addon">元起</span>
+
+							<span class="input-group-addon">讲师最低提现</span>
+							<input type="text" name="cash_lower_teacher" class="form-control" value="{$comsetting['cash_lower_teacher']}">
+							<span class="input-group-addon">元起</span>
+
+							<span class="input-group-addon">提现手续费</span>
+							<input type="text" name="cash_service_num" class="form-control" value="{$comsetting['cash_service_num']}"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+							<span class="input-group-addon">%</span>
+                        </div>
+                        <span class="help-block">最低提现为1元起，提现手续费仅针对微信零钱和支付宝提现方式生效</span>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现最低间隔</label>
+					<div class="col-sm-9">
+                        <div class="input-group">
+							<span class="input-group-addon">普通用户提现间隔</span>
+							<input type="text" name="cash_interval_common" class="form-control" value="{$comsetting['cash_interval_common']}">
+							<span class="input-group-addon">天</span>
+
+							<span class="input-group-addon">VIP用户提现间隔</span>
+							<input type="text" name="cash_interval_vip" class="form-control" value="{$comsetting['cash_interval_vip']}">
+							<span class="input-group-addon">天</span>
+
+							<span class="input-group-addon">讲师佣金提现间隔</span>
+							<input type="text" name="cash_interval_teacher" class="form-control" value="{$comsetting['cash_interval_teacher']}">
+							<span class="input-group-addon">天</span>
+                        </div>
+                        <span class="help-block">提现间隔为0表示不限制，例如设置为7天，表示今天申请提现，7天后才可以再次申请提现</span>
+                    </div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销商升级条件</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="upgrade_condition" value="1" {if $comsetting['upgrade_condition'] == 1}checked{/if} /> 分销累计佣金</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="upgrade_condition" value="2" {if $comsetting['upgrade_condition'] == 2}checked{/if} /> 购买订单累计总额</label>
+                        &nbsp;
+						<label class="radio-inline"><input type="radio" name="upgrade_condition" value="3" {if $comsetting['upgrade_condition'] == 3}checked{/if} /> 购买订单累计笔数</label>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分销等级</label>
+					<div class="col-sm-5">
+						<select name="level" id="sale_level" class="form-control" onchange="checklevel(this.value);">
+							<option value="1" {if $comsetting['level']==1}selected{/if}>一级分销</option>
+							<option value="2" {if $comsetting['level']==2}selected{/if}>二级分销</option>
+							<option value="3" {if $comsetting['level']==3}selected{/if} id="sale_level3" {if !$comsetting['self_sale']}style="display:none;"{/if}>三级分销</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group" id="level1">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">一级佣金比例</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<input type="text" name="commission1" value="{$commission['commission1']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+						<span class="help-block color-red">根据国家相关法规，各级分销佣金比例总和不得超过50%，请自觉遵守国家法律法规进行合法运营。</span>
+					</div>
+				</div>
+				<div class="form-group {if in_array($comsetting['level'],array('1'))}hide{/if}" id="level2">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">二级佣金比例</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<input type="text" name="commission2" value="{$commission['commission2']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group {if in_array($comsetting['level'],array('1','2'))}hide{/if}" id="level3">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">三级佣金比例</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<input type="text" name="commission3" value="{$commission['commission3']}" class="form-control"><span class="input-group-addon">%</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">升级到下个等级条件</label>
+                    <div class="col-sm-5 col-xs-12">
+                        <div class="input-group">
+							<span class="input-group-addon" id="upgrade_type">
+								{if $comsetting['upgrade_condition']==1}分销累计佣金
+								{elseif $comsetting['upgrade_condition']==2}购买订单累计总额
+								{elseif $comsetting['upgrade_condition']==3}购买订单累计笔数
+								{/if}满
+							</span>
+							<input type="text" name="updatemoney" class="form-control" value="{$commission['updatemoney']}">
+							<span class="input-group-addon" id="upgrade_unit">
+								{if $comsetting['upgrade_condition']==1 || $comsetting['upgrade_condition']==2}元
+								{elseif $comsetting['upgrade_condition']==3}单
+								{/if}
+								{php echo $commission['updatemoney'] ? '升级到下个等级' : '不自动升级';}
+								
+							</span>
+                        </div>
+                        <span class="help-block">分销商升级条件，留空或为0为不自动升级</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">直接推荐下级奖励</label>
+					<div class="col-sm-8 col-xs-12">
+                        <div class="input-group">
+							<input type="text" name="rec_income[credit1]" class="form-control" value="{$rec_income['credit1']}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+							<span class="input-group-addon">积分</span>
+							<input type="text" name="rec_income[credit2]" class="form-control" value="{$rec_income['credit2']}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+							<span class="input-group-addon">佣金</span>
+                        </div>
+                        <span class="help-block">0为不开启奖励；每直接推荐一个下级成员，给予推荐人的奖励，可选择积分或佣金。</span>
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页分享标题</label>
+                    <div class="col-sm-9">
+						<input type="text" name="sharelinktitle" value="{$sharelink['title']}" class="form-control">
+						<span class="help-block">该分享用于手机端首页分享</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页分享描述</label>
+                    <div class="col-sm-9">
+                        <textarea style="height:55px;" class="form-control" name="sharelinkdesc">{$sharelink['desc']}</textarea>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页分享图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image("sharelinkimg", $sharelink['images']);}
+                    </div>
+                </div>
+
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享课程描述</label>
+                    <div class="col-sm-9">
+                        <textarea style="height:55px;" class="form-control" name="sharelessontitle">{$sharelesson['title']}</textarea>
+						<span>变量：【课程名称】</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享课程图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image("sharelessonimg", $sharelesson['images']);}
+						<span>留空将使用课程封面图</span>
+                    </div>
+                </div>
+
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享讲师描述</label>
+                    <div class="col-sm-9">
+                        <textarea style="height:55px;" class="form-control" name="shareteachertitle">{$shareteacher['title']}</textarea>
+						<span>变量：【讲师名称】</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享讲师图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image("shareteacherimg", $shareteacher['images']);}
+						<span>留空将使用讲师相片</span>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分销说明</label>
+					<div class="col-sm-9">
+						<textarea class="form-control" name="sale_desc" style="height:120px;">{$comsetting['sale_desc']}</textarea>
+						<span class="help-block">该说明将显示在前端“个人中心—分销中心—我的海报”页面；第一行为标题，从第二行开始，每行为一段落。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分销等级说明</label>
+					<div class="col-sm-9">
+						<textarea class="form-control" name="level_desc" style="height:120px;">{$comsetting['level_desc']}</textarea>
+						<span class="help-block">在前端“个人中心—分销中心”页面，点击右上角等级后会弹出该说明；第一行为标题，从第二行开始，每行为一段落。</span>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员海报缓存</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="qrcode_cache" value="1" {if $comsetting['qrcode_cache'] == 1}checked{/if} /> 开启缓存</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="qrcode_cache" value="0" {if empty($comsetting) || $comsetting['qrcode_cache'] == 0}checked{/if} /> 关闭缓存</label>
+                        <span class="help-block">开启缓存会员海报，可以大幅度的减少会员生成海报对服务器的压力，在调试会员海报的时候可以关闭缓存</span>
+                    </div>
+                </div>
+			</div>
+        </div>
+		<div class="panel panel-default">
+            <div class="panel-heading">证书设置(佣金提现使用，需开通微信“企业付款到零钱”功能)</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微信支付商户号(MchId)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="mchid" value="{$comsetting['mchid']}" class="form-control"/>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户支付密钥(API密钥)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="mchkey" value="{$comsetting['mchkey']}" class="form-control"/>
+						<span>此值需要和系统的微信支付API密钥保持一致</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">服务器IP</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="serverIp" value="{$comsetting['serverIp']}" class="form-control"/>
+						<span>企业付款正常时可忽略此项；当提示“client_ip非法未填写时”可手动配置IP地址</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">CERT证书文件</label>
+                    <div class="col-sm-4 col-xs-12">
+                        <input type="file" name="apiclient_cert" class="form-control" />
+						<span class="help-block">
+							{if $apiclient_cert}
+							<span class='label label-success'>已上传</span>
+							{else}
+							<span class='label label-danger'>未上传</span>
+							{/if}
+							下载证书 cert.zip 中的 apiclient_cert.pem 文件
+						</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">KEY密钥文件</label>
+                    <div class="col-sm-4 col-xs-12">
+                        <input type="file" name="apiclient_key" class="form-control" />
+						<span class="help-block">
+							{if $apiclient_key}
+							<span class='label label-success'>已上传</span>
+							{else}
+							<span class='label label-danger'>未上传</span>
+							{/if}
+							下载证书 cert.zip 中的 apiclient_key.pem 文件
+						</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="hidden" name="id" value="{$comsetting['id']}" />
+            <input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+	</form>
+</div>
+<script type="text/javascript">
+function checklevel(obj){
+	if(obj==1){
+		$("#level2").addClass("hide");
+		$("#level3").addClass("hide");
+	}else if(obj==2){
+		$("#level2").removeClass("hide");
+		$("#level3").addClass("hide");
+	}else if(obj==3){
+		$("#level2").removeClass("hide");
+		$("#level3").removeClass("hide");
+	}
+}
+
+function changeAgentStatus(status){
+	if(status==0){
+		$("#agent_condition").removeClass("hide");
+	}else{
+		$("#agent_condition").addClass("hide");
+	}
+}
+
+$(function(){
+	$(':radio[name="upgrade_condition"]').click(function(){
+		if($(this).val()==1){
+			var upgrade_type = '分销累计佣金 满';
+			var upgrade_unit = '元 升级到下个等级';
+
+		}else if($(this).val()==2){
+			var upgrade_type = '购买订单累计总额 满';
+			var upgrade_unit = '元 升级到下个等级';
+		
+		}else if($(this).val()==3){
+			var upgrade_type = '购买订单累计笔数 满';
+			var upgrade_unit = '单 升级到下个等级';
+		
+		}
+		document.getElementById("upgrade_type").innerHTML = upgrade_type;
+		document.getElementById("upgrade_unit").innerHTML = upgrade_unit;
+	})
+	
+	$(':radio[name="self_sale"]').click(function(){
+		if($(this).val()==1){
+			$("#sale_level3").show();
+		}else if($(this).val()==0){
+			$("#sale_level").val("2");
+			$("#level3").hide();
+			$("#sale_level3").hide();
+		}
+	})
+
+	$(':radio[name="sale_model"]').click(function(){
+		if($(this).val()==1){
+			$(".sale-model").show();
+		}else if($(this).val()==0){
+			$(".sale-model").hide();
+		}
+	})
+});
+</script>

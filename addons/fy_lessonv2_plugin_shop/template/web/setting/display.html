@@ -1,0 +1,145 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">基本设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信外访问</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						<input type="hidden" class="js-switch" name="visit_limit" value="{$shop_setting['visit_limit']}" />
+						<div id="visit_limit" class="switchery {if $shop_setting['visit_limit']}checked{/if}" onclick="specSwitch('visit_limit');"><small></small></div>
+						<span class="help-block">
+							开启微信外访问，用户在微信外的浏览器也可以正常访问页面
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分销功能</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						<input type="hidden" class="js-switch" name="is_sale" value="{$shop_setting['is_sale']}" />
+						<div id="is_sale" class="switchery {if $shop_setting['is_sale']}checked{/if}" onclick="specSwitch('is_sale');"><small></small></div>
+						<span class="help-block">
+							1、开启分销功能后，商城的分销佣金比例和分销关系将依赖微课堂主模块。关闭分销功能后，用户在商城里下单，上级不会有任何佣金。<br/>
+							2、上级用户分销状态为冻结时，下级消费，上级不会获得佣金；分销身份为VIP身份时，下级支付时，如果上级不是VIP身份，上级不会获得佣金；<br/>
+							3、商城的订单金额仅在商城里查看，不统计到主模块。<br/>
+							4、分销佣金发放时间见下方“自动计划任务”设置。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商城标题</label>
+					<div class="col-sm-9">
+						<input type="text" name="sitename" value="{$shop_setting['sitename']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商城版权</label>
+					<div class="col-sm-9">
+						<input type="text" name="copyright" value="{$shop_setting['copyright']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他常用设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline" style="padding-left:0;">
+							<input type="checkbox" name="audit_comment" value="1" {if $shop_setting['audit_comment']}checked{/if} />
+							<span class="label-middle">审核订单评价</span>
+						</label>
+						<label class="radio-inline" style="padding-left:0;">
+							<input type="checkbox" name="sysnc_right_menu" value="1" {if $shop_setting['sysnc_right_menu']}checked{/if} />
+							<span class="label-middle">使用课堂右侧悬浮菜单</span>
+						</label>
+						<span class="help-block">
+							1、勾选审核订单评价后，用户评价订单后，需要审核后才可以显示在前端。<br/>
+							2、勾选使用课堂右侧悬浮菜单后，商城将同步使用课堂的右侧悬浮菜单。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员openid</label>
+					<div class="col-sm-9">
+						<input type="text" name="manageopenid" value="{$shop_setting['manageopenid']}" class="form-control">
+						<div class="help-block">
+							用户支付订单成功提醒管理员，多个管理员openid之间用英文状态逗号“,”隔开
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自动计划任务</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">未付款订单</span>
+							<input type="text" name="close_order" value="{$shop_setting['close_order']}" class="form-control">
+							<span class="input-group-addon">分钟后自动关闭</span>
+							<span class="input-group-addon">订单发货后</span>
+							<input type="text" name="finish_order" value="{$shop_setting['finish_order']}" class="form-control">
+							<span class="input-group-addon">天自动确认收货</span>
+							<span class="input-group-addon">订单完成后</span>
+							<input type="text" name="send_commission" value="{$shop_setting['send_commission']}" class="form-control">
+							<span class="input-group-addon">天自动发放佣金</span>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">确认收货后</span>
+							<input type="text" name="refund_order" value="{$shop_setting['refund_order']}" class="form-control">
+							<span class="input-group-addon">天内可申请退款</span>
+							<span class="input-group-addon">确认收货后</span>
+							<input type="text" name="comment_order" value="{$shop_setting['comment_order']}" class="form-control">
+							<span class="input-group-addon">天内可评价订单</span>
+							<span class="input-group-addon">------------</span>
+							<input type="text" class="form-control">
+							<span class="input-group-addon">----------------</span>
+						</div>
+						<span class="help-block">
+							1、【关闭未付款订单】：0为不自动自动关闭未付款订单，建议1440分钟，即1天；<br/>
+							2、【自动确认收货】订单发货后自动确认收货时间，建议10天；<br/>
+							3、【自动发放佣金】订单完成后自动发放佣金，0为订单完成后即可发放佣金，建议为15天；<br/>
+							4、【可申请退款期限】0为不允许订单申请退款，建议为15天；<br/>
+							5、【可评价订单期限】0为订单确认收货后随时都可以评价订单，建议为15天；
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">定时任务链接</label>
+					<div class="col-sm-9">
+						<a href="javascript:;" id="copyCrontab" style="vertical-align:-8px;">{$_W['siteroot']}app/{php echo str_replace("./","",$this->createMobileUrl('shopcrontab'));}</a>
+						<span class="help-block">建议定时每5分钟执行一次；定时任务用于检查超期未支付、未完成、未评价订单，以及订单佣金发放等，您可以设置服务器定时执行该URL来操作定时任务。</span>
+					</div>
+				</div>
+				{if $_W['isfounder']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">重置版本号</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<a href="{php echo $this->createWebUrl('setting',array('op'=>'resetver'));}" class="btn btn-danger">重置版本号</a>
+						</div>
+						<span class="help-block">当因网络等原因升级不完整时，您可以尝试重置版本号。重置版本号不改变文件，重置版本号后请先更新缓存，再到应用管理里再次升级。</span>
+					</div>
+                </div>
+				{/if}
+			</div>	
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	require(['jquery', 'util'], function($, util){
+		$(function(){
+			util.clip($("#copyCrontab")[0], $("#copyCrontab").text());
+		});
+	});
+
+	function specSwitch(obj){
+		if($("input[name=" + obj + "]").val() == 0) {
+			$("input[name=" + obj + "]").val(1);
+			$("#" + obj).addClass("checked");
+		}else{
+			$("input[name=" + obj + "]").val(0);
+			$("#" + obj).removeClass("checked");
+		}
+	}
+</script>

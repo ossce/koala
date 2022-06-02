@@ -1,0 +1,215 @@
+{php include $this->template($template.'/_header')}
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+    <div class="w-main m-auto"> 
+        <div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; 全部课程
+		</div>
+
+        <div class="w-1200 bg-c-ffffff fl">
+            <div class="ql_ftclass p-l-10 p-r-10">
+                <div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">课程分类</div>
+                    <ul class="w-1100 fl">
+						<li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['pid']}class_cur{/if}">不限</a>
+						</li>
+						{loop $categorylist $category}
+                        <li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?pid={$category['id']}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['pid']==$category['id']}class_cur{/if}">{$category['name']}</a>
+						</li>
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+
+				{if $_GPC['pid']}
+                <div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">下级分类</div>
+                    <ul class="w-1100 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['cid']}class_cur{/if}">不限</a>
+						</li>
+						{loop $child $item}
+                        <li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$item['id']}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['cid']==$item['id']}class_cur{/if}">{$item['name']}</a>
+						</li>
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+				{/if}
+
+				{if $lesson_attribute['attribute1']}
+				<div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">{$lesson_attribute['attribute1']}</div>
+                    <ul class="w-1100 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['attr1']}class_cur{/if}">不限</a>
+						</li>
+						{loop $attribute1 $item}
+							{if in_array($item['id'], $cat_attribute1)}
+								<li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+									<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$item['id']}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['attr1']==$item['id']}class_cur{/if}">{$item['name']}</a>
+								</li>
+							{/if}
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+				{/if}
+
+				{if $lesson_attribute['attribute2']}
+				<div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">{$lesson_attribute['attribute2']}</div>
+                    <ul class="w-1100 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['attr2']}class_cur{/if}">不限</a>
+						</li>
+						{loop $attribute2 $item}
+							{if in_array($item['id'], $cat_attribute2)}
+								<li class="w-min80 w-max120 ovhidden m-l-24 p-b-3 fl">
+									<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$item['id']}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['attr2']==$item['id']}class_cur{/if}">{$item['name']}</a>
+								</li>
+							{/if}
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+				{/if}
+
+				<div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">课程类型</div>
+                    <ul class="w-1100 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_type']==''}class_cur{/if}">不限</a>
+						</li>
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type=0&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_type']=='0'}class_cur{/if}">普通课程</a>
+						</li>
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type=1&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_type']==1}class_cur{/if}">报名课程</a>
+						</li>
+						<li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type=3&lesson_nature={$lesson_nature}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_type']==3}class_cur{/if}">直播课程</a>
+						</li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+
+                <div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">课程性质</div>
+                    <ul class="w-1100 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$_GPC['lesson_nature']}class_cur{/if}">不限</a>
+						</li>
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature=1&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_nature']==1}class_cur{/if}">免费课程</a>
+						</li>
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature=2&sort={$sort}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $_GPC['lesson_nature']==2}class_cur{/if}">付费课程</a>
+						</li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+				<div class="w-all fl hg-1 bg-c-e5e5e5"></div>
+            </div>
+        </div>
+
+		{if $list}
+		<div class="w-1200 bg-c-ffffff p-t-10 p-b-10 fl m-t-20">
+            <dl class="ql_sort">
+                <dd class="w-75 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="{if !$_GPC['sort']}cur{/if}">综合排序<i class="iconfont icon-default-sort"></i> </a>
+				</dd>
+                <dd class="w-75 p-l-10 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort=hot&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="{if $_GPC['sort']=='hot'}cur{/if}">人气优先<i class="iconfont icon-sort"></i> </a>
+				</dd>
+                <dd class="w-75 p-l-10 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort=price&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="{if $_GPC['sort']=='price'}cur{/if}">价格优先<i class="iconfont icon-sort"></i> </a>
+				</dd>
+                <dd class="w-75 p-l-10 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/search.html?pid={$pid}&cid={$cid}&lesson_type={$lesson_type}&lesson_nature={$lesson_nature}&sort=score&keyword={$keyword}&attr1={$attr1}&attr2={$attr2}" class="{if $_GPC['sort']=='score'}cur{/if}">好评优先<i class="iconfont icon-sort"></i> </a>
+				</dd>
+                <div class="clear"></div>
+            </dl>
+        </div>
+		{/if}
+
+        <div class="w-main m-auto m-t-25 fl">
+			<div class="course-list">
+				{if $list}
+				<ul>
+					{loop $list $item}
+					<li>
+						<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+							<div class="cover">
+								<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}" style="display: block;">
+								<div class="icon-live {$item['icon_live_status']}"></div>
+								{if !empty($item['ico_name'])}
+									<i class="ico_common {$item['ico_name']}"></i>
+								{/if}
+								{if $item['section_status']=='0'}
+									<i class="section_ended">已完结</i>
+								{/if}
+							</div>
+							<div class="info">
+								<p class="title">{$item['bookname']}</p>
+								<p class="item1">
+									{if $setting['show_study_number']}
+									<span class="click">
+										<i class="click-count-icon"></i>{$item['buyTotal']}
+									</span>
+									{/if}
+									<span class="type price">
+									{if $item['price']==0}
+										免费
+									{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+										VIP免费
+									{else}
+										{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} <strong>¥ {$item['price']}</strong>
+									{/if}
+									</span>
+								</p>
+								<p class="item2">
+									{if $item['score_rate']}
+									<span class="teacher">
+										<img src="{MODULE_URL}static/webapp/{$template}/images/icon-good.png" width="20"
+										 height="19">{$item['score_rate']}%好评
+									</span>
+									{/if}
+									{if $item['lesson_type']!=3}
+									<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+									{/if}
+								</p>
+								<p class="description">{$item['descript']}</p>
+							</div>
+						</a>
+					</li>
+					{/loop}
+				</ul>
+				{else}
+
+				<div class="no-content">
+					<div class="msg-inner">
+						<div class="msg-text">
+							<i class="iconfont i-info icon-information"></i> 未找到相关的课程，选择其他分类或者换个关键词试试吧：）
+						</div>
+					</div>
+				</div>
+				{/if}
+			</div>
+
+            <div class="w-amin hg-30"></div>
+			{$pager}
+            <div class="w-amin hg-30"></div>
+        </div>
+        <!--精选课程 end--> 
+    </div>
+</div>
+
+{php include $this->template($template.'/_footer')}

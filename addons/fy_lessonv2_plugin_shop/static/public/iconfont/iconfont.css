@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2476151 */
+  src: url('iconfont.woff2?t=1628563095974') format('woff2'),
+       url('iconfont.woff?t=1628563095974') format('woff'),
+       url('iconfont.ttf?t=1628563095974') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-info-circle:before {
+  content: "\e659";
+}
+
+.icon-arrow_bottom:before {
+  content: "\e767";
+}
+
+.icon-wode:before {
+  content: "\e658";
+}
+
+.icon-order-refunded:before {
+  content: "\e634";
+}
+
+.icon-order-cancel:before {
+  content: "\e60a";
+}
+
+.icon-order-refunding:before {
+  content: "\e616";
+}
+
+.icon-order-waitReceive:before {
+  content: "\e90a";
+}
+
+.icon-order-complete:before {
+  content: "\e688";
+}
+
+.icon-order-waitSend:before {
+  content: "\e638";
+}
+
+.icon-order-nopay:before {
+  content: "\e609";
+}
+
+.icon-delete:before {
+  content: "\e67d";
+}
+
+.icon-jiahao:before {
+  content: "\e607";
+}
+
+.icon-favorite:before {
+  content: "\e644";
+}
+
+.icon-my:before {
+  content: "\e630";
+}
+
+.icon-category-search:before {
+  content: "\e601";
+}
+
+.icon-dianpu:before {
+  content: "\e655";
+}
+
+.icon-caidan:before {
+  content: "\f080";
+}
+
+.icon-cart:before {
+  content: "\e63c";
+}
+
+.icon-order-desc:before {
+  content: "\e706";
+}
+
+.icon-order-asc:before {
+  content: "\e70c";
+}
+
+.icon-pull-down:before {
+  content: "\e62c";
+}
+
+.icon-pull-right:before {
+  content: "\f081";
+}
+
+.icon-list-circle:before {
+  content: "\e606";
+}
+
+.icon-list-rectangle:before {
+  content: "\e639";
+}
+
+.icon-top-search:before {
+  content: "\e7f9";
+}
+
+.icon-input-search:before {
+  content: "\e70a";
+}
+

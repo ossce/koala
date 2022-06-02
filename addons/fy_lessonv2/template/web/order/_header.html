@@ -1,0 +1,8 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('order');}">课程订单管理</a></li>
+	{if $op=='detail'}
+	<li {if $op=='detail'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op'=>'detail','id'=>$_GPC['id']));}">课程订单详情</a></li>
+	{/if}
+	<li {if $op=='createOrder'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op'=>'createOrder'));}">创建课程订单</a></li>
+</ul>

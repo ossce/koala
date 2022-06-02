@@ -1,0 +1,112 @@
+<style>
+.account-stat{overflow:hidden; color:#666;}
+.account-stat .account-stat-btn{width:100%; overflow:hidden;}
+.account-stat .account-stat-btn > div{text-align:center; margin-bottom:5px;margin-right:2%; float:left;width:14%; height:80px; padding-top:10px;font-size:16px; border-left:1px #DDD solid;}
+.account-stat .account-stat-btn > div:first-child{border-left:0;}
+.account-stat .account-stat-btn > div span{display:block; font-size:30px; font-weight:bold}
+</style>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		今日销售指标
+	</div>
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>课程销售额(元)<span>{php echo $exit['lessonOrder_amount'] ? $exit['lessonOrder_amount'] : '0.00';}</span></div>
+			<div>课程销售量(单)<span>{php echo $exit['lessonOrder_num'] ? $exit['lessonOrder_num'] : 0;}</span></div>
+			<div>VIP销售额(元)<span>{php echo $exit['vipOrder_amount'] ? $exit['vipOrder_amount'] : '0.00';}</span></div>
+			<div>VIP销售量(单)<span>{php echo $exit['vipOrder_num'] ? $exit['vipOrder_num'] : 0;}</span></div>
+			<div>讲师销售额(元)<span>{php echo $exit['teacherOrder_amount'] ? $exit['teacherOrder_amount'] : '0.00';}</span></div>
+			<div>讲师销售量(单)<span>{php echo $exit['teacherOrder_num'] ? $exit['teacherOrder_num'] : 0;}</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		昨日销售指标
+	</div>
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>课程销售额(元)<span>{php echo $yestoday['lessonOrder_amount'] ? $yestoday['lessonOrder_amount'] : '0.00';}</span></div>
+			<div>课程销售量(单)<span>{php echo $yestoday['lessonOrder_num'] ? $yestoday['lessonOrder_num'] : 0;}</span></div>
+			<div>VIP销售额(元)<span>{php echo $yestoday['vipOrder_amount'] ? $yestoday['vipOrder_amount'] : '0.00';}</span></div>
+			<div>VIP销售量(单)<span>{php echo $yestoday['vipOrder_num'] ? $yestoday['vipOrder_num'] : 0;}</span></div>
+			<div>讲师销售额(元)<span>{php echo $yestoday['teacherOrder_amount'] ? $yestoday['teacherOrder_amount'] : '0.00';}</span></div>
+			<div>讲师销售量(单)<span>{php echo $yestoday['teacherOrder_num'] ? $yestoday['teacherOrder_num'] : 0;}</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-info">
+	<div class="panel-heading">累计金额(元)：<span style="color:red;">{$incomeTotal}</span></div>
+	<div style="height:20px;"></div>
+	<form method="get" class="form-horizontal" role="form">
+		<input type="hidden" name="c" value="site" />
+		<input type="hidden" name="a" value="entry" />
+		<input type="hidden" name="module_name" value="fy_lessonv2" />
+		<input type="hidden" name="do" value="finance" />
+		<input type="hidden" name="op" value="display" />
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">日期</label>
+			<div class="col-sm-8 col-lg-3 col-xs-12">
+				{php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d', $starttime),'endtime'=>date('Y-m-d', $endtime)));}
+			</div>
+			<div class="col-sm-3 col-lg-3" style="width: 22%;">
+				<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+			</div>
+		</div>
+	</form>
+    <div class="panel-body">
+		<div id="container" style="min-width:400px;height:400px"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('container')); 
+	var option = {
+		title: {
+			text: '销售趋势图'
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		legend: {
+			data:['课程销售额', 'VIP销售额', '讲师销售额']
+		},
+		toolbox: {
+			feature: {
+				saveAsImage: {}
+			}
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: {php echo json_encode($day)}
+		},
+		yAxis: {
+			type: 'value'
+		},
+		series: [
+			{
+				name:'课程销售额',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($lessonOrder_amount)}
+			},
+			{
+				name:'VIP销售额',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($vipOrder_amount)}
+			},
+			{
+				name:'讲师销售额',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($teacherOrder_amount)}
+			}
+		]
+	}; 
+    myChart.setOption(option); 
+</script>

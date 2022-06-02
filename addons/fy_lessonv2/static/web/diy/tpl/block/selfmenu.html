@@ -1,0 +1,48 @@
+<script type="text/template" id="tpl_block_selfmenu">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="<% if(style.show_background==1){ %>background:<%= style.background %>;<% } %>padding:<%= style.vertical_padding %> <%= style.horizontal_padding %>;border-radius:<%= style.bg_radius %>;">
+		<div class="mine_unit">
+			<a class="line-grid flex1" style="<% if(style.show_subscribe !=1 ){ %>display:none;<% } %>">
+				<div class="img flex0">
+					<img class="flex_g0" src="<%= style.subscribe_imgsrc %>" style="width: 16px;">
+				</div>
+				<div class="flex-al1" style="color:<%= style.subscribe_color %>;"><%= style.subscribe_font %></div>
+				<i class="fa fa-toggle-off"></i>
+			</a>
+			<% _.each(data, function(item) { %>
+				<a class="line-grid icon_right flex1">
+					<div class="img flex0">
+						<img class="flex_g0" src="<%= item.imgurl %>" style="width: 16px;">
+					</div>
+					<div class="flex-al1" style="color:<%= item.color %>;"><%= item.text %></div>
+				</a>
+			<% }); %>
+		</div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_selfmenu_item">
+    <div class="selfmenu-item ep-item">
+        <div class="selfmenu-image">
+            <img src="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+            <div class="ep-select-image">更换</div>
+        </div>
+        <div class="selfmenu-params">
+            <div class="input-group">
+                <span class="input-group-addon">文字</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].text %>" data-type="data" data-key="text" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                <input type="color" class="form-control input-sm input_color input_binding" value="<%= data[0].color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#494949').trigger('change')">
+                    <i class="fa fa-remove"></i>
+                </span>
+            </div>
+            <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon">链接</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="链接以http://或https://开头"/>
+				<span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+    </div>
+</script>

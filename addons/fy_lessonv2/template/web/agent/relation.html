@@ -1,0 +1,25 @@
+<div class="main">
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="80px">
+			<col width="800px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">【{$member['nickname']}/{$member['realname']}/{$member['mobile']}】分销绑定记录 / 总共：{$total}条</th>
+			</tr>
+			{loop $list $key $item}
+			<tr>
+				<td class="table-label">{php echo $total-$key;}</td>
+				<td class="ng-binding">
+					<span class="label label-primary">{php echo date('Y-m-d H:i:s', $item['addtime'])}</span>，
+					上级uid绑定为：<a {if $item['parentid']}href="{php echo $this->createWebUrl('agent',array('op'=>'detail','uid'=>$item['parentid']));}" target="_blank" data-toggle="tooltip" data-placement="bottom" data-original-title="查看用户详细信息"{/if} class="label label-success">{$item['parentid']}</a>，
+					操作员信息：<span class="label label-info">{$item['operator_name']} ({$item['operator_uid']})</span>
+				</td>
+				<td class="text-right"></td>
+			</tr>
+			{/loop}
+		</tbody>
+	</table>
+	{$pager}
+</div>

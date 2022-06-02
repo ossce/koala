@@ -1,0 +1,57 @@
+<script type="text/template" id="tpl_block_footnav">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="position: absolute;bottom: 0;">
+        <div class="block_content footnav_block" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+            <% _.each(data, function(item) { %>
+            <a>
+                <img src="<%= item.imgurl %>"/>
+                <span class="text" style="color:<%= item.color %>;">
+                    <%= item.text %>
+                </span>
+            </a>
+            <% }); %>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_footnav_item">
+    <div class="footnav-item ep-item">
+        <div class="footnav-image">
+            <div>
+                <img src="" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                <div class="ep-select-image">更换</div>
+            </div>
+            <div class="active">
+                <img src="" data-type="data" data-key="imgurl_active" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                <div class="ep-select-image">更换</div>
+            </div>
+        </div>
+        <div class="footnav-params">
+            <div class="input-text-color">
+                <div class="input-text">
+                    <span class="input-group-addon">名称</span>
+                    <input type="text" class="form-control input-sm input_binding" value="" data-type="data" data-key="text" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+                <div class="input-color">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="#818085" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#818085').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+                <div class="input-color">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="#ff9c00" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ff9c00').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon">链接</span>
+                <input type="text" class="form-control input-sm input_binding" value="" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>"  placeholder="跳转链接以http://或https://开头"/>
+                <span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+    </div>
+</script>

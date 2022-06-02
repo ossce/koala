@@ -1,0 +1,33 @@
+<script type="text/template" id="tpl_block_selfcollege">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="<% if(style.show_background==1){ %>background:<%= style.background %>;<% } %>padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+		<div class="mine_menu_grid li4 flex0_1" style="border-radius:<%= style.bg_radius %>;">
+			<a class="mine_menu" style="<% if(style.show_college != 1){ %>display:none;<% } %>">
+				<div class="img">
+					<img src="<%= style.college_imgsrc %>">
+				</div>
+				<div>收藏</div>
+			</a>
+			<a class="mine_menu" style="<% if(style.show_history != 1){ %>display:none;<% } %>">
+				<div class="img">
+					<img src="<%= style.history_imgsrc %>">
+				</div>
+				<div>学习记录</div>
+			</a>
+			<a class="mine_menu" style="<% if(style.show_vip != 1){ %>display:none;<% } %>">
+					<div class="img">
+					<img src="<%= style.vip_imgsrc %>">
+				</div>
+				<div>VIP服务</div>
+			</a>
+			<a class="mine_menu" style="<% if(style.show_order != 1){ %>display:none;<% } %>">
+				<div class="img">
+					<img src="<%= style.order_imgsrc %>">
+				</div>
+				<div>课程订单</div>
+			</a>
+		</div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

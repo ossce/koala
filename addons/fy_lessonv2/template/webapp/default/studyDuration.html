@@ -1,0 +1,123 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="study-main">
+				<section class="info-total">
+					<h2><span class="bor-l"></span>累计学习时长<span class="bor-2"></span></h2>
+					<ul>
+						<li>
+							<p class="info-title p-b-10">累计学习视频</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$member['video_duration']}</span> 分钟 </p>
+						</li>
+						<li>
+							<p class="info-title p-b-10">累计学习音频</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$member['audio_duration']}</span> 分钟 </p>
+						</li>
+						<li>
+							<p class="info-title p-b-10">累计学习图文</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$member['article_duration']}</span> 分钟 </p>
+						</li>
+					</ul>
+
+					<h2><span class="bor-l"></span>今日学习时长<span class="bor-2"></span></h2>
+					<ul>
+						<li>
+							<p class="info-title">今日学习视频</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$today['video_duration']}</span> 分钟 </p>
+						</li>
+						<li>
+							<p class="info-title">今日学习音频</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$today['audio_duration']}</span> 分钟 </p>
+						</li>
+						<li>
+							<p class="info-title">今日学习图文</p>
+							<p class="info-total-cnt"> <span class="info-total-cnt-num">{$today['article_duration']}</span> 分钟 </p>
+						</li>
+					</ul>
+				</section>
+
+				{if $duration_setting['switch'] && $duration_setting['exchange_credit1'] && $duration_setting['max_exchange_minute']}
+				<section class="info info-total">
+					<h2><span class="bor-l"></span>今日可兑换时长<span class="bor-2"></span></h2>
+					<ul>
+						<li>
+							<p class="info-title">今天共学习</p>
+							<p class="info-cnt"> <span class="info-cnt-num">{$total_duration}</span> 分钟 </p>
+						</li>
+						<li>
+							<p class="info-title">今天已兑换</p>
+							<p class="info-cnt"> <span class="info-cnt-num">{$today_already_credit1}</span> 积分 </p>
+						</li>
+						<li>
+							<p class="info-title">高于平台</p>
+							<p class="info-cnt"> <span class="info-cnt-num">{php echo intval($durationLog['ranking']);}%</span> 学员 </p>
+						</li>
+					</ul>
+					<p class="info-des">
+						每学习1分钟可以兑换{$duration_setting['exchange_credit1']}积分，每天最多可兑换{$max_exchange_credit1}积分
+					</p>
+				</section>
+				<section class="exchange">
+					<p class="exchange-des">当前可兑换积分</p>
+					<p class="exchange-price"> <i class="icon-font i-kedian exchange-price-kedian"></i> <span class="exchange-price-num js-price">{$today_remain_credit1}</span>
+					</p>
+					<a href="javascript:;" class="btn-primary miBtn m-t-20 m-b-40 w-136" id="btn-exchange">立即兑换</a>
+				</section>
+				<script type="text/javascript">
+					var reload = false;
+					$("#btn-exchange").click(function(){
+						var remain_exchange = <?php echo $today_remain_credit1; ?>;
+						if(remain_exchange<=0){
+							swal("系统提示", "您没有可兑换积分，赶紧去学习吧", "error");
+							return false;
+						}else{
+							swal({
+							title: "系统提示",
+							text: '您将使用学习时长兑换'+remain_exchange+'积分，是否继续?',
+							type: "warning",
+							html: true,
+							showCancelButton: true,
+							closeOnConfirm: false,
+							confirmButtonText: "确定",
+							confirmButtonColor: "#1AB61B"
+						}, function() {
+							$.ajax({
+								url:  "/{$uniacid}/studyduration.html?op=exchange",
+								type: "POST",
+								dataType: "json",
+							}).done(function(res) {
+								if(res.code==0){
+									reload = true;
+									swal("系统提示", res.message, "success");
+								}else if(res.code==-1){
+									swal("系统提示", res.message, "error");
+								}
+							}).error(function(err) {
+								swal("系统提示", "网络错误，请稍候重试", "error");
+							});
+						});
+							
+						}
+					});
+
+					$(document).on("click",".swal-confirm",function(){
+						if(reload){
+							location.reload();
+						}
+					});
+					</script>
+				{/if}
+			</div>
+
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

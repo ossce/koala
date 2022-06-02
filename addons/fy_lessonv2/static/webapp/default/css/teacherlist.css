@@ -1,0 +1,100 @@
+@charset "utf-8";
+.teacher-list{
+	margin: 0 20px;
+}
+.teacher-agency {
+	position:relative;
+	padding-right:737px;
+	color:#333;
+	border-top:1px solid #e5e5e5
+}
+.teacher-agency-avatar {
+	float:left;
+	margin-top:50px;
+	font-size:0;
+	line-height:0;
+	border:1px solid #e5e5e5
+}
+.teacher-agency-main-content {
+	float:left;
+	margin:52px 10px 0 10px;
+	min-height:195px;
+	_height:195px;
+	width:254px;
+	_width:250px
+}
+.teacher-agency-name {
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	word-wrap:normal;
+	margin-bottom:8px;
+	font-size:16px;
+	line-height:1.5;
+	width:254px;
+	_width:250px
+}
+.teacher-agency-name a {
+	color:#333;
+	vertical-align:middle
+}
+.teacher-agency-name em {
+	color:#e85308
+}
+.teacher-agency-div{
+	overflow:hidden;
+	height:82px;
+}
+.teacher-agency-div .teacher-agency-intro {
+	margin-bottom:8px;
+	font-size:14px;
+	line-height:18px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	display:-webkit-box;
+	-webkit-line-clamp:4;
+	-webkit-box-orient:vertical;
+	text-indent: 2em;
+}
+.teacher-agency-div .teacher-agency-intro em {
+	color:#e85308
+}
+.teacher-agency-relation {
+	font-size:12px;
+	color:#999
+}
+.teacher-agency-relation .all-lesson{
+    color: #e9511b;
+	font-size: 12px;
+}
+.teacher-agency-right {
+	position:absolute;
+	top:0;
+	right:0;
+	width:737px
+}
+.teacher-agency-right-content {
+	padding-left: 20px;
+}
+
+.teacher-agency-course-nodata {
+    padding-top: 88px;
+    padding-left: 30px;
+    height: 36px;
+    color: #666;
+    font-size: 16px;
+    line-height: 36px;
+}
+.teacher-agency-course-nodata .i-info {
+	font-size: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+    color: #e9511b;
+}
+.teacher-agency-course-list .course-card-list {
+	float:left;
+	padding-top:8px;
+	width:auto;
+	margin-left:0;
+	margin-right:0
+}

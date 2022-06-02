@@ -1,0 +1,39 @@
+<!-- 
+ * 快速菜单
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+<div class="btn_mark">
+	<div class="btn_home">
+		<i class="mt15 fa">菜单</i>
+	</div>
+	<div class="btn_mark_bg"></div>
+	<a class="btn_menu btn_index" href="{php echo $this->createMobileUrl('index');}&t=1"><i class="mt12 fa fa-home"></i></a>
+	<a class="btn_menu btn_spread" href="{php echo $this->createMobileUrl('search', array('clear'=>1));}"><i class="mt12 fa fa-video-camera"></i></a>
+	<a class="btn_menu btn_course" href="{php echo $this->createMobileUrl('mylesson');}"><i class="mt12 fa fa-book"></i></a>
+	<a class="btn_menu btn_my" href="{php echo $this->createMobileUrl('self');}"><i class="mt12 fa fa-user"></i></a>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$(".weui_tabbar a").click(function() {
+			$(this).addClass("weui_bar_item_on").siblings().removeClass("weui_bar_item_on");
+		});
+		$(".btn_home").click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).parent().toggleClass("active");
+		});
+		$(".btn_mark").click(function(e) {
+			$(this).toggleClass("active");
+		});
+	})
+</script>
+<!-- /快捷导航 -->

@@ -1,0 +1,74 @@
+{php include $this->template($template.'/_header')}
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+    <div class="w-main m-auto"> 
+        <div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/getcoupon.html" class="more ftc-414141">优惠券</a> &gt; 优惠券可用课程
+		</div>
+
+        <div class="w-main m-auto m-t-25 fl">
+			<div class="course-list">
+				{if $list}
+				<ul>
+					{loop $list $item}
+					<li>
+						<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+							<div class="cover">
+								<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}"
+								 style="display: block;">
+								 <div class="icon-live {$item['icon_live_status']}"></div>
+								{if !empty($item['ico_name'])}
+									<i class="ico_common {$item['ico_name']}"></i>
+								{/if}
+								{if $item['section_status']=='0'}
+									<i class="section_ended">已完结</i>
+								{/if}
+							</div>
+							<div class="info">
+								<p class="title">{$item['bookname']}</p>
+								<p class="item1">
+									<span class="click">
+										<i class="click-count-icon"></i>{$item['buyTotal']}
+									</span>
+									{if $setting['lesson_vip_status']!=1}
+										{if $item['price']==0}
+										<span class="type free">免费课程</span>
+										{else}
+										<span class="type price">{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} ¥ {$item['price']}</span>
+										{/if}
+									{/if}
+								</p>
+								<p class="item2">
+									{if $item['lesson_type']!=3}
+									<span class="teacher">
+										<img src="{MODULE_URL}static/webapp/{$template}/images/icon-good.png" width="20"
+										 height="19">{$item['score_rate']}%好评
+									</span>
+									<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+									{/if}
+								</p>
+								<p class="description">{$item['descript']}</p>
+							</div>
+						</a>
+					</li>
+					{/loop}
+				</ul>
+				{else}
+
+				<div class="no-content">
+					<div class="msg-inner">
+						<div class="msg-text">
+							<i class="iconfont i-info icon-information"></i> 未找到相关的课程，选择其他分类或者换个关键词试试吧：）
+						</div>
+					</div>
+				</div>
+				{/if}
+			</div>
+
+            <div class="w-amin hg-30"></div>
+			{$pager}
+            <div class="w-amin hg-30"></div>
+        </div>
+    </div>
+</div>
+
+{php include $this->template($template.'/_footer')}

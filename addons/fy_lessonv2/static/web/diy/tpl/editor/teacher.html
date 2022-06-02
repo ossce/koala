@@ -1,0 +1,116 @@
+<script>
+    Diy.Editor.defaultData.teacher = {
+        style: {
+            background: '#FFFFFF',
+            vertical_padding: '15px',
+            horizontal_padding: '15px',
+			imgsrc: '{MODULE_URL}static/web/diy/img/icon_teacher.png',
+            imgurl: '{MODULE_URL}static/web/diy/img/icon_teacher.png',
+			title_font: '名师风采',
+			title_color: '#000000',
+			more_font: '查看全部',
+			more_color: '#969696',
+			speed: 4,
+        },
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="teacher">
+    <div class="editor-search">
+		<div class="alert alert-info">
+            系统将自动调用“讲师管理”里审核通过状态且首页推荐的讲师进行展示。
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">滚动间隔</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.speed %>" data-type="style" data-key="speed">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.speed %>" data-unit="秒" data-min="1" data-max="10" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.speed %>秒</small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="20" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">图标</div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.imgsrc %>" data-type="style" data-key="imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.imgurl %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题文字</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.title_font %>" data-type="style" data-key="title_font" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.title_color %>" data-type="style" data-key="title_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#000000').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">“更多”文字</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.more_font %>" data-type="style" data-key="more_font" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">“更多”颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.more_color %>" data-type="style" data-key="more_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#969696').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

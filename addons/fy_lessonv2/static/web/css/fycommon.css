@@ -1,0 +1,485 @@
+@charset "UTF-8";
+
+/* 通用样式 */
+.hand{
+	cursor: pointer;
+}
+.label-middle {
+    vertical-align: text-bottom;
+    margin-left: 2px;
+}
+.spec-name{
+	font-style: normal;
+    font-size: 12px;
+    color: #999;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+	vertical-align: middle;
+}
+.relative{
+	position: relative;
+}
+.require{
+	color: red;
+    font-weight: bolder;
+}
+.clear{
+	clear: both;
+}
+.w-80{
+	width: 80px;
+}
+.w-90{
+	width: 90px;
+}
+.w-117{
+	width: 117px !important;
+}
+.h-470{
+	height: 470px !important;
+}
+.mar-b-0{
+	margin-bottom: 0px !important;
+}
+.mar-r-15{
+	margin-right: 15px;
+}
+.pad-t-0{
+	padding-top: 0px !important;
+}
+.pad-t-8{
+	padding-top: 8px !important;
+}
+.pad-l-0{
+	padding-left: 0px !important;
+}
+.pad-l-5{
+	padding-left: 5px !important;
+}
+.pad-l-8{
+	padding-left: 8px !important;
+}
+.pad-l-30{
+	padding-left: 30px !important;
+}
+.pad-b-10{
+	padding-bottom: 10px !important;
+}
+.pad-t-b-7{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.pad-l-r-10{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.mar-l-10{
+	margin-left: 10px !important;
+}
+
+/* 提交加载遮罩 */
+#overlay {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: rgba(0,0,0,.2);
+	display: none;
+}
+
+.mloading-bar {
+	width: 300px;
+	min-height: 22px;
+	text-align: center;
+	background: #fff;
+	box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.3);
+	border-radius: 7px;
+	padding: 20px 15px;
+	font-size: 14px;
+	color: #000;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -140px;
+	margin-top: -30px;
+	word-break: break-all;
+	z-index: 999;
+	display: none;
+}
+
+/* 课程选择核销人排列样式 */
+.multi-img-details .multi-item {
+	height: 150px;
+	max-width: 150px;
+	position: relative;
+	float: left;
+	margin-right: 18px;
+}
+
+.multi-img-details .multi-item img {
+	max-width: 150px;
+	max-height: 150px;
+}
+
+.img-thumbnail {
+	width: 100px;
+	height: 100px;
+}
+
+.img-thumbnail {
+	display: inline-block;
+	max-width: 100%;
+	height: auto;
+	padding: 4px;
+	line-height: 1.42857143;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	-webkit-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+
+.img-nickname {
+	position: absolute;
+	bottom: 0px;
+	line-height: 25px;
+	height: 25px;
+	color: #fff;
+	text-align: center;
+	width: 90px;
+	bottom: 55px;
+	background: rgba(0,0,0,0.8);
+	left: 5px;
+}
+
+.dropdown-menu li a{
+	padding-top:7px;
+}
+
+/* 优惠券可用课程通用样式 */
+.select2-choices {
+    min-height: 26px;
+    margin: 0;
+    padding: 0 5px 0 0;
+    position: relative;
+    border: 1px solid #e4e4e4;
+    cursor: text;
+    overflow: hidden;
+	border-radius: 3px;
+
+}
+.select2-choices li {
+    float: left;
+    list-style: none;
+}
+.select2-choices .select2-search-choice {
+    padding: 3px 5px 3px 18px;
+    margin: 3px 0 3px 10px;
+    position: relative;
+    line-height: 13px;
+    color: #333;
+    cursor: default;
+    border: 1px solid #aaaaaa;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+    background-clip: padding-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #e4e4e4;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#f4f4f4', GradientType=0);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eee));
+    background-image: -webkit-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
+    background-image: -moz-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
+    background-image: linear-gradient(to bottom, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
+}
+
+.select2-search-choice-close {
+    display: block;
+    width: 12px;
+    height: 13px;
+    position: absolute;
+    right: 3px;
+    top: 4px;
+    font-size: 1px;
+    outline: none;
+    background: url("../images/select2.png") right top no-repeat;
+}
+.select2-search-choice-close {
+    left: 3px;
+}
+
+/* 通用开关样式 */
+.switchery {
+	background-color: #fff;
+	border: 1px solid #dfdfdf;
+	border-radius: 20px;
+	cursor: pointer;
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	vertical-align: middle;
+	width: 40px;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	box-sizing: content-box;
+	background-clip: content-box;
+	border-color: #dfdfdf;
+	-webkit-box-shadow: #dfdfdf 0px 0px 0px 0px inset;
+	box-shadow: #dfdfdf 0px 0px 0px 0px inset;
+	-webkit-transition: border 0.4s, box-shadow 0.4s, -webkit-box-shadow 0.4s;
+	transition: border 0.4s, box-shadow 0.4s, -webkit-box-shadow 0.4s;
+	background-color: #fff;
+}
+
+.switchery>small {
+	background: #fff;
+	border-radius: 100%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	height: 20px;
+	position: absolute;
+	top: 0;
+	width: 20px;
+	left: 0px;
+	-webkit-transition: background-color 0.4s, left 0.2s;
+	transition: background-color 0.4s, left 0.2s;
+}
+
+.switchery.checked {
+	border-color: #079200;
+	box-shadow: #079200 0px 0px 0px 16px inset;
+	background-color: #079200;
+	-webkit-transition: border 0.4s, box-shadow 0.4s, -webkit-box-shadow 0.4s, background-color 1.2s;
+	transition: border 0.4s, box-shadow 0.4s, -webkit-box-shadow 0.4s, background-color 1.2s;
+}
+
+.switchery.checked>small {
+	left: 20px;
+	transition: background-color 0.4s, left 0.2s;
+}
+
+.switchery-small {
+	border-radius: 20px;
+	height: 20px;
+	width: 33px;
+}
+
+.switchery-small>small {
+	height: 20px;
+	width: 20px;
+}
+
+.switchery.switchery-small.checked>small {
+	left: 13px;
+	transition: background-color 0.4s, left 0.2s;
+}
+
+
+/* 列表顶部选项卡 */
+.page-nav {
+	margin: 0;
+	width: 100%;
+	min-width: 800px;
+}
+
+.page-nav > li > a {
+	display: block;
+}
+
+.page-nav-tabs {
+	background: #EEE;
+}
+
+.page-nav-tabs > li {
+	line-height: 40px;
+	float: left;
+	list-style: none;
+	display: block;
+	text-align: -webkit-match-parent;
+}
+
+.page-nav-tabs > li > a {
+	font-size: 14px;
+	color: #666;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	margin: 0;
+	border: 1px solid transparent;
+	border-bottom-width: 0px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.page-nav-tabs > li > a, .page-nav-tabs > li > a:focus {
+	border-radius: 0 !important;
+	background-color: #f9f9f9;
+	color: #999;
+	margin-right: -1px;
+	position: relative;
+	z-index: 11;
+	border-color: #c5d0dc;
+	text-decoration: none;
+}
+
+.page-nav-tabs >li >a:hover {
+	background-color: #FFF;
+}
+
+.page-nav-tabs > li.active > a, .page-nav-tabs > li.active > a:hover, .page-nav-tabs > li.active > a:focus {
+	color: #576373;
+	border-color: #c5d0dc;
+	border-top: 2px solid #3396fa;
+	border-bottom-color: transparent;
+	background-color: #FFF;
+	z-index: 12;
+	margin-top: -1px;
+	box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 添加和导入样式 */
+.pull-down-ul {
+    display: none;
+    position: absolute;
+    transform-origin: center top;
+    z-index: 2015;
+    top: 30px;
+    left: 100px;
+    padding: 0;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ebeef5;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+}
+.pull-down-ul__item {
+    text-align: center;
+    padding: 8px 5px;
+    width: 115px;
+    list-style: none;
+    margin: 0;
+    font-size: 14px;
+    color: #606266;
+    cursor: pointer;
+    outline: 0;
+}
+
+/* 弹窗检索用户和课程 */
+.modal-select-wrap .modal-dialog {
+    width: 925px;
+}
+.modal-select-wrap .modal-body {
+    min-height: 330px;
+    padding: 20px;
+}
+.modal-select-wrap .modal-footer {
+    height: 70px;
+}
+.modal-select-wrap .item-search {
+    padding: 15px 30px;
+    border-bottom: 1px solid #e7e7eb;
+}
+.select-form{
+    float: left;
+    width: 17%;
+}
+.select-list {
+    display: inline-block;
+    width:100%;
+}
+.modal-select-wrap .item-content {
+    height: 400px;
+    overflow-y: scroll;
+}
+.modal-select-wrap .item {
+    float: left;
+    margin: 5px 10px;
+    position: relative;
+    width: 192px;
+    height: 117px;
+    border: 2px solid #fff;
+}
+.modal-select-wrap .item:hover {
+    border-color: rgba(66,139,202,.8);
+    cursor: pointer;
+}
+.modal-select-wrap .item .text {
+	height: 46px;
+    line-height: 20px;
+    font-size: 13px;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    padding: 3px 5px;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    word-break: break-all;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.select-member-table > tbody > tr > td{
+	padding: 6px 8px !important;
+}
+
+/* 已选择课程样式 */
+.select-lesson-wrap,.select-goods-wrap{
+	max-width: 1022px;
+}
+.select-lesson-choices .select-item,.select-goods-wrap .select-item{
+    float: left;
+    margin: 5px 10px;
+    position: relative;
+    width: 150px;
+    height: 91px;
+    border: 2px solid #fff;
+	background-color: #eee;
+	background-size: cover;
+}
+.select-goods-wrap .select-item{
+	height: 150px;
+}
+.select-lesson-choices .select-item .remove_lesson,.select-goods-choices .select-item .remove_goods{
+	display: block;
+    position: absolute;
+    background-image: url(../images/remove-lesson.png);
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    right: -10px;
+    top: -12px;
+}
+.select-lesson-choices .select-item .text,.select-goods-choices .select-item .text{
+    line-height: 17px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    padding: 2px 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

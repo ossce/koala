@@ -1,0 +1,41 @@
+<script type="text/template" id="tpl_block_newlesson">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+        <div class="block_content newlesson_block">
+            <div class="index_unit">
+				<div class="index_title flex1">
+					<div class="img flex0">
+						<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+					</div>
+					<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+				</div>
+				<div>
+					<a class="new_lesson flex0_1">
+						<div class="new_lesson_a flex_g0">
+							<div class="img-box flex_g0">
+								<div class="img">
+									<img src="{MODULE_URL}static/web/diy/img/reclesson_conver.jpg" style="display: inline;">
+									<div class="icon-live "></div>
+								</div>
+								<div class="learned ">85人已学习</div>
+								<i class="ico_common ico-hot"></i>
+							</div>
+						</div>
+						<div class="flex_all flex10">
+							<div>
+								<div class="new_lesson_title">7天学会从PSD到HTML的实战演练</div>
+								<div class="new_lesson_info">2-1 html页面结构整理</div>
+							</div>
+							<div class="new_lesson_bottom flex1">
+								<span class="time">02-04 10:29更新</span>
+								<span class="price fs-15">¥ 59</span>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

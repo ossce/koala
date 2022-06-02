@@ -1,0 +1,85 @@
+<!-- 
+ * 购物车
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-cart.css?v={$versions}">
+
+<header class="shop-navBar bg-fff bor-bottom-eee max-640">
+	<a href="javascript:history.go(-1);" class="shop-navBar-item">
+		<i class="icon-common icon-common-return"></i>
+	</a>
+	<div class="shop-center">
+		<span class="shop-center-title">{$title}</span>
+	</div>
+	<a href="javascript:;" class="shop-navBar-item edit cart-operation">编辑</a>
+</header>
+
+<main class="main">
+	<div class="valid_wrap">
+	</div>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:;" id="btn_Page" style="display:inline;"><img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多</a>
+	</div>
+
+	<div class="lose_wrap">
+		<div class="lose_title">
+			<div class="lose_title_left">
+				<div class="title_info">
+					<span>失效商品<span id="lose_total"></span>件</span>
+				</div>
+			</div>
+			<div class="lose_title_right">
+				<div class="clear_info">
+					<div class="clear_info_item">
+						<span>清空商品宝贝</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<div class="total-wrap max-640">
+	<div class="total-left">
+		<div class="checkbox-wrap">
+			<img src="{MODULE_URL}static/mobile/images/icon-tick.png" class="tick">
+			<input type="checkbox" class="checkbox allselect"/>
+		</div>
+		<span>全选</span>
+	</div>
+	<div class="total-right settlement">
+		<p id="totalprice">
+			合计: <span class="symbol">￥</span><span class="price">0</span>
+		</p>
+		<button type="button" class="total-btn btn-settle">去结算(<span class="checkedLen">0</span>)</button>
+	</div>
+	
+	<div class="total-right delete-btn">
+		<button type="button" class="total-btn">删除(<span class="checkedLen">0</span>)</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+	window.config = {
+		  moduleurl: "{MODULE_URL}",
+		  attachurl: "{$_W['attachurl']}",
+		  goodsurl: "{php echo $this->createMobileUrl('shopgoods')}",
+		 getlisturl: "{php echo $this->createMobileUrl('shopcart', array('op'=>'getList'))}",
+		   clearurl: "{php echo $this->createMobileUrl('shopcart', array('op'=>'clearLoseGoods'))}",
+		  deleteurl: "{php echo $this->createMobileUrl('shopcart', array('op'=>'deleteCart'))}",
+		  updateurl: "{php echo $this->createMobileUrl('shopcart', array('op'=>'updateCartTotal'))}",
+		 confirmurl: "{php echo $this->createMobileUrl('shopconfirm')}",
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shopcart.js?v={$versions}"></script>
+
+{template '_footer'}

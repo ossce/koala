@@ -1,0 +1,100 @@
+.cubeimg_block {
+    position: relative;
+    width: 100%;
+}
+.cubeimg_block img {
+    height: 100%;
+    width: 100%;
+}
+.cubeimg_block .diy-col{
+    margin: 0;
+}
+.cubeimg_block .cubeimg-left{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.cubeimg_block .cubeimg-right {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+.cubeimg_block .cubeimg-right .cubeimg-top {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.cubeimg_block .cubeimg-right .cubeimg-bottom {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+.cubeimg_block .cubeimg-right .cubeimg-bottom .cubeimg-bottom-one{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.cubeimg_block .cubeimg-right .cubeimg-bottom .cubeimg-bottom-two {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+.ware {
+    position: relative;
+}
+.ware:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.ware img {
+    position:  absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+.editor-cubeimg .cubeimg-item {
+    border: 1px solid #e1e1e1;
+    background: #fcfcfc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.editor-cubeimg .cubeimg-item .cubeimg-image {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #ececec;
+    text-align: center;
+    vertical-align: middle;
+}
+.editor-cubeimg .cubeimg-item .cubeimg-image img {
+    height: 70px;
+    width: 70px;
+}
+.editor-cubeimg .cubeimg-item .cubeimg-params {
+    margin-left: 80px;
+}
+.editor-cubeimg .cubeimg-item .cubeimg-params input:last-child {
+    margin-top: 10px;
+}
+.editor-cubeimg .text-right{
+    margin-right: 10px;
+}

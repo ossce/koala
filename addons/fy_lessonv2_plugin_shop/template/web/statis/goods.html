@@ -1,0 +1,105 @@
+<div class="main">
+	<div class="alert alert-warning">
+		<i class="fa fa-info-circle"></i> 温馨提示：商品统计仅包含已支付的订单商品，已取消、退款中和已退款的商品不再统计。
+	</div>
+	<div class="panel panel-default">
+        <div class="panel-heading">商品统计</div>
+			<div class="panel-body">
+				<form id="viewForm" method="get" class="form-horizontal">
+					<input type="hidden" name="c" value="site" />
+					<input type="hidden" name="a" value="entry" />
+					<input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop" />
+					<input type="hidden" name="do" value="statis" />
+					<input type="hidden" name="op" value="goods" />
+					<input name="time[start]" type="hidden" value="{php echo date('Y-m-d',$starttime);}">
+					<input name="time[end]" type="hidden" value="{php echo date('Y-m-d',$endtime);}">
+					<button class="btn btn-default daterange daterange-date" type="button"><span class="date-title">{php echo date('Y-m-d',$starttime);} 至 {php echo date('Y-m-d',$endtime);}</span> <i class="fa fa-calendar"></i></button>
+				</form>
+				<div id="dataView" style="min-width:800px;height:700px;margin-top:20px;"></div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('dataView')); 
+	var option = {
+		title: {
+			text: '',
+		},
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow'
+			}
+		},
+		legend: {
+			data: ['总金额','总积分','购买数量']
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis: {
+			type: 'value',
+			boundaryGap: [0, 0.01]
+		},
+		yAxis: {
+			type: 'category',
+			data: {php echo json_encode($title)},
+		},
+		series: [
+			{
+				name: '总金额',
+				type: 'bar',
+				data: {php echo json_encode($total_price)},
+			},
+			{
+				name: '总积分',
+				type: 'bar',
+				data: {php echo json_encode($total_integral)},
+			},
+			{
+				name: '购买数量',
+				type: 'bar',
+				data: {php echo json_encode($total)},
+			},
+		]
+	};
+    myChart.setOption(option); 
+</script>
+
+<script type="text/javascript">
+	$(".statis-type-content a").click(function(){
+		var id = $(this).data('id');
+		$("input[name=statis_type]").val(id);
+		$("#viewForm").submit();
+	})
+
+
+	require(["daterangepicker"], function(){
+		$('.daterange').on('apply.daterangepicker', function() {
+			$("#viewForm").submit();
+		});
+		$(function(){
+			$(".daterange.daterange-date").each(function(){
+				var elm = this;
+				$(this).daterangepicker({
+					startDate: $(elm).prev().prev().val() || moment("不限", "Y"),
+					endDate: $(elm).prev().val() || moment("不限", "Y"),
+					format: "YYYY-MM-DD",
+					clear: 1
+				}, function(start, end){
+					start = start.toDateStr().indexOf("0000-01-01") != -1 ? "" : start.toDateStr();
+					end = end.toDateStr().indexOf("0000-01-01") != -1 ? "" : end.toDateStr();
+					var html = (start == "" ? "不限时间" : start) + (start == "" && end === "" ? "" : (" 至" + end))
+					$(elm).find(".date-title").html(html);
+					$(elm).prev().prev().val(start);
+					$(elm).prev().val(end);
+				});
+			});
+		});
+	});
+</script>

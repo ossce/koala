@@ -1,0 +1,56 @@
+{template 'web/video/no-require-header'}
+{template 'web/video/video-header'}
+
+{if empty($qcloudvod['player_name'])}
+	<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+	<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.12.4.js"></script>
+	<script src="{MODULE_URL}static/public/tcplayer/tcplayer.min.js"></script>
+{else}
+	<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+	<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.13.2m.js"></script>
+	<script src="{MODULE_URL}static/public/tcplayer/tcplayer.v4.1.min.js"></script>
+{/if}
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">视频预览</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9">
+					{if $suffix != 'mp3'}
+						<video id="player-container-id" width="640" height="400" preload="auto" playsinline webkit-playsinline></video>
+					{else}
+						<video src="{$res}" controls="controls" width="640" height="400"></video>
+					{/if}
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+{if $suffix != 'mp3'}
+<script type="text/javascript">
+	var player = TCPlayer('player-container-id', {
+		fileID: "<?php echo $file['videoid']; ?>",
+		appID : "<?php echo $qcloudvod['appid']; ?>",
+	<?php if(empty($qcloudvod['player_name'])){ ?>
+		t	  : "<?php echo $res['t']; ?>",
+		us	  : "<?php echo $res['us']; ?>",
+		sign  : "<?php echo $res['sign']; ?>",
+		exper : "",
+	<?php }else{ ?>
+		psign  : "<?php echo $res; ?>",
+	<?php } ?>
+		plugins:{
+			ContinuePlay: {
+				text:'上次播放至 ',
+				btnText: '恢复播放'
+			},
+			ContextMenu: {
+				mirror: true,
+			},
+		}
+	});
+</script>
+{/if}

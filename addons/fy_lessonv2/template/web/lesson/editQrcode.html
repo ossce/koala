@@ -1,0 +1,409 @@
+<script type="text/javascript" src="{MODULE_URL}static/web/poster/designer.js?v={$versions}"></script>
+<script type="text/javascript" src="{MODULE_URL}static/web/poster/jquery.contextMenu.js?v={$versions}"></script>
+<link href="{MODULE_URL}static/web/poster/jquery.contextMenu.css?v={$versions}" rel="stylesheet">
+<link href="{MODULE_URL}static/web/poster/poster.css?v={$versions}" rel="stylesheet">
+
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">课程海报编辑</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><strong style="color:red">*</strong> 海报名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="poster_name" class="form-control" value="{$poster['poster_name']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><strong style="color:red">*</strong> 海报设计</label>
+					<div class="col-sm-9 col-xs-12">
+						<table style='width:100%;'>
+							<tr>
+								<td style="width:320px;padding:10px;" valign="top">
+									<div id='poster'>
+										{if !empty($poster['poster_bg'])}
+										<img src="{php echo tomedia($poster['poster_bg'])}" class="bg" />
+										{/if}
+										{if !empty($poster_setting)}
+											{loop $poster_setting $key $d}
+											<div class="drag" type="{$d['type']}" index="{php echo $key+1}" style="zindex:{php echo $key+1};left:{$d['left']};top:{$d['top']};
+											width:{$d['width']};height:{$d['height']}" 
+											src="{$d['src']}" size="{$d['size']}" color="{$d['color']}"
+											> 
+											{if $d['type']=='cover'}
+											<img src="{MODULE_URL}static/web/poster/images/cover.jpg" />
+											{elseif $d['type']=='title'}
+											<div class=text style="font-size:{$d['size']};color:{$d['color']};line-height:1.1;">这里是课程标题 请保留两行高度</div>
+											{elseif $d['type']=='head'}
+											<img src="{MODULE_URL}static/web/poster/images/head.png" />
+											{elseif $d['type']=='nickname'}
+											<div class=text style="font-size:{$d['size']};color:{$d['color']}">昵称</div>
+											{elseif $d['type']=='qr'}
+											<img src="{MODULE_URL}static/web/poster/images/qr.jpg?v=1" />
+											{/if}
+											<div class="rRightDown"> </div><div class="rLeftDown"> </div><div class="rRightUp"> </div><div class="rLeftUp"> </div><div class="rRight"> </div><div class="rLeft"> </div><div class="rUp"> </div><div class="rDown"></div>
+											</div>
+											{/loop} 
+										{/if}
+									</div>
+								</td>
+								<td valign="top" style="padding:10px;">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="form-group" id="bgset">
+												<label class="col-xs-12 col-sm-3 col-md-2 control-label">背景图片</label>
+												<div class="col-sm-9 col-xs-12">
+													{php echo tpl_form_field_image('poster_bg',$poster['poster_bg'])}
+													<span class="help-block">背景图片尺寸: 640 * 960px，格式为jpg或png格式</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-xs-12 col-sm-3 col-md-2 control-label">海报元素</label>
+												<div class="col-sm-9 col-xs-12">
+													<button class="btn btn-default btn-com" type="button" data-type="cover">课程封面</button>
+													<button class="btn btn-default btn-com" type="button" data-type="title">课程标题</button>
+													<button class="btn btn-default btn-com" type="button" data-type="head">头像</button>
+													<button class="btn btn-default btn-com" type="button" data-type="nickname">昵称</button>
+													<button class="btn btn-default btn-com" type="button" data-type="qr">二维码</button>
+												</div>
+											</div>
+											<div id="qrset" style="display:none">
+												<div class="form-group">
+													<label class="col-xs-12 col-sm-3 col-md-2 control-label">二维码尺寸</label>
+													<div class="col-sm-9 col-xs-12">
+														<select id="qrsize" class="form-control">
+															<option value="1">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div id="nameset" style="display:none">
+												<div class="form-group">
+													<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称颜色</label>
+													<div class="col-sm-9 col-xs-12">
+														{php echo tpl_form_field_color('color')}
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称大小</label>
+													<div class="col-sm-4">
+														<div class="input-group">
+															<input type="text" id="namesize" class="form-control namesize" placeholder="例如: 14,16" />
+															<div class="input-group-addon">px</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+			<input type="hidden" name="poster_setting" value="" />
+        </div>
+    </form>
+</div>
+
+<script language='javascript'>
+$('form').submit(function() {
+	if($("input[name=poster_name]").val()==''){
+		alert("请填写海报名称");
+		return false;
+	}
+
+	var data = [];
+	$('.drag').each(function() {
+		var obj = $(this);
+		var type = obj.attr('type');
+		var left = obj.css('left'),
+		top = obj.css('top');
+		var d = {
+			left: left,
+			top: top,
+			type: obj.attr('type'),
+			width: obj.css('width'),
+			height: obj.css('height')
+		};
+
+		if (type == 'cover' || type == 'head') {
+			d.src = obj.attr('src');
+		} else if (type == 'title') {
+			d.size = obj.attr('size');
+			d.color = obj.attr('color');
+		} else if (type == 'nickname') {
+			d.size = obj.attr('size');
+			d.color = obj.attr('color');
+		} else if (type == 'qr') {
+			d.size = obj.attr('size');
+		}
+		data.push(d);
+	});
+	$(':input[name=poster_setting]').val(JSON.stringify(data));
+
+	return true;
+});
+
+function bindEvents(obj) {
+    var index = obj.attr('index');
+    var rs = new Resize(obj, {
+		Max: true,
+		mxContainer: "#poster"
+    });
+    rs.Set($(".rRightDown", obj), "right-down");
+    rs.Set($(".rLeftDown", obj), "left-down");
+    rs.Set($(".rRightUp", obj), "right-up");
+    rs.Set($(".rLeftUp", obj), "left-up");
+    rs.Set($(".rRight", obj), "right");
+    rs.Set($(".rLeft", obj), "left");
+    rs.Set($(".rUp", obj), "up");
+    rs.Set($(".rDown", obj), "down");
+    rs.Scale = true;
+    var type = obj.attr('type');
+    if (type == 'nickname' || type == 'cover' || type == 'title') {
+		rs.Scale = false;
+    }
+    new Drag(obj, {
+		Limit: true,
+		mxContainer: "#poster"
+    });
+    $('.drag .remove').unbind('click').click(function() {
+		$(this).parent().remove();
+    })
+
+	$.contextMenu({
+		selector: '.drag[index=' + index + ']',
+		callback: function(key, options) {
+			var index = parseInt($(this).attr('zindex'));
+
+			if (key == 'next') {
+				var nextdiv = $(this).next('.drag');
+				if (nextdiv.length > 0) {
+					nextdiv.insertBefore($(this));
+				}
+			} else if (key == 'prev') {
+				var prevdiv = $(this).prev('.drag');
+				if (prevdiv.length > 0) {
+					$(this).insertBefore(prevdiv);
+				}
+			} else if (key == 'last') {
+				var len = $('.drag').length;
+				if (index >= len - 1) {
+					return;
+				}
+				var last = $('#poster .drag:last');
+					if (last.length > 0) {
+					$(this).insertAfter(last);
+				}
+			} else if (key == 'first') {
+				var index = $(this).index();
+				if (index <= 1) {
+					return;
+				}
+				var first = $('#poster .drag:first');
+				if (first.length > 0) {
+					$(this).insertBefore(first);
+				}
+			} else if (key == 'delete') {
+				$(this).remove();
+			}
+			var n = 1;
+			$('.drag').each(function() {
+				$(this).css("z-index", n);
+				n++;
+			})
+		},
+		items: {
+			"next": {
+				name: "调整到上层"
+			},
+			"prev": {
+				name: "调整到下层"
+			},
+			"last": {
+				name: "调整到最顶层"
+			},
+			"first": {
+				name: "调整到最低层"
+			},
+			"delete": {
+				name: "删除元素"
+			}
+		}
+	});
+	obj.unbind('click').click(function() {
+		bind($(this));
+	})
+}
+
+var imgsettimer = 0;
+var nametimer = 0;
+var bgtimer = 0;
+function clearTimers() {
+	clearInterval(imgsettimer);
+	clearInterval(nametimer);
+	clearInterval(bgtimer);
+
+}
+function getImgUrl(val) {
+	if (val.indexOf('http://') == -1) {
+		val = "{$imgroot}" + val;
+	}
+	return val;
+}
+function bind(obj) {
+	var imgset = $('#imgset'),
+	nameset = $("#nameset"),
+	qrset = $('#qrset');
+	imgset.hide(),
+	nameset.hide(),
+	qrset.hide();
+	clearTimers();
+	var type = obj.attr('type');
+	if (type == 'img') {
+		imgset.show();
+		var src = obj.attr('src');
+		var input = imgset.find('input');
+		var img = imgset.find('img');
+		if (typeof(src) != 'undefined' && src != '') {
+			input.val(src);
+			img.attr('src', getImgUrl(src));
+		}
+
+		imgsettimer = setInterval(function() {
+			if (input.val() != src && input.val() != '') {
+				var url = getImgUrl(input.val());
+
+				obj.attr('src', input.val()).find('img').attr('src', url);
+			}
+		}, 10);
+
+	} else if (type == 'title') {
+		nameset.show();
+		var color = obj.attr('color') || "#000";
+		var size = obj.attr('size') || "20";
+		var input = nameset.find('input:first');
+		var namesize = nameset.find('#namesize');
+		var picker = nameset.find('.sp-preview-inner');
+		input.val(color);
+		namesize.val(size.replace("px", ""));
+		picker.css({
+			'background-color': color,
+			'font-size': size,
+		});
+
+		nametimer = setInterval(function() {
+		obj.attr('color', input.val()).find('.text').css('color', input.val());
+		obj.attr('size', namesize.val() + "px").find('.text').css('font-size', namesize.val() + "px");
+		obj.attr('line-height', input.val()).find('.text').css('line-height', '1.1');
+		}, 10);
+
+	} else if (type == 'nickname') {
+		nameset.show();
+		var color = obj.attr('color') || "#000";
+		var size = obj.attr('size') || "14";
+		var input = nameset.find('input:first');
+		var namesize = nameset.find('#namesize');
+		var picker = nameset.find('.sp-preview-inner');
+		input.val(color);
+		namesize.val(size.replace("px", ""));
+		picker.css({
+			'background-color': color,
+			'font-size': size
+		});
+
+		nametimer = setInterval(function() {
+		obj.attr('color', input.val()).find('.text').css('color', input.val());
+		obj.attr('size', namesize.val() + "px").find('.text').css('font-size', namesize.val() + "px");
+		}, 10);
+
+	} else if (type == 'qr') {
+		qrset.show();
+		var size = obj.attr('size') || "5";
+		var sel = qrset.find('#qrsize');
+		sel.val(size);
+		sel.unbind('change').change(function() {
+			obj.attr('size', sel.val())
+		});
+
+	}
+}
+
+$(function() {
+
+	{if $poster_setting} 
+	$('.drag').each(function(){
+		bindEvents($(this));
+	})
+	{/if}
+            
+	$(':radio[name=type]').click(function(){
+		var type = $(this).val();
+		bindType(type);
+	})
+	//改变背景
+	$('#bgset').find('button:first').click(function() {
+		var oldbg = $(':input[name=poster_bg]').val();
+		bgtimer = setInterval(function() {
+		var bg = $(':input[name=poster_bg]').val();
+		if (oldbg != bg) {
+			bg = getImgUrl(bg);
+			$('#poster .bg').remove();
+			var bgh = $("<img src='{$_W['attachurl']}" + bg + "' class='bg' />");
+			var first = $('#poster .drag:first');
+			if (first.length > 0) {
+				bgh.insertBefore(first);
+			} else {
+				$('#poster').append(bgh);
+			}
+				oldbg = bg;
+			}
+		},10);
+	})
+
+	$('.btn-com').click(function() {
+		var imgset = $('#imgset'),
+		nameset = $("#nameset"),
+		qrset = $('#qrset');
+		imgset.hide(),
+		nameset.hide(),
+		qrset.hide();
+		clearTimers();
+
+		var type = $(this).data('type');
+		var img = "";
+		if (type == 'cover') {
+			img = '<img src="{MODULE_URL}static/web/poster/images/cover.jpg" />';
+		} else if (type == 'title') {
+			img = '<div class=text>这里是课程标题，请保留两行高度</div>';
+		} else if (type == 'head') {
+			img = '<img src="{MODULE_URL}static/web/poster/images/head.png" />';
+		} else if (type == 'nickname') {
+			img = '<div class=text>昵称</div>';
+		} else if (type == 'qr') {
+			img = '<img src="{MODULE_URL}static/web/poster/images/qr.jpg?v=1" />';
+		}
+		var index = $('#poster .drag').length + 1;
+		var obj = $('<div class="drag" type="' + type + '" index="' + index + '" style="z-index:' + index + '">' + img + '<div class="rRightDown"> </div><div class="rLeftDown"> </div><div class="rRightUp"> </div><div class="rLeftUp"> </div><div class="rRight"> </div><div class="rLeft"> </div><div class="rUp"> </div><div class="rDown"></div></div>');
+
+		$('#poster').append(obj);
+		bindEvents(obj);
+	});
+
+    $('.drag').click(function() {
+		bind($(this));
+    })
+})
+</script>

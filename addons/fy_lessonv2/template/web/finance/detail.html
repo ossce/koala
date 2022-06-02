@@ -1,0 +1,240 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css" rel="stylesheet">
+<style type="text/css">
+	.admin-remark{
+		width:500px;
+		margin-top:5px;
+	}
+	.admin-remark .img-thumbnail{
+		width: 200px;
+	}
+</style>
+
+<div class="main">
+	<form class="form-horizontal form" method="post" onsubmit="return check();">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				[{$cashStatusList[$cashlog['status']]}]提现申请信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现单号</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">{$cashlog['id']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">粉丝信息</label>
+					<div class="col-sm-9">
+						<p class="form-control-static"><img src='{$cashlog['avatar']}' style='width:30px;height:30px;padding1px;border:1px solid #ccc' /> uid：{$cashlog['uid']}，{$cashlog['nickname']}({$cashlog['realname']})</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号码</label>
+					<div class="col-sm-9">
+						<p class="form-control-static"> {$cashlog['mobile']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现金额</label>
+					<div class="col-sm-9">
+						<p class="form-control-static"> {$cashlog['cash_num']} 元</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">手续费</label>
+					<div class="col-sm-9">
+						<p class="form-control-static"> {$cashlog['service_num']} 元</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">处理状态</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{if $cashlog['status']==0}
+							{loop $cashStatusList $key $item}
+								<label>
+									<input type="radio" name="status" value="{$key}" {if $key=='0'}checked{/if}>
+									<span class="label {if $key==0}label-primary{elseif $key==1}label-success{elseif $key==-1}label-default{elseif $key==-2}label-danger{/if}" style="vertical-align:text-top;">{$cashStatusList[$key]}</span>
+								</label>
+								&nbsp;&nbsp;
+							{/loop}
+							<span class="help-block">驳回申请将退回用户的提现金额和手续费；作废处理不会退还用户的提现金额和手续费</span>
+						{else}
+							{if $cashlog['status']==0}
+							<span class="label label-primary">{$cashStatusList[$cashlog['status']]}</span>
+							{elseif $cashlog['status']==1}
+							<span class="label label-success">{$cashStatusList[$cashlog['status']]}</span>
+							{elseif $cashlog['status']==-1}
+							<span class="label label-default">{$cashStatusList[$cashlog['status']]}</span>
+							{elseif $cashlog['status']==-2}
+							<span class="label label-danger">{$cashStatusList[$cashlog['status']]}</span>
+							{/if}
+						{/if}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现方式</label>
+					<div class="col-sm-9" style="margin-top:7px;">
+						<span class="label label-info">{$cashWayList[$cashlog['cash_way']]}</span>
+					</div>
+				</div>
+				{if $cashlog['cash_way']==4}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">银行名称</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">{$cashlog['bank_name']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">银行名开户行</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">{$cashlog['bank_row']}</p>
+					</div>
+				</div>
+				{/if}
+				{if $cashlog['cash_way']==3 || $cashlog['cash_way']==4}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现账号</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">{$cashlog['pay_account']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">收款人姓名</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">{$cashlog['pay_name']}</p>
+					</div>
+				</div>
+				{/if}
+				{if $cashlog['cash_way']==5}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">收款二维码</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+							<a href="{$_W['attachurl']}{$cashlog['user_img']}" target="_blank"><img src="{$_W['attachurl']}{$cashlog['user_img']}" width="200"></a>
+						</p>
+					</div>
+				</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">处理方式</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{php echo $cashlog['cash_type']==1?'管理员审核':'自动到账';}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请时间</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{php echo date('Y-m-d H:i:s', $cashlog['addtime']);}
+						</p>
+					</div>
+				</div>
+				{if !empty($cashlog['disposetime'])}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">处理时间</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{php echo date('Y-m-d H:i:s', $cashlog['disposetime']);}
+						</p>
+					</div>
+				</div>
+				{/if}
+				{if !empty($cashlog['partner_trade_no'])}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户订单号</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{$cashlog['partner_trade_no']}
+						</p>
+					</div>
+				</div>
+				{/if}
+				{if !empty($cashlog['payment_no'])}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信订单号</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{$cashlog['payment_no']}
+						</p>
+					</div>
+				</div>
+				{/if}
+				{if !empty($cashlog['err_code'])}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">错误代码</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{$cashlog['err_code']}
+						</p>
+					</div>
+				</div>
+				{/if}
+				{if !empty($cashlog['err_code_des'])}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">错误描述</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+						{$cashlog['err_code_des']}
+						</p>
+					</div>
+				</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员备注</label>
+					<div class="col-sm-9">
+                        {if $cashlog['status']==0}
+							<textarea style="width:500px;height:50px;" name="remark" id="remark" class="form-control"></textarea>
+							<div class="admin-remark">
+								{php echo tpl_form_field_image('admin_img', $cashlog['admin_img']);}
+							</div>
+						{else}
+							{if $cashlog['remark']}
+								{$cashlog['remark']}<br/>
+							{/if}
+							
+							{if $cashlog['admin_img']}
+								<a href="{$_W['attachurl']}{$cashlog['admin_img']}" target="_blank"><img src="{$_W['attachurl']}{$cashlog['admin_img']}" width="200"></a>
+							{/if}
+						{/if}
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						{if $cashlog['status']==0}
+						<input type="submit" name="submit" value="提交" class="btn btn-success col-lg-1"  onclick="showOverlay()" />
+						<input type="hidden" name="token" value="{$_W['token']}">
+						{/if}
+						<input type="button" name="back" onclick="history.back()" style="margin-left:10px;" value="返回列表" class="btn btn-default">
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}static/mobile/{$template}/images//download.gif"><span class="mloading-text">提交数据中，请勿刷新或关闭浏览器...</span></div>
+<div id="overlay"></div>
+
+<script type="text/javascript">
+function check(){
+	var status = $('input[name="status"]:checked').val();
+	var remark = $('#remark').val();
+	if(status==0){
+		alert("请选择处理状态");
+		return false;
+	}
+	if(status=='-1' && remark==''){
+		alert("请输入管理员备注");
+		return false;
+	}
+
+	/* 显示遮罩层 */
+    $("#overlay").show();
+	$(".mloading-bar").show();
+}
+</script>

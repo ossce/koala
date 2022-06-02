@@ -1,0 +1,351 @@
+<style type="text/css">
+	.must_info label{margin-left:0 !important;}
+	.input-group  img{width: 60px;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">手机端设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="sitename" value="{$setting['sitename']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站底部版权</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">版权信息</span>
+							<input type="text" name="copyright" value="{$setting['copyright']}" class="form-control" />
+							<span class="input-group-addon">ICP备案号</span>
+							<input type="text" name="site_icp" value="{$setting['site_icp']}" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">模块模版</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<a href="{php echo $this->createWebUrl('setting', array('op'=>'moduleshow'));}" class="input-group-addon">点击设置首页模块排序</a>
+							<span class="input-group-addon">//</span>
+							<span class="input-group-addon">手机端模板</span>
+							<select name="template" class="form-control">
+								{loop $template_arr $name $value}
+								<option value="{$value}" {if $setting['template']==$value}selected{/if}>{$name}</option>
+								{/loop}
+							</select>							
+						</div>
+						<span class="help-block">
+							1、该设置仅对传统首页生效，如需自定义首页，请前往 <a href="{php echo $this->createWebUrl('setting',array('op'=>'diy'));}" target="_blank" style="color:#609dd2;">DIY首页</a>。<br/>
+							2、点击设置首页模块排序，可根据自己的需要调整首页模块的排序和状态；默认模版为系统自带，自定义模版供用户自行二次开发使用。<br/>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机端首页</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">最近更新课程数量</span>
+							<input type="text" name="show_newlesson" value="{$setting['show_newlesson']}" class="form-control">
+							<span class="input-group-addon">课程分类每行显示数量</span>
+							<select name="category_row_number" class="form-control" style="min-width:80px;">
+								<option value="3" {if $common['category_row_number']==3}selected{/if}>3个</option>
+								<option value="4" {if $common['category_row_number']==4}selected{/if}>4个</option>
+								<option value="5" {if $common['category_row_number']==5}selected{/if}>5个</option>
+							</select>
+							<span class="input-group-addon">课程分类显示行数</span>
+							<select name="category_row" class="form-control" style="min-width:80px;">
+								<option value="1" {if $common['category_row']==1}selected{/if}>1行</option>
+								<option value="2" {if $common['category_row']==2}selected{/if}>2行</option>
+								<option value="3" {if $common['category_row']==3}selected{/if}>3行</option>
+								<option value="4" {if $common['category_row']==4}selected{/if}>4行</option>
+							</select>
+						</div>
+						<span class="help-block">
+							1、该设置仅对传统首页生效，如需自定义首页，请前往 <a href="{php echo $this->createWebUrl('setting',array('op'=>'diy'));}" target="_blank" style="color:#609dd2;">DIY首页</a>。<br/>
+							2、最近更新课程数量默认显示3个课程，0为关闭显示最新更新课程。课程分类默认每行显示5个分类，显示两行。
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程详情页默认显示</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="lesson_show" value="0" {if $setting['lesson_show']==0}checked{/if} />
+							课程详情</label>
+						<label class="radio-inline"><input type="radio" name="lesson_show" value="1" {if $setting['lesson_show']==1}checked{/if} />
+							课程目录</label>
+						<span class="help-block">该选项为手机端用户进入课程详情页时默认显示的页面</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">讲师主页默认显示</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="teacher_home_show" value="1" {if $common['teacher_home_show']==1}checked{/if} />
+							全部课程</label>
+						<label class="radio-inline"><input type="radio" name="teacher_home_show" value="2" {if $common['teacher_home_show']==2}checked{/if} />
+							讲师介绍</label>
+						<span class="help-block">该选项为用户进入讲师主页时默认显示的页面</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程详情页购买入口</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="lesson_vip_status" value="0" {if $setting['lesson_vip_status']==0}checked{/if} />
+							仅显示购买课程</label>
+						<label class="radio-inline"><input type="radio" name="lesson_vip_status" value="1" {if $setting['lesson_vip_status']==1}checked{/if} />
+							仅显示开通VIP</label>
+						<label class="radio-inline"><input type="radio" name="lesson_vip_status" value="2" {if $setting['lesson_vip_status']==2}checked{/if} />
+							显示购买课程和开通VIP</label>
+						<span class="help-block">课程详情页底部开通VIP和立即购买按钮，只有课程支持VIP免费学习时，选择显示开通VIP按钮才生效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">单课程海报入口</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="lesson_poster_status" value="0" {if $setting['lesson_poster_status']==0}checked{/if} />
+							全部隐藏</label>
+						<label class="radio-inline"><input type="radio" name="lesson_poster_status" value="1" {if $setting['lesson_poster_status']==1}checked{/if} />
+							全部显示</label>
+						<label class="radio-inline"><input type="radio" name="lesson_poster_status" value="2" {if $setting['lesson_poster_status']==2}checked{/if} />
+							仅上传海报的课程显示</label>
+						<span class="help-block">课程详情页右上角单课程海报入口显示状态</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">课程详情页设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="lesson_config[document]" value="1" {if $lesson_config['document']}checked{/if} /><span class="label-middle">课件</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[evaluate]" value="1" {if $lesson_config['evaluate']}checked{/if} /><span class="label-middle">评价</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[search_section]" value="1" {if $lesson_config['search_section']}checked{/if} /><span class="label-middle">搜索章节</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[hide_lesson_descript]" value="1" {if $lesson_config['hide_lesson_descript']}checked{/if} /><span class="label-middle">收缩课程介绍</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[lesson_all_qun]" value="1" {if $lesson_config['lesson_all_qun']}checked{/if} /><span class="label-middle">全部课程加群</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[teacher_introduce]" value="1" {if $lesson_config['teacher_introduce']}checked{/if} /><span class="label-middle">讲师介绍</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lesson_config[like_lesson_switch]" value="1" {if $lesson_config['like_lesson_switch']}checked{/if} /><span class="label-middle">推荐课程</span>
+						</label>
+						<span class="help-block">勾选以上各个对应选项后，课程详情页将显示对应的入口或功能</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="small_index" value="1" {if $common['small_index']}checked{/if} /><span class="label-middle">窄屏首页</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="right_bar" value="1" {if $common['right_bar']}checked{/if} /><span class="label-middle">右侧悬浮菜单</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="article_page" value="1" {if $common['article_page']}checked{/if} /><span class="label-middle">启用文章分页</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="article_copy" value="1" {if $common['article_copy']}checked{/if} /><span class="label-middle">允许复制文章</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="virtual_buy" value="1" {if $common['virtual_buy']}checked{/if} /><span class="label-middle">展示虚拟购买信息</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="video_watermark" value="1" {if $common['video_watermark']}checked{/if} /><span class="label-middle">视频移动水印</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="rotate_mirror" value="1" {if $common['rotate_mirror']}checked{/if} /><span class="label-middle">镜像旋转</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="lately_commission" value="1" {if $common['lately_commission']}checked{/if} /><span class="label-middle">推广收益</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="give_coupon" value="1" {if $common['give_coupon']}checked{/if} /><span class="label-middle">优惠券转赠</span>
+						</label>
+						<span class="help-block">
+							1、勾选窄屏首页后，手机版首页两边将自动收缩空边。仅对传统首页生效，如需自定义首页，请前往 <a href="{php echo $this->createWebUrl('setting',array('op'=>'diy'));}" target="_blank" style="color:#609dd2;">DIY首页</a>；<br/>
+							2、启用文章分页后，图文章节的课程将自动按分页显示。<br/>
+							3、允许复制文章后，图文章节的内容将可以长按复制。<br/>
+							4、勾选展示虚拟购买信息后，手机端的课程详情页和VIP服务页面将展示虚拟购买信息。<br/>
+							5、勾选视频移动水印后，播放视频将出现用户的uid、手机号码和昵称信息，不支持腾讯云点播和内嵌代码存储章节。<br/>
+							6、勾选镜像旋转后，播放视频将出现镜像旋转按钮，不支持腾讯云点播和内嵌代码存储章节。<br/>
+							7、勾选推广收益后，课程详情页和VIP服务页面将分别显示近期的课程推广收益和VIP等级推广收益。<br/>
+							8、勾选优惠券转赠后，用户可以转赠未过期的优惠券给好友。<br/>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">完善会员信息</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="mustinfo" value="0" {if $setting['mustinfo']==0}checked{/if}
+							 onclick="changeUserInfo(this.value)" /> 不强制</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="mustinfo" value="1" {if $setting['mustinfo']==1}checked{/if}
+							 onclick="changeUserInfo(this.value)" /> 购买时需完善</label>
+						&nbsp;
+						<label class="radio-inline"><input type="radio" name="mustinfo" value="2" {if $setting['mustinfo']==2}checked{/if}
+							 onclick="changeUserInfo(this.value)" /> 购买和学习时需完善</label>
+					</div>
+				</div>
+				<div class="form-group" id="user_info" {if $setting['mustinfo']==0}style="display:none;" {/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">完善信息选项</label>
+					<div class="col-sm-9 must_info">
+						{loop $common_member_fields $item}
+						<label class="radio-inline">
+							<input type="checkbox" name="user_info[]" value="{$item['field_short']}" {if in_array($item['field_short'],$user_info)}checked{/if}><span class="label-middle">{$item['field_name']}</span>
+						</label>
+						{/loop}
+						<span class="help-block">该字段调用系统自带会员字段，修改字段名称前往“平台~会员管理~会员字段管理”里修改</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页图标设置</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">全部分类</span>
+							{php echo tpl_form_field_image('category_ico', $setting['category_ico']);}
+							<span class="input-group-addon">通知公告</span>
+							{php echo tpl_form_field_image('article_ico', $common['article_ico']);}
+							<span class="input-group-addon">名师风采</span>
+							{php echo tpl_form_field_image('teacherlist_ico', $common['teacherlist_ico']);}
+							<span class="input-group-addon">最新更新</span>
+							{php echo tpl_form_field_image('newlesson_ico', $common['newlesson_ico']);}
+						</div>
+						<span class="help-block">不上传全部分类图标，则首页不显示，<a href="{MODULE_URL}static/mobile/{$template}/images//ico-allcategory.png" target="_blank" style="color:#428bca;">点击查看默认图标</a>。通知公告、名师风采和最新更新图标建议尺寸40 * 40px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人中心菜单</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="signin" {if in_array('signin',$self_item)}checked{/if}><span class="label-middle">签到</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="setting" {if in_array('setting',$self_item)}checked{/if}><span class="label-middle">设置</span>
+						</label>
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="self_item[]" value="credit" {if in_array('credit',$self_item)}checked{/if}><span class="label-middle">积分余额优惠券</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="college" {if in_array('college',$self_item)}checked{/if}><span class="label-middle">收藏</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="history" {if in_array('history',$self_item)}checked{/if}><span class="label-middle">学习记录</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="vip" {if in_array('vip',$self_item)}checked{/if}><span class="label-middle">VIP服务</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="order" {if in_array('order',$self_item)}checked{/if}><span class="label-middle">订单</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="subscribe" {if in_array('subscribe',$self_item)}checked{/if}><span class="label-middle">订阅消息</span>
+						</label>
+						{if pdo_tableexists('fy_lesson_plugin_exam_examine_record')}
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="myexamine" {if in_array('myexamine',$self_item)}checked{/if}><span class="label-middle">我的考试</span>
+						</label>
+						{/if}
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="myteacher" {if in_array('myteacher',$self_item)}checked{/if}><span class="label-middle">讲师服务</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="reclesson" {if in_array('reclesson',$self_item)}checked{/if}><span class="label-middle">课程邀请</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="teachercenter" {if in_array('teachercenter',$self_item)}checked{/if}><span class="label-middle">讲师中心</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="lessonCard" {if in_array('lessonCard',$self_item)}checked{/if}><span class="label-middle">兑换课程</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="sale" {if in_array('sale',$self_item)}checked{/if}><span class="label-middle">分销中心</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="studyDuration" {if in_array('studyDuration',$self_item)}checked{/if}><span class="label-middle">学习时长</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="coupon" {if in_array('coupon',$self_item)}checked{/if}><span class="label-middle">优惠券</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="mobile" {if in_array('mobile',$self_item)}checked{/if}><span class="label-middle">绑定/修改手机</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="self_item[]" value="suggest" {if in_array('suggest',$self_item)}checked{/if}><span class="label-middle">投诉建议</span>
+						</label>
+						<span class="help-block">勾选的自定义菜单会显示在个人中心里；已申请通过审核的讲师继续显示讲师中心</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义CSS样式</label>
+					<div class="col-sm-9">
+						<textarea name="front_color" class="form-control" id="front_color" style="height:150px;">{$setting['front_color']}</textarea>
+						<span class="help-block"><a href="javascript:;" style="color:#428bca;" id="loadcss">【加载默认样式】</a> 如需恢复默认样式，请留空保存即可</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买课程服务协议</label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('lesson_agreement', $setting['lesson_agreement']);}
+						<div class="help-block">显示在用购买课程确认订单页面</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户服务(隐私)协议</label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('privacy_agreement', $setting['privacy_agreement']);}
+						<div class="help-block">显示在用户绑定手机号码页面下方</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">讲师注册(隐私)协议</label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('teacher_agreement', $setting['teacher_agreement']);}
+						<div class="help-block">用户申请讲师时，显示在申请页面底部的协议</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+function changeUserInfo(status){
+	if(status==0){
+		document.getElementById("user_info").style.display = "none";
+	}else{
+		document.getElementById("user_info").style.display = "block";
+	}
+}
+function indexVerify(status){
+	if(status==0){
+		document.getElementById("index-close-box").style.display = "none";
+	}else{
+		document.getElementById("index-close-box").style.display = "block";
+	}
+}
+$("#loadcss").click(function(){
+	$.ajax({
+		type:"get",
+		url:"{php echo $this->createWebUrl('setting', array('op'=>'frontshow','loadcss'=>1))}",
+		data:{},
+		datatype: "json",
+		success:function(resdata){
+			var res =  JSON.parse(resdata);
+			document.getElementById('front_color').innerHTML = res;
+		},
+	 });
+});
+</script>

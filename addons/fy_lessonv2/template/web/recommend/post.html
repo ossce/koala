@@ -1,0 +1,93 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                板块信息
+            </div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">板块名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="rec_name" class="form-control" value="{$recommend['rec_name']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">板块图标</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('icon', $recommend['icon']);}
+						<span class="help-block">显示在板块名称左侧的小图标</span>
+					</div>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">板块样式</label>
+                    <div class="col-sm-9">
+						{loop $styleList $key $item}
+						<label class="radio-inline">
+							<input type="radio" name="show_style" value="{$key}" {if empty($recommend['show_style']) || $recommend['show_style'] == "$key"}checked="true"{/if} />
+							<img src="{MODULE_URL}static/web/images/reclesson_{$key}.png" width="50" height="50" data-toggle="tooltip" data-placement="bottom" data-original-title="{$item}">
+						</label>
+                        &nbsp;
+						{/loop}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否显示</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="is_show" value="1" {if empty($recommend) || $recommend['is_show'] == 1}checked="true"{/if} /> 是</label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" name="is_show" value="0" {if !empty($recommend) && $recommend['is_show'] == 0}checked="true"{/if} /> 否</label>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机端显示数量</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="limit_number" class="form-control" value="{$recommend['limit_number']}" />
+						<span class="help-block">手机端首页显示课程数量，设置为0不显示</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">PC端显示数量</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="limit_number_pc" class="form-control" value="{$recommend['limit_number_pc']}" />
+						<span class="help-block">PC端首页显示课程数量，设置为0不显示</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$recommend['displayorder']}" />
+                    </div>
+                </div>
+				{if $recommend['id']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">链接(手机端)</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$_W['siteroot']}app/{php echo str_replace("./", "", $this->createMobileUrl('recommend', array('recid'=>$recommend['id'])));}</a></div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">链接(PC端)</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-pc-btn">{$setting_pc['site_root']}{$uniacid}/recommend.html?recid={$recommend['id']}</a></div>
+                    </div>
+                </div>
+				{/if}
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+        </div>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copy-btn")[0], $("#copy-btn").text());
+		util.clip($("#copy-pc-btn")[0], $("#copy-pc-btn").text());
+	});
+});
+</script>

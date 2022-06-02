@@ -1,0 +1,152 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/teacherlist.css?v={$versions}">
+
+<style type="text/css">
+.course-list>ul>li{
+	margin-right: 40px;
+}
+.course-list>ul>li:nth-child(3n) {
+    margin-right: 0;
+}
+.course-list>ul>li:nth-child(4n){
+	margin-right: 40px;
+}
+
+.teacher-agency-avatar img{
+	border-radius: 10px;
+}
+.teacher-agency-avatar, .teacher-agency-main-content{
+	margin-top: 5px;
+	border: none;
+}
+.teacher-agency-main-content{
+	min-height: 132px;
+}
+.teacher-agency-main-content{
+	width: 340px;
+}
+.teacher-agency-intro{
+	font-size: 13px;
+}
+</style>
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="bookCollection flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $_GPC['type']==1}actived{/if}"><a class="tabsCard" href="/{$uniacid}/collect.html?type=1">{php echo $common['page_title']['collectLesson'] ? $common['page_title']['collectLesson'] : '收藏课程';}</a></li>
+					<li class="items {if $_GPC['type']==2}actived{/if}"><a class="tabsCard" href="/{$uniacid}/collect.html?type=2">{php echo $common['page_title']['collectTeacher'] ? $common['page_title']['collectTeacher'] : '关注讲师';}</a></li>
+				</ul>
+				<div class="goodsLIst">
+				{if $list}
+					{if $type==1}
+					<!-- 收藏课程 -->
+					<div class="flex flex-vc flex-hw">
+						<div class="course-list">
+							<ul>
+								{loop $list $item}
+								<li>
+									<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+										<div class="cover">
+											<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}" style="display: block;">
+											<div class="icon-live {$item['icon_live_status']}"></div>
+											{if !empty($item['ico_name'])}
+												<i class="ico_common {$item['ico_name']}"></i>
+											{/if}
+											{if $item['section_status']=='0'}
+												<i class="section_ended">已完结</i>
+											{/if}
+										</div>
+										<div class="info">
+											<p class="title">{$item['bookname']}</p>
+											<p class="item1">
+												{if $setting['show_study_number']}
+												<span class="click">
+													<i class="click-count-icon"></i> {$item['buynum_total']}
+												</span>
+												{/if}
+												<span class="type price">
+												{if $item['price']==0}
+													免费
+												{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+													VIP免费
+												{else}
+													{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} <strong>¥ {$item['price']}</strong>
+												{/if}
+												</span>
+											</p>
+											<p class="item2">
+												{if $item['score_rate']}
+												<span class="teacher">
+													<img src="{MODULE_URL}static/webapp/{$template}/images/icon-good.png" width="20"
+													 height="19">{$item['score_rate']}%好评
+												</span>
+												{/if}
+												{if $item['lesson_type']!=3}
+												<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+												{/if}
+											</p>
+											<p class="description">{$item['descript']}</p>
+										</div>
+									</a>
+								</li>
+								{/loop}
+							</ul>
+						</div>
+					</div>
+					{elseif $type==2}
+					<!-- 收藏讲师 -->
+						<div class="flex flex-vc flex-hw">
+							{loop $list $key $item}
+							<div>
+								<div class="teacher-agency-avatar">
+									<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank" class="dsblock">
+										<img src="{$_W['attachurl']}{$item['teacherphoto']}" width="100" height="100">
+									</a>
+								</div>
+								<div class="teacher-agency-main-content" {if $key%2==0}style="margin-right:28px;"{/if}>
+									<p class="teacher-agency-intro" title="{$item['teacherdes']}">{$item['teacherdes']}</p>
+									<p class="teacher-agency-relation">
+										{if $item['lessonCount']}
+										<span class="fl">共{$item['lessonCount']}{php echo $lesson_page['lessonNum'] ? $lesson_page['lessonNum'] : '个课程'}</span>
+										{/if}
+										<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank"><i class="iconfont icon-information all-lesson fr"> 全部课程</i></a>
+										
+									</p>
+								</div>
+								<div class="clear"></div>
+							</div>
+							{/loop}
+						</div>
+					{/if}
+
+					{if $pager}
+					<div class="tfoot clearfix m-t-40">
+						<div class="tfoot-page">
+							<div class="pagination">
+								{$pager}
+							</div>
+						</div>
+					</div>
+					{/if}
+				{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>暂无符合条件的数据记录</p>
+						</div>
+					</div>
+				{/if}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

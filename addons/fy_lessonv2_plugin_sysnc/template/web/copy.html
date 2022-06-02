@@ -1,0 +1,119 @@
+ <!-- 
+ * 一键复制
+ * ============================================================================
+
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template 'common/header'}
+<link href="{MODULE_URL}static/web/css/common.css?v={$versions}" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+	<li class="active">
+		<a href="{php echo $this->createWebUrl('copy');}">一键同步</a>
+	</li>
+</ul>
+
+<div class="main">
+	<div class="alert alert-danger">
+	    <i class="fa fa-info-circle"></i> 复制数据过程请勿刷新页面或者关闭浏览器，否则会造成数据复制丢失。
+	</div>
+    <form method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkSubmit();return false;">
+        <div class="panel panel-default">
+            <div class="panel-heading">公众号数据复制</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+                    <div class="col-sm-9">
+                    	<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">数据来源公众号</label>
+					<div class="col-sm-9">
+                        <div class='input-group'>
+                            <input type="text" id="from_account_name" maxlength="30" class="form-control" readonly />
+							<input type="hidden" id="from_uniacid" name="from_uniacid" />
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="eqSelectAccount();">选择公众号</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="color:red;font-weight:bold;">清空目标公众号数据</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="clear_data" value="1"> 是</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="clear_data" value="0" checked=""> 否</label>
+						<span class="help-block">选择是后，目标公众号的原有数据（文章公告、广告列表、基本设置、分销设置、分销等级、课程分类、讲师列表、讲师列表、推荐板块、vip等级、课程列表、章节列表、课程价格）将被清空，谨慎操作。</span>
+					</div>
+				</div>
+				<div class="form-group hide_setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">覆盖基本设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="over_setting" value="1"> 是</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="over_setting" value="0" checked=""> 否</label>
+						<span class="help-block">选择是后，目标公众号的基本设置数据将被覆盖</span>
+					</div>
+				</div>
+				<div class="form-group hide_setting">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">覆盖分销设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="over_comsetting" value="1"> 是</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="over_comsetting" value="0" checked=""> 否</label>
+						<span class="help-block">选择是后，目标公众号的分销设置数据将被覆盖</span>
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{template 'web/_searchAccount'}
+
+<div id="loadingToast" style="display:none;">
+	<div class="loading-mask_white"></div>
+	<div class="loadEffect">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function checkSubmit(){
+		if(!confirm('该操作无法撤销，请确认继续操作?')){
+			return false;
+		}
+
+		$("#loadingToast").show();
+	}
+
+	$('input[name=clear_data]').click(function(){
+		var clear_data = $(this).val();
+
+		if(clear_data==1){
+			$('.hide_setting').hide();
+		}else{
+			$('.hide_setting').show();
+		}
+	});
+</script>
+
+{template 'common/footer'}

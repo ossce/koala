@@ -1,0 +1,36 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                添加课程目录
+            </div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" value="{$lesson['bookname']}" readonly="readonly"/>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">目录名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$title['title']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$title['displayorder']}" />
+						<span class="help-block">序号越大，排序越靠前</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="title_id" value="{$title_id}" />
+			<input type="hidden" name="pid" value="{$pid}" />
+        </div>
+	</form>
+</div>

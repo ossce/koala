@@ -1,0 +1,60 @@
+<style type="text/css">
+.must_info label{margin-left:0 !important;}
+.input-group  img{width: 60px;}
+</style>
+<div class="main">
+	<div class="alert alert-info">
+		模块的排序值越大，模块越靠前，如需初始化设置，请点击&nbsp;&nbsp;<a href="{php echo $this->createWebUrl('setting', array('op'=>'moduleshow','initialize'=>1))}" class="label label-danger" onclick="return confirm('确定初始化设置?');">初始化设置</a>
+	</div>
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">首页模块排序</div>
+			<div class="panel-body">
+			{if empty($list)}
+				{loop $composing $key $item}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$item['module_name']}</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<span class="input-group-addon">排序</span>
+							<input type="text" name="index_module[{$key}][displayorder]" class="form-control">
+							<span class="input-group-addon">首页状态</span>
+								<select name="index_module[{$key}][is_show]" class="form-control" style="width:125px;">
+								<option value="1">显示</option>
+								<option value="0">隐藏</option>
+							</select>
+							<input type="hidden" name="index_module[{$key}][module_ident]" value="{$item['module_ident']}">
+							<input type="hidden" name="index_module[{$key}][module_name]" value="{$item['module_name']}">
+						</div>
+					</div>
+				</div>
+				{/loop}
+			{else}
+				{loop $list $key $item}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$item['module_name']}</label>
+					<div class="col-sm-5">
+						<div class="input-group">
+							<span class="input-group-addon">排序</span>
+							<input type="text" name="index_module[{$key}][displayorder]" class="form-control" value="{$item['displayorder']}">
+							<span class="input-group-addon">首页状态</span>
+								<select name="index_module[{$key}][is_show]" class="form-control" style="width:125px;">
+								<option value="1" {if $item['is_show']=='1'}selected{/if}>显示</option>
+								<option value="0" {if $item['is_show']=='0'}selected{/if}>隐藏</option>
+							</select>
+							<input type="hidden" name="index_module[{$key}][module_ident]" value="{$item['module_ident']}">
+							<input type="hidden" name="index_module[{$key}][module_name]" value="{$item['module_name']}">
+						</div>
+					</div>
+				</div>
+				{/loop}
+			{/if}
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary"/>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>

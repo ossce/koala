@@ -1,0 +1,117 @@
+<!--
+ * 课程卡密兑换课程
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template $template.'/_headerv2'}
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<ul class="tab_wrap">
+	<li class="tab_item {if $type==1}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('lessoncard', array('type'=>1,'password'=>$_GPC['password']));}">为自己开通</a>
+	</li>
+	<li class="tab_item {if $type==2}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('lessoncard', array('type'=>2,'password'=>$_GPC['password']));}">为他人开通</a>
+	</li>
+</ul>
+
+<form method="post" action="" onsubmit="return checkSubmit();">
+	<div class="weui-cells__group weui-cells__group_form">
+		<div class="weui-cells weui-cells_form">
+			<label for="password" class="weui-cell weui-cell_active">
+				<div class="weui-cell__hd"><span class="weui-label">课程卡密</span></div>
+				<div class="weui-cell__bd">
+					<input type="text" name="password" id="password" class="weui-input" value="{$_GPC['password']}" placeholder="请输入课程卡密" maxlength="18" />
+				</div>
+			</label>
+			{if $type ==2}
+			<label for="open_type" class="weui-cell weui-cell_active">
+				<div class="weui-cell__hd"><span class="weui-label">验证方式</span></div>
+				<div class="weui-cell__bd">
+					<label class="radio-inline mr10">
+						<input type="radio" name="open_type" class="vertical-2m mr5" value="1" checked/>{$studen_no}(uid)
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="open_type" class="vertical-2m mr5" value="2"/>手机号码
+					</label>
+				</div>
+			</label>
+			<label for="use_uid" class="weui-cell weui-cell_active">
+				<div class="weui-cell__hd"><span class="weui-label open-type-name">{$studen_no}(uid)</span></div>
+				<div class="weui-cell__bd">
+					<input type="tel" name="use_uid" id="use_uid" class="weui-input" maxlength="11" placeholder="请输入对方的{$studen_no}(即uid)" oninput="value=value.replace(/^\.+|[^\d]+/g,'')" />
+				</div>
+			</label>
+			{/if}
+		</div>
+	</div>
+	<div class="h-40"></div>
+	<div class="weui-btn-area" style="margin-top:16px;">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		<input type="hidden" name="type" value="{$type}" />
+		<input type="submit" name="submit" class="weui-btn weui-btn_primary" value="立即兑换" />
+	</div>
+</form>
+<div class="h-70"></div>
+
+<script type="text/javascript">
+	$(function(){
+		$(':radio[name="open_type"]').click(function() {
+			if($(this).val() == 1){
+				$(".open-type-name").text("{$studen_no}(uid)");
+				$("#use_uid").attr("placeholder","请输入对方的{$studen_no}(即uid)");
+			}else if($(this).val() == 2){
+				$(".open-type-name").text("手机号码");
+				$("#use_uid").attr("placeholder","请输入对方手机号码");
+			}
+		});
+	})
+
+	//提交
+	function checkSubmit(){
+		var password = $("#password").val();
+		
+		if(password == ''){
+			showSingleDialog("请输入课程卡密");
+			return false;
+		}
+		if(password.length != 18){
+			showSingleDialog("课程卡密位数有误");
+			return false;
+		}
+
+		<?php if($type == 2){ ?>
+			var open_type = $("input[name=open_type]:checked").val();
+			var use_uid = $("#use_uid").val();
+
+			if(open_type != 1 && open_type != 2){
+				showSingleDialog("请选择验证方式");
+				return false;
+			}
+			if(open_type == 1 && use_uid == ''){
+				showSingleDialog("请输入对方{$studen_no}(uid)");
+				return false;
+			}
+			if(open_type == 2 && use_uid == ''){
+				showSingleDialog("请输入对方手机号码");
+				return false;
+			}
+		<?php } ?>
+
+		$("#loadingToast").show();
+	}
+</script>
+
+{template $template.'/_footerv2'}

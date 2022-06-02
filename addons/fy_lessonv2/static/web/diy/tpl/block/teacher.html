@@ -1,0 +1,46 @@
+<script type="text/template" id="tpl_block_teacher">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div class="teacher_title_unit" style="background-color: <%= style.background %>; padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+			<div class="index_title flex1">
+				<div class="img flex0">
+					<img class="flex_g0" src="<%= style.imgsrc %>" style="width: 19px;">
+				</div>
+				<div class="flex_all" style=" color:<%= style.title_color %> "><%= style.title_font %></div>
+				<a class="more_teacher" style=" color:<%= style.more_color %> "><%= style.more_font %> <i class="fa fa-angle-right"></i></a>
+			</div>
+			<div style="overflow:hidden;">
+				<div class="teacher_swiper">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<a>
+								<div class="img-box">
+									<div class="img"><img src="{MODULE_URL}static/web/diy/img/teacher_1.png"></div>
+								</div>
+								<div class="name">李晓韬</div>
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a>
+								<div class="img-box">
+									<div class="img"><img src="{MODULE_URL}static/web/diy/img/teacher_2.jpg"></div>
+								</div>
+								<div class="name">王松峰</div>
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a>
+								<div class="img-box">
+									<div class="img"><img src="{MODULE_URL}static/web/diy/img/teacher_3.jpg"></div>
+								</div>
+								<div class="name">欧阳智海</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,16 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<link href="{MODULE_URL}static/web/css/category.css?v={$versions}" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('teacher');}">讲师列表</a></li>
+	<li {if $op=='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('teacher', array('op'=>'category'));}">讲师分类</a></li>
+	{if $op=='postCategory'}
+	<li class="active"><a href="{php echo $this->createWebUrl('teacher', array('op'=>'postCategory','id'=>$_GPC['id']));}">添加分类</a></li>
+	{/if}
+	<li {if $op=='order' || $op=='orderDetail'}class="active"{/if}><a href="{php echo $this->createWebUrl('teacher', array('op'=>'order','status'=>1));}">购买讲师订单</a></li>
+	{if $op=='createOrder'}
+	<li class="active"><a href="{php echo $this->createWebUrl('teacher', array('op'=>'createOrder','teacherid'=>$_GPC['teacherid']));}">创建订单</a></li>
+	{/if}
+	<li {if $op=='teacherMember' || $op=='editTeacherMember'}class="active"{/if}><a href="{php echo $this->createWebUrl('teacher', array('op'=>'teacherMember'));}">购买讲师会员</a></li>
+	<li {if $op=='income'}class="active"{/if}><a href="{php echo $this->createWebUrl('teacher', array('op'=>'income'));}">讲师收入明细</a></li>
+</ul>

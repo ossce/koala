@@ -1,0 +1,89 @@
+<!-- 
+ * 学习时长汇总
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+<div class="main">
+	<div class="alert alert-warning">
+	    会员学习时长汇总为非严格精确统计数据，仅供作为参考依据，请您知悉
+	</div>
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="record" />
+                <input type="hidden" name="op" value="studyDuration" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">用户信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}" placeholder="昵称 / 姓名 / 手机号码">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">用户uid</label>
+					<div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="uid1" type="text" value="{$_GPC['uid1']}" style="display:inline-block;width:44%;"> 至 <input class="form-control" name="uid2" type="text" value="{$_GPC['uid2']}" style="display:inline-block;width:44%;">
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序依据</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="orderby" class="form-control">
+							<option value="">默认排序</option>
+							<option value="1" {if $_GPC['orderby']==1}selected{/if}>视频学习时长</option>
+							<option value="2" {if $_GPC['orderby']==2}selected{/if}>图文学习时长</option>
+							<option value="3" {if $_GPC['orderby']==3}selected{/if}>音频学习时长</option>
+							<option value="4" {if $_GPC['orderby']==4}selected{/if}>总学习时长</option>
+						</select>
+                    </div>
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+					&nbsp;&nbsp;
+					<button type="submit" name="export" value="1" class="btn btn-success">导出 Excel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:9%;">uid</th>
+                    <th style="width:20%;">昵称</th>
+                    <th style="width:15%;">姓名/手机</th>
+                    <th style="width:12%;">视频时长</th>
+					<th style="width:12%;">图文时长</th>
+					<th style="width:12%;">音频时长</th>
+                    <th style="width:12%;">总学习时长</th>
+                    <th style="text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+                    <td>{$item['uid']}</td>
+                    <td><img src="{$item['avatar']}" style="width:30px;height:30px;padding1px;border:1px solid #ccc"><br/>{$item['nickname']}</td>
+                    <td>{$item['realname']}<br/>{$item['mobile']}</td>
+					<td>{$item['video_duration']}</td>
+                    <td>{$item['article_duration']}</td>
+					<td>{$item['audio_duration']}</td>
+					<td>{$item['total_duration']}</td>
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('record', array('op'=>'studyDurationDetails', 'uid'=>$item['uid']))}" title="查看详情"><i class="fa fa-edit"></i>查看</a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+<style type="text/css">
+.xing_hui{width: 24px;}
+</style>
+<div class="main">
+	<form method="post" class="form-horizontal form">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            	评价详情
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单遍号</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							{if $evaluate['ordersn']}
+								{$evaluate['ordersn']}
+							{else}
+								{if !$item['uid'] && $evaluate['virtual_nickname']}
+									后台评价
+								{elseif $evaluate['uid']}
+									免费课程
+								{/if}
+							{/if}
+						</p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程名称</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                        {$evaluate['bookname']}
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称/姓名/手机号码</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							<img src="{$avatar}" width="35" height="35">
+							{$member['nickname']} / {$member['realname']} / {$member['mobile']}
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">评价级别</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							<label>
+								<input type="radio" name="grade" value="1" <?php if($evaluate['grade']==1){echo 'checked';} ?> /> <span class="label" style="background-color:#FB5B5B;">好评</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="grade" value="2" <?php if($evaluate['grade']==2){echo 'checked';} ?> /> <span class="label" style="background-color:#D99810;">中评</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="grade" value="3" <?php if($evaluate['grade']==3){echo 'checked';} ?> /> <span class="label" style="background-color:#555555;">差评</span>
+							</label>
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{php echo $evaluate_page['global_score'] ? $evaluate_page['global_score'] : '综合评分';}</label>
+                    <div class="col-sm-9">
+						<?php for($i=0; $i<$evaluate['global_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_full.png" class="xing_hui"/>
+						<?php } ?>
+
+						<?php for($i=0; $i<5-$evaluate['global_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_empty.png" class="xing_hui"/>
+						<?php } ?>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{php echo $evaluate_page['content_score'] ? $evaluate_page['content_score'] : '内容实用';}</label>
+                    <div class="col-sm-9">
+						<?php for($i=0; $i<$evaluate['content_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_full.png" class="xing_hui"/>
+						<?php } ?>
+
+						<?php for($i=0; $i<5-$evaluate['content_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_empty.png" class="xing_hui"/>
+						<?php } ?>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{php echo $evaluate_page['understand_score'] ? $evaluate_page['understand_score'] : '通俗易懂';}</label>
+                    <div class="col-sm-9">
+						<?php for($i=0; $i<$evaluate['understand_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_full.png" class="xing_hui"/>
+						<?php } ?>
+
+						<?php for($i=0; $i<5-$evaluate['understand_score'];$i++){ ?>
+                        <img src="{MODULE_URL}static/mobile/{$template}/images/star_empty.png" class="xing_hui"/>
+						<?php } ?>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">评价内容</label>
+					<div class="col-sm-9">
+                        <p class="form-control-static">
+							<textarea name="content"  class="form-control" style="width:600px;height:80px;">{$evaluate['content']}</textarea>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">处理状态</label>
+					<div class="col-sm-9">
+						<p class="form-control-static">
+							<label>
+								<input type="radio" name="status" value="0" <?php if($evaluate['status']==0){echo 'checked';} ?> />
+								<span class="label label-primary" style="vertical-align:text-top;">待审核</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="status" value="1" <?php if($evaluate['status']==1){echo 'checked';} ?> />
+								<span class="label label-success" style="vertical-align:text-top;">已审核</span>
+							</label>
+							&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="status" value="-1" <?php if($evaluate['status']==-1){echo 'checked';} ?> />
+								<span class="label label-default" style="vertical-align:text-top;">审核未通过</span>
+							</label>
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">回复内容</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+							<textarea name="reply"  class="form-control" style="width:600px;height:100px;">{$evaluate['reply']}</textarea>
+                        </p>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9">
+						<input type="hidden" name="id" value="{$id}" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+                        <input type="submit" name="submit" class="btn btn-info span2" value="提交回复" />
+                    </div>
+                </div>
+            </div>
+        </div>
+	</form>
+</div>

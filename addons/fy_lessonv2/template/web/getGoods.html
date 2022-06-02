@@ -1,0 +1,7 @@
+{loop $list $item}
+<div class="item" style="height:192px;background:#eee url({$_W['attachurl']}{$item['cover']});background-size:cover;" onclick='selectGoods({php echo json_encode($item)});'>
+	<div class="text">{$item['title']}</div>
+</div>
+{/loop}
+
+<span class="hide goods_curr_page">{$pindex}</span><span class="hide goods_total_page">{$total_page}</span>

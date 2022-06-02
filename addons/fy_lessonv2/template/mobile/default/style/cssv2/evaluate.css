@@ -1,0 +1,268 @@
+html {
+	font-size: 125%;
+}
+@media only screen and (min-width: 481px) {
+html {
+	font-size: 188%!important;
+}
+}
+@media only screen and (min-width: 561px) {
+html {
+	font-size: 218%!important;
+}
+}
+@media only screen and (min-width: 641px) {
+html {
+	font-size: 250%!important;
+}
+}
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 1em;
+	font: inherit;
+	vertical-align: baseline;
+	font-family: "Microsoft YaHei"
+}
+body {
+	font-family: "Microsoft YaHei";
+	font-size: 0.7rem;
+	color: #333;
+	line-height: 0.7rem;
+	width: 100%;
+	background: #f2f2f2;
+}
+em {
+	font-style: normal
+}
+li {
+	list-style: none
+}
+a {
+	text-decoration: none;
+	outline: 0;
+	color: #333;
+}
+img {
+	border: none;
+	vertical-align: top;
+}
+table {
+	border-collapse: collapse;
+}
+input, textarea {
+	font-family: "Microsoft YaHei";
+	padding: 0;
+}
+textarea {
+	resize: none;
+	overflow: auto;
+}
+textarea:focus {
+	outline: none;
+}
+input:focus {
+	outline: none;
+}
+.clear {
+	zoom: 1
+}
+.clear:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.fl {
+	float: left
+}
+.fr {
+	float: right
+}
+
+
+.contaniner {
+    width: 100%;
+    overflow: hidden;
+}
+.fixed-cont {
+    margin: 0.5rem auto 0px;
+}
+
+
+.lesson-div {
+    padding: 20px 10px;
+    display: -webkit-box;
+	background-color: #fff;
+    margin-bottom: 0.5rem;
+}
+.lesson-div .lesson-div-l {
+    display: inline-block;
+    width: 3.5rem;
+    overflow: hidden;
+    margin-right: 10px;
+}
+.lesson-div .lesson-div-l img {
+    width: 3.5rem;
+}
+.lesson-div .lesson-div-r {
+    -webkit-box-flex: 1;
+}
+.lesson-div .lesson-div-r h2 {
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 3px 0;
+}
+.lesson-div .lesson-div-r .lesson-price{
+	line-height: 1.8;
+}
+
+.assess {
+    width: 100%;
+}
+.assess p {
+    width: 92%;
+    padding: 4%;
+    overflow: hidden;
+    background-color: #fff;
+}
+.assess p textarea {
+    float: right;
+    text-align: justify;
+    width: 100%;
+    border: none;
+    font-size: 0.9em;
+    color: #666;
+}
+.assess ul {
+    width: 90%;
+    padding: 2% 5%;
+    background-color: #fff;
+    overflow: hidden;
+    margin: 0.1rem auto;
+}
+.assess ul li {
+    float: left;
+    font-size: 1em;
+    color: #666;
+	line-height: 20px;
+}
+.assess ul .assess-right {
+    float: right;
+    width: 45%;
+    overflow: hidden;
+}
+.assess-right div{
+	width: 32%;
+	float: left;
+    text-align: center;
+    display: flex;
+}
+
+.assess-footer {
+    width: 100%;
+    background-color: #fff;
+    overflow: hidden;
+}
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.assess-footer li {
+    position: relative;
+    float: left;
+    width: 70%;
+    padding: 3% 0;
+}
+.assess-footer li input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    top: 40%;
+    left: 0;
+}
+input[type="checkbox"], input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 3px;
+}
+.assess-footer li label {
+    width: 80%;
+    padding-left: 20%;
+    font-size: 0.9em;
+    color: #666;
+    display: block;
+    background: url(../images/check.png) no-repeat;
+    background-size: 6%;
+    background-position: 10%;
+    -moz-user-select: none;
+}
+.assess-footer li .assd{ 
+	width: 80%; 
+	padding-left: 20%; 
+	font-size: 0.9em; 
+	color: #666;  
+	display: block; 
+	background: url(../images/checke.png) no-repeat;
+	background-size: 6%; 
+	background-position: 10% 
+}
+.assess-footer input[type="button"] {
+    float: right;
+    width: 30%;
+    padding: 3% 0;
+    text-align: center;
+    color: #fff;
+    background-color: #ff0082;
+    border: none;
+    font-size: 0.9em;
+}
+
+.main {
+    width: 100%;
+    margin: 0 auto;
+	padding-bottom: 0.5rem;
+    background: #FFFFFF;
+}
+.main span {
+    line-height: 1.5rem;
+}
+.main-wrap{
+	padding: 0.1rem 0 0.1rem 0.5rem;
+}
+ .mydiv {
+    display: inline-block;
+}
+.main ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+.star_ul li {
+    margin-right: 0.3rem;
+    float: left;
+}
+.star_ul img {
+    width: 0.8rem;
+    height: 0.8rem;
+    vertical-align: text-bottom;
+}
+
+
+.submit-div{
+	margin: 10% auto 5%;
+}
+.submit-div .allsubmit-btn {
+    display: block;
+    width: 80%;
+    line-height: 35px;
+    text-align: center;
+    padding: 0 5px;
+    color: #fff;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#fdb338), to(#fdb338));
+    border: 1px solid #fdb338;
+    border-radius: 5px !important;
+    font-size: 15px;
+    margin: 0 auto;
+}

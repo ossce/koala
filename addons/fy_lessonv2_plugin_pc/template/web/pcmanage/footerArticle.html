@@ -1,0 +1,44 @@
+<style type="text/css">
+.form-controls{display: inline-block; width:70px;}
+.cblock{display:block !important;}
+.cnone{display:none !important;}
+</style>
+<div class="main">
+	<div class="alert alert-warning">底部文章组最多支持三个分组，每个分组最多显示5篇文章。</div>
+    <div class="category">
+        <form action="" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body" style="width:600px;">
+					<div class="dd">
+						<ol class="dd-list">
+						{loop $list $item}
+							 <li class="dd-item">
+								<div class="dd-handle" style="width:100%;">
+								    <input type="text" class="form-control form-controls" name="displayorder[{$item['id']}]" value="{$item['displayorder']}" style="padding-left:5px;">&nbsp;[ID: {$item['id']}] {$item['title']}
+									<span class="pull-right">
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('pcmanage', array('op'=>'footerArticleList','id'=>$item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="管理文章"><i class="fa fa-cog"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('pcmanage', array('op'=>'addFooterArticle','id'=>$item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="编辑"><i class="fa fa-pencil"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('pcmanage', array('op'=>'delFooterArticle','id'=>$item['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="删除" onclick="return confirm('确认删除该分组？');return false;"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+							 </li>
+						{/loop}
+						</ol>
+						<table class="table">
+							 <tbody>
+								 <tr>
+									 <td>
+										<input name="submit" type="submit" class="btn btn-primary" value="批量排序" style="margin-right:20px;">
+										<a class="btn btn-success" href="{php echo $this->createWebUrl('pcmanage', array('op'=>'addFooterArticle'));}"><i class="fa fa-plus"></i> 添加分组</a>
+										<input type="hidden" name="token" value="{$_W['token']}">
+									 </td>
+								 </tr>
+							 </tbody>
+						</table>
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

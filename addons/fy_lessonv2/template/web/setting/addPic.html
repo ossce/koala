@@ -1,0 +1,113 @@
+<div class="main">
+	<div class="alert alert-info">
+		<p>
+			【<strong class="margin-left:20px;">各广告位尺寸表</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[0]}：<span style="margin-left:27px;">【<strong>手机端750 * 400px；</strong><strong style="margin-left:22px;">PC端1920 * 400px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[1]}：<span style="margin-left:41px;">【<strong>手机端750 * 150px；</strong><strong style="margin-left:22px;">PC端暂无</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[2]}：<span style="margin-left:13px;">【<strong>手机端750 * 150px；</strong><strong style="margin-left:22px;">PC端暂760 * 340px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[3]}：<span style="margin-left:41px;">【<strong>手机端1024 * 1820px；</strong><strong style="margin-left:5px;">PC端暂无</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[4]}：<span style="margin-left:41px;">【<strong>手机端暂无；</strong><strong style="margin-left:79px;">PC端285 * 64px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[5]}：<span style="margin-left:27px;">【<strong>手机端暂无；</strong><strong style="margin-left:79px;">PC端1180 * 300px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[6]}：<span style="margin-left:41px;">【<strong>手机端750 * 390px；</strong><strong style="margin-left:21px;">PC端暂无</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[7]}：<span>【<strong>手机端750 * 375px；</strong><strong style="margin-left:21px;">PC端暂无</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[8]}：<span style="margin-left:47px;">【<strong>手机端750 * 420px；</strong><strong style="margin-left:21px;">PC端1920 * 400px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[9]}：<span style="margin-left:41px;">【<strong>手机端750 * 500px；</strong><strong style="margin-left:21px;">PC端暂无</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[10]}：<span style="margin-left:33px;">【<strong>手机端750 * 500px；</strong><strong style="margin-left:21px;">PC端1200 * 300px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[11]}：<span style="margin-left:19px;">【<strong>手机端暂无；</strong><strong style="margin-left:77px;">PC端870 * 390px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[12]}：<span style="margin-left:19px;">【<strong>手机端暂无；</strong><strong style="margin-left:77px;">PC端320 * 180px</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[13]}：<span style="margin-left:33px;">【<strong>手机端750 * 150px；</strong><strong style="margin-left:20px;">PC端暂无</strong>】</span>
+		</p>
+	</div>
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">添加广告位</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 广告位名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="banner_name" class="form-control" value="{$picture['banner_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>位置类型</label>
+                    <div class="col-sm-3">
+						<select name="banner_type" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $bannerType $key $item}
+							<option value="{$key}" {if $picture['banner_type'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 广告位图片</label>
+					 <div class="col-sm-9">
+                        {php echo tpl_form_field_image('picture', $picture['picture'])}
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 广告链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="link" class="form-control" value="{$picture['link']}">
+						<span class="help-block">默认为空，建议链接到本站点域名下的其他地方</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 平台类型</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="is_pc" value="0" {if $picture['is_pc']==0}checked{/if} /> 手机端</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="is_pc" value="1" {if $picture['is_pc']==1}checked{/if} /> PC端</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 状态</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="is_show" value="1" {if $picture['is_show']=='1' || empty($picture['is_show'])}checked{/if} /> 显示</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="is_show" value="0" {if $picture['is_show']=='0'}checked{/if} /> 隐藏</label>
+						<span class="help-block">隐藏的的广告位不会显示在前端</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$picture['displayorder']}">
+						<span class="help-block">排序越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="id" value="{$banner_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>

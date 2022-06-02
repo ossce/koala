@@ -1,0 +1,89 @@
+<script type="text/javascript" src="{MODULE_URL}static/js/jquery.qrcode.min.js"></script>
+<div class="main">
+	{if !$video_live[qcloud][push_domain] || !$video_live[qcloud][play_domain]}
+	<div class="alert alert-info color-red">
+	    您还没有配置直播推流域名和播放域名，请到 <a href="{php echo $this->createWebUrl('setting');}" class="label label-danger"><i class="fa fa-cog"> </i> 点击此处</a> 进行配置“腾讯云直播”里各项参数。
+	</div>
+	{/if}
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                腾讯云直播
+            </div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="font-weight:bold;color:red;">*</span> 选择直播课程</label>
+					<div class="col-sm-5 col-lg-3">
+                        <div class='input-group'>
+                            <input type="text" id="bookname" maxlength="30" class="form-control" value="{$_GPC['keyword']}" readonly />
+							<input type="hidden" id="lessonid" name="lessonid" value="{$_GPC['lessonid']}"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-selete-lesson').modal();">选择课程</button>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">过期时间(选填)</label>
+					<div class="col-sm-5 col-lg-3">
+						{php echo tpl_form_field_date('validity', strtotime('today')+86399, true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">直播流前缀(选填)</label>
+					<div class="col-sm-3">
+						<input type="text" name="stream_pre" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/[^\u0000-\u00FF]/g,'')" placeholder="仅支持英文字母、数字和下划线">
+					</div>
+				</div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="submit" name="submit" class="btn btn-primary col-lg-1" value="生成直播流" />
+        </div>
+	</form>
+</div>
+
+<div id="modal-selete-lesson"  class="modal fade" tabindex="-1">
+	<div class="modal-dialog" style="width: 920px;">
+		<div class="modal-content">
+			<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择课程</h3></div>
+			<div class="modal-body" >
+				<div class="row">
+					<div class="input-group">
+						<input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="请输入课程名称" />
+						<span class="input-group-btn"><button type="button" class="btn btn-default" onclick="searchLesson();">搜索</button></span>
+					</div>
+				</div>
+				<div id="module-menus" style="padding-top:5px;"></div>
+			</div>
+			<div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function searchLesson() {
+		var uniacid = {php echo $uniacid};
+		if ($.trim($("#search-kwd").val()) == '') {
+			document.getElementById("search-kwd").focus();
+			return;
+		}
+		$("#module-menus").html("正在搜索....");
+		$.get("{php echo $this->createWebUrl('getLesson')}", { 
+			uniacid:uniacid,keyword: $.trim($("#search-kwd").val())
+		}, function (dat) {
+			$("#module-menus").html(dat);
+		});
+	}
+	function selectLesson(lessonid, bookname) {
+		$("#lessonid").val(lessonid);
+		$("#bookname").val(bookname);
+	}
+	$("#search-kwd").bind("keypress", function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			searchLesson();
+		}
+	});
+</script>

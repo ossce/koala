@@ -1,0 +1,10 @@
+{loop $diy_data['footnav']['data'] $item}
+<a href="{$item['link']}" class="weui-tabbar__item" style="background-color:{$diy_data['footnav']['style']['background']};">
+	{if $_GPC['do']==$item['nav_do'] && $op==$item['nav_op']}
+		<img src="{$item['imgurl_active']}" class="weui-tabbar__icon" />
+	{else}
+		<img src="{$item['imgurl']}" class="weui-tabbar__icon" />
+	{/if}
+	<p class="weui-tabbar__label" style="color:{if $_GPC['do']==$item['nav_do'] && $op==$item['nav_op']}{$item['color_active']}{else}{$item['color']}{/if};">{$item['text']}</p>
+</a>
+{/loop}

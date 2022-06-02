@@ -1,0 +1,138 @@
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="module_name" value="fy_lessonv2">
+                <input type="hidden" name="do" value="recommend">
+                <input type="hidden" name="op" value="addtorec">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" type="text" value="{$_GPC['bookname']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程分类</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="pid" class="form-control">
+                            <option value="">不限</option>
+							{loop $category_list $cat}
+							   <option value="{$cat['id']}" {if $_GPC['pid']==$cat['id']}selected{/if}>{$cat['name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程板块</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="recid" class="form-control">
+                            <option value="">不限</option>
+							<option value="norec" {if $_GPC['recid']=='norec'}selected{/if}>未推荐课程</option>
+							{loop $rec_list $rec}
+							   <option value="{$rec['id']}" {if $_GPC['recid']==$rec['id']}selected{/if}>{$rec['rec_name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程性质</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_free" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if in_array($_GPC['is_free'], array('0'))}selected{/if}>免费课程</option>
+							<option value="1" {if in_array($_GPC['is_free'], array('1'))}selected{/if}>付费课程</option>
+                        </select>
+                    </div>
+					<div class="col-sm-3 col-lg-3" style="width: 18%;">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<div class="panel panel-default">
+        <form id="myform" name="myform" method="post" class="form-horizontal form" >
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="text-align:center;width:40px;"><input type="checkbox" id="btnSelect" class="btn btn-default" onclick="checkAll(myform.hidnSelectFlag.value);" /></th>
+						<th style="width:35%;padding-left:30px;">课程名称</th>
+						<th style="width:15%;">课程价格</th>
+						<th style="width:15%;">课程状态</th>
+						<th style="width:15%;">推荐板块</th>
+						<th style="width:20%;">添加时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $lesson_list $item}
+					<tr>
+						<td style="text-align:center;"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
+						<td style="padding-left:30px;">[ID:{$item['id']}] {$item['bookname']}</td>
+						<td>{php echo $item['price']?$item['price'].'元':'免费';}</td>
+						<td>{$lessonStatus[$item['status']]}</td>
+						<td>{$item['rec_name']}</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime']);}</td>
+					</tr>
+					{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" style="padding-top: 30px;">
+								<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 50px;">推荐到</label>
+								<div class="col-sm-8 col-lg-3 col-xs-12">
+									<select name="recid" class="form-control" onchange="addclassToRec(this.value);">
+										<option value="">请选择...</option>
+										{loop $rec_list $rec}
+										   <option value="{$rec['id']}">{$rec['rec_name']}</option>
+										{/loop}
+									</select>
+								</div>
+								<a onclick="addclassToRec('cancel');" class="btn btn-primary">取消推荐</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				{$pager}
+			</div>
+			<input type="hidden"  name="hidnSelectFlag" value="1"/>
+		</form>
+    </div>
+</div>
+<script language="javascript">
+/**
+ * 选择复选框
+ * @param type 1 全选；0 全不选
+ */
+function checkAll(type) {
+    var type = Number(type);
+    var inputs = document.getElementsByTagName("input");
+    for(var i = 0; i < inputs.length; i++) {
+        if(inputs[i].type == "checkbox") {
+            inputs[i].checked = type;
+        }
+    }
+    myform.hidnSelectFlag.value = Number(!type);
+}
+
+function addclassToRec(obj){
+	if(obj!=''){
+		var check = $("input[type=checkbox][class!=check_all]:checked");
+        if(check.length < 1){
+            alert('您还没有选择任何课程');
+            return false;
+        }
+
+		if(obj=='cancel'){
+			document.getElementById("myform").action="{php echo $this->createWebUrl('recommend', array('op'=>'recpost','posttype'=>'cancel'));}";
+		}else{
+			document.getElementById("myform").action="{php echo $this->createWebUrl('recommend', array('op'=>'recpost'));}";
+		}
+
+
+		document.getElementById("myform").submit();
+	}
+
+
+	
+}
+</script>

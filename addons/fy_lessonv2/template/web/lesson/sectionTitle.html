@@ -1,0 +1,66 @@
+<div class="main">
+	<div class="panel panel-default">
+        <div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12" style="width:100px;line-height:35px;">课程名称</label>
+				<div class="col-sm-2 col-lg-4">
+					<input class="form-control" type="text" value="{$lesson['bookname']}" readonly="readonly">
+				</div>
+				<a class="btn btn-success" href="{php echo $this->createWebUrl('lesson', array('op'=>'viewsection','pid'=>$_GPC['pid']));}"><i class="fa fa-list-ol"></i> 章节列表</a>
+				&nbsp;&nbsp;&nbsp;
+				<a class="btn btn-primary" href="{php echo $this->createWebUrl('lesson', array('op'=>'postSectionTitle','pid'=>$_GPC['pid']));}"><i class="fa fa-plus"></i> 添加目录</a>
+			</div>
+        </div>
+    </div>
+
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:8%;text-align:center;">排序</th>
+							<th style="width:8%;text-align:center;">ID</th>
+							<th style="width:45%;">目录名称</th>
+							<th style="width:15%;text-align:center;">添加时间</th>
+							<th style="width:12%;text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $title}
+						<tr>
+							<td style="text-align:center;"><input type="text" class="form-control" name="displayorder[{$title['title_id']}]" value="{$title['displayorder']}" style="width: 70px;display:inline-block;"></td>
+							<td style="text-align:center;">{$title['title_id']}</td>
+							<td>{$title['title']}</td>
+							<td style="text-align:center;">
+								{php echo date('Y-m-d H:i', $title['addtime']);}
+							</td>
+							<td style="text-align:center;">
+								<div class="btn-group btn-group-sm">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="javascript:;">功能列表 <span class="caret"></span></a>
+									<ul class="dropdown-menu dropdown-menu-left" role="menu" style="z-index:99999">
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postSectionTitle','pid'=>$pid,'title_id'=>$title['title_id']));}"><i class="fa fa-edit"></i> 编辑目录</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'delSectionTitle','pid'=>$pid,'title_id'=>$title['title_id']));}" onclick="return confirm('确认删除此课程目录吗？');return false;"><i class="fa fa-remove"></i> &nbsp;删除目录</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<input name="submit" type="submit" class="btn btn-primary" value="批量修改排序">
+								<input type="hidden" name="token" value="{$_W['token']}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+	
+</div>

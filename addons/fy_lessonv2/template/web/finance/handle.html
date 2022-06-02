@@ -1,0 +1,62 @@
+<div class="main">
+	<div class="alert alert-info">
+	    佣金增减可用于对分销商会员的佣金金额调整，可用于针对退款的订单进行佣金增减
+	</div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">佣金调整</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户uid</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<input type="text" id="nickname" maxlength="30" class="form-control" readonly />
+							<input type="hidden" id="user_id" name="user_id" />
+							<div class='input-group-btn'>
+								<button class="btn btn-default" type="button" onclick="popwin = $('#modal-select-member').modal();">选择用户</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">佣金类型</label>
+					<div class="col-sm-6">
+                        <label class="radio-inline"><input type="radio" name="commission_type" value="1" checked/> 分销商佣金</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="commission_type" value="2"/> 讲师课程佣金</label>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">调整金额</label>
+					<div class="col-sm-6">
+						<input type="text" name="amount" class="form-control" />
+						<span class="help-block">正数表示增加，负数表示减少</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">备注信息</label>
+					<div class="col-sm-6">
+						<textarea name="remark" class="form-control" placeholder="订单号等"></textarea>
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{template 'web/_searchMemberModal'}
+
+<script type="text/javascript">
+	function selectMember(obj) {
+		var select_uid = $(obj).data('uid');
+		var select_nickname = $(obj).data('nickname');
+
+		$("#nickname").val('用户uid:' + select_uid + '；昵称:' + select_nickname);
+		$("#user_id").val(select_uid);
+	}
+</script>

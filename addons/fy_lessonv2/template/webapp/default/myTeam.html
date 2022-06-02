@@ -1,0 +1,84 @@
+{php include $this->template($template.'/_header')}
+<style type="text/css">
+.userCenterTips{
+	margin: 7px 0;
+    padding: 10px 25px;
+}
+.userCenterTips h1{margin-bottom:0;}
+</style>
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="myVipWrap flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $op=='display'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/myTeam.html">{$title}({$level_name})</a></li>
+				</ul>
+				{if $list}
+					{if $level>1}
+					<div class="userCenterTips">
+						<h1>[{$now_member['nickname']}]<span style="font-weight: normal;">的团队成员</span></h1>
+					</div>
+					{/if}
+					<div class="listContent">
+						<div class="header flex flex-vc">
+							<div class="txt w-80">头像</div>
+							<div class="txt w-70">会员ID</div>
+							<div class="txt w-160">会员昵称</div>
+							<div class="txt w-160">Ta的佣金</div>
+							<div class="txt w-160">Ta的成员</div>
+							<div class="txt w-200">加入时间</div>
+							<div class="txt w-160">操作</div>
+						</div>
+						{loop $list $key $item}
+						<ul class="flex flex-v mb20">
+							<li class="items flex flex-vc" style="padding:8px 0;">
+								<p class="w-80 text-c"><img src="{$item['avatar']}" height="40"></p>
+								<p class="w-70 text-c">{$item['uid']}</p>
+								<p class="w-160 text-c">{$item['nickname']}</p>
+								<p class="w-160 text-c">￥{$item['commission']}</p>
+								<p class="w-160 text-c">{$item['recnum']}个成员</p>
+								<p class="w-200 text-c">{php echo date('Y-m-d H:i:s', $item['addtime']);}</p>
+								<p class="w-160 text-c">
+									{if ($comsetting['level']==2 && $level==1) || ($comsetting['level']==3 && ($level==1 || $level==2))}
+									<a href="/{$uniacid}/myTeam.html?level={$next_level}&mid={$item['uid']}" class="go-stufy">他的下级成员</a>
+									{/if}
+								</p>
+							</li>
+						</ul>
+						{/loop}
+
+						{if $pager}
+						<div class="tfoot clearfix m-t-40">
+							<div class="tfoot-page">
+								<div class="pagination">
+									 {$pager}
+								</div>
+							</div>
+						</div>
+						{/if}
+					</div>
+				{else}
+				<div class="empty-search pr">
+					<div class="block">
+						<i class="orders"></i>
+						<p>没有找到符合条件的记录</p>
+					</div>
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function goStudy(level_id){
+		window.open("/{$uniacid}/vipLesson.html?level_id="+level_id ,"_blank");
+	}
+</script>
+
+{php include $this->template($template.'/_footer')}

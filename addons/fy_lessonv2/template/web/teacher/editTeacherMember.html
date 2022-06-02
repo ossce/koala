@@ -1,0 +1,47 @@
+<style type="text/css">
+.table-form>tbody>tr>td{height:40px; padding:5px 15px;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal">
+		<table class="table we7-table table-hover table-form">
+			<colgroup>
+				<col width="160px">
+				<col width="400px">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="table-label">会员ID</td>
+					<td class="ng-binding">{$member_buyteacher['uid']}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+				<tr>
+					<td class="table-label">昵称</td>
+					<td class="ng-binding">{$member_buyteacher['nickname']}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+				<tr>
+					<td class="table-label">姓名</td>
+					<td class="ng-binding">{$member_buyteacher['realname']}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+				<tr>
+					<td class="table-label">讲师名称</td>
+					<td class="ng-binding">{$member_buyteacher['teacher']}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+				<tr>
+					<td class="table-label">有效期</td>
+					<td class="ng-binding">{php echo tpl_form_field_date("validity", $member_buyteacher['validity'], true);}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+			</tbody>
+		</table>
+			
+		<div class="form-group col-sm-12" style="margin-top:15px;">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="id" value="{$id}" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="button" onclick="javascript:window.history.back(-1);" style="margin-left:10px;" value="返回列表" class="btn btn-default col-lg-1" />
+		</div>
+	</form>
+</div>

@@ -1,0 +1,30 @@
+<div class="show-news-wrap flex" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<a href="{php echo $diy['style']['icon_link'] ? $diy['style']['icon_link'] : $this->createMobileUrl('shopnotice',array('op'=>'list'));}" class="shop-news">
+		<img src="{$diy['style']['icon_image']}" />
+	</a>
+	<div class="flex-box h-45">
+		<div class="news-line {$diy['tpl_name']}">
+			<ul style="margin-top:0px;">
+				{loop $diy['data'] $notice}
+				<li>
+					<a href="{$notice['link']}" style="{if $notice['color']}color:{$notice['color']}{/if}">
+						{if $notice['em_title']}
+							<em style="{if $notice['em_color']}color:{$notice['em_color']};{/if}">{$notice['em_title']}</em>
+						{/if}
+						{$notice['title']}
+					</a>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".{$diy['tpl_name']}").Scroll({
+			line: 1,
+			speed: 1000,
+			timer: {php echo $diy['style']['speed'] * 1000},
+		});
+	});
+</script>

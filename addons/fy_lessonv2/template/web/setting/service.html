@@ -1,0 +1,151 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="alert alert-info">
+			<p style="text-indent:2em;">加群客服最多可设置10个，用户购买课程或VIP等级成功后，将随机弹出客服名片让用户添加入群，方便在微信群里做营销活动。</p>
+			<p style="text-indent:2em;">客服昵称、头像和二维码填写不完整的不会保存，头像建议使用200px * 200px方形图片；如果您不想开启该功能，请不要添加任何客服信息。</p>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				客服信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服①</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[0][nickname]" value="{$service[0]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[0][avatar]', $service[0]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[0][qrcode]', $service[0]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服②</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[1][nickname]" value="{$service[1]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[1][avatar]', $service[1]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[1][qrcode]', $service[1]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服③</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[2][nickname]" value="{$service[2]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[2][avatar]', $service[2]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[2][qrcode]', $service[2]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服④</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[3][nickname]" value="{$service[3]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[3][avatar]', $service[3]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[3][qrcode]', $service[3]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑤</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[4][nickname]" value="{$service[4]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[4][avatar]', $service[4]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[4][qrcode]', $service[4]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑥</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[5][nickname]" value="{$service[5]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[5][avatar]', $service[5]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[5][qrcode]', $service[5]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑦</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[6][nickname]" value="{$service[6]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[6][avatar]', $service[6]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[6][qrcode]', $service[6]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑧</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[7][nickname]" value="{$service[7]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[7][avatar]', $service[7]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[7][qrcode]', $service[7]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑨</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[8][nickname]" value="{$service[8]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[8][avatar]', $service[8]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[8][qrcode]', $service[8]['qrcode']);}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服⑩</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">客服昵称</span>
+							<input type="text" name="service[9][nickname]" value="{$service[9]['nickname']}" class="form-control">
+							<span class="input-group-addon">客服头像</span>
+							{php echo tpl_form_field_image('service[9][avatar]', $service[9]['avatar']);}
+							<span class="input-group-addon">二维码</span>
+							{php echo tpl_form_field_image('service[9][qrcode]', $service[9]['qrcode']);}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>

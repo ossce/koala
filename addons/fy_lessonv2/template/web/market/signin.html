@@ -1,0 +1,68 @@
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="market" />
+                <input type="hidden" name="op" value="signin" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">用户uid</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="uid" type="text" value="{$_GPC['uid']}">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">签到时间</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i>导出</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:14%;">用户uid</th>
+					<th style="width:14%;">昵称</th>
+                    <th style="width:14%;">姓名</th>
+                    <th style="width:14%;">手机号码</th>
+                    <th style="width:14%;">签到奖励(积分)</th>
+					<th style="width:14%;">连续签到(天)</th>
+                    <th style="width:14%;">签到日期</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $list $item}
+                <tr>
+					<td>{$item['uid']}</td>
+                    <td>{$item['nickname']}</td>
+                    <td>{$item['realname']}</td>
+                    <td>{$item['mobile']}</td>
+                    <td>{$item['award']}</td>
+					<td>{$item['timer']}</td>
+                    <td>{$item['sign_date']}</td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+			<table class="table">
+				<tbody>
+					<tr>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+            {$pager}
+        </div>
+    </div>
+</div>

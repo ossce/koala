@@ -1,0 +1,23 @@
+<div class="main">
+	<div class="alert alert-info">
+		物流查询接口由阿里云云市场提供，如需使用物流查询接口，请前往 <a target="_blank" href="https://market.aliyun.com/products/57126001/cmapi021863.html">https://market.aliyun.com/products/57126001/cmapi021863.html</a>开通
+	</div>
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">阿里云快递参数设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">AppCode</label>
+					<div class="col-sm-8">
+						<input type="text" name="express_config[appcode]" value="{$express_config['appcode']}" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>

@@ -1,0 +1,146 @@
+<!--
+ * 分销佣金提现明细
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/commission.css?v={$versions}" rel="stylesheet" />
+<style type="text/css">
+	.weui-gallery__del{display: none;}
+</style>
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div id="container" class="mar10-top mar10-left-right">
+	<div class="aui-order-box total_cashlog">
+		<span class="fl">累计提现：<strong class="amount">{$total_cashlog[0]['cash_num']}</strong> 元</span>
+		<span class="fr">手续费：<strong class="amount">{$total_cashlog[0]['service_num']}</strong> 元</span>
+		<div class="clear"></div>
+	</div>
+</div>
+
+{if empty($list)}
+<div class="my_empty">
+	<div class="empty_bd  my_course_empty">
+		<h3>您还没有任何明细哦~</h3>
+	</div>
+</div>
+{/if}
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+</div>
+
+<script type="text/javascript">
+var ajaxurl   = "{php echo $this->createMobileUrl('commission', array('op'=>'cashlog'));}";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true; //允许获取状态
+var attachurl = "{$_W['attachurl']}";
+
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {
+        if(get_status){
+			nowPage++; //页码自动增加，保证下次调用时为新的一页
+			$.get(ajaxurl, {page: page }, function (data) {
+				loadingToast.style.display = 'none';
+				var jsonObj = JSON.parse(data);
+
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#container");
+        var chtml = '';
+        for (var j = 0; j < result.length; j++) {
+			if(result[j].status==0){
+				var stustyle = ' style="color:#EA1B1B;"';
+			}else if(result[j].status==1){
+				var stustyle = ' style="color:#0EB90E;"';
+			}else if(result[j].status==-1 || result[j].status==-2){
+				var stustyle = ' style="color:#ABABAB;"';
+			}
+
+			chtml += '<div class="aui-order-box">';
+			chtml += '	<a href="javascript:void(0);" class="aui-well-item">';
+			chtml += '		<div class="aui-well-item-bd">';
+			chtml += '			<h3>提现编号：' + result[j].id + '</h3>';
+			chtml += '		</div>';
+			chtml += '		<span class="aui-well-item-fr"><em '+stustyle+'>' + result[j].statu + '</em></span>';
+			chtml += '	</a>';
+			chtml += '	<p class="aui-order-fl aui-order-address">提现方式：' + result[j].cash_name + '</p>';
+			chtml += '	<p class="aui-order-fl aui-order-address">提现金额：<em class="income_amount">' + result[j].cash_num + '</em> 元</p>';
+			chtml += '	<p class="aui-order-fl aui-order-address">手续费用：<em class="income_amount">' + result[j].service_num + '</em> 元</p>';
+			if(result[j].cash_way==4){
+				chtml +='<p class="aui-order-fl aui-order-address">银行名称：' + result[j].bank_name + '</p>';
+				chtml +='<p class="aui-order-fl aui-order-address">银行开户行：' + result[j].bank_row + '</p>';
+			}
+			if(result[j].cash_way==3 || result[j].cash_way==4){
+				chtml +='<p class="aui-order-fl aui-order-address">提现帐号：' + result[j].pay_account + '</p>';
+				chtml +='<p class="aui-order-fl aui-order-address">收款人姓名：' + result[j].pay_name + '</p>';
+			}
+			if(result[j].cash_way==5){
+				chtml +='<p class="aui-order-fl aui-order-address preview">收款二维码：<img src="' + attachurl + result[j].user_img + '" onclick="gallery(this.src)"/></p>';
+			}
+			chtml += '	<p class="aui-order-fl aui-order-time">申请时间：' + result[j].addtime + '</p>';
+			if(result[j].disposetime){
+				chtml += '	<p class="aui-order-fl aui-order-time">审核时间：' + result[j].disposetime + '</p>';
+			}
+			chtml += '	<p class="aui-order-fl aui-order-door preview">';
+			chtml += '		备注信息：' + result[j].remark;
+			if(result[j].admin_img_tips){
+			chtml += '		<br/><img src="' + attachurl + result[j].admin_img + '" onclick="gallery(this.src)" style="vertical-align:-15px;"/>';
+			}
+			chtml += '	</p>';
+
+			chtml += '</div>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+    var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+});
+
+function gallery(imgUrl){
+	weui.gallery(imgUrl);
+}
+</script>
+
+{template $template.'/_footerv2'}

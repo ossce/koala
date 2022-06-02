@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[课堂直播]]></name>
+		<identifie><![CDATA[fy_lessonv2_plugin_live]]></identifie>
+		<version><![CDATA[3.8.9]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[课堂直播插件必须基于微课堂主模块使用，用来辅助开设直播功能使用，可支持腾讯云直播(标准直播)和阿里云直播，如果您需要在直播中进行文字聊天互动，请开启腾讯云“IM即时通讯”产品。]]></ability>
+		<description><![CDATA[课堂直播插件必须基于微课堂主模块使用，用来辅助开设直播功能使用，可支持腾讯云直播(标准直播)和阿里云直播，如果您需要在直播中进行文字聊天互动，请开启腾讯云“IM即时通讯”产品。]]></description>
+		<author><![CDATA[微擎]]></author>
+		<url><![CDATA[http://www.we7.cc/]]></url>
+	</application>
+
+	<platform>
+		<subscribes>
+		</subscribes>
+
+		<handles>
+			<message type="text" />
+		</handles>
+
+		<rule embed="false" /> 
+		<card embed="false" />
+		<oauth type="1" />
+		
+		<supports>
+			<item type="app" />
+		</supports>
+		<plugin-main name="fy_lessonv2" />
+	</platform>
+
+	<bindings>
+		<menu call="getMenus"> 
+		</menu>
+	</bindings>
+
+	<permissions>
+	</permissions>
+
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[ru_rpgrade.php]]></upgrade>
+
+</manifest>

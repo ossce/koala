@@ -1,0 +1,147 @@
+<div class="w-all w-minw bg-c-32333b p-t-15 ovhidden"> 
+    {if $bottom_navigation}
+	<div class="w-main m-auto">
+        <div class="fl w-65 fs-12 ftc-a9a9a9 line-h30 ft-w-b">{php echo $friendly_link['font'] ? $friendly_link['font'] : '友情链接';}：</div>
+        <div class="fr">
+            <ul class="ql_link">
+				{loop $bottom_navigation $item}
+                <li><a href="{$item['url_link']}" class="more" target="_blank">{$item['nav_name']}</a></li>
+				{/loop}
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
+    <!--分割线 start-->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-12"></div>
+        <div class="w-main fl hg-1 bg-c-505050"></div>
+    </div>
+	{/if}
+
+    <div class="w-main m-auto m-b-10 ovhidden">
+        <div class="m-t-12 fl">
+			{if $footer_group}
+			<div class="footer-help fl m-t-5">
+				{loop $footer_group $group}
+				<dl>
+					<dt>{$group['title']}</dt>
+					<div class="footer-help__item">
+						{loop $group['article_list'] $item}
+						<dd>
+							<a href="/{$uniacid}/article.html?op=details&aid={$item['id']}" target="_blank">{$item['title']}</a>
+						</dd>
+						{/loop}
+					</div>
+				</dl>
+				{/loop}
+			</div>
+			{else}
+			<a href="/{$uniacid}/index.html" class="m-t-25 fl">
+				<img src="{$_W['attachurl']}{$setting_pc['bottom_logo']}" width="235" height="70" alt=""/>
+			</a>
+			{/if}
+            <div class="qlfooter_nav fl {if $footer_group}m-l-20{else}m-l-80{/if}">               
+                <div class="ql_f_infp w-340 m-l-15 fl">
+					<h4>联系方式</h4>
+					{if $company_info['tel']}
+						<p>电话：{$company_info['tel']}</p>
+					{/if}
+					{if $company_info['email']}
+						<p>邮箱：{$company_info['email']}</p>
+					{/if}
+					{if $company_info['address']}
+						<p>地址：{$company_info['address']}</p>
+					{/if}
+                </div>
+            </div>
+        </div>
+        <div class="w-340 text-c m-t-12 fr">
+			{if $setting_pc['mobile_qrcode']}
+            <div class="w-160 m-l-10 fl m-t-10">
+				<img src="{$_W['attachurl']}{$setting_pc['mobile_qrcode']}" width="112" height="112" alt=""/>
+                <p class="w-all fs-12 ftc-efefef text-c line-h25 fl">手机版</p>
+            </div>
+			{/if}
+			{if $setting['qrcode']}
+            <div class="w-160 m-l-10 fl m-t-10">
+				<img src="{$_W['attachurl']}{$setting['qrcode']}" width="112" height="112" alt=""/>
+                <p class="w-all fs-12 ftc-efefef text-c line-h25 fl">微信公众号</p>
+            </div>
+			{/if}
+        </div>
+    </div>
+	<div class="w-main m-auto">
+        <div class="w-main fl hg-12"></div>
+        <div class="w-main fl hg-1 bg-c-505050"></div>
+    </div>
+</div>
+
+{php include $this->template($template.'/_rightBar')}
+
+<div id="loadingToast" class="dsbnone">
+	<div class="loading-mask_white"></div>
+	<div class="loadEffect">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<div class="w-all w-minw bg-c-32333b p-t-20 p-b-20 ovhidden copyright">
+    <div class="w-main m-auto text-c fs-12 ftc-a9a9a9 line-24">
+		<p>{$setting['copyright']}</p>
+		<p class="ftc-737373">
+			{if $setting_pc['site_icp']}
+			网站备案：<a href="http://beian.miit.gov.cn" target="_blank" class="ftc-737373">{$setting_pc['site_icp']}</a>
+			{/if}
+			{if $setting_pc['site_added']}
+			|&nbsp;&nbsp;增值电信业务经营许可证：<a class="ftc-737373">{$setting_pc['site_added']}</a>
+			{/if}
+			{if $setting_pc['site_network']}
+			|&nbsp;&nbsp;<img src="{MODULE_URL}static/webapp/default/images/bei.png"> <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="ftc-737373">{$setting_pc['site_network']}</a>
+			{/if}
+			{if $setting_pc['site_culture']}
+			|&nbsp;&nbsp;<a class="ftc-737373">{$setting_pc['site_culture']}</a>
+			{/if}
+		</p>
+	</div>
+</div>
+
+{if !empty($config['statis_code'])}
+	<div style="display:none;">
+		{php echo html_entity_decode($config['statis_code']);}
+	</div>
+{/if}
+
+<script>
+	$(document).ready(function(){
+		var w = parseInt(($(window).width()-1200)/2);
+		$(".qlban_ad").css("right",w);
+
+		$("#btn-search").click(function(){
+			var keyword = $("input[name=keyword]").val();
+			var search_type = $("select[name=search_type] option:selected").val();
+
+			if(search_type==1){
+				window.location.href = "/{$uniacid}/search.html?keyword=" + keyword;
+
+			}else if(search_type==2){
+				window.location.href = "/{$uniacid}/teacherlist.html?keyword=" + keyword;
+			}
+		});
+	});
+
+	$("#search_keywords").bind('keypress', function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			document.getElementById("btn-search").click();
+		}
+	});
+</script>
+</body>
+</html>

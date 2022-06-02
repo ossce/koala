@@ -1,0 +1,64 @@
+<div style="background:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="shop-goods-wrap">
+			<div class="flex shop-flex-title pad-15" style="border-bottom: 1px solid {$diy['style']['title_bottom_color']};">
+				<div class="flex-box shop-recommend-title" style="color:{$diy['style']['title_color']};">
+					<i class="icon-title mar-r-8" style="background-image:url({$diy['style']['icon_imgsrc']});"></i>{$diy['style']['title_font']}<i class="icon-title mar-l-8" style="background-image:url({$diy['style']['icon_imgsrc']});"></i>
+				</div>
+			</div>
+		{if $diy['style']['type'] == 1}
+			<div class="shop-recommend-two static">
+				{loop $diy['data'] $item}
+				<div class="shop-hot-list-img">
+					<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="position-re ds-block">
+						<div class="goods-cover">
+							<div class="img-cover">
+								<img src="{$_W['attachurl']}{$item['cover']}">
+							</div>
+						</div>
+						{if $item['show_sales']}
+							<div class="icon-sell-num">已售{$item['show_sales']}</div>
+						{/if}
+						<i class="icon-goods-image {$item['icon_name']}"></i>
+					</a>
+					<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="goods-title">
+						{$item['title']}
+					</a>
+					<h2>{$item['show_price']}</h2>
+					<h3>
+						<em>
+						{if $item['sell_type'] != 1 && $item['market_price']>0}
+							￥{$item['market_price']}
+						{else}
+							&nbsp;
+						{/if}
+						</em>
+					</h3>
+				</div>
+				{/loop}
+			</div>
+		{elseif $diy['style']['type'] == 2}
+			{loop $diy['data'] $item}
+			<div class="shop-recommend-one">
+				<div class="shop-flex-2">
+					<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="shop-goods-img">
+						<img src="{$_W['attachurl']}{$item['cover']}">
+						<i class="icon-goods-image {$item['icon_name']}"></i>
+					</a>
+					<div class="shop-flex-box">
+						<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="ds-block">
+							<h2>{$item['title']}</h2>
+							<h3><em>{$item['show_price']}</em>{if $item['sell_type'] != 1 && $item['market_price']>0}<i>{$item['market_price']}</i>{/if}</h3>
+						</a>
+						<h4>{if $item['show_sales']}<em>已售{$item['show_sales']}</em>{/if}</h4>
+					</div>
+				</div>
+			</div>
+			{/loop}
+		{/if}
+		{if $diy['style']['show_more']}
+			<div class="browse-more" style="border-top:1px solid {$diy['style']['more_top_color']};">
+				<a href="{$diy['style']['more_link']}" style="color:{$diy['style']['more_color']};">{$diy['style']['more_font']}&gt;&gt; </a>
+			</div>
+		{/if}
+	</div>
+</div>

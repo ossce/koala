@@ -1,0 +1,2 @@
+<?php
+ goto VSNAB; VSNAB: $wxapp_qrcode = ATTACHMENT_ROOT . "\x69\155\141\x67\145\163\x2f{$uniacid}\57\146\171\x5f\154\145\163\163\157\156\166\x32\57\x77\170\141\x70\160\137\x66\x6f\x6c\x6c\x6f\x77\56\x70\156\x67"; goto nPsZK; hLbi2: udPy3: goto oWiMg; nPsZK: if (!is_file($wxapp_qrcode)) { goto udPy3; } goto LzxOV; LzxOV: unlink($wxapp_qrcode); goto hLbi2; oWiMg: itoast("\346\233\264\346\226\xb0\345\xb0\x8f\xe7\250\x8b\345\272\217\347\xa0\x81\xe6\210\220\345\212\237", '', "\163\165\143\143\x65\163\x73");

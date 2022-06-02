@@ -1,0 +1,213 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/teacher.css?v={$versions}">
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="agency-big-banner inner-center agency-new-box">
+		<img src="{$teacher_bg}" width="1200">
+	</div>
+
+	<section class="agency-head">
+		<img src="{$_W['attachurl']}{$teacher['teacherphoto']}" alt="{$teacher['teacher']}" class="agency-head-logo">
+		<div class="agency-head-main">
+			<div class="ag-title clearfix">
+				<a href="javascript:void(0);" class="ag-title-main js-agency-info-name" title="{$teacher['teacher']}">{$teacher['teacher']}</a>
+				<div class="clear"></div>
+			</div>
+			<div class="ag-info">
+				<span>共{$total}个课程</span>
+				<i class="ag-info-split"></i>
+				<span>
+					学习人数<span class="js-item-num"> {$student_num}</span>
+				</span>
+				<i class="ag-info-split"></i>
+				<a class="ag-info-btn" href="javascript:void(0);" id="btn-collect">
+					<i class="iconfont {php echo $collect ? 'icon-heart-o' : 'icon-heart';} vertical-middle fs-14"></i>
+					<span>{php echo $collect ? '已收藏' : '加收藏';}</span>
+				</a>
+			</div>
+		</div>
+		<div class="agency-head-mask"></div>
+	</section>
+
+	<section class="section-main">
+		<div class="agency-wrap-mod inner-center">
+			<ul class="agency-tab_ul js-side-nav">
+				<li class="agency-tab_li {if $teacher_home_show==1}agency-tab_li_curr{/if}">
+					<a href="javascript:;">
+						<h2>{php echo $teacher_home['all_lesson'] ? $teacher_home['all_lesson'] : '全部课程';}({$total})</h2>
+					</a></li>
+				<li class="agency-tab_li {if $teacher_home_show==2}agency-tab_li_curr{/if}">
+					<a href="javascript:;">
+						<h2>{php echo $teacher_home['teacher_introduce'] ? $teacher_home['teacher_introduce'] : '讲师介绍';}</h2>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="agency-content m-t-30">
+			<div class="agency-tab inner-center" {if $teacher_home_show!=1}style="display:none;"{/if}>
+				<div class="course-list">
+					{if $teacher_price}
+					<div class="buy-teacher">
+						<div class="priv-total-item">
+							<span class="recommend">推荐</span>
+							<ul class="priv-total-count">
+								<li><span class="fl">有效期</span><span class="fr ftc-636363">{$teacher_price['validity_time']}天</span></li> 
+								<li><span class="fl">免费学习</span><span class="fr ftc-636363">该讲师所有课程</span></li> 
+							</ul>
+							<div class="priv-total-type">
+								<div class="text-c p-t-10 p-b-10">
+									<div class="priv-total-paymoney p-b-10">购买该讲师服务，仅需<span class="cur-price">¥{$teacher_price['price']}</span></div>
+									<div class="priv-total-convert">折合每日{php echo round($teacher_price['price']/$teacher_price['validity_time'],2)}元</div>  
+								</div>
+								<div class="priv-total-buy">
+									<a href="javascript:;" id="btn-buy" class="btn-buyteacher">{php echo empty($buy_teacher) ? '购买讲师服务' : '续费讲师服务';}</a>
+								</div> 
+							</div>
+						</div>
+					</div>
+					<div class="w-main fl hg-40"></div>
+					{/if}
+
+					
+					<div class="course-total-title">全部课程</div>
+					{if $list}
+					<ul>
+						{loop $list $item}
+						<li>
+							<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+								<div class="cover">
+									<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}" style="display: block;">
+									<div class="icon-live {$item['icon_live_status']}"></div>
+									{if !empty($item['ico_name'])}
+										<i class="ico_common {$item['ico_name']}"></i>
+									{/if}
+									{if $item['section_status']=='0'}
+										<i class="section_ended">已完结</i>
+									{/if}
+								</div>
+								<div class="info">
+									<p class="title">{$item['bookname']}</p>
+									<p class="item1">
+										{if $setting['show_study_number']}
+										<span class="click">
+											<i class="click-count-icon"></i>{if $item['price']>0}{php echo $item['buynum']+$item['virtual_buynum'];}{else}{php echo $item['buynum']+$item['virtual_buynum']+$item['visit_number'];}{/if}
+										</span>
+										{/if}
+										<span class="type price">
+										{if $item['price']==0}
+											免费
+										{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+											VIP免费
+										{else}
+											{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} <strong>¥ {$item['price']}</strong>
+										{/if}
+										</span>
+									</p>
+									<p class="item2">
+										<span class="teacher">
+											<img src="{MODULE_URL}static/webapp/{$template}/images/icon-good.png" width="20"
+											 height="19">{$item['score_rate']}%好评
+										</span>
+										{if $item['lesson_type']!=3}
+										<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+										{/if}
+									</p>
+									<p class="description">{$item['descript']}</p>
+								</div>
+							</a>
+						</li>
+						{/loop}
+					</ul>
+					{else}
+					<div class="no-content">
+						<div class="msg-inner">
+							<div class="msg-text">
+								<i class="iconfont i-info icon-information"></i> 此讲师暂时未发布课程：）
+							</div>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div class="w-amin hg-30"></div>
+				
+				{$pager}
+				<div class="w-amin hg-30"></div>
+			</div>
+			<div class="agency-tab agency-about inner-center" {if $teacher_home_show!=2}style="display:none;"{/if}>
+				<div class="about-agency-intr">
+					{php echo htmlspecialchars_decode($teacher['teacherdes']);}
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<script type="text/javascript">
+	$(".agency-tab_ul").on("click", 'li', function() {
+		var $currItem = $(this),
+		index = $currItem.index();
+
+		$currItem.addClass('agency-tab_li_curr').siblings().removeClass('agency-tab_li_curr');
+		$(".agency-tab").hide().eq(index).show();
+	});
+
+	//收藏按钮
+	$("#btn-collect").click(function(){
+		if(!login()){
+			return false;
+		}
+
+		$.ajax({
+			type:'post',
+			url: "/{$uniacid}/updateCollect.html?id={$teacherid}&uid={$uid}&ctype=teacher",
+			dataType: "json",     
+			success:function(res){
+				if(res.code==0){
+					if(res.type==1){
+						$("#btn-collect i").addClass("icon-heart-o");
+						$("#btn-collect i").removeClass("icon-heart");
+						$("#btn-collect span").text("已收藏");
+
+					}else if(res.type==2){
+						$("#btn-collect i").addClass("icon-heart");
+						$("#btn-collect i").removeClass("icon-heart-o");
+						$("#btn-collect span").text("加收藏");
+					}
+
+					swalalert('系统提示', res.message, 'success');
+					return false;
+				
+				}else{
+					swalalert('系统提示', res.message, 'error');
+					return false;
+
+				}
+			},
+			error: function(error){
+				swalalert('系统提示', '网络繁忙，请稍候重试', 'error');
+				return false;
+			}
+		});
+	});
+
+	$("#btn-buy").click(function(){
+		if(!login()){
+			return false;
+		}
+
+		swal({
+			title: "系统提示",
+			text: "确定购买服务?",
+			type: "warning",
+			html: true,
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonText: "确定",
+			confirmButtonColor: "#1AB61B"
+		}, function() {
+			window.location.href = "/{$uniacid}/teacher.html?op=buyTeacher&teacherid={$teacherid}";
+		});
+	});
+</script>
+
+{php include $this->template($template.'/_footer')}

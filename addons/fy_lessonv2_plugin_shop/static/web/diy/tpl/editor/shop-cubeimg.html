@@ -1,0 +1,120 @@
+<script>
+    Diy.Editor.defaultData.cubeimg = {
+        style: {
+            background: '#FFFFFF',
+            vertical_padding: '0px',
+            horizontal_padding: '0px',
+            type: 1,
+            pagesize: 6,
+        },
+        data: [
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/cubeimg_ad_1.png',
+                link: '',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/cubeimg_ad_2.png',
+                link: '',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/cubeimg_ad_3.png',
+                link: '',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/cubeimg_ad_4.png',
+                link: '',
+            },
+        ]
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="cubeimg">
+    <div class="editor-cubeimg">
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">样式风格</div>
+            <div>
+                <label class="radio-inline">
+                    <input type="radio" name="type" class="input_binding" value="1" data-type="style" data-key="type" data-name="<%= name %>" data-guid="<%= guid %>" <% if(style.type==1){ %>checked<% } %>>
+                    <img src='{MODULE_URL}static/web/diy/img/cubeimg_1.png' title="样式1"/>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" class="input_binding" value="2" data-type="style" data-key="type" data-name="<%= name %>" data-guid="<%= guid %>" <% if(style.type==2){ %>checked<% } %>>
+                    <img src='{MODULE_URL}static/web/diy/img/cubeimg_2.png' title="样式2"/>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" class="input_binding" value="3" data-type="style" data-key="type" data-name="<%= name %>" data-guid="<%= guid %>" <% if(style.type==3){ %>checked<% } %>>
+                    <img src='{MODULE_URL}static/web/diy/img/cubeimg_3.png' title="样式3"/>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" class="input_binding" value="4" data-type="style" data-key="type" data-name="<%= name %>" data-guid="<%= guid %>" <% if(style.type==4){ %>checked<% } %>>
+                    <img src='{MODULE_URL}static/web/diy/img/cubeimg_4.png' title="样式4"/>
+                </label>
+            </div>
+        </div>
+        <div class="alert alert-info">
+            <p>1、样式1只能选择且显示4张图片，样式2最少需要2张图，样式3最少需要3张图，样式4最少需要4张图片。</p>
+            <p>2、建议尺寸：图一(600*600px)，图二(600*300px)，图三(300*300px)，其它尺寸按该比例即可。</p>
+        </div>
+        <hr/>
+        <div class="form-group ui-sortable ep-item-sortable">
+            <% _.each(data, function(item) { %>
+            <div class="cubeimg-item ep-item">
+                <div class="cubeimg-image">
+                    <img src="<%= item.imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                </div>
+                <div class="cubeimg-params">
+                    <div class="input-group" style="margin-bottom: .8rem">
+                        <input type="text" class="form-control input-sm" value="<%= item.imgurl %>" data-type="data" data-key="imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                        <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                    </div>
+                    <div class="input-group">
+						<span class="input-group-addon">链接</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.link %>" placeholder="跳转链接以http://或https://开头" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                        <span class="input-group-addon hide"></span>
+                    </div>
+                </div>
+                <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="1"></span>
+            </div>
+            <% }); %>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-default btn-block ep-item-add" type="button" data-name="<%= name %>" data-guid="<%= guid %>">
+                <i class="fa fa-plus-circle"></i> 新增图片
+            </button>
+        </div>
+    </div>
+</script>

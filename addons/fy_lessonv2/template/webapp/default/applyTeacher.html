@@ -1,0 +1,382 @@
+{php include $this->template($template.'/_header')}
+<link type="text/css" href="{MODULE_URL}/static/public/photoClip/css/index.css?v=20200316" rel="stylesheet">
+<script type="text/javascript" src="{MODULE_URL}/static/webapp/{$template}/js/ajaxfileupload.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/iscroll-zoom.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/hammer.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/lrz.all.bundle.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/jquery.photoClip.js?v=20200316" charset="utf-8"></script>
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="userCenterTips">
+				<ul>
+					<li class="fs-14">尊敬的{$member['mnickname']}，{php echo $apply_page['first'] ? $apply_page['first'] : '欢迎申请成为讲师，认真填写以下各项信息有利于审核通过'}</li>
+					<h1 class="p-t-15">【{php echo $font['descTitle'] ? $font['descTitle'] : '讲师特权'}】</h1>
+					<li class="fs-14">1、{php echo $font['incomeTitle'] ? $font['incomeTitle'] : '课程收入'}：{php echo $font['incomeDesc'] ? $font['incomeDesc'] : '课程每出售一次，即可收入课程佣金'}</li>
+					<li class="fs-14 p-t-10">2、{php echo $font['cashTitle'] ? $font['cashTitle'] : '自由提现'}：{php echo $font['cashDesc'] ? $font['cashDesc'] : '收入存入账户，自由申请提现'}</li>
+				</ul>
+			</div>
+			<div class="commonTitle flex flex-v memberCenter">
+				<div class="flex flex-v commonContent userInfo">
+					<dl class="items flex">
+						<dt class="m-t-20"><span class="ft-w-b ftc-e9511b">*</span> {php echo $apply_page['teacherPhoto'] ? $apply_page['teacherPhoto'] : '讲师头像'}：</dt>
+						<dd class="uploadImg flex1">
+							<img id="view" src="{$teacher_phone}" class="img">
+							<input type="hidden" id="teacherphoto" name="teacherphoto" value="{$teacher['teacherphoto']}">
+							<input type="file" id="pickfiles" class="hide" accept="image/*">
+							<div class="uploadBox"><a id="btnUploadAvatar" href="javascript:;" class="camera"><i class="iconfont icon-camera"></i></a></div>
+							<div class="tips">
+								<p>仅支持JPG、PNG格式图片</p>
+							</div>
+							<div class="cover-wrap">
+								<div class="clipBgn" id="clipBgn">
+									<div id="clipArea" style="margin:10px;height: 520px;"></div>
+									<div class="clipButton">
+										<a href="javascript:;" id="clipBtn">保存图片</a>
+									</div>
+								</div>
+							</div>
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt><span class="ft-w-b ftc-e9511b">*</span> {php echo $apply_page['teacherName'] ? $apply_page['teacherName'] : '讲师名称'}：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="teacher" value="{$teacher['teacher']}">
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt><span class="ft-w-b ftc-e9511b">*</span> {php echo $apply_page['mobile'] ? $apply_page['mobile'] : '手机号码'}：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="mobile" value="{$teacher['mobile']}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+						</dd>
+					</dl>
+					{if $sms['template_id']}
+					<dl class="items flex">
+						<dt><span class="ft-w-b ftc-e9511b">*</span> 验证码：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="verify_code" style="width:106px;">
+							<a href="javascript:;" id="btn-send-code" class="smBtn btn-default" style="height:36px; line-height:36px;">获取验证码</a>
+						</dd>
+					</dl>
+					{/if}
+					<dl class="items flex">
+						<dt>{php echo $apply_page['idcard'] ? $apply_page['idcard'] : '身份证号'}：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="idcard" value="{$teacher['idcard']}" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt>{php echo $apply_page['teacherQQ'] ? $apply_page['teacherQQ'] : '讲师QQ'}：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="qq" value="{$teacher['qq']}">
+						</dd>
+					</dl>
+					
+					<dl class="items flex">
+						<dt>{php echo $apply_page['qqGroup'] ? $apply_page['qqGroup'] : 'QQ群'}：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" name="qqgroup" value="{$teacher['qqgroup']}">
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt>{php echo $apply_page['teacherQrcode'] ? $apply_page['teacherQrcode'] : '微信二维码'}：</dt>
+						<dd class="uploadImg flex1">
+							<img id="weixin_qrcode_view" src="{$weixin_qrcode}" class="img">
+							<input type="hidden" id="weixin_qrcode" name="weixin_qrcode" value="{$teacher['weixin_qrcode']}">
+							<input type="file" name="uploadFile" id="uploadFileQrcode" class="hide" accept="image/*" onchange="uploadImage('Qrcode');">
+							<div class="uploadBox"><a id="btnUploadQrcode" href="javascript:;" class="camera"><i class="iconfont icon-camera"></i></a></div>
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt><span class="ft-w-b ftc-e9511b">*</span> {php echo $apply_page['teacherDesc'] ? $apply_page['teacherDesc'] : '自我介绍'}：</dt>
+						<dd class="flex1">
+							<textarea class="inputTxt" name="teacherdes" id="teacherdes" style="width:400px; height:120px;">{$teacher['teacherdes']}</textarea>
+						</dd>
+					</dl>
+					{if $setting['teacher_agreement']}
+					<dl class="items flex">
+						<dt></dt>
+						<dd class="flex1" style="font-size:12px;">
+							<input type="checkbox" name="teacher_agreement" value="1" style="vertical-align:-2px;" checked> 我已阅读并同意<a href="javascript:;" id="btn-agreement">《讲师注册(隐私)协议》</a>
+						</dd>
+					</dl>
+					<div class="agreement-area-mask" style="display:none;">
+						<div class="agreement-area">
+							<div class="close">
+								<img src="{MODULE_URL}static/webapp/{$template}/images/btn-close.png" width="32" height="32">
+							</div>
+							<h3 class="notice-title">讲师注册(隐私)协议</h3>
+							<ul class="notice-body">
+								{php echo htmlspecialchars_decode($setting['teacher_agreement'])}
+							</ul>
+						</div>
+					</div>
+					{/if}
+					
+					<dl class="items flex mt50">
+						<dt></dt>
+						<dd class="btns flex1">
+							<a id="btnSubmit" class="miBtn btn-primary" href="javascript:;">确认提交</a>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+//定位提示框
+if (window.innerHeight){
+	winHeight = window.innerHeight;
+}else if ((document.body) && (document.body.clientHeight)){
+	winHeight = document.body.clientHeight;
+}
+window.onload = function() { 
+	var marginTop = (winHeight-604)/2;
+	document.getElementById("clipBgn").style.marginTop = marginTop + 'px';
+}
+</script>
+
+<script type="text/javascript">
+	$('#btnUploadAvatar').click(function(){
+		document.getElementById('pickfiles').click();
+	});
+
+	$("#clipArea").photoClip({
+		size: [200, 200],
+		outputSize:[200, 200],
+		file: "#pickfiles",
+		ok: "#clipBtn",
+		view:"#view",
+		loadStart: function() {
+			$('.cover-wrap').fadeIn();
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			$("#loadingToast").show();
+			$('.cover-wrap').fadeOut();
+			uploadPhotoImage(dataURL);
+		}
+	});
+
+	var uploadPhotoImage = function(dataURL){
+		$.ajax({
+			url: "/{$uniacid}/ajaxUploadImage.html?type=base64",
+			type: 'POST',
+			data: {imageData: dataURL},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+				$('#view').attr('src', "{$_W['attachurl']}" + res.imagePath);
+				$("#teacherphoto").val(res.imagePath);
+			},
+			error: function(data, status, e) {
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			}
+		})
+	}
+
+	$('#btnUploadQrcode').click(function(){
+		document.getElementById('uploadFileQrcode').click();
+	});
+
+	var uploadImage = function(idx){
+		$("#loadingToast").show();
+		$.ajaxFileUpload({
+				url: "/{$uniacid}/ajaxUploadImage.html",
+				secureuri: false,
+				fileElementId: 'uploadFile'+idx,
+				dataType: 'json',
+				success: function (res){
+					$("#loadingToast").hide();
+					if(res.code == 0){
+						if(idx=='Qrcode'){
+							$('#weixin_qrcode_view').attr('src', "{$_W['attachurl']}" + res.imagePath);
+							$("#weixin_qrcode").val(res.imagePath);
+						}
+					}else{
+						swal("系统提示", "上传失败，请稍候重试", "error");
+					}
+				},
+				error: function(data, status, e) {
+					$("#loadingToast").hide();
+					swal("系统提示", "网络超时，请稍候重试", "error");
+				}
+		});
+		return false;
+	}
+
+	var countdown = 60;
+	$("#btn-send-code").click(function(){
+		var result = checkMobile();
+		if(!result){
+			return;
+		}
+		if ($('#btn-send-code').hasClass('has_send')) {
+			return false;
+		}
+
+		var mobile = $('input[name="mobile"]').val();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/sendcode.html",
+			data: {mobile:mobile},
+			success: function (data) {
+				if(data.code==0){
+					settime($("#btn-send-code"));
+					swal("系统提示", "短信发送成功，请注意查收", "success");
+				}else{
+					swal("系统提示", data.msg, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	});
+
+	//发送验证码倒计时
+	function settime(obj) {
+		if(countdown == 0) {
+			$('#btn-send-code').removeClass('has_send').text('重新发送');
+			countdown = 60;
+			return;
+		} else {
+			$('#btn-send-code').addClass('has_send').text('重新获取(' + countdown + ')');
+			countdown--;
+		}
+		setTimeout(function() {
+			settime(obj)
+		}, 1000)
+	}
+
+	//校验手机号是否合法
+	function checkMobile() {
+		var mobile = $('input[name="mobile"]').val();
+		var myreg = /^((1)+\d{10})$/;
+		if(!myreg.test(mobile)) {
+			swal("系统提示", "请输入有效的手机号码", "error");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
+	$("#btn-agreement").click(function(){
+		$('.agreement-area-mask').show();
+	});
+	$(".close").click(function(){
+		$('.agreement-area-mask').hide();
+	});
+
+
+	var isjump = false; //声明提交之后跳转
+	$('#btnSubmit').click(function(){
+		var teacherphoto = $("input[name=teacherphoto]").val();
+		var teacher = $("input[name=teacher]").val();
+		var idcard = $("input[name=idcard]").val();
+		var mobile = $("input[name=mobile]").val();
+		var verify_code = '';
+		var qq = $("input[name=qq]").val();
+		var qqgroup = $("input[name=qqgroup]").val();
+		var weixin_qrcode = $("input[name=weixin_qrcode]").val();
+		var teacherdes = $('#teacherdes').val();
+
+		if (teacherphoto == "") {
+			swal("系统提示", "请上传头像", "error");
+            return false;
+        }
+		if (teacher == "") {
+			swal("系统提示", "请填写名称", "error");
+            return false;
+        }
+		if (mobile == "") {
+			swal("系统提示", "请填写手机号码", "error");
+            return false;
+        }
+        if (teacherdes == "") {
+			swal("系统提示", "请填写自我介绍", "error");
+            return false;
+        }
+
+		{if $sms['template_id']}
+			verify_code = $("input[name=verify_code]").val();
+			 if (verify_code == "") {
+				swal("系统提示", "请填写验证码", "error");
+				return false;
+			}
+		{/if}
+		
+
+		{if $setting['teacher_agreement']}
+			var agreement = false;
+			$("input[name='teacher_agreement']").each(function () {
+				if ($(this).is(":checked")) {
+					agreement = true;
+				}
+			});
+			if(!agreement){
+				swal("系统提示", "请阅读并同意讲师注册(隐私)协议", "error");
+				return false;
+			}
+		{/if}
+
+		$("#loadingToast").show();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/applyTeacher.html?op=postTeacher",
+			data: {
+					teacherphoto:teacherphoto,
+					teacher:teacher,
+					idcard: idcard,
+					mobile:mobile,
+					verify_code:verify_code,
+					qq:qq,
+					qqgroup:qqgroup,
+					weixin_qrcode:weixin_qrcode,
+					teacherdes:teacherdes
+				  },
+			success: function (res) {
+				$("#loadingToast").hide();
+				if(res.code==0){
+					isjump = true;
+					swal("系统提示", res.message, "success");
+				}else{
+					swal("系统提示", res.message, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				$("#loadingToast").hide();
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	});
+
+	$(document).on("click",".swal-confirm",function(){
+		if(isjump){
+			window.location.href = "/{$uniacid}/self.html";
+		}
+	});
+
+</script>
+
+{php include $this->template($template.'/_footer')}

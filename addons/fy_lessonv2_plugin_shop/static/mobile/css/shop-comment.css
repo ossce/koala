@@ -1,0 +1,215 @@
+
+.weui-cells__group_form .weui-cells__title {
+    padding: 10px 15px;
+	margin: 1px 0 0;
+}
+.weui-cells__group_form .weui-cell {
+    padding: 10px 15px;
+}
+.weui-cells__group_form .weui-cells:before, .weui-cells__group_form .weui-cells:after {
+    left: 15px;
+    right: 15px;
+}
+.weui-uploader__input-box,.weui-uploader__file{
+	width: 70px;
+    height: 70px;
+	border: 1px #ccc solid;
+}
+
+.comment-goods {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+.comment-goods img {
+    width: 80px;
+    height: 80px;
+    display: block;
+    border: none;
+}
+.comment-title {
+    color: #333;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    text-overflow: ellipsis;
+	line-height: 1.2;
+}
+.comment-sku-name{
+	font-size: 13px;
+    color: #999;
+}
+.star-wrap .star-score {
+	display: inline-block;
+    list-style-type: none;
+    overflow: hidden;
+}
+.star-wrap .star-score a {
+    margin-right: 3px;
+    float: left;
+}
+.star-wrap .star-score img {
+    width: 18px;
+    height: 18px;
+    vertical-align: text-bottom;
+}
+.star-wrap .attitude {
+    padding-left: 5px;
+    display: inline-block;
+    color: #f23030;
+    vertical-align: 6px;
+}
+.comment_buttom{
+	padding: 15px;
+    margin-top: 1px;
+    background: #fff;
+}
+.comment_buttom .btn-submit {
+	width: 100%;
+    color: #fff;
+    background: #ff6565;
+    box-shadow: 0 3px 6px 0 rgb(0 58 152 / 20%);
+    border: none;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+
+/* 商品评价列表详情 */
+.comment_wrap .comment_tag_wrap {
+    position: relative;
+	border-bottom: #efefef 1px solid;
+}
+.comment_wrap .comment_tag_wrap .tag_new {
+    position: relative;
+    padding: 3px 3px 0 0;
+    max-height: 1000px;
+	font-size: 0;
+    font-family: Helvetica;
+	overflow: hidden;
+}
+.comment_wrap .comment_tag_wrap .tag_new span {
+	display: inline-block;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 11px;
+    color: #262626;
+    margin: 0 12px 12px 0;
+    background: #fcedeb;
+    border-radius: 15px;
+}
+.comment_wrap .comment_tag_wrap .tag_new .selected {
+    position: relative;
+    padding-left: 20px;
+    color: #f2270c;
+    border: 1px solid #f2270c;
+}
+.comment_wrap .comment_tag_wrap .tag_new .selected:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    background: url(../images/icon-comment-tick.png) no-repeat;
+    background-size: 100%;
+}
+
+.comment_wrap .comment-list {
+    font-size: 12px;
+    color: #262626;
+    margin-bottom: -1px;
+}
+.comment_wrap .comment-list li {
+    position: relative;
+    padding: 10px 0;
+	border-bottom: #efefef 1px solid;
+}
+.comment_wrap .comment-list li:last-child {
+    border-bottom: none;
+	padding-bottom: 0;
+}
+.comment_wrap .user_info {
+    line-height: 20px;
+}
+.comment_wrap .user_info .avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.comment_wrap .user_info .user_name {
+    margin-left: 12px;
+    display: inline-block;
+    color: #262626;
+    max-width: 8.2em;
+    vertical-align: middle;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.comment_wrap .user_info .star {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    margin-left: 6px;
+}
+.comment_wrap .user_info .star img{
+	width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.comment_wrap .user_info .date {
+    float: right;
+    color: #999;
+    margin-left: -60px;
+}
+.comment-list .content {
+    position: relative;
+    line-height: 1.5;
+    font-size: 13px;
+    margin: 18px 0;
+    word-break: break-all;
+    overflow: hidden;
+    white-space: normal;
+    max-height: 126px;
+}
+.comment-list .picture {
+    margin-right: -10px;
+}
+.comment-list .picture .img {
+    display: inline-block;
+    width: 75px;
+    height: 75px;
+    margin-right: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    text-align: center;
+    border: #f3f3f3 1px solid;
+	margin-bottom: 6px;
+	vertical-align: middle;
+}
+.comment-list .picture .img img{
+	width: 100%;
+	height: 100%;
+}
+.comment-list .sku_name{
+	color: #999;
+	margin-top: 6px;
+}

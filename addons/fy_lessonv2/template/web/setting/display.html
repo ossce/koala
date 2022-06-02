@@ -1,0 +1,194 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">全局设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">非微信端访问</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="visit_limit" value="1" {if $setting['visit_limit']==1}checked{/if} /> 允许</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="visit_limit" value="0" {if $setting['visit_limit']==0}checked{/if} /> 禁止</label>
+						<span class="help-block">开启非微信端访问后，用户可在浏览器里访问微课堂，<strong style="color:#609dd2;">但目前QQ浏览器未开放禁止下载按钮API，所以可能造成客户缓存下载您的视频</strong></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">需登录访问页面</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="login_visit[]" value="index" {if in_array('index', $login_visit)}checked{/if} />
+							<span class="label-middle">首页</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="login_visit[]" value="lesson" {if in_array('lesson', $login_visit)}checked{/if} />
+							<span class="label-middle">课程详情页</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="login_visit[]" value="search" {if in_array('search', $login_visit)}checked{/if} />
+							<span class="label-middle">全部课程</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="login_visit[]" value="article" {if in_array('article', $login_visit)}checked{/if} />
+							<span class="label-middle">文章公告</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="login_visit[]" value="getcoupon" {if in_array('getcoupon', $login_visit)}checked{/if} />
+							<span class="label-middle">优惠券</span>
+						</label>
+						<span class="help-block">选中的前台页面，用户在非微信手机端需要先登录帐号才能访问</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他常用设置</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="stock_config" value="1" {if $setting['stock_config']}checked{/if} />
+							<span class="label-middle">课程库存</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="show_teacher_income" value="1" {if $setting['show_teacher_income']}checked{/if} />
+							<span class="label-middle">课程页讲师分成</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="audit_evaluate" value="1" {if $setting['audit_evaluate']}checked{/if} />
+							<span class="label-middle">审核课程评价</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="show_evaluate_time" value="1" {if $setting['show_evaluate_time']}checked{/if} />
+							<span class="label-middle">课程评价时间</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="show_study_number" value="1" {if $setting['show_study_number']}checked{/if} />
+							<span class="label-middle">课程学习人数</span>
+						</label>
+						<label class="radio-inline pad-l-8 hide">
+							<input type="checkbox" name="repeat_record_lesson" value="1" {if $setting['repeat_record_lesson']}checked{/if} />
+							<span class="label-middle">重复记录章节学习</span>
+						</label>
+						<span class="help-block">
+							1、勾选课程库存后，库存为0的课程将显示为“已售罄”且不能购买。<br/>
+							2、勾选课程页讲师分成后，后台发布课程时将显示讲师分成选项。<br/>
+							3、勾选审核课程评价后，用户评价课程需后台审核通过后才显示在前台课程评价里。<br/>
+							4、勾选课程评价时间后，前台课程评价显示评价时间。<br/>
+							5、勾选课程学习人数后，前台课程将显示学习人数。<br/>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">引导关注公众号</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="isfollow[follow_index]" value="1" {if $isfollow['follow_index']}checked{/if} />
+							<span class="label-middle">首页顶部引导关注</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="isfollow[follow_lesson]" value="1" {if $isfollow['follow_lesson']}checked{/if} />
+							<span class="label-middle">课程页强制关注</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="isfollow[follow_lesson_close]" value="1" {if $isfollow['follow_lesson_close']}checked{/if} />
+							<span class="label-middle">显示关闭按钮</span>
+						</label>
+						<span class="help-block"><strong>引导关注属于诱导关注边缘，请谨慎使用。</strong>该项仅在微信客户端中生效，勾选显示关闭按钮后，课程页强制关注将可以通过按钮关闭二维码。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号二维码</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('qrcode', $setting['qrcode']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员openid</label>
+					<div class="col-sm-9">
+						<input type="text" name="manageopenid" value="{$setting['manageopenid']}" class="form-control">
+						<div class="help-block">
+							新订单和新提现申请(到微信零钱且提现为人工审核方式)提醒管理员，多个管理员openid之间用英文状态逗号“,”隔开
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">自动计划任务</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">订单关闭时间</span>
+							<input type="text" name="closespace" value="{$setting['closespace']}" class="form-control">
+							<span class="input-group-addon">分钟</span>
+							<span class="input-group-addon">订单自动好评</span>
+							<input type="text" name="autogood" value="{$setting['autogood']}" class="form-control">
+							<span class="input-group-addon">天</span>
+						</div>
+						<span class="help-block">
+							1、订单关闭时间默认为60分钟，0表示不自动关闭未付款订单；<br/>
+							2、订单自动好评，购买课程成功后超过指定天数自动好评，0或留空表示关闭自动好评
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页绑定手机</label>
+					<div class="col-sm-9">
+						<label class="radio-inline">
+							<input type="radio" name="modify_mobile" value="2" {if $setting['modify_mobile']==2}checked{/if} onclick="indexVerify(this.value)" /> 首页验证
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="modify_mobile" value="0" {if $setting['modify_mobile']==0}checked{/if} onclick="indexVerify(this.value)" /> 关闭
+						</label>
+						<span class="help-block"><strong></strong>开启首页验证后，进入首页时，未绑定手机号码用户将提示绑定手机号码；该选项需要在“基本配置~短信配置”里配置短信</span>
+					</div>
+				</div>
+				<div class="form-group" id="index-close-box" {if !$setting['modify_mobile']}style="display:none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页验证选项</label>
+					<div class="col-sm-9">
+						<label class="radio-inline pad-l-0">
+							<input type="checkbox" name="index_verify[]" value="password" {if in_array('password', $index_verify)}checked{/if}>
+							<span class="label-middle">密码</span>
+						</label>
+						<label class="radio-inline pad-l-8">
+							<input type="checkbox" name="index_verify[]" value="verify_mobile" {if in_array('verify_mobile', $index_verify)}checked{/if}>
+							<span class="label-middle">不显示关闭按钮</span>
+						</label>
+						<span class="help-block">开启首页验证绑定手机号码时，可以设置是否可以密码和关闭绑定手机号码对话框</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">定时任务链接</label>
+					<div class="col-sm-9 pad-t-8">
+						<a href="javascript:;" id="copyCrontab">{$_W['siteroot']}app/{php echo str_replace("./","",$this->createMobileUrl('crontab'));}</a>
+						<span class="help-block">建议定时每3分钟执行一次；定时任务用于取消超期未支付、未评价订单、会员过期优惠券等，您可以设置服务器定时执行该URL来操作定时任务。</span>
+					</div>
+				</div>
+				{if $_W['isfounder']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">重置版本号</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<a href="{php echo $this->createWebUrl('setting',array('op'=>'resetver'));}" class="btn btn-danger">重置版本号</a>
+						</div>
+						<span class="help-block">当因网络等原因升级不完整时，您可以尝试重置版本号。重置版本号不改变文件，重置版本号后请先更新缓存，再到应用管理里再次升级。&#12304;&#31283;&#23450;&#26356;&#26032;&#45;&#20248;&#36873;&#81;&#81;&#50;&#51;&#57;&#50;&#51;&#51;&#55;&#56;&#52;&#48;&#45;&#20165;&#20379;&#23398;&#20064;&#30740;&#31350;&#20351;&#29992;&#12305;</span>
+					</div>
+                </div>
+				{/if}
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="id" value="{$setting['id']}" />
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copyCrontab")[0], $("#copyCrontab").text());
+	});
+});
+
+function indexVerify(status){
+	if(status==0){
+		$("#index-close-box").hide();
+	}else if(status==2){
+		$("#index-close-box").show();
+	}
+}
+</script>

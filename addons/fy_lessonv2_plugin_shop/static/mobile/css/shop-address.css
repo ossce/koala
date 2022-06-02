@@ -1,0 +1,459 @@
+
+/* 重写weui复选框颜色 */
+.weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before{
+	color: #ff6565;
+}
+
+/* 收货地址列表 */
+.address_list{
+	padding-bottom: 100px;
+}
+.address_list .address {
+    position: relative;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+	border-bottom: 1px #f4f4f4 solid;
+}
+.address_list ul {
+    padding: 7px 40px;
+    position: relative;
+    overflow: hidden;
+    padding-right: 50px;
+    background-color: #fff;
+    z-index: 2;
+}
+.address_list ul.nochoose {
+    padding-left: 10px;
+}
+.address_list li {
+    margin-top: 4px;
+	line-height: 1.5;
+}
+.address_list li strong {
+    color: #333;
+    font-size: 16px;
+}
+.address_list .tag {
+    display: inline-block;
+    position: relative;
+    padding: 0 5px;
+    vertical-align: middle;
+    margin: -2px 5px 0 0;
+    font-size: 10px;
+    color: #4b9bfb;
+}
+.address_list .tag_red {
+    color: #ff6565;
+	border: 1px #ff6565 solid;
+}
+.address_list .edit {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: absolute;
+    color: #ff6565;
+    width: 50px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    margin: 0;
+}
+.address_list .act {
+    background-color: #ff6565;
+    color: #fff;
+    width: 70px;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.address_list .act.act_left {
+    right: 70px;
+    background-color: #e6e6e6;
+    color: #333;
+}
+.address_list .del {
+    height: 16px;
+    line-height: 16px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 70px;
+    margin-top: -8px;
+}
+
+.address_list ul.ready_select i {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    margin-top: -10px;
+    background: url(../images/icon-no-select.png) no-repeat 50%;
+    background-size: 20px 20px;
+}
+.address_list ul.selected i {
+    background: url(../images/icon-selected.png) no-repeat 50%;
+    background-size: 20px 20px;
+}
+
+/* 新增收货地址按钮 */
+.btn-address-wrap {
+    z-index: 101;
+    min-height: 50px;
+    background: #fff;
+    padding: 10px;
+	display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.btn-address-wrap.fixed{
+	position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+}
+.btn-address-wrap .btn_address {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    text-align: center;
+    background: #fff;
+	color: #fff;
+    box-shadow: 0 3px 6px 0 rgb(255 65 66 / 20%);
+    border: none;
+	background-color: #ff6565;
+}
+
+
+/* 新增收货地址表单 */
+.shop-address-cell-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    padding: 8px 20px;
+}
+
+.shop-cell-name {
+    color: #333;
+    white-space: nowrap;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 55px;
+}
+
+.shop-cell-input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 100%;
+    min-height: 3rem;
+    color: #525252;
+    text-align: right;
+    padding-right: 0.24rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.shop-cell-input input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 3rem;
+    border: none;
+    background: transparent;
+    color: #555;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.shop-address-cell-item:after {
+    margin-left: 0.24rem;
+    content: '';
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+    width: 90%;
+    height: 1px;
+    border-bottom: 1px solid #D9D9D9;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+    left: 20px;
+}
+.cell-input-text:after {
+    display: block;
+    content: ' ';
+    background-image: url(../images/icon-arrow-right.png);
+    width: 15px;
+    height: 15px;
+    background-size: 15px;
+}
+
+/* 选择地区样式 */
+.m-addressSelect {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75%;
+    z-index: 1000;
+    background-color: #fff;
+	font-size: 14px;
+    -webkit-transform: translate(0, 100%);
+    transform: translate(0, 100%);
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s, -webkit-transform .3s;
+}
+.m-addressSelect.brouce-in {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+.addressSelect-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+.addressSelect-header:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #D9D9D9;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.addressSelect-title {
+    width: 100%;
+    font-size: 15px;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    position: relative;
+}
+.addressSelect-title:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.addressSelect-nav {
+    width: 100%;
+    padding-left: .2rem;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.addressSelect-nav > a {
+    color: #222;
+    display: block;
+    height: 40px;
+    line-height: 46px;
+    padding: 0 .2rem;
+    position: relative;
+    margin-right: .15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+}
+.addressSelect-nav > a.crt {
+    color: #F23030;
+}
+.addressSelect-nav > a.crt:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #F23030;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+}
+.addressSelect-content {
+    height: 100%;
+    padding-top: 85px;
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.addressSelect-content.addressSelect-move-animate {
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s, -webkit-transform .3s;
+}
+.addressSelect-content.addressSelect-next {
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+.addressSelect-content.addressSelect-prev {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+.addressSelect-content > .addressSelect-item {
+    display: block;
+    height: inherit;
+    width: 50%;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 50%;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: #FFF;
+}
+.addressSelect-content > .addressSelect-item::-webkit-scrollbar {
+    width: 0;
+}
+.addressSelect-content > .addressSelect-item:nth-child(2n) {
+    background-color: #F5F5F5;
+}
+.addressSelect-item-box {
+    width: 100%;
+    height: inherit;
+    display: block;
+    padding: 0 .4rem;
+}
+.addressSelect-item-box > a {
+    color: #333;
+    min-height: 40px;
+    line-height: 1.5;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+.addressSelect-item-box > a:before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #D9D9D9;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.addressSelect-item-box > a:active {
+    background: none;
+}
+.addressSelect-item-box > a span {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+}
+.addressSelect-item-box > a.crt {
+    color: #F23030;
+}
+.addressSelect-item-box > a.crt:after {
+    display: block;
+    content: ' ';
+    background-image: url(../images/icon-right-red.png);
+    background-size: 22px;
+    width: 22px;
+    height: 22px;
+}
+.mask-black {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    z-index: 500;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}

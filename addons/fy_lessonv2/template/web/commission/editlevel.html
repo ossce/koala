@@ -1,0 +1,74 @@
+<div class="main">
+	<div class="alert alert-info">
+		提示: 没有设置等级的分销商将按默认设置计算提成。商品指定的佣金金额的优先级仍是最高的，也就是说只要商品指定了佣金金额就按商品的佣金金额来计算，不受等级影响
+	</div>
+	<div class="main">
+		<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					分销商等级设置
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 等级名称</label>
+						<div class="col-sm-5 col-xs-12">
+							<input type="text" name="levelname" class="form-control" value="{$level['levelname']}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>一级分销比例</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<input type="text" name="commission1" class="form-control" value="{$level['commission1']}"><span class="input-group-addon">%</span>
+							</div>
+							<span class="help-block">根据国家相关法规，一二三级分销佣金比例总和不得超过50%</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">二级分销比例</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<input type="text" name="commission2" class="form-control" value="{$level['commission2']}"><span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">三级分销比例</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<input type="text" name="commission3" class="form-control" value="{$level['commission3']}"><span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">升级到下个等级条件</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+								<span class="input-group-addon">
+									{if $comsetting['upgrade_condition']==1}分销累计佣金
+									{elseif $comsetting['upgrade_condition']==2}购买订单累计总额
+									{elseif $comsetting['upgrade_condition']==3}购买订单累计笔数
+									{/if}
+									满
+								</span>
+								<input type="text" name="updatemoney" class="form-control" value="{$level['updatemoney']}">
+								<span class="input-group-addon">
+									{if $comsetting['upgrade_condition']==1 || $comsetting['upgrade_condition']==2}元
+									{elseif $comsetting['upgrade_condition']==3}单
+									{/if}
+									升级到下个等级
+								</span>
+							</div>
+							<span class="help-block">分销商升级条件，不填写默认为不自动升级</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+				<input type="hidden" name="id" value="{$id}">
+				<input type="hidden" name="token" value="{$_W['token']}">
+			</div>
+		</form>
+	</div>
+</div>

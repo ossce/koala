@@ -1,0 +1,130 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/discount.css?v={$versions}">
+
+<div class="w-all discount_container">
+	<div class="discount_skin">
+		<div class="discount_skin_bg"></div>
+		<div class="skhd">
+			<div class="skhd_wrap">
+				<div class="grid_c1">
+					<h3 class="skhd_tit">{$title}</h3>
+					<div class="text-c time-list">
+						{if $ended}
+							活动已结束
+						{else}
+							距离{if $nostart}开始{elseif $starting}结束{/if}还有
+							<span class="timer">
+								<span class="d hide" id="time_d">0</span>
+								<em class="hide" id="time_days">天</em>
+								<span class="h" id="time_h">00</span>
+								<em>:</em>
+								<span class="m" id="time_m">00</span>
+								<em>:</em>
+								<span class="s" id="time_s">00</span>
+							</span>
+						{/if}
+					</div>
+				</div>
+				<div class="skhd_bg"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="w-1200 m-auto">
+	<div class="course-total-title">限时抢购列表</div>
+		{if $list}
+		<ul class="discount-ul">
+			{loop $list $item}
+			<li class="items">
+				<a {if $starting}href="/{$uniacid}/lesson.html?id={$item['id']}"{/if} class="items-link" target="_blank">
+					<img src="{$_W['attachurl']}{$item['images']}" class="conver">
+					<h4>{$item['bookname']}</h4>
+				</a>
+				<div class="goods-info {if !$starting}goods-info-ended{/if}">
+					<span class="goods-info-txt">
+						<span class="goods-price text-c">
+							<i class="price-now number {if $starting}number-red{else}number-gray{/if} number-thin">
+								<span class="yuan">￥</span><span class="integer">{$item['discount_price']}</span>
+							</i>
+							<span class="price-pre">￥{$item['price']}</span>
+						</span>
+					</span>
+					<a {if $starting}href="/{$uniacid}/lesson.html?id={$item['id']}" target="_blank"{/if} class="btn-buy {if !$starting}btn-ended{/if}">{$btn_name}</a>
+				</div>
+			</li>
+			{/loop}
+		</ul>
+		{else}
+		<div class="no-content">
+			<div class="msg-inner">
+				<div class="msg-text">
+					<i class="iconfont i-info icon-information" style="color:#e9511b;"></i> 没有找到任何数据：）
+				</div>
+			</div>
+		</div>
+		{/if}
+	</div>
+
+	<div class="w-amin hg-40"></div>
+	{$pager}
+	<div class="w-amin hg-30"></div>
+</div>
+
+
+{if $starting || $nostart}
+<script type="text/javascript">
+setTimeout("show_time()",1000);
+var time_d = document.getElementById("time_d");
+var time_days = document.getElementById("time_days");
+var time_h = document.getElementById("time_h");
+var time_m = document.getElementById("time_m");
+var time_s = document.getElementById("time_s");
+ 
+var time_end = new Date("{$count_date}"); // 设定开始/结束时间
+time_end = time_end.getTime();
+ 
+function show_time(){
+	var time_now = new Date(); // 获取当前时间
+	time_now = time_now.getTime();
+	var time_distance = time_end - time_now; // 结束时间减去当前时间
+	var int_day, int_hour, int_minute, int_second;
+	if(time_distance >= 0){
+		// 天时分秒换算
+		int_day = Math.floor(time_distance/86400000)
+		time_distance -= int_day * 86400000;
+		int_hour = Math.floor(time_distance/3600000)
+		time_distance -= int_hour * 3600000;
+		int_minute = Math.floor(time_distance/60000)
+		time_distance -= int_minute * 60000;
+		int_second = Math.floor(time_distance/1000)
+
+		// 时分秒为单数时、前面加零站位
+		if(int_hour < 10)
+		int_hour = "0" + int_hour;
+		if(int_minute < 10)
+		int_minute = "0" + int_minute;
+		if(int_second < 10)
+		int_second = "0" + int_second;
+
+		// 显示时间
+		time_d.innerHTML = int_day;
+		time_h.innerHTML = int_hour;
+		time_m.innerHTML = int_minute;
+		time_s.innerHTML = int_second;
+
+		if(int_day>0){
+			$("#time_d").show();
+			$("#time_days").show();
+		}
+
+		setTimeout("show_time()",1000);
+	}else{
+		setTimeout("location.reload()",1000);
+	}
+}
+</script>
+{/if}
+
+
+{php include $this->template($template.'/_footer')}

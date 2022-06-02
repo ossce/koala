@@ -1,0 +1,109 @@
+<div class="main">
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:100px;text-align:center;">排序</th>
+							<th style="width:38%;">标题</th>
+							<th style="width:12%;text-align:center;">分类</th>
+							<th style="width:12%;text-align:center;">状态</th>
+							<th style="width:19%;text-align:center;">发布时间</th>
+							<th style="text-align:right;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $item}
+						<tr>
+							<td style="text-align:center;"><input type="text" class="form-control" name="displayorder[{$item['id']}]" value="0" style="width: 70px;display:inline-block;"></td>
+							<td style="word-break:break-all;">[ID:{$item['id']}] {$item['title']}</td>
+							<td style="text-align:center;">{$catename_list[$item['cate_id']]}</td>
+							<td style="text-align:center;">
+								{if $item['isshow']==1}
+									<span class="label label-success" style="margin-top:5px; display:inline-block;">上架</span>
+								{elseif $item['isshow']==0}
+									<span class="label label-default" style="margin-top:5px; display:inline-block;">下架</span>
+								{/if}
+							</td>
+							<td style="text-align:center;">{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+							<td style="text-align:right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('pcmanage',array('op'=>'delArticle','group_id'=>$id,'article_id'=>$item['id']));}" onclick="return confirm('确定移出该分组？');return false;" data-toggle="tooltip" data-placement="bottom" data-original-title="移出该分组"><i class="fa fa-times"></i></a></td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<input name="submit" type="submit" class="btn btn-primary" value="批量排序" style="margin-right:13px;">
+								<a href="javascript:;" class="btn btn-info" onclick="$('#modal-selete-article').modal()">添加文章</a>
+								<input type="hidden" name="token" value="{$_W['token']}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+
+	<div id="modal-selete-article"  class="modal fade" tabindex="-1">
+		<div class="modal-dialog" style="width: 920px;">
+			<div class="modal-content">
+				<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择文章</h3></div>
+				<div class="modal-body" >
+					<div class="row">
+						<div class="input-group">
+							<input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="请输入文章标题" />
+							<span class="input-group-btn"><button type="button" class="btn btn-default" onclick="searchArticle();">搜索</button></span>
+						</div>
+					</div>
+					<div id="module-menus" style="padding-top:5px;"></div>
+				</div>
+				<div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function searchArticle() {
+		var uniacid = {php echo $uniacid};
+		if ($.trim($("#search-kwd").val()) == '') {
+			document.getElementById("search-kwd").focus();
+			return;
+		}
+		$("#module-menus").html("正在搜索....");
+		$.get("{php echo $this->createWebUrl('pcmanage',array('op'=>'getArticle'))}", { 
+			uniacid:uniacid,keyword: $.trim($("#search-kwd").val())
+		}, function (dat) {
+			$("#module-menus").html(dat);
+		});
+	}
+	function selectArticle(id) {
+		$.ajax({
+            type:"POST",
+            url:"{php echo $this->createWebUrl('pcmanage',array('op'=>'addArticle','group_id'=>$id));}",
+            data:{article_id:id},
+            dataType: "json",
+            success:function(res){
+				if(res.code == '-1'){
+					util.message(res.message, '', 'error');
+					return false;
+				}else if(res.code == '0'){
+					location.reload();
+				}
+            },
+			error: function(){
+				util.message('网络繁忙，请稍后重试', '', 'error');
+            }
+         });
+	}
+	$("#search-kwd").bind("keypress", function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			searchArticle();
+		}
+	});
+</script>

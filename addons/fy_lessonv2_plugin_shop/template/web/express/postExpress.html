@@ -1,0 +1,289 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">配送方式</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 配送方式名称</label>
+					<div class="col-sm-3">
+						<input type="text" name="title" value="{$express['title']}" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 默认运费</label>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" name="price" value="{$express['price']}" class="form-control" />
+							<span class="input-group-addon">元</span>
+						</div>
+						<span class="help-block">不在下方列表里的省份将使用默认运费</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送区域</label>
+					<div class="col-sm-8">
+						<div class="express_area">
+							<table class="table table-hover">
+								<tbody>
+									<tr>
+										<th>配送到</th>
+										<th width="85">首件(x件)</th>
+										<th width="100">首件运费(元)</th>
+										<th width="85">续件(x件)</th>
+										<th width="100">续件运费(元)</th>
+										<th width="70">操作</th>
+									</tr>
+								</tbody>
+								<tbody id="list_wrap">
+									{loop $content $key $item}
+									<tr data-id="{$key}" id="area_{$key}">
+										<td class="clearfix">
+											<div class="pull-left" style="width:85%;">
+												<input type="hidden" name="area[]" value="{$item['area']}" class="input_areas">
+												<span class="span_areas">{$item['area']}</span>
+											</div>
+											<div class="pull-right">
+												<a href="javascript:;" class="label label-primary edit_area">
+													<i class="fa fa-edit"></i> 编辑
+												</a>
+											</div>
+										</td>
+										<td>
+											<input type="text" class="form-control input-sm" name="start[]" value="{$item['start']}" onkeyup="positiveInteger(this);" onBlur="positiveInteger(this);">
+										</td>
+										<td>
+											<input type="text" class="form-control input-sm" name="postage[]" value="{$item['postage']}" onkeyup="zeroAndInteger(this);" onBlur="zeroAndInteger(this);">
+										</td>
+										<td>
+											<input type="text" class="form-control input-sm" name="step[]" value="{$item['step']}" onkeyup="positiveInteger(this);" onBlur="positiveInteger(this);">
+										</td>
+										<td>
+											<input type="text" class="form-control input-sm" name="renew[]" value="{$item['renew']}" onkeyup="zeroAndInteger(this);" onBlur="zeroAndInteger(this);">
+										</td>
+										<td>
+											<a href="javascript:;" class="label label-danger delete_area">
+												<i class="fa fa-remove"></i> 删除
+											</a>
+										</td>
+									</tr>
+									{/loop}
+								</tbody>
+							</table>
+						</div>
+						<a href="javascript:;" class="btn btn-warning add_area" title="添加区域">
+							<span class="fa fa-plus"></span> 添加区域
+						</a>
+						<span class="help-block">
+							例如：<br/>
+							1、只收一次运费10元，则填写1、10、1、0；<br/>
+							2、前3件商品运费6元，每增加2件商品收3元运费，则分别填写3、6、2、3。<br/>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 状态</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="status" value="1" {if $express['status'] || empty($express)}checked{/if}> 开启</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="status" value="0" {if $express['status']=='0'}checked{/if}> 关闭</label>
+						<span class="help-block">关闭的配送方式，用户下单时不会显示</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-3">
+						<input type="text" name="displayorder" value="{$express['displayorder']}" class="form-control" />
+						<span class="help-block">序号越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<!-- 选择配送区域 -->
+<div class="modal fade in" id="areaModal" tabindex="-1">
+	<form class="form-horizontal form">
+		<div class="we7-modal-dialog modal-dialog" style="width:750px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<div class="modal-title">选择区域</div>
+				</div>
+				<div class="modal-body pad-b-0">
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="form-controls">
+								{loop $province_list $key $area}
+									<label class="radio-inline pad-l-8 w-100">
+										<input type="checkbox" value="{$key}" onclick="checkAll(this);" />
+										<span class="label-middle">{$key}</span>
+									</label>
+									<span class="area_son">
+									{loop $area $item}
+										<label class="radio-inline pad-l-8">
+											<input type="checkbox" class="province" value="{$item}" />
+											<span class="label-middle">{$item}</span>
+										</label>
+									{/loop}
+									</span>
+									<br/>
+								{/loop}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="area_id" value=""/>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="btn-area-sure">确定</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(".add_area").click(function(){
+		var number = $("#list_wrap").find('tr').length;
+		var chtml = '';
+			chtml += '<tr data-id="' + number + '" id="area_' + number + '">';
+			chtml += '	<td class="clearfix">';
+			chtml += '		<div class="pull-left" style="width:85%;">';
+			chtml += '			<input type="hidden" name="area[]" value="" class="input_areas">';
+			chtml += '			<span class="span_areas"></span>';
+			chtml += '		</div>';
+			chtml += '		<div class="pull-right">';
+			chtml += '			<a href="javascript:;" class="label label-primary edit_area">';
+			chtml += '				<i class="fa fa-edit"></i> 编辑';
+			chtml += '			</a>';
+			chtml += '		</div>';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<input type="text" class="form-control input-sm" name="start[]" value="1" onkeyup="positiveInteger(this);" onBlur="positiveInteger(this);">';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<input type="text" class="form-control input-sm" name="postage[]" value="0" onkeyup="zeroAndInteger(this);" onBlur="zeroAndInteger(this);">';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<input type="text" class="form-control input-sm" name="step[]" value="1" onkeyup="positiveInteger(this);" onBlur="positiveInteger(this);">';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<input type="text" class="form-control input-sm" name="renew[]" value="0" onkeyup="zeroAndInteger(this);" onBlur="zeroAndInteger(this);">';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<a href="javascript:;" class="label label-danger delete_area">';
+			chtml += '			<i class="fa fa-remove"></i> 删除';
+			chtml += '		</a>';
+			chtml += '	</td>';
+			chtml += '</tr>';
+
+			$("#list_wrap").append(chtml);
+	})
+
+	//编辑配送区域
+	var curr_checked = [], checked_area = {php echo json_encode($checked_area)};
+	$(document).on('click','.edit_area', function(){
+		curr_checked = [];
+
+		var id = $(this).parent().parent().parent().data('id');
+		$("#area_id").val(id);
+
+		var areas = $(this).parent().prev().find('.input_areas').val();
+		if(areas){
+			curr_checked = areas.split(",");
+		}
+
+		var checkboxs = $("#areaModal").find("input[type=checkbox]");
+		for(var i=0; i<checkboxs.length; i++){
+			if($.inArray(checkboxs[i].value, curr_checked) >= 0){
+				checkboxs[i].checked = true;
+			}else{
+				checkboxs[i].checked = false;
+			}
+		}
+		
+		$("#areaModal input.province").each(function() {
+			if($.inArray($(this).val(), curr_checked) >= 0){
+				$(this).attr("checked", true);
+				$(this).checked = true;
+			}else{
+				$(this).attr("checked", false);
+				$(this).checked = false;
+			}
+
+			if($.inArray($(this).val(), curr_checked) < 0 && $.inArray($(this).val(), checked_area) >= 0){
+				$(this).attr("disabled", true);
+			}else{
+				$(this).attr("disabled", false);
+			}
+		});
+
+		$("#areaModal").modal();
+	})
+
+	//批量选择省份
+	function checkAll(obj){
+		if($(obj).is(":checked")){
+			var checked_status = true;
+		}else{
+			var checked_status = false;
+		}
+
+		var provinces = $(obj).parent().next('.area_son').find('.province');
+		for(var i=0; i<provinces.length; i++){
+			if(provinces[i].disabled){
+				continue;
+			}
+			provinces[i].checked = checked_status;
+		}
+	}
+
+	//完成选择省份
+	$("#btn-area-sure").click(function(){
+		var areas = '';
+		$("#areaModal input.province").each(function(){
+			var cur_name = $(this).val();
+			if($(this).is(":checked")){
+				areas += cur_name + ',';
+
+				var index = $.inArray(cur_name, checked_area);
+				if(index < 0){
+					checked_area.push(cur_name);
+				}
+			}else{
+				var index = checked_area.indexOf(cur_name);
+				if(index > -1 && $(this).is(":disabled") == false){
+					checked_area.splice(index, 1);
+				}
+			}
+		})
+		areas = areas.substring(0, areas.lastIndexOf(','));
+
+		var area_id = $("#area_id").val();
+		$("#area_" + area_id).find(".input_areas").val(areas);
+		$("#area_" + area_id).find(".span_areas").text(areas);
+	})
+
+	//删除配送区域
+	$(document).on('click','.delete_area', function(){
+		$(this).parent().parent().remove();
+	})
+
+	//只能输入正整数
+	function positiveInteger(obj){
+		var resullt = $(obj).val().replace(/^(0+)|[^\d]+/g,'');
+		$(obj).val(resullt);
+	}
+	//只能输入正整数
+	function zeroAndInteger(obj){
+		var resullt = $(obj).val().replace(/^(-1+)|[^\d]+/g,'');
+		$(obj).val(resullt);
+	}
+</script>

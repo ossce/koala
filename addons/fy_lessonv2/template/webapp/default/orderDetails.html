@@ -1,0 +1,192 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; <a href="/{$uniacid}/mylesson.html" class="more ftc-414141">我的课程</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+		<div class="memberRightLayout">
+			<div class="myOrderDetailBook m-b-20">
+				<div class="thead">
+					<div class="flex flex-vc">
+						<div class="cell text-c" style="width:48%">课程信息</div>
+						<div class="cell text-c" style="width:26%">价格</div>
+						<div class="cell text-c" style="width:26%">操作</div>
+					</div>
+				</div>
+				<div class="tbody">
+					<div class="goodstInfo">
+						<ul class="flex flex-v">
+							<li class="items flex flex-vc m-b-20">
+								<div class="cell goodsName flex flex-vc" style="width:48%">
+									<a class="img" target="_blank" href="/{$uniacid}/lesson.html?id={$order['lessonid']}"><img src="{$_W['attachurl']}{$order['images']}"></a>
+									<div class="info flex flex-v">
+										<a class="name" target="_blank" href="/{$uniacid}/lesson.html?id={$order['lessonid']}">{$order['bookname']}</a>
+										<div class="spec fs-12">
+											课程规格：
+											{if $order['lesson_type']=='0' || $order['lesson_type']==3}
+												{php echo $order['spec_day']>0 ? $order['spec_day'].'天' : '长期有效';}
+											{elseif  $order['lesson_type']==1}
+												{$order['spec_name']}
+											{/if}
+										</div>
+									</div>
+								</div>
+								<div class="cell text-c fs-13" style="width:26%">¥{$order['price']}</div>
+								<div class="cell text-c" style="width:26%"><a class="fs-12" target="_blank" href="/{$uniacid}/lesson.html?id={$order['lessonid']}">查看课程</a></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="myOrderDetail m-b-20">
+				<div class="bizHeader flex flex-vc">
+					<div class="content">订单信息</div>
+				</div>
+				<div class="bizBody flex">
+					<div class="ordersInfo flex flex-v flex1">
+						<dl class="flex items">
+							<dt>订单编号：</dt>
+							<dd>{$order['ordersn']}</dd>
+						</dl>
+						<dl class="flex items">
+							<dt>订单状态：</dt>
+							<dd>{$orderStatusList[$order['status']]}</dd>
+						</dl>
+						{if $orderPaytyoeList[$order['paytype']]}
+						<dl class="flex items">
+							<dt>支付方式：</dt>
+							<dd>{$orderPaytyoeList[$order['paytype']]}</dd>
+						</dl>
+						{/if}
+						{if $order['status']==1 && $order['lesson_type']=='0'}
+						<dl class="flex items">
+							<dt>有效期：</dt>
+							<dd class="flex1">
+							{if $order['validity']!=0}
+								{php echo date('Y-m-d H:i:s', $order['validity']);}
+							{else}
+								长期有效
+							{/if}
+							</dd>
+						</dl>
+						{/if}
+						{if $order['status']==1 && $order['paytime']}
+						<dl class="flex items">
+							<dt>付款时间：</dt>
+							<dd>{php echo date('Y-m-d H:i:s' ,$order['paytime']);}</dd>
+						</dl>
+						{/if}
+						<dl class="flex items">
+							<dt>下单时间：</dt>
+							<dd>{php echo date('Y-m-d H:i:s' ,$order['addtime']);}</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+
+			{if !empty($appoint_info) && $order['lesson_type']==1}
+			<div class="myOrderDetail m-b-20">
+				<div class="bizHeader flex flex-vc">
+					<div class="content">报名课程信息</div>
+				</div>
+				<div class="bizBody flex">
+					<div class="ordersInfo flex flex-v flex1">
+					{loop $appoint_info $item}
+						<dl class="flex items">
+							<dt>{php echo explode('：', $item)[0];}：</dt>
+							<dd>{php echo explode('：', $item)[1];}</dd>
+						</dl>
+					{/loop}
+					</div>
+				</div>
+			</div>
+			{/if}
+
+			{if $order['status']>0 && $order['lesson_type']==1 && $verify_log['count'] < $order['verify_number']}
+			<div class="myOrderDetail m-b-20">
+				<div class="bizHeader flex flex-vc">
+					<div class="content">报名课程核销二维码</div>
+				</div>
+				<div class="bizBody flex">
+					<div id="verify_qrcode"></div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				jQuery('#verify_qrcode').qrcode({width: 160, height: 160, text: "{$verifyurl}"});
+			</script>
+			{/if}
+
+			{if $order['status']>=1 && $order['lesson_type']==1}
+			<div class="myOrderDetail m-b-20">
+				<div class="bizHeader flex flex-vc">
+					<div class="content">核销记录(可核销{$order['verify_number']}次)</div>
+				</div>
+				<div class="bizBody flex">
+					<div class="ordersInfo flex flex-v flex1">
+					{if $verify_log['count']}
+						{loop $verify_log $key $item}
+						<dl class="flex items">
+							<dd>{$item['log']}</dd>
+						</dl>
+						{/loop}
+					{else}
+						<dl class="flex items">
+							<dt></dt>
+							<dd>没有任何核销记录</dd>
+						</dl>
+					{/if}
+					</div>
+				</div>
+			</div>
+			{/if}
+
+			<div class="myOrderDetail m-b-20">
+				<div class="bizHeader flex flex-vc">
+					<div class="content">订单金额</div>
+				</div>
+				<div class="bizBody flex">
+					<div class="ordersInfo flex flex-v flex1">
+						
+					</div>
+
+					<div class="balanceInfo">
+						<ul class="flex flex-v">
+							<li class="items flex flex-vc">
+								<span class="tit">积分抵扣数量：</span>
+								<span class="price">{$order['deduct_integral']}</span>
+							</li>
+							<li class="items flex flex-vc">
+								<span class="tit">优惠券抵扣：</span>
+								<span class="price">- ¥{$order['coupon_amount']}</span>
+							</li>
+							<li class="items flex flex-vc">
+								<span class="tit">VIP折扣：</span>
+								<span class="price">- ¥{$order['vip_discount']}</span>
+							</li>
+						</ul>
+						<div class="hr"></div>
+						<div class="payPrice">
+							<span class="tit">实际支付：</span>
+							<span class="price allPrice">
+								<span class="yuan">¥{$order['price']}</span>
+							</span>
+						</div>
+						{if $order['status']==0}
+						<div class="otherHandle">
+							<div class="btns">
+								<a href="/{$uniacid}/mylesson.html?op=cancel&status=&orderid={$order['id']}" class="miBtn mr10 btn-ghost" onclick="return confirm('确定取消订单?');">取消订单</a>
+								<a href="/{$uniacid}/payment.html?orderid={$order['id']}&ordertype=buylesson" class="btn-primary miBtn">付款</a>
+							</div>
+						</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

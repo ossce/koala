@@ -1,0 +1,92 @@
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="market" />
+                <input type="hidden" name="op" value="couponLog" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">用户ID</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="uid" type="text" value="{$_GPC['uid']}" />
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if in_array($_GPC['status'],array('0'))} selected="selected" {/if}>未使用</option>
+							<option value="1" {if $_GPC['status'] == 1} selected="selected" {/if}>已使用</option>
+                            <option value="-1" {if $_GPC['status'] == -1} selected="selected" {/if}>已过期</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">来源</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="source" class="form-control">
+                            <option value="">不限</option>
+							{loop $source $key $item}
+							<option value="{$key}" {if $_GPC['source']=="$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">添加时间</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        {php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:8%;">用户ID</th>
+                    <th style="width:16%;">昵称/手机号码</th>
+					<th style="width:12%;">优惠券面值</th>
+                    <th style="width:20%;">使用条件</th>
+                    <th style="width:15%;">有效期</th>
+					<th style="width:10%;">状态</th>
+					<th style="width:15%;">领取时间</th>
+                    <th style="text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+                    <td>{$item['uid']}</td>
+					<td>{$item['nickname']}<br/>{$item['mobile']}</td>
+					<td>{$item['amount']}元</td>
+                    <td>订单满{$item['conditions']}元<br/>{$item['category_name']}可用</td>
+                    <td>{php echo date('Y-m-d H:i', $item['validity'])}</td>
+					<td>
+						{if $item['status']==0}
+							<span class="label label-success">未使用</span>
+						{elseif $item['status']==1}
+							<span class="label label-danger">已使用</span>
+						{elseif $item['status']==-1}
+							<span class="label label-default">已过期</span>
+						{/if}
+					</td>
+                    <td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('market', array('op' => 'couponDetail', 'id' => $item['id']))}" title="查看"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>

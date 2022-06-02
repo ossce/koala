@@ -1,0 +1,119 @@
+<div class="main">
+	<div class="panel panel-default">
+        <div class="panel-heading">
+			订单统计
+			<span style="margin-left:10px;">未付款：{$waitPay_amount}</span>
+			<span style="margin-left:10px;">待发货：{$waitSend_amount}</span>
+			<span style="margin-left:10px;">待收货：{$waitReceive_amount}</span>
+			<span style="margin-left:10px;">已完成：{$complete_amount}</span>
+		</div>
+			<div class="panel-body">
+				<form id="viewForm" method="get" class="form-horizontal">
+					<input type="hidden" name="c" value="site" />
+					<input type="hidden" name="a" value="entry" />
+					<input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop" />
+					<input type="hidden" name="do" value="statis" />
+					<input type="hidden" name="statis_type" value="1" />
+
+					<div class="btn-group-sub we7-margin-top statis-type-content" style="margin:10px !important;">
+						统计类型：
+						<a href="javascript:;" data-id="1" class="btn {if $statis_type==1}active{/if}" style="margin-right:0px;">订单金额(元)</a>
+						<a href="javascript:;" data-id="2" class="btn {if $statis_type==2}active{/if}" style="margin:0 15px 0 10px;">订单积分</a>
+					</div>
+					<input name="time[start]" type="hidden" value="{php echo date('Y-m-d',$starttime);}">
+					<input name="time[end]" type="hidden" value="{php echo date('Y-m-d',$endtime);}">
+					<button class="btn btn-default daterange daterange-date" type="button"><span class="date-title">{php echo date('Y-m-d',$starttime);} 至 {php echo date('Y-m-d',$endtime);}</span> <i class="fa fa-calendar"></i></button>
+				</form>
+				<div id="dataView" style="min-width:800px;height:500px;margin-top:20px;"></div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('dataView')); 
+	var option = {
+		title: {
+			text: '订单统计'
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		legend: {
+			data:['待付款', '待发货', '待收货', '已完成']
+		},
+		toolbox: {
+			feature: {
+				saveAsImage: {}
+			}
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: {php echo json_encode($datas)}
+		},
+		yAxis: {
+			type: 'value'
+		},
+		series: [
+			{
+				name:'待付款',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($waitPay)}
+			},
+			{
+				name:'待发货',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($waitSend)}
+			},
+			{
+				name:'待收货',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($waitReceive)}
+			},
+			{
+				name:'已完成',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($complete)}
+			}
+		]
+	}; 
+    myChart.setOption(option); 
+</script>
+
+<script type="text/javascript">
+	$(".statis-type-content a").click(function(){
+		var id = $(this).data('id');
+		$("input[name=statis_type]").val(id);
+		$("#viewForm").submit();
+	})
+
+
+	require(["daterangepicker"], function(){
+		$('.daterange').on('apply.daterangepicker', function() {
+			$("#viewForm").submit();
+		});
+		$(function(){
+			$(".daterange.daterange-date").each(function(){
+				var elm = this;
+				$(this).daterangepicker({
+					startDate: $(elm).prev().prev().val() || moment("不限", "Y"),
+					endDate: $(elm).prev().val() || moment("不限", "Y"),
+					format: "YYYY-MM-DD",
+					clear: 1
+				}, function(start, end){
+					start = start.toDateStr().indexOf("0000-01-01") != -1 ? "" : start.toDateStr();
+					end = end.toDateStr().indexOf("0000-01-01") != -1 ? "" : end.toDateStr();
+					var html = (start == "" ? "不限时间" : start) + (start == "" && end === "" ? "" : (" 至" + end))
+					$(elm).find(".date-title").html(html);
+					$(elm).prev().prev().val(start);
+					$(elm).prev().val(end);
+				});
+			});
+		});
+	});
+</script>

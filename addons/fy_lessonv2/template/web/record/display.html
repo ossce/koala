@@ -1,0 +1,116 @@
+<div class="main">
+	<div class="alert alert-warning">
+	    会员最近学习记录为非严格精确统计数据，每分钟记录一次，图文章节单次最多仅记录10分钟(超过不再记录)，数据仅供作为参考，请您知悉。
+	</div>
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="" method="get" class="form-horizontal form" enctype="multipart/form-data" onkeydown="if(event.keyCode==13){return false;}">
+				<input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="record" />
+                <input type="hidden" name="op" value="display" />
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">课程名称</label>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class='input-group'>
+                            <input type="text" name="bookname_kwd" id="bookname" maxlength="30" class="form-control" value="{$_GPC['bookname_kwd']}" readonly />
+							<input type="hidden" id="lessonid" name="lessonid" value="{$_GPC['lessonid']}"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="$('#modal-select-lesson').modal();">选择课程</button>
+                            </div>
+                        </div>
+						{template 'web/_searchLessonModal'}
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">选择用户</label>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class='input-group'>
+                            <input type="text" name="member_kwd" id="nickname" maxlength="30" class="form-control" value="{$_GPC['member_kwd']}" readonly />
+							<input type="hidden" id="uid" name="uid" value="{$_GPC['uid']}"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="$('#modal-select-member').modal();">选择用户</button>
+                            </div>
+                        </div>
+						{template 'web/_searchMemberModal'}
+                    </div>
+                </div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">学习时间</label>
+                    <div class="col-sm-3 col-lg-3">
+                        {php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">课程类型</label>
+					<div class="col-sm-3 col-lg-3">
+						<label class="radio-inline"><input type="radio" name="live_type" value="1" {if  $_GPC['live_type']}checked{/if}>直播课程</label>&nbsp;&nbsp;
+						<label class="radio-inline"><input type="radio" name="live_type" value="0" {if !$_GPC['live_type']}checked{/if}>录播课程</label>
+					</div>
+					<div class="col-sm-3 col-lg-3">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+					</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <form action="" method="post" class="form-horizontal form" >
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="width:25%;">课程章节</th>
+						<th style="width:10%;">最长学习时间</th>
+						<th style="width:10%;">学习次数</th>
+						<th style="width:15%;">昵称/姓名/手机号</th>
+						<th style="width:15%;">开始学习时间</th>
+						<th style="width:15%;">结束学习时间</th>
+						<th style="width:10%;">学习进度</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td>
+							<span data-toggle="tooltip" data-placement="bottom" data-original-title="记录ID：{$item['id']}">
+								《{$item['bookname']}》<br/>{$item['title']}
+							</span>
+						</td>
+						<td>{$item['play_length']}</td>
+						<td>{$item['playcount']} 次</td>
+						<td>{$item['user']['nickname']}<br/>{$item['user']['realname']}，{$item['user']['mobile']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $item['addtime']);}</td>
+						<td>{php echo date('Y-m-d H:i:s', $item['addtime']+$item['playtime']);}</td>
+						<td>{$item['progress']}%</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				{$pager}
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	//选择课程
+	function selectLesson(obj) {
+		$("#bookname").val(obj.bookname);
+		$("#lessonid").val(obj.id);
+		$("#modal-select-lesson-close").click();
+	}
+	
+	//选择用户
+	function selectMember(obj) {
+		var select_uid = $(obj).data('uid');
+		var select_nickname = $(obj).data('nickname');
+
+		$("#nickname").val(select_nickname);
+		$("#kmember").val(select_nickname);
+		$("#uid").val(select_uid);
+	}
+</script>

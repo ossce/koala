@@ -1,0 +1,135 @@
+<style type="text/css">
+.navigation{height: 200px; overflow-y: auto;}
+.navigation-ul li{float:left;}
+.navigation-ul .name{width: 10%; text-align: right;}
+.navigation-ul .link{width: 88%;}
+</style>
+<div class="main">
+	<div class="alert alert-info navigation">
+		<ul class="navigation-ul">
+			<li class="name">首 页：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/index.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">全部课程：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/search.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">VIP会员：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/vip.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">我的课程：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/mylesson.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">个人中心：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/self.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">讲师列表：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/teacherlist.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">我的足迹：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/history.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">收藏课程：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/collect.html?type=1';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">收藏讲师：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/collect.html?type=2';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">学习时长：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/studyduration.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">优惠券：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/getcoupon.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">推广海报：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/qrcode.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">公告列表：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/article.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">每日签到：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/signin.html';}</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">关于我们：</li>
+			<li class="link">{php echo $setting_pc['site_root'].$uniacid.'/about.html';}</li>
+			<div class="clear"></div>
+		</ul>
+	</div>
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $_GPC['nav_id']}修改{else}添加{/if}导航栏</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航栏位置</label>
+                    <div class="col-sm-3">
+						<select name="location" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $nav_location $key $item}
+								<option value="{$key}" {if $navigation['location'] == "$key"}selected="selected"{/if}>{$item}</option>
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="nav_name" class="form-control" value="{$navigation['nav_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">导航图标</label>
+					<div class="col-sm-9">
+                        {php echo tpl_form_field_image('icon', $navigation['icon'])}
+						<span class="help-block">非必选项目，建议尺寸28px * 20px，可根据实际情况微调尺寸</span>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="url_link" class="form-control" value="{$navigation['url_link']}">
+						<span class="help-block">链接请以http://或https://开头</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$navigation['displayorder']}">
+						<span class="help-block">序号越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="nav_id" value="{$nav_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>

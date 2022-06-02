@@ -1,0 +1,10 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<ul class="nav nav-tabs">
+	<li {if $op=='display' || $op=='detail'}class="active"{/if}><a href="{php echo $this->createWebUrl('viporder', array('status'=>1));}">VIP订单管理</a></li>
+	<li {if $op=='vipMember'}class="active"{/if}><a href="{php echo $this->createWebUrl('viporder', array('op'=>'vipMember'));}">VIP会员管理</a></li>
+	<li {if $op=='vipservice' || $op=='vipLevel'}class="active"{/if}><a href="{php echo $this->createWebUrl('viporder', array('op'=>'vipservice'));}">VIP等级服务设置</a></li>
+	<li {if $op=='vipcard' || $op=='addVipCode'}class="active"{/if}><a href="{php echo $this->createWebUrl('viporder',array('op'=>'vipcard'));}">VIP服务卡</a></li>
+	<li {if $op=='createOrder'}class="active"{/if}><a href="{php echo $this->createWebUrl('viporder',array('op'=>'createOrder'));}">创建会员服务</a></li>
+</ul>
+
+{template 'web/_loadingToast'}

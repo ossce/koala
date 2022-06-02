@@ -1,0 +1,58 @@
+<style type="text/css">
+.form-controls{display: inline-block; width:70px;}
+.cblock{display:block !important;}
+.cnone{display:none !important;}
+</style>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css?v={$versions}">
+<div class="main">
+    <div class="category">
+        <form action="" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body">
+					<div class="dd" id="div_nestable" style="width:600px;">
+						<ol class="dd-list">
+						{loop $recommend $key $row}
+							 <li class="dd-item" onclick="{$row['id']}">
+								<div class="dd-handle" style="width:100%;">
+								    <input type="text" class="form-control form-controls" name="displayorder[{$row['id']}]" value="{$row['displayorder']}" style="padding-left:5px;">
+									&nbsp;[ID：{$row['id']}]{$row['rec_name']}
+									{if $row['is_show']}
+										<span class="label label-success">显示</span>
+									{else}
+										<span class="label label-danger">隐藏</span>
+									{/if}
+									<span class="pull-right">
+										<a href="javascript:;" style="margin-right:10px;">
+											<img src="{MODULE_URL}static/web/images/reclesson_{$row['show_style']}.png" width="30" height="30"  data-toggle="tooltip" data-placement="bottom" data-original-title="{$styleList[$row['show_style']]}">
+										</a>
+										<div class="btn-group btn-group-sm">
+											<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;"> 操作栏目 <span class="caret"></span></a>
+											<ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 99999'>
+												<li><a href="{php echo $this->createWebUrl('recommend', array('op' => 'post', 'id' => $row['id']))}" title="修改板块"><i class="fa fa-pencil"></i> 修改推荐板块</a></li>
+												<li><a href="{php echo $this->createWebUrl('recommend', array('op' => 'details', 'recid' => $row['id']))}" title="查看栏目课程"><i class="fa fa-plus"></i> 查看栏目课程</a></li>
+												<li><a href="{php echo $this->createWebUrl('recommend', array('op' => 'delete', 'id' => $row['id']))}" title="删除推荐板块" onclick="return confirm('该操作无法撤销恢复，确定删除?');"><i class="fa fa-remove"></i> &nbsp;删除推荐板块</a></li>
+											</ul>
+										</div>
+									</span>
+								</div>
+							 </li>
+						{/loop}
+						</ol>
+						<table class="table">
+							 <tbody>
+								 <tr>
+									 <td>
+										 <a class="btn btn-success" href="{php echo $this->createWebUrl('recommend', array('op'=>'addtorec'));}"><i class="fa fa-plus"></i> 添加推荐课程</a>&nbsp;&nbsp;
+										 <input name="submit" type="submit" class="btn btn-primary" value="批量排序">
+										 <input type="hidden" name="token" value="{$_W['token']}">
+									 </td>
+								 </tr>
+							 </tbody>
+						</table>
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,156 @@
+<!-- 
+ * 优惠券管理
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/getcoupon.css?v={$versions}" rel="stylesheet"/> 
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if !empty($list)}
+	<div class="tab-panel">
+		<div class="tab-panel-item tab-active">
+			<div class="tab-item" id="couponList">
+			</div>
+		</div>
+	</div>
+
+	{if !empty($coupon_desc)}
+	<div class="info">
+		<div class="title">
+			<div class="ico"><i class="fa fa-cubes"></i></div>
+			<div class="text">{$coupon_desc[0]}</div>
+		</div>
+		<div class="con">
+			{loop $coupon_desc $key $item}
+			{if $key>0}
+			<div class="line">
+				<div class="t2">
+					<div class="t3">{$item}</div>
+				</div>
+			</div>
+			{/if}
+			{/loop}
+		</div>
+	</div>
+	{/if}
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+{else}
+	<div class="my_empty">
+		<div class="empty_bd  my_course_empty">
+			<h3>没有任何优惠券可领取~</h3>
+		</div>
+	</div>
+{/if}
+
+
+<script type="text/javascript">
+	var ajaxurl = "{php echo $this->createMobileUrl('getcoupon');}";
+	var attachurl = "{php echo $_W['attachurl'];}";
+	var loadingToast = document.getElementById("loadingToast");
+	var get_status = true; //允许获取状态
+
+	$(function() {
+		var nowPage = 1;
+		function getData(page) {
+			if(get_status){
+				nowPage++;
+				$.get(ajaxurl, {
+					page: page,
+					status: status
+				}, function(data) {
+					loadingToast.style.display = 'none';
+				
+					var jsonObj = JSON.parse(data);
+					if (jsonObj.length > 0) {
+						insertDiv(jsonObj);
+					}else{
+						get_status = false;  //没有数据后，禁止请求获取数据
+						document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+					}
+				});
+			}
+		}
+		
+		getData(1);//初始化加载第一页数据
+
+		//生成数据html,append到div中  
+		function insertDiv(result) {
+			var mainDiv = $("#couponList");
+			var chtml = '';
+			for(var j = 0; j < result.length; j++) {
+				chtml += '<div class="aui-flex aui-vou-content">';
+				chtml += '	<div class="aui-flex-box">';
+				chtml += '		<a href=" ' +result[j].coupon_link+ ' " class="aui-flex">';
+				chtml += '			<div class="aui-flex-cp-img">';
+				chtml += '				<img src="' +attachurl+result[j].images+ '" alt="' +result[j].name+ '">';
+				chtml += '			</div>';
+				chtml += '			<div class="aui-flex-box">';
+				chtml += '				<h2>[' +result[j].name+ ']<br/>' +result[j].category_name+ '</h2>';
+				chtml += '				<p><i>￥</i>' +parseInt(result[j].amount)+ '<em>'+result[j].conditions+'</em></p>';
+				chtml += '			</div>';
+				chtml += '		</a>';
+				chtml += '	</div>';
+				chtml += '	<div class="aui-vou-button">';
+				chtml += '		<p>已抢' + result[j].already_per + '</p>';
+				chtml += '		<div class="aui-Speed">';
+				chtml += '			<div class="aui-Speed-top" style="width:'+result[j].already_per + '"></div>';
+				chtml += '		</div>';
+				if(result[j].is_end==1){
+					chtml += '		<button class="aui-vou-btn-der aui-vou-btn-gray-one">已抢完</button>';
+				}else{
+					chtml += '		<button class="aui-vou-btn-der aui-vou-btn-der-one" onclick="exchange('+result[j].id+','+ result[j].exchange_integral +');">立即领取</button>';
+				}
+				chtml += '	</div>';
+				chtml += '</div>';
+			}
+			mainDiv.append(chtml);
+		}
+
+		//定义鼠标滚动事件
+		var scroll_loading = false;
+		$(window).scroll(function(){
+		　　var scrollTop = $(this).scrollTop();
+		　　var scrollHeight = $(document).height();
+		　　var windowHeight = $(this).height();
+		　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+				scroll_loading = true;
+				getData(nowPage);  
+				scroll_loading = false;
+		　　}
+		});
+		$("#btn_Page").click(function () {
+			loadingToast.style.display = 'block';
+			getData(nowPage);
+		});
+	});
+	function exchange(id, integral){
+		var setTitle = '系统提示';
+		if(integral > 0){
+			var setContents = '确定使用 <span style="color:red;font-weight:bold;">'+ integral +'</span> 积分兑换该优惠券?';
+		}else{
+			var setContents = '确定免费兑换该优惠券?';
+		}
+		
+		var setButton = '["取消","确定"]';
+		var setCancelUrl = 'javascript:;';
+		var setConfirmUrl = "{php echo $this->createMobileUrl('getcoupon', array('op'=>'getcoupon'));}&id="+id;
+		$(this).openWindow(setTitle,setContents,setButton,setCancelUrl,setConfirmUrl);
+	}
+</script>
+
+{template $template.'/_footerv2'}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		{if !empty($title)}
+			{$title} - {$setting_pc['sitename']}
+		{elseif empty($title) && !empty($setting_pc['sitename'])}
+			{$setting_pc['sitename']}
+		{elseif empty($title) && empty($setting_pc['sitename'])}
+			微课堂
+		{/if}
+	</title>
+	<meta name="keywords" content="{php echo $seo['keywords'] ? $seo['keywords'] : $setting_pc['keywords'];}">
+	<meta name="description" content="{php echo $seo['description'] ? $seo['description'] : $setting_pc['description'];}">
+
+	{if $setting_pc['favicon_icon']}
+	<link rel="shortcut icon" href="{$_W['attachurl']}{$setting_pc['favicon_icon']}" />
+	{/if}
+	<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/base.css?v={$versions}">
+	<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/index.css?v={$versions}">
+	<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/rightBar.css?v={$versions}">
+	<link rel="stylesheet" href="{MODULE_URL}static/public/iconfont/iconfont.css?v={$versions}"/>
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/jquery-1.11.3.min.js?v={$versions}"></script>
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/banner.index.js"></script>
+
+	<link rel="stylesheet" href="{MODULE_URL}static/public/sweetalert/sweetalert.css?v={$versions}">
+	<script type="text/javascript" src="{MODULE_URL}static/public/sweetalert/sweetalert.min.js?v={$versions}"></script>
+	{if $_GPC['do'] != 'index'}
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/common.js?v={$versions}"></script>
+	{/if}
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/jquery.qrcode.min.js"></script>
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/jquery.lazyload.js?v={$versions}"></script>
+	<script type="text/javascript" src="{MODULE_URL}static/webapp/{$template}/js/base.js?v={$versions}"></script>
+	<script type="text/javascript">
+		window.pageinfo = {
+			'uid': "{php echo $_SESSION['fy_lessonv2_'.$uniacid.'_uid']}",
+			'uniacid': "{$uniacid}",
+			'refurl' : "{php echo urlencode($current_url);}",
+		};
+		//图片延迟加载
+		$(document).ready(function(){ 
+			$("img.lazy").lazyload({
+				effect:"fadeIn"
+			});
+		});
+	</script>
+	<style type="text/css">
+	{$setting_pc['front_css']}
+	</style>
+</head>
+
+<body>
+<div class="w-all w-minw bd-sd-b hg-45 bg-c-ffffff">
+    <div class="w-main m-auto"> 
+        <div class="fl">
+			<a href="/{$uniacid}/index.html" class="dsblock fl fs-12 ftc-000000 line-h45 more">首页</a> 
+			<div class="hover-topnav fl m-l-45">
+                <div class="dh_nav fl fs-12 ftc-000000 line-h45">
+					<span class="dsblock hg-45">
+						<i class="p-l-15 ql_icon dh_topnav hg-45 fl"></i>导航
+					</span>
+                    <ul class="dh_nav_sub bg-c-ffffff bd-sd-b">
+                        {loop $menu_navigation $item}
+						<li>
+							<a href="{$item['url_link']}" class="more" target="_blank"><i class="ql_icon"></i>{$item['nav_name']}</a>
+						</li>
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+            </div>
+			{if $setting_pc['mobile_qrcode']}
+            <div class="hover-topnav fl m-l-45">
+                <div class="dh_nav fl fs-12 ftc-000000 line-h45">
+					<span class="dsblock hg-45"><i class="p-l-15 ql_icon top_wapewem hg-45 fl"></i>手机版</span>
+                    <div class="top_wap_ewem bg-c-ffffff bd-sd-b">
+						<img src="{$_W['attachurl']}{$setting_pc['mobile_qrcode']}" width="100" alt="手机版二维码"/>
+                        <p class="w-all fs-13 text-c line-h25">微信扫一扫</p>
+                    </div>
+                </div>
+            </div>
+			{/if}
+			<div class="w-609 hg-45 ovhidden">
+				{loop $top_navigation $item}
+				<a href="{$item['url_link']}" target="_blank" class="dsblock fl fs-12 ftc-000000 line-h45 m-l-45 more">{$item['nav_name']}</a>
+				{/loop}
+			</div>
+        </div>
+        <div class="fr">
+			{if $_SESSION['fy_lessonv2_'.$uniacid.'_uid']}
+				<span class="fs-12 ftc-000000 line-h45 fl">欢迎回来，</span>
+				<div class="hover-ucenter fl">
+					<div class="top_ucenter fl fs-12 line-h45">
+						<a href="/{$uniacid}/self.html" class="dsblock hg-45 ftc-e9511b">
+							{php echo $_SESSION['fy_lessonv2_'.$uniacid.'_nickname']}<i class="iconfont icon-pull-down vertical-middle"></i>
+						</a>
+						<ul class="top_ucenter_list bg-c-ffffff bd-sd-b">
+							<li>
+								<a href="/{$uniacid}/coupon.html">优惠券</a>
+								<a href="/{$uniacid}/myvip.html">我的VIP</a>
+								<a href="/{$uniacid}/history.html">学习记录</a>
+								<a href="/{$uniacid}/self.html">个人中心</a>
+							</li>
+							<div class="clear"></div>
+						</ul>
+					</div>
+				</div>
+
+				<a href="/{$uniacid}/logout.html" class="fs-12 ftc-000000 line-h45 m-l-4 more">[退出]</a>
+			{else}
+				<a class="fs-12 ftc-000000 line-h45 go-login more" href="/{$uniacid}/login.html?refurl={php echo urlencode($current_url);}">
+					<i class="iconfont icon-member p-l-20 hg-45 fl m-r-6"></i>您好，请登录
+				</a>
+				<span class="fs-12 ftc-000000 line-h45 m-l-15">|</span>
+			{/if}
+			<div class="fr m-l-15">
+                <div class="my-lesson">
+                    <a href="/{$uniacid}/mylesson.html" class="fl fs-12 ftc-000000 line-h45"><i class="iconfont icon-play1 m-r-4"></i>课程订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+
+{if !in_array($_GPC['do'], $self_do)}
+	<div class="w-main m-auto m-t-37 m-b-25 ovhidden"> 
+		<a href="/{$uniacid}/index.html" class="logo fl"><img src="{$_W['attachurl']}{$setting_pc['logo']}" width="240" height="70" alt="logo"/></a> 
+		<div class="search w-540 m-l-115 m-t-15 fl">
+			<form class="w-540 search-form">
+				<select name="search_type" class="p-l-15 bd-2s-e9511b  line-h35 hg-39 fs-14 fl">
+					<option value="1" {if $_GPC['do']!='teacherlist'}selected{/if}>课程</option>
+					<option value="2" {if $_GPC['do']=='teacherlist'}selected{/if}>讲师</option>
+				</select>
+				<input class="p-l-15 bd-2s-e9511b w-360 line-h35 hg-35 fs-14 fl bd-n-left" type="text" name="keyword" id="search_keywords" value="{$_GPC['keyword']}" autocomplete="on">
+				<button type="button" class="w-85 line-h39 hg-39 fs-16 ftc-ffffff bg-c-e9511b fl curpter text-c" id="btn-search">搜索</button>
+				<div class="clear"></div>
+			</form>
+			<div class="w-540 hg-30 fl">
+				{loop $hot_search $item}
+				<a href="/{$uniacid}/search.html?keyword={$item}" class="dsblock fs-12 ftc-8b8b8b line-h30 fl m-r-20">{$item}</a>
+				{/loop}
+				<div class="clear"></div>
+			</div>
+		</div>
+		{if $setting_pc['service_right_pic']}
+		<div class="fr">
+			<a {if $setting_pc['service_right_url']}href="{$setting_pc['service_right_url']}"{/if}>
+				<img src="{$_W['attachurl']}{$setting_pc['service_right_pic']}" width="200" height="70"/>
+			</a>
+		</div>
+		{/if}
+	</div>
+
+	<div class="w-all w-minw hg-60 bg-c-ffffff ql_webnav {if $_GPC['do'] != 'index'}bd-bs-e9511b{/if}">
+		<div class="w-main m-auto ps-r hg-60"> 
+			<div class="hc_lnav jslist">
+				<div class="allbtn">
+					<h2><a href="/{$uniacid}/search.html">全部课程分类</a></h2>
+					<ul style="width:250px" class="jspop box {if $_GPC['do'] == 'index'}index-menu-display{/if}">
+					{loop $categorylist $key $cat_parent}
+						{if 5>$key}
+						<li class="a1">
+							<div class="tx">
+								<a href="/{$uniacid}/search.html?pid={$cat_parent['id']}">{$cat_parent['name']}</a>
+							</div>
+							<dl>
+								<dd class="main-area">
+									{loop $cat_parent['child'] $cat_child}
+									<a href="/{$uniacid}/search.html?pid={$cat_parent['id']}&cid={$cat_child['id']}">{$cat_child['name']}</a>
+									{/loop}
+									<div class="clear"></div>
+								</dd>
+							</dl>
+							<div class="pop">
+								<dl>
+									<dt>
+										<a href="/{$uniacid}/search.html?pid={$cat_parent['id']}">{$cat_parent['name']} ></a>
+									</dt>
+									<dd>
+										{loop $cat_parent['child'] $key2 $cat_child}
+										<a class="ui-link {if (($key2 < count($cat_parent['child'])) && ($key2+1)%3==0) || ($key2==count($cat_parent['child'])-1)}no-border{/if}" href="/{$uniacid}/search.html?pid={$cat_parent['id']}&cid={$cat_child['id']}">{$cat_child['name']}</a>
+										{/loop}
+									</dd>
+								</dl>
+								<div class="clear"></div>
+							</div>
+						</li>
+						{/if}
+					{/loop}
+					</ul>
+				</div>
+			</div>
+			<ul class="w-950 hg-60 ql_nav">			
+				{loop $menu_navigation $item}
+				<li>
+					<a href="{$item['url_link']}" class="ql_navigation {if $_GPC['do']==$item['action']}cur{/if}" {if $item['icon']}style="background-image:url({$_W['attachurl']}{$item['icon']});"{/if}>{$item['nav_name']}</a>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+	</div>
+{else}
+	<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/member.css?v={$versions}">
+{/if}

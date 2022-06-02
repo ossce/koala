@@ -1,0 +1,116 @@
+.video-wrap{
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.fylesson_audio{
+	width:98%;
+	margin:0 auto 0 auto;
+	padding: 0;
+}
+
+.fylesson_audio .audio-wrapper {
+    background-color: #fcfcfc;
+    margin: 10px auto;
+    height: 80px;
+    color: #3e3e3e;
+	border-radius: 13px;
+}
+
+.fylesson_audio .audio-left {
+	display: flex;
+	position: relative;
+    float: left;
+    text-align: center;
+    width: 130px;
+    height: 80px;
+	background-repeat: no-repeat;
+    background-size: cover;
+	border-radius: 13px;
+}
+
+.fylesson_audio .audio-left .playing {
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+}
+
+.fylesson_audio .audio-left .audio-bg-img{
+	width: 130px;
+	height: 80px;
+	display: block;
+}
+
+.fylesson_audio .audio-left .audio-control {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 10px;
+    left: 35px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+}
+
+.fylesson_audio .audio-right {
+    height: 100%;
+	margin-left: 140px;
+	margin-right: 10px;
+}
+
+.fylesson_audio .audio-right p {
+    font-size: 12px;
+    height: 35%;
+    margin: 10px 0 2px 0;
+    /* 歌曲名称只显示在一行，超出部分显示为省略号 */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 243px;   /* 要适配小屏幕手机，所以最大宽度先设小一点，后面js根据屏幕大小重新设置 */
+	padding-top: 10px;
+}
+
+.fylesson_audio .progress-bar-bg {
+    background-color: #d9d9d9;
+    position: relative;
+    height: 4px;
+    cursor: pointer;
+	margin-left: 5px;
+}
+
+.fylesson_audio .progress-bar {
+    background-color: #f65953;
+    width: 0;
+    height: 4px;
+}
+
+.fylesson_audio .progress-bar-bg span {
+    content: " ";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background-color: #f65953;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -5px;
+    margin-left: -5px;
+    cursor: pointer;
+}
+
+.fylesson_audio .audio-time {
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.fylesson_audio .audio-length-total {
+    float: right;
+    font-size: 12px;
+	color: #777;
+}
+
+.fylesson_audio .audio-length-current {
+    float: left;
+    font-size: 12px;
+	color: #777;
+}

@@ -1,0 +1,151 @@
+<script>
+    Diy.Editor.defaultData.search = {
+        style: {
+            background: '#fd5a45',
+            input_background: '#FFFFFF',
+            text_color: '#8E8E93',
+            input_placeholder: '搜索商品',
+            vertical_padding: '0px',
+            horizontal_padding: '2px',
+            searchbar_radius: '22px',
+			icon_category: '{MODULE_URL}static/web/diy/img/icon-top-category.png',
+			category_link: '{$_W[siteroot]}app/index.php?i={$uniacid}&c=entry&do=shopcategory&m=fy_lessonv2_plugin_shop',
+			icon_search: '{MODULE_URL}static/web/diy/img/icon-top-search.png',
+			icon_cart: '{MODULE_URL}static/web/diy/img/icon-top-cart.png',
+			cart_link: '{$_W[siteroot]}app/index.php?i={$uniacid}&c=entry&do=shopcart&m=fy_lessonv2_plugin_shop',
+        }
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="search">
+    <div class="editor-search">
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#fd5a45').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">输入框背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.input_background %>" data-type="style" data-key="input_background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">文字颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.text_color %>" data-type="style" data-key="text_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#8E8E93').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">提示语</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.input_placeholder %>" placeholder="请输入关键字" data-type="style" data-key="input_placeholder" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">搜索框圆角</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.searchbar_radius %>" data-type="style" data-key="searchbar_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.searchbar_radius %>" data-unit="px" data-min="0" data-max="50" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.searchbar_radius %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">分类图标</div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.icon_category %>" data-type="style" data-key="icon_category" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.icon_category %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="icon_category" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">分类链接</div>
+            <div class="col-sm-10">
+				<div class="input-group">
+					<input type="text" class="form-control input-sm input_binding" value="<%= style.category_link %>" data-type="style" data-key="category_link" data-name="<%= name %>" data-guid="<%= guid %>">
+					<span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+				</div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">搜索图标</div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.icon_search %>" data-type="style" data-key="icon_search" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.icon_search %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="icon_search" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">购物车图标</div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.icon_cart %>" data-type="style" data-key="icon_cart" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.icon_cart %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="icon_cart" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">购物车链接</div>
+            <div class="col-sm-10">
+				<div class="input-group">
+					<input type="text" class="form-control input-sm input_binding" value="<%= style.cart_link %>" data-type="style" data-key="cart_link" data-name="<%= name %>" data-guid="<%= guid %>">
+					<span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+				</div>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,233 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/evaluate.css?v={$versions}">
+
+<div class="m-auto w-1200">
+	<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/mylesson.html" class="more ftc-414141">课程订单</a> &gt; 评价订单
+	</div>
+	<div class="myevaluate">
+		<div class="evaluate-form">
+			<div class="f-item f-goods">
+				<div class="fi-info">
+					<div class="comment-goods">
+						<div class="p-img">
+							<a href="/{$uniacid}/lesson.html?id={$order['lessonid']}" target="_blank">
+								<img src="{$_W['attachurl']}{$order['images']}" height="100">
+							</a>
+						</div>
+						<div class="p-name">
+							<a href="/{$uniacid}/lesson.html?id={$order['lessonid']}" target="_blank">{$order['bookname']}</a>
+						</div>
+						<div class="p-price"><strong>¥{$order['price']}</strong></div>
+						<div class="p-attr">
+							课程规格：
+							{if $order['lesson_type']==1}
+								{$order['spec_name']}
+							{elseif $order['lesson_type']==0}
+								{if $order['spec_day']>0}
+									{$order['spec_day']} 天
+								{else}
+									长期有效
+								{/if}
+							{/if}
+						</div>
+					</div>
+				</div>
+				<div class="fi-operate">
+					<div class="fop-item fop-star z-tip-warn">
+						<div class="fop-label">{php echo $evaluate_page['grade'] ? $evaluate_page['grade'] : '总体评价';}</div>
+						<div class="fop-main">
+							<div class="fl m-r-20">
+								<label for="grade1">
+									<input type="radio" id="grade1" name="grade" value="1"/> <img src="{MODULE_URL}static/webapp/default/images/oc-h.png"/>
+								</label>
+							</div>
+							<div class="fl m-r-20">
+								<label for="grade2">
+									<input type="radio" id="grade2" name="grade" value="2"/> <img src="{MODULE_URL}static/webapp/default/images/oc-z.png"/>
+								</label>
+							</div>
+							<div class="fl m-r-20">
+								<label for="grade3">
+									<input type="radio" id="grade3" name="grade" value="3"/> <img src="{MODULE_URL}static/webapp/default/images/oc-c.png"/>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="fop-item fop-star z-tip-warn">
+						<div class="fop-label">{php echo $evaluate_page['global_score'] ? $evaluate_page['global_score'] : '综合评分';}</div>
+						<div id="global_score" currentIndex="0" class="dsinline-block">
+							<ul class="star_ul">
+								<li num="1"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="2"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="3"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="4"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="5"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+							</ul>
+							<input type="hidden" name="global_score" value="">
+						</div>
+					</div>
+					<div class="fop-item fop-star z-tip-warn">
+						<div class="fop-label">{php echo $evaluate_page['content_score'] ? $evaluate_page['content_score'] : '内容实用';}</div>
+						<div id="content_score" currentIndex="0" class="dsinline-block">
+							<ul class="star_ul">
+								<li num="1"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="2"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="3"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="4"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="5"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+							</ul>
+							<input type="hidden" name="content_score" value="">
+						</div>
+					</div>
+					<div class="fop-item fop-star z-tip-warn">
+						<div class="fop-label">{php echo $evaluate_page['understand_score'] ? $evaluate_page['understand_score'] : '通俗易懂';}</div>
+						<div id="understand_score" currentIndex="0" class="mydiv">
+							<ul class="star_ul">
+								<li num="1"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="2"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="3"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="4"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+								<li num="5"><img src="{MODULE_URL}static/webapp/default/images/star_empty.png" class="xing_hui"/></li>
+							</ul>
+							<input type="hidden" name="understand_score" value="">
+						</div>
+					</div>
+
+					<div class="fop-item ">
+						<div class="fop-label">评价晒单</div>
+						<div class="fop-main">
+							<div class="f-textarea">
+								<textarea name="content" placeholder="请填写评论内容，内容不得少于10个字符"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="f-btnbox">
+			<a href="javascript:;" class="btn-submit" id="btn-submit">发表</a>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var isclick = false;
+	var star_empty = "{MODULE_URL}static/webapp/default/images/star_empty.png";
+	var star_full = "{MODULE_URL}static/webapp/default/images/star_full.png";
+
+	function change(mydivid,num) {
+		if (!isclick) {
+			var tds = $("#"+mydivid+" ul li");
+			for (var i = 0; i < num; i++) {
+				var td = tds[i];
+				$(td).find("img").attr("src", star_full);
+			}
+			var tindex = $("#"+mydivid).attr("currentIndex");
+			tindex = tindex==0?0:tindex+1;
+			for (var j = num; j < tindex; j++) {
+				var td = tds[j];
+				$(td).find("img").attr("src", star_empty);
+			}
+			$("#"+mydivid).attr("currentIndex", num);
+			$('input[name=' + mydivid + ']').val(num);
+		}
+	}
+	function change1(mydivid,num) {
+		if (!isclick) {
+			change(mydivid,num);
+		}
+		else {
+			alert("请对课程进行总体评价");
+		}
+	}
+	function initEvent(mydivid) {
+		var tds = $("#"+mydivid+" ul li");
+		for (var i = 0; i < tds.length; i++) {
+			var td = tds[i];
+			/*
+			$(td).on('mouseover',function(){
+				var num = $(this).attr("num");
+				change(mydivid,num);
+			});
+			*/
+
+			$(td).on('click',function(){
+				var num = $(this).attr("num");
+				change1(mydivid,num);
+			});
+		}
+	}
+	$(function(){
+		initEvent('global_score');
+		initEvent('content_score');
+		initEvent('understand_score');
+	});
+
+	var isjump = false;
+	$("#btn-submit").click(function(){
+		var orderid = "{$orderid}"
+		var grade = $('input[name="grade"]:checked').val();
+		var global_score = $('input[name="global_score"]').val();
+		var content_score = $('input[name="content_score"]').val();
+		var understand_score = $('input[name="understand_score"]').val();
+		var content = $('textarea[name="content"]').val();
+		
+		if(!grade){
+			swal("系统提示", "请对课程进行总体评价", "error");
+			return false;
+		}
+		if(!global_score || !content_score || !understand_score){
+			swal("系统提示", "请点亮评分的每一行星星", "error");
+			return false;
+		}
+		if(!content){
+			swal("系统提示", "请填写评论内容", "error");
+			return false;
+		}
+		if(content.length<10){
+			swal("系统提示", "评论内容不得少于10个字符", "error");
+			return false;
+		}
+
+		$("#loadingToast").show();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/evaluate.html?op=postEvaluate",
+			data: {
+					orderid: orderid,
+					grade:grade,
+					global_score:global_score,
+					content_score:content_score,
+					understand_score:understand_score,
+					content:content,
+				  },
+			success: function (res) {
+				$("#loadingToast").hide();
+				if(res.code==0){
+					isjump = true;
+					swal("系统提示", res.message, "success");
+				}else{
+					swal("系统提示", res.message, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				$("#loadingToast").hide();
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	});
+
+	$(document).on("click",".swal-confirm",function(){
+		if(isjump){
+			window.location.href = "/{$uniacid}/mylesson.html?status=no_evaluate";
+		}
+	});
+</script>
+
+{php include $this->template($template.'/_footer')}

@@ -1,0 +1,10 @@
+<script type="text/template" id="tpl_block_line">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div class="block_content line_block" style="background:<%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+            <div class="line" style="border-top-width:<%= style.height %>; border-top-color:<%= style.color %>"></div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

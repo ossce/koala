@@ -1,0 +1,43 @@
+<!--
+ * 错误页面
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+		<title>抱歉，出错了</title>
+		<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/mobile/{$template}/css/weui.2.4.4.css?v={$versions}">
+		<style type="text/css">
+			.weui-msg{padding-top:15px;}
+			.weui_icon_area{margin-bottom: 15px;}
+			.weui-icon-info{font-size: 104px;width:96px;height:96px;}
+			.weui-msg__title{font-weight: normal;}
+			.pwpage {position: relative;width: 280px;margin: 20px auto;border-radius: 10px;border: 1px solid rgba(0, 0, 0, 0.1);text-align: center;overflow: hidden}
+			.pwd {padding: 10px 10px 15px 10px;}
+			.pwpage .erweima {width: 250px;}
+			.pwpage .title {font-size: 14px;}
+		</style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var ua = navigator.userAgent.toLowerCase();
+            var isWeixin = ua.indexOf('micromessenger') != -1;
+            var isAndroid = ua.indexOf('android') != -1;
+            var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+            if (!isWeixin) {
+                document.body.innerHTML = '<div class="weui-msg"><div class="weui_icon_area"><i class="weui-icon-info"></i></div><div class="weui-textarea"><h4 class="weui-msg__title">请在微信客户端打开链接</h4></div></div><div class="pwpage"><div class="pwd"><p class="title">{$setting['follow_word']}</p><img class="erweima" src="{$_W[attachurl]}{$setting[qrcode]}"></div></div>';
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,128 @@
+<script>
+    Diy.Editor.defaultData.search = {
+        style: {
+            background: '#EEEEEE',
+            input_background: '#FFFFFF',
+            text_color: '#8E8E93',
+            icon_color: '#8E8E93',
+			btn_color: '#333333',
+			btn_background: '#EEEEEE',
+            input_placeholder: '搜索您感兴趣的课程',
+            vertical_padding: '5px',
+            horizontal_padding: '2px',
+            searchbar_radius: '4px',
+        }
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="search">
+    <div class="editor-search">
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#EEEEEE').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">输入框背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.input_background %>" data-type="style" data-key="input_background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">文字颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.text_color %>" data-type="style" data-key="text_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#8E8E93').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">图标颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.icon_color %>" data-type="style" data-key="icon_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#8E8E93').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">按钮颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.btn_color %>" data-type="style" data-key="btn_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#333333').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">按钮背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.btn_background %>" data-type="style" data-key="btn_background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#EEEEEE').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">提示语</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.input_placeholder %>" placeholder="请输入关键字" data-type="style" data-key="input_placeholder" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">搜索框圆角</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.searchbar_radius %>" data-type="style" data-key="searchbar_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.searchbar_radius %>" data-unit="px" data-min="0" data-max="25" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.searchbar_radius %></small>
+            </div>
+        </div>
+    </div>
+</script>

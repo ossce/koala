@@ -1,0 +1,140 @@
+<!-- 
+ * 商品列表
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-list.css?v={$versions}">
+
+<header class="shop-navBar bg-fff shop-category-header max-640">
+	<a href="javascript:history.go(-1);" class="shop-navBar-item">
+		<i class="icon-common icon-common-return"></i>
+	</a>
+	<div class="shop-center">
+		<div class="shop-search-box">
+			<i class="icon-common icon-search"></i>
+			<input type="search" class="search-input shop-category-input search-goods-keyword" name="keyword" value="{$_GPC['keyword']}" placeholder="搜索商品" >
+		</div>
+	</div>
+	{template '_rightTopMenu'}
+</header>
+
+{template '_rightTopMenuList'}
+
+<div class="shopType">
+	<ul>
+		<li class="sort-menu-item btn-sort" data-class="sort-list">
+			<a>{$sortname}</a>
+		</li>
+		<li class="sort-menu-item btn-category" data-class="category-list-wrap">
+			<a>{$curr_category_name} <i class="iconfont icon-pull-down"></i></a>
+		</li>
+		<li class="sort-menu-item btn-filtrate" data-class="filtrate-list">
+			<a>筛选 <i class="iconfont icon-pull-down"></i></a>
+		</li>
+		<li class="sort-menu-item btn-list-cut" data-type="rectangle">
+			<a><i class="iconfont icon-list-rectangle"></i></a>
+		</li>
+	</ul>
+
+	<!-- 综合排序 S -->
+	<div class="sort_list_grid sort-list" style="display:none;">
+		<a href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}" {if !$sort}class="curr"{/if}>综合</a>
+		<a href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>'priceASC','pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}" {if $sort=='priceASC'}class="curr"{/if}>价格升序 <i class="iconfont icon-order-asc"></i></a>
+		<a href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>'priceDESC','pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}" {if $sort=='priceDESC'}class="curr"{/if}>价格降序 <i class="iconfont icon-order-desc"></i></a>
+		<a href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>'saleASC','pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}" {if $sort=='saleASC'}class="curr"{/if}>销量升序 <i class="iconfont icon-order-asc"></i></a>
+		<a href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>'saleDESC','pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}" {if $sort=='saleDESC'}class="curr"{/if}>销量降序 <i class="iconfont icon-order-desc"></i></a>
+	</div>
+	<!-- 综合排序 E -->
+
+	<!-- 分类 S -->
+	<div class="category-list-wrap" style="display:none;">
+		<div class="category-inner first-category">
+			<a class="first-category-item {if !$_GPC['pid']}on{/if}" href="{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>$_GPC['sort'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}">全部</a>
+			{loop $category_list $key $item}
+			<a class="first-category-item {if $_GPC['pid']==$item['id']}on{/if}" data-id="{$item['id']}" id="first_category_{$item['id']}">{$item['name']}</a>
+			{/loop}
+		</div>
+		<div class="category-inner all-son-category">
+		</div>
+	</div>
+	<!-- 分类 E -->
+
+	<!-- 筛选 S -->
+	<div class="filtrate-list max-640" style="display:none;">
+		<div class="filtrate-list-con">
+			<ul class="filtrate-mod-list">
+				<li>
+					<div class="list_inner li_line">
+						<div class="big">商品性质</div>
+					</div>
+				</li>
+				<div class="tags_selection">
+					<div class="option {if !$_GPC['goods_type']}on{/if}"   data-type="goods_type" data-id="0"><a href="javascript:;">不限</a></div>
+					<div class="option {if $_GPC['goods_type']==1}on{/if}" data-type="goods_type" data-id="1"><a href="javascript:;">实物商品</a></div>
+					<div class="option {if $_GPC['goods_type']==2}on{/if}" data-type="goods_type" data-id="2"><a href="javascript:;">虚拟商品</a></div>
+					<div class="clearfix"></div>
+				</div>
+			</ul>
+			<ul class="filtrate-mod-list">
+				<li>
+					<div class="list_inner li_line">
+						<div class="big">购买方式</div>
+					</div>
+				</li>
+				<div class="tags_selection">
+					<div class="option {if !$_GPC['sell_type']}on{/if}"   data-type="sell_type" data-id="0"><a href="javascript:;">不限</a></div>
+					<div class="option {if $_GPC['sell_type']==1}on{/if}" data-type="sell_type" data-id="1"><a href="javascript:;">积分兑换</a></div>
+					<div class="option {if $_GPC['sell_type']==2}on{/if}" data-type="sell_type" data-id="2"><a href="javascript:;">现金购买</a></div>
+					<div class="option {if $_GPC['sell_type']==3}on{/if}" data-type="sell_type" data-id="3"><a href="javascript:;">现金+积分</a></div>
+					<div class="clearfix"></div>
+				</div>
+			</ul>
+			<div class="filtrate-s-btn">清除选项</div>
+		</div>
+		<div class="filterlayer_bottom_buttons">
+			<input type="hidden" id="goods_type" value="{$_GPC['goods_type']}">
+			<input type="hidden" id="sell_type" value="{$_GPC['sell_type']}">
+			<span class="filterlayer_bottom_button bg_1" id="filterCBtn">取消</span>
+			<span class="filterlayer_bottom_button bg_2" id="filterFinishBtn">确认</span>
+		</div>
+	</div>
+	<!-- 筛选 E -->
+</div>
+<div class="weui-mask" style="display:none;"></div>
+
+<div class="shop-list-rectangle bg-fff" style="display:none;">
+</div>
+<div class="shop-list-circle" style="display:none;">
+	<div class="shop-recommend-two">
+	</div>
+</div>
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:;" id="btn_Page" style="display:inline;"><img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多</a>
+</div>
+
+<div class="h-10"></div>
+
+<script type="text/javascript">
+	window.config = {
+		    uniacid: "{$uniacid}",
+		 active_pid: "{$_GPC['pid']}",
+		 active_cid: "{$_GPC['cid']}",
+		active_ccid: "{$_GPC['ccid']}",
+	  category_list: {php echo json_encode($category_list)},
+		  attachurl: "{$_W['attachurl']}",
+		  searchurl: "{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>$_GPC['sort']))}",
+		    ajaxurl: "{php echo $this->createMobileUrl('shoplist', array('keyword'=>$_GPC['keyword'],'sort'=>$_GPC['sort'],'pid'=>$_GPC['pid'],'cid'=>$_GPC['cid'],'ccid'=>$_GPC['ccid'],'goods_type'=>$_GPC['goods_type'],'sell_type'=>$_GPC['sell_type']))}",
+		   goodsurl: "{php echo $this->createMobileUrl('shopgoods')}",
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shoplist.js?v={$versions}"></script>
+
+{template '_footer'}

@@ -1,0 +1,18 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css?v={$versions}">
+
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage');}">基本设置</a>
+	</li>
+	<li {if $op=='about'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage', array('op'=>'about'));}">关于我们</a>
+	</li>
+	<li {if $op=='navigation' || $op=='addNav'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage', array('op'=>'navigation'));}">导航栏管理</a>
+	</li>
+	<li {if $op=='footerArticle' || $op=='addFooterArticle' || $op=='footerArticleList'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('pcmanage', array('op'=>'footerArticle'));}">底部文章组</a>
+	</li>
+</ul>

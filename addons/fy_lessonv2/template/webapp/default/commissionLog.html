@@ -1,0 +1,67 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="myVipWrap flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $op=='display'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/commissionLog.html">{$title}</a></li>
+				</ul>
+				{if $op=='display'}
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-80">编号</div>
+								<div class="txt w-150">佣金类型</div>
+								<div class="txt w-150">佣金金额(元)</div>
+								<div class="txt w-450">佣金明细</div>
+								<div class="txt w-160">添加时间</div>
+							</div>
+							{loop $list $key $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-80 text-c">{$item['id']}</p>
+									<p class="w-150 text-c">
+										{if $item['grade']==-1}
+											管理员操作 
+										{else}
+											{$commossion_award}
+										{/if}
+									</p>
+									<p class="w-150 text-c">{$item['change_num']}</p>
+									<p class="w-450 text-c">{$item['remark']}</p>
+									<p class="w-160 text-c">{php echo date('Y-m-d H:i:s', $item['addtime']);}</p>
+								</li>
+							</ul>
+							{/loop}
+
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的记录</p>
+						</div>
+					</div>
+					{/if}					
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

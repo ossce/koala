@@ -1,0 +1,124 @@
+<!-- 
+ * 二维码推广
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/commission.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="{php echo $this->createMobileUrl('commission')}" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+	<a href="{php echo $this->createMobileUrl('index', array('t'=>1))}" class="ico go-index"></a>
+</div>
+
+{if $sale_desc}
+<div class="sharecard__entry-global sale_desc">
+	<div class="sharecard__entry">
+		<div class="sharecard__entry-icon">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/ico-info-black.png" />
+		</div>
+		规则说明
+	</div>
+</div>
+<div class="privacy_agreement_notice-mask" style="display: none;">
+	<div class="privacy_agreement_notice">
+		<div class="close close-agreement">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/btn-close.png" width="32" height="32">
+		</div>
+		<h3 class="notice-title">{$sale_desc[0]}</h3>
+		<ul class="notice-body">
+			{loop $sale_desc $key $item}
+				{if $key>0}
+					<p class="sale-content">{$item}</p>
+				{/if}
+			{/loop}
+		</ul>
+	</div>
+</div>
+{/if}
+
+<div>
+	<div class="qrcode_wrap">
+		<div class="qrcode_inner">
+			<img id="spreadImg" src="{$imagepath}">
+		</div>
+	</div>
+	<div class="qrcode_footer">
+		<p class="tips">长按上方图片保存，分享给朋友</p>
+		<div id="scroll" class="qrcode_thum_wrap" style="overflow: auto;">
+			{loop $poster_list $key $item}
+			<div class="qrcode_thum" onclick="cutPoster({$key});">
+				{if $item['poster_default']}
+					<img src="{MODULE_URL}static/mobile/{$template}/images/posterbg.jpg">
+				{else}
+					<img src="{$_W['attachurl']}{$item['poster_bg']}">
+				{/if}
+				{if $key==$poster_no}
+				<img src="{MODULE_URL}static/mobile/default/images/qrcode_checked_icon.png" class="checked">
+				{/if}
+			</div>
+			{/loop}
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		var clientH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		if(clientH >= 812){
+			var poster_height = clientH - 350;
+			$("#spreadImg").css('margin','60px auto');
+			document.getElementById('page-container').style.marginBottom = '0px';
+		}else{
+			var title_H = 0;
+			<?php if($userAgent){ ?>
+				title_H = 45;
+			<?php } ?>
+			var poster_height = clientH - 228 + title_H;
+		}
+		$("#spreadImg").css('height', poster_height + 'px');
+	})
+
+	function cutPoster(poster_no){
+		$("#loadingToast").show();
+		var url = "{php echo $setting['poster_type']==2 ? $this->createMobileUrl('qrcoderec') : $this->createMobileUrl('qrcode');}";
+		window.location.href = url + "&poster_no=" + poster_no;
+	}
+
+	$(".sale_desc").click(function(){
+		$(".privacy_agreement_notice-mask").animate({opacity: 'show'}, 'slow');
+	});
+	$(".close-agreement").click(function(){
+		$(".privacy_agreement_notice-mask").animate({opacity: 'hide'}, 'slow');
+	});
+
+	wx.ready(function(){
+		var shareData = {
+			title: "{$sharelink['title']}",
+			desc: "{$sharelink['desc']}",
+			link: "{$shareurl}",
+			imgUrl: "{$_W['attachurl']}{$sharelink['images']}",
+			trigger: function (res) {},
+			complete: function (res) {},
+			success: function (res) {},
+			cancel: function (res) {},
+			fail: function (res) {}
+		};
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareWeibo(shareData);
+		wx.onMenuShareQZone(shareData);
+		
+	});
+</script>
+
+{template $template.'/_footerv2'}

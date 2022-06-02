@@ -1,0 +1,94 @@
+<style type="text/css">
+.icon_common {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+	z-index: 1;
+}
+</style>
+<div class="main">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="alert alert-info">
+				<a class="btn btn-primary" href="{php echo $this->createWebUrl('setting',array('op'=>'addDiy','page_type'=>1));}" style="margin-right:15px;"><i class="fa fa-plus"></i> 首页模板</a>
+				<a class="btn btn-primary" href="{php echo $this->createWebUrl('setting',array('op'=>'addDiy','page_type'=>2));}"><i class="fa fa-plus"></i> 自定义模板</a>
+				<p style="margin-top:10px;">首页模板可以添加多个，但只能设置一个首页模板为默认模板；自定义模板是一个单独的页面，可以复制链接进行访问。</p>
+			</div>
+			<div class="btn-group-sub we7-margin-top" style="margin-top:0 !important;">
+				<a href="{php echo $this->createWebUrl('setting',array('op'=>'diy'));}" class="btn {if !$_GPC['page_type']}active{/if}">全部</a>
+				{loop $pageTypeList $key $item}
+				<a href="{php echo $this->createWebUrl('setting',array('op'=>'diy','page_type'=>$key));}" class="btn {if $_GPC['page_type']==$key}active{/if}">{$item}</a>
+				{/loop}
+			</div>
+			<div class="site-template">
+				<div class="site-template-list">
+					{loop $list $item}
+					<div class="site-template-item {if $item['status']}active{/if}">
+						<i class="icon_common" style="background-image:url('../../addons/fy_lessonv2_plugin_shop/static/web/images/icon-diy-tpl-{$item[page_type]}.png');"></i>
+						<div class="site-template-img">
+							<img src="{php echo $item['cover'] ? $_W['attachurl'].$item['cover'] : '';}" alt="default">
+							{if $item['page_type'] == 1}
+							<div class="cover-dark" style="cursor:pointer;" onclick="selectDefault({$item['id']})">
+								<div class="selected">
+									{if !$item['status']}
+										<i class="fa fa-check" style="font-size:40px;"></i>
+										<p>设置为默认模板</p>
+									{else}
+										<i class="fa fa-rotate-left" style="font-size:40px;"></i>
+										<p>取消默认模板</p>
+									{/if}
+								</div>
+							</div>
+							{/if}
+						</div>
+						<h2 class="site-template-title">{$item['page_title']}</h2>
+						<div class="site-template-manage">
+							{if $item['page_type'] == 2}
+							<a href="javascript:;" class="manage-item copy-{$item['id']}" data-toggle="tooltip" data-placement="bottom" data-original-title="复制链接">
+								<i class="wi wi-link"></i>
+								<div class="copy-content-{$item['id']}" style="display:none;">{$_W['siteroot']}app/{php echo str_replace("./", "", $this->createMobileUrl('shopdiy', array('id'=>$item['id'])));}</div>
+							</a>
+							{/if}
+							<a href="{php echo $this->createWebUrl('setting',array('op'=>'addDiy','id'=>$item['id']));}" class="manage-item" data-toggle="tooltip" data-placement="bottom" data-original-title="编辑模板"><i class="wi wi-text"></i></a>
+							<a href="javascript:;" class="manage-item" data-toggle="tooltip" data-placement="bottom" data-original-title="删除模板" onclick="deleteTemplate({$item['id']})"><i class="wi wi-delete2"></i></a>
+						</div>
+					</div>
+					{/loop}
+				</div>
+				{$pager}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	require(['jquery', 'util'], function($, util){
+		$(function(){
+			<?php foreach($list as $v){ ?>
+				<?php if($v['page_type'] == 2){ ?>
+					util.clip($(".copy-{$v['id']}")[0], $(".copy-content-{$v['id']}").text());
+				<?php } ?>
+			<?php } ?>
+		});
+	});
+
+	function selectDefault(id){
+		window.location.href = "{php echo $this->createWebUrl('setting', array('op'=>'diy','setDefault'=>1));}&id=" + id;
+	}
+
+	function deleteTemplate(id){
+		util.confirm(function() {
+            window.location.href = "{php echo $this->createWebUrl('setting',array('op'=>'deleteDiy'));}&id=" + id
+        },
+        function() {
+            return ! 1
+        },
+        "确认删除吗?")
+	}
+</script>

@@ -1,0 +1,234 @@
+{php include $this->template($template.'/_header')}
+<style type="text/css">
+fieldset{
+	display:none;
+}
+</style>
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="orderListContainer memberContent">
+				<form method="get" id="ordersForm">
+					<div class="filter flex flex-vc">
+						<ul class="flex flex-vc innerWrap">
+							<li class="items {if $op=='display'}actived{/if}"><a href="/{$uniacid}/reclesson.html">我的课程邀请</a></li>
+							{if $op=='details'}
+							<li class="items {if $op=='details'}actived{/if}"><a href="javascript:;">课程邀请详情</a></li>
+							{/if}
+						</ul>
+						{if $op=='display'}
+						<div class="searchWrap flex flex-vc m-t-10">
+							<div class="selectCon m-r-6">
+								<select class="w-90 fs-12" name="status">
+									<option value="" selected="">全部</option>
+									<option value="0"  {if $_GPC['status']=='0'}selected{/if}>进行中</option>
+									<option value="1"  {if $_GPC['status']=='1'}selected{/if}>已完成</option>
+									<option value="-1" {if $_GPC['status']=='-1'}selected{/if}>已失败</option>
+								</select>
+							</div>
+							<div class="searchCon">
+								<input type="text" value="{$_GPC['bookname']}" name="bookname" placeholder="课程名称" class="w-180">
+								<input type="submit" class="searchBtn" value="搜索">
+							</div>
+						</div>
+						{/if}
+					</div>
+				</form>
+
+			{if $op=='display'}
+				<div class="myOrderTable">
+				{if $list}
+					<div class="myOrderTableTitle flex flex-vc">
+						<div class="text-c" style="width:40%">课程信息</div>
+						<div class="text-c" style="width:12%"></div>
+						<div class="text-c" style="width:21%">邀请人数</div>
+						<div class="text-c" style="width:13%">状态</div>
+						<div class="text-c" style="width:12%">操作</div>
+					</div>
+
+					{loop $list $item}
+					<div class="flex flex-v">
+						<div class="thead">
+							<div class="tr flex flex-vc">
+								<div class="cell flex1 flex flex-vc">
+									<span class="m-r-30 titleCon">
+										编号：{$item['id']}
+									</span>
+									<span class="m-r-15 titleCon">
+										参加时间：{php echo date('Y-m-d H:i:s', $item['addtime']);}
+									</span>
+									<span class="m-r-15 titleCon">
+										{if $item['status']==1}
+											完成时间：{php echo date('Y-m-d H:i:s', $item['update_time']);}
+										{elseif $item['status']==0}
+											截至时间：{php echo date('Y-m-d H:i:s', $item['endtime']);}											
+										{/if}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="tbody">
+							<div class="tr flex">
+								<div class="cell goodsCell flex flex-vc" style="width:56%">
+									<div class="img">
+										<a href="/{$uniacid}/reclesson.html?op=details&activity_id={$item['id']}"><img src="{$_W['attachurl']}{$item['images']}"></a>
+									</div>
+									<div class="goodsInfo flex1">
+										<a href="/{$uniacid}/reclesson.html?op=details&activity_id={$item['id']}" class="name" title="{$item['bookname']}">{$item['bookname']}</a>
+									</div>
+								</div>
+								<div class="cell goodsPrice flex flex-v flex-ai flex-hc" style="width:20%">
+									<div class="fs-13 flex flex-hc">
+										已邀请<span class="ftc-e9511b">{$item['invite_number']}</span>人
+										{if $item['status']==0}
+											，还需邀请<span class="ftc-e9511b">{$item['remain_number']}</span>人
+										{/if}
+									</div>
+								</div>
+								<div class="cell flex-ai flex flex-v flex-hc goodsState" style="width:12%">
+									<p class="state flex flex-hc {if $item['status']==-1}ftc-414141{elseif $item['status']==1}ftc-0e9a0c{/if}">{$act_status[$item['status']]}</p>
+								</div>
+								<div class="cell flex-ai flex flex-v flex-hc goodsHandle" style="width:12%">
+									<a class="otherHandle btn-status btn-evaluate fs-12" href="/{$uniacid}/reclesson.html?op=details&activity_id={$item['id']}">查看详情</a>
+								</div>
+							</div>
+							<div class="interval"></div>
+						</div>
+					</div>
+					{/loop}
+
+					<div class="tfoot clearfix m-t-40">
+						<div class="tfoot-page">
+							<div class="pagination">
+								{$pager}
+							</div>
+						</div>
+					</div>
+				{else}
+					<div class="empty">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的数据</p>
+						</div>
+					</div>
+				{/if}
+				</div>
+			{elseif $op=='details'}
+				<div class="myOrderDetailBook m-b-20">
+					<div class="thead">
+						<div class="flex flex-vc">
+							<div class="cell text-c" style="width:40%">课程信息</div>
+							<div class="cell text-c" style="width:26%">邀请人数</div>
+							<div class="cell text-c" style="width:34%">任务详情</div>
+						</div>
+					</div>
+					<div class="tbody">
+						<div class="goodstInfo">
+							<ul class="flex flex-v">
+								<li class="items flex flex-vc m-b-20">
+									<div class="cell goodsName flex flex-vc" style="width:40%">
+										<a class="img" target="_blank" href="/{$uniacid}/lesson.html?id={$activity['lessonid']}"><img src="{$_W['attachurl']}{$activity['images']}"></a>
+										<div class="info flex flex-v">
+											<a class="name" target="_blank" href="/{$uniacid}/lesson.html?id={$activity['lessonid']}">{$activity['bookname']}</a>
+										</div>
+									</div>
+									<div class="cell text-c fs-13" style="width:26%">
+										已邀请<span class="ftc-e9511b">{$invite_number}</span>人
+										{if $item['status']==0}
+											，还需邀请<span class="ftc-e9511b">{$remain_num}</span>人
+										{/if}
+									</div>
+									<div class="cell text-c fs-13" style="width:34%">
+										“在{$activity['recommend_free_limit']}天内，通过课程海报或课程链接邀请{$activity['recommend_free_num']}位好友进来，即可免费学习该课程{$activity['recommend_free_day']}天”
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请方式一</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="flex flex-v flex1">
+							<dl class="flex items fs-14 m-b-10">
+								<dt>操作方式：</dt>
+								<dd>复制链接发送给好友，邀请好友注册</dd>
+							</dl>
+							<dl class="flex items">
+								<dt class="line-h35 fs-14">邀请链接：</dt>
+								<dd>
+									<input type="text" class="w-330 hg-26" id="reclesson_link" value="{$_W['siteroot']}{$uniacid}/lesson.html?id={$activity['lessonid']}&rec_uid={$uid}" />
+									<a href="javascript:;" id="btn-copy-reclesson_link" class="smBtn btn-primary m-l-10 m-t-3 fs-12">复制链接</a>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请方式二</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="ordersInfo flex flex-v flex1">
+							<dl class="flex items">
+								<dt>操作方式：</dt>
+								<dd>微信扫码，把课程海报发送给好友</dd>
+							</dl>
+							<dl class="flex items" id="lessonqrcode">
+								
+							</dl>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$('#btn-copy-reclesson_link').click(function(){
+						var content = document.getElementById('reclesson_link');
+						content.select();
+						document.execCommand("Copy");
+						swalalert('系统提示', '复制成功，赶紧发送给好友吧', 'success');
+					})
+
+					jQuery('#lessonqrcode').qrcode({width: 160, height: 160, text: "{$lesson_wap_url}"});
+				</script>
+
+				<div class="myOrderDetail m-b-20">
+					<div class="bizHeader flex flex-vc">
+						<div class="content">邀请好友列表</div>
+					</div>
+					<div class="bizBody flex">
+						<div class="ordersInfo flex flex-v flex1">
+							<div class="reclesson-user-info">
+								<ul class="user-info-users">
+									{loop $invite_list $invirer}
+									<li class="user default-user">
+										<span class="have-user" style="background-image:url({$invirer['avatar']});"></span>
+										<p>{$invirer['nickname']}</p>
+									</li>
+									{/loop}
+									<?php for($i=0;$i<$remain_num;$i++){ ?>
+									<li class="user default-user">
+										<span class="no-user"></span>
+										<p>待邀请</p>
+									</li>
+									<?php } ?>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

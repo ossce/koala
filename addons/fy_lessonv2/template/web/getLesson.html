@@ -1,0 +1,7 @@
+{loop $list $item}
+<div class="item" style="background:#eee url({$_W['attachurl']}{$item['images']}); background-size:cover;" onclick='selectLesson({php echo json_encode($item)});'>
+	<div class="text">{$item['bookname']}</div>
+</div>
+{/loop}
+
+<span class="hide lesson_curr_page">{$pindex}</span><span class="hide lesson_total_page">{$total_page}</span>

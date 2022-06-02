@@ -1,0 +1,137 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">{php echo $_GPC['id'] ? '编辑' : '添加'}规格</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 规格名称</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="title" class="form-control" value="{$attr['title']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 规格值</label>
+                    <div class="col-sm-5">
+                        <table class="table table-hover" style="margin-top:-17px;">
+							<thead>
+								<tr>
+									<th style="width:30px;"></th>
+									<th style="width:70%;">规格值</th>
+									<th style="text-align:right;">操作</th>
+								</tr>
+							</thead>
+							<tbody id="spec_list" class="ui-sortable">
+								{loop $value_list $item}
+								<tr>
+									<td>
+										<a href="javascript:;" class="fa fa-move" data-toggle="tooltip" data-placement="bottom" data-original-title="按住鼠标左键，拖动调整顺序">
+											<i class="fa fa-arrows"></i>
+										</a>
+									</td>
+									<td>
+										<div class="form-group" style="margin-bottom:0">
+											<div class="col-xs-12">
+												<input name="value[]" value="{$item['value']}" type="text" class="form-control" placeholder="请输入规格值">
+												<input name="value_id[]" value="{$item['id']}" type="hidden" />
+											</div>
+										</div>
+									</td>
+									<td style="text-align:right;">
+										<a href="javascript:;" class="btn btn-default btn-sm" onclick="deleteSpec(this)" data-id="{$item['id']}" data-toggle="tooltip" data-placement="bottom" data-original-title="删除">
+											<i class="fa fa-remove"></i>
+										</a>
+									</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+						<a type="button" class="btn btn-info btn-add-spec">
+							<i class="fa fa-plus"></i> 添加规格值
+						</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="displayorder" class="form-control" value="{$attr['displayorder']}" />
+						<span class="help-block">序号越大，排序越靠前</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+        </div>
+	</form>
+</div>
+
+<script>
+    require(['jquery', 'jquery.ui'], function($){
+		//拖动排序规格值
+		$('#spec_list').sortable({handle: '.fa-move'});
+        
+		//添加规格值
+        $('.btn-add-spec').click(function(){
+			var spec_html = '';
+			spec_html += '<tr>';
+			spec_html += '	<td>';
+			spec_html += '		<a href="javascript:;" class="fa fa-move" data-toggle="tooltip" data-placement="bottom" data-original-title="按住鼠标左键，拖动调整顺序">';
+			spec_html += '			<i class="fa fa-arrows"></i>';
+			spec_html += '		</a>';
+			spec_html += '	</td>';
+			spec_html += '	<td>';
+			spec_html += '		<div class="form-group" style="margin-bottom:0">';
+			spec_html += '			<div class="col-xs-12">';
+			spec_html += '				<input name="value[]" value="" type="text" class="form-control" placeholder="请输入规格值">';
+			spec_html += '				<input name="value_id[]" value="" type="hidden" />';
+			spec_html += '			</div>';
+			spec_html += '		</div>';
+			spec_html += '	</td>';
+			spec_html += '	<td style="text-align:right;">';
+			spec_html += '		<a href="javascript:;" class="btn btn-default btn-sm" onclick="deleteSpec(this)" data-id="0" data-toggle="tooltip" data-placement="bottom" data-original-title="删除">';
+			spec_html += '		<i class="fa fa-remove"></i>';
+			spec_html += '		</a>';
+			spec_html += '	</td>';
+			spec_html += '</tr>';				
+            $('#spec_list').append(spec_html);
+        });
+
+        //删除规格值
+        window.deleteSpec = function(obj) {
+            var id = $(obj).attr('data-id');
+            if(id == 0){
+                $(obj).parent().parent().remove();            
+			}else{
+				$.ajax({
+					type:"POST",
+					url:"{php echo $this->createWebUrl('goods',array('op'=>'deleteSpec','attr_id'=>$id));}",
+					data:{id:id},
+					dataType: "json",
+					success:function(res){
+						if(res.code == '-1'){
+							util.message(res.message, '', 'error');
+							return false;
+						}else if(res.code == '0'){
+							$(obj).parent().parent().remove();
+							window.location.reload();
+						}
+					},
+					error: function(){
+						util.message('网络繁忙，请稍后重试', '', 'error');
+					}
+				 });
+			}
+        }
+
+        //提交保存
+		$('form').submit(function(){
+            var title = $('input[name=title]');
+			if (title.val() == '') {
+                util.message('请输入规格名称', '', 'error');
+                return false;
+            }
+        });
+    });
+</script>

@@ -1,0 +1,38 @@
+<div class="main">
+    <form method="post" class="form-horizontal form" onsubmit="return checkSubmit()">
+        <div class="panel panel-default">
+            <div class="panel-heading">删除日志</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">删除条件</label>
+                    <div class="col-sm-3">
+						<select name="delete_condition" id="delete_condition" class="form-control">
+							<option value="">请选择...</option>
+							<option value="1">删除半年前的日志</option>
+							<option value="2">删除一年前的日志</option>
+						</select>	
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+	function checkSubmit(){
+		var delete_condition = $('#delete_condition option:selected').val();
+		if(!delete_condition){
+			alert('请选择删除条件');
+			return false;
+		}
+
+		if(!confirm('确定执行删除日志?')){
+			return false;
+		}
+	}
+</script>

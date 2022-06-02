@@ -1,0 +1,76 @@
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}template/mobile/{$template}/images/download.gif"><span class="mloading-text">处理中，请稍候...</span></div>
+<div id="overlay"></div>
+<script type="text/javascript">
+/* 显示遮罩层 */
+function showOverlay() {
+    $("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0);
+	$(".mloading-bar").show();
+}
+</script>
+<div class="main">
+	<div class="alert alert-info">
+	    用户获得优惠码后在“个人中心 > 优惠券”里转换为优惠券后使用
+	</div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">添加优惠码</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠码前缀</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="prefix" maxlength="2" value="FY" class="form-control">
+                        <div class="help-block">
+                            支持自定义优惠码的2位前缀，如：FY
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">生成数量</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="number" value="" class="form-control">
+                            <span class="input-group-addon">张</span>
+                        </div>
+                        <div class="help-block">
+                            建议单次生成不要超过500张，一次生成大量优惠卡会占用大量服务器资源
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠码面值</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="amount" value="" class="form-control">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">使用条件</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="conditions" value="0" class="form-control">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                        <div class="help-block">
+                            课程订单需满指定金额方可使用该优惠券，默认0为不限制
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">有效期</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_date('validity', strtotime('+31 day'), true);}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>

@@ -1,0 +1,156 @@
+ <!-- 
+ * VIP复制
+ * ============================================================================
+
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template 'common/header'}
+{template 'web/_header'}
+
+{if $op=='display'}
+	<div class="main">
+		<form method="post" class="form-horizontal form">
+			<div class="panel panel-default">
+				<div class="panel-heading">选择公众号</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">数据来源公众号</label>
+						<div class="col-sm-9">
+							<div class='input-group'>
+								<input type="text" id="from_account_name" maxlength="30" class="form-control" readonly />
+								<input type="hidden" id="from_uniacid" name="from_uniacid" />
+								<div class="input-group-btn">
+									<button class="btn btn-default" type="button" onclick="eqSelectAccount();">选择公众号</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="下一步" class="btn btn-primary col-lg-1"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+	{template 'web/_searchAccount'}
+
+{elseif $op=='copy'}
+	<div class="main">
+		<div class="alert alert-danger">
+			<i class="fa fa-info-circle"></i> 复制数据过程请勿刷新页面或者关闭浏览器，否则会造成数据复制丢失。
+		</div>
+		<form method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkSubmit();return false;">
+			<div class="panel panel-default">
+				<div class="panel-heading">公众号数据复制</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$obj_wechat['name']}" readonly/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th style="width:80px;">全选</th>
+								<th style="width:8%;">ID</th>
+								<th style="width:14%;">等级名称</th>
+								<th style="width:14%;">有效期</th>
+								<th style="width:14%;">价格</th>
+								<th style="width:14%;">赠送积分</th>
+								<th style="width:14%;">会员折扣</th>
+								<th>状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop $list $item}
+							<tr>
+								<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+								<td>{$item['id']}</td>
+								<td>{$item['level_name']}</td>
+								<td>{$item['level_validity']}天</td>
+								<td>{$item['level_price']}元</td>
+								<td>{php echo $item['integral']>0 ? $item['integral'].'积分' : '无';}</td>
+								<td>{$item['discount']}%</td>
+								<td>{php echo $item['is_show']==1 ? '显示':'隐藏';}</td>
+							</tr>
+							{/loop}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="8">
+									<input type="checkbox" id="selAll" style="vertical-align:-2px;"> <strong>全选</strong>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12">
+				<a href="{php echo $this->createWebUrl('teacher');}" class="btn btn-primary col-lg-1" style="margin-right:30px;"/>上一步</a>
+				<input type="submit" name="submit" value="提交" class="btn btn-success col-lg-1"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var ids = document.getElementsByName("ids[]");
+		var selectAll = false;
+		$("#selAll").click(function(){
+			selectAll = !selectAll;
+			for(var i=0; i<ids.length; i++){
+				ids[i].checked = selectAll;
+			}
+		});
+
+		//提交
+		function checkSubmit(){
+			var checkids = '';
+			for(var i=0; i<ids.length; i++){
+				if(ids[i].checked){
+					checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+				}
+			}
+			if(checkids===''){
+				util.message('未选中任何VIP等级', '', 'error');
+				return false;
+			}
+
+			if(!confirm('该操作无法撤销，请确认继续操作?')){
+				return false;
+			}
+
+			$("#loadingToast").show();
+		}
+	</script>
+{/if}
+
+{template 'common/footer'}

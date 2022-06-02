@@ -1,0 +1,21 @@
+<div style="background:{if $diy['style']['show_background']}{$diy['style']['background']}{else}none{/if};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="mine_unit" style="border-radius:{$diy['style']['bg_radius']};margin:0;padding:0;">
+		{if $diy['style']['show_subscribe']}
+		<a class="line-grid flex1" href="javascript:;" id="subscribe-btn">
+			<div class="img flex0">
+				<img class="flex_g0" src="{$diy['style']['subscribe_imgsrc']}" style="width:16px;" />
+			</div>
+			<div class="flex-al1" style="color:{$diy['style']['subscribe_color']};">{$diy['style']['subscribe_font']}</div>
+			<i class="fa {php echo $is_subscribe ? 'fa-toggle-on' : 'fa-toggle-off'}" id="subscribe-status" data-subscribe="{$is_subscribe}"></i>
+		</a>
+		{/if}
+		{loop $diy['data'] $item}
+		<a href="{$item['link']}" class="line-grid icon_right flex1">
+			<div class="img flex0">
+				<img class="flex_g0" src="{$item['imgurl']}" style="width: 16px;" />
+			</div>
+			<div class="flex-al1" style="color:{$item['color']};">{$item['text']}</div>
+		</a>
+		{/loop}
+	</div>
+</div>

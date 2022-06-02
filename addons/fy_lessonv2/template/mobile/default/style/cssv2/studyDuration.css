@@ -1,0 +1,229 @@
+/* 头像区域 */
+.mine_head {
+    position: relative;
+    padding-bottom: 50%;
+    color: white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.mine_head .mine_head_body {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.mine_head .tx {
+    margin: 0 auto;
+    width: 63px;
+    height: 63px;
+    font-size: 0;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border: 1px solid #e0e0ef;
+    background-color: #e0e0ef;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.mine_head .tx img {
+    width: 100%;
+    height: 100%;
+}
+.mine_head .nickname {
+    text-align: center;
+    font-size: 16px;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.mine_head .idno {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* 学习时长统计 */
+.study-main {
+    width: 100%;
+	margin-top: 3px;
+    overflow: hidden;
+    position: relative;
+}
+.study-main .hei10{
+	width: 100%;
+	height: 10px;
+	background-color: #f1f1f5;
+}
+
+/* 累计学习时长 */
+.study-main .info-total {
+	width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.study-main .info-total h2{
+	color: #585858;
+	padding: 20px 0;
+	font-size: 16px;
+    font-weight: bold;
+	text-align: center;
+}
+.study-main .info-total h2:first-child{
+	padding-top: 5px;
+}
+.study-main .info-total .bor-l {
+    margin-right: 7px;
+    height: 12px;
+    width: 12px;
+    background: url(../../images/dhicon.png) left center no-repeat;
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+}
+.study-main .info-total .bor-2 {
+    margin-left: 7px;
+    height: 12px;
+    width: 12px;
+    background: url(../../images/dhicon.png) left center no-repeat;
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+}
+.study-main .info-total ul {
+	margin-left: -1px;
+	overflow: hidden
+}
+.study-main .info-total li {
+	box-sizing: border-box;
+	width: 33.3%;
+	float: left;
+	border-left: 1px solid #e9e9e9;
+	text-align: center
+}
+.study-main .info-total li:first-child {
+	border-left: 0
+}
+.study-main .info-total-cnt {
+	font-size: 12px;
+	color: #000
+}
+.study-main .info-total-cnt-num {
+	font-size: 22px
+}
+
+
+/* 今日学习时长 */
+.study-main .info {
+	width: 100%;
+	background-color: #fff;
+	padding: 20px 10px;
+	box-sizing: border-box
+}
+.study-main .info ul {
+	margin-left: -1px;
+	overflow: hidden
+}
+.study-main .info li {
+	box-sizing: border-box;
+	width: 33.3%;
+	float: left;
+	border-left: 1px solid #e9e9e9;
+	text-align: center
+}
+.study-main .info li:first-child {
+	border-left: 0
+}
+
+.study-main .info-title {
+	font-size: 12px;
+	color: #777
+}
+.study-main .info-cnt {
+	margin-top: 10px;
+	font-size: 12px;
+	color: #000
+}
+.study-main .info-cnt-num {
+	font-size: 28px
+}
+.study-main .info-des {
+	margin-top: 18px;
+	text-align: center;
+	font-size: 12px;
+	color: #bbb
+}
+.study-main .exchange {
+	width: 100%;
+	background-color: #fff;
+	border-top: 5px solid #f0f0f0;
+	text-align: center
+}
+.study-main .exchange-des {
+	font-size: 16px;
+	color: #777;
+	margin-top: 26px
+}
+.study-main .exchange-price {
+	font-size: 0;
+	color: #23b8ff;
+	margin-top: 8px
+}
+.study-main .exchange-price-num {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 40px
+}
+.study-main .exchange-price-kedian {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 6px;
+	margin-top: 1px;
+	font-size: 30px
+}
+.study-main .exchange-btn {
+	display: inline-block;
+	width: 92%;
+	height: 45px;
+	line-height: 45px;
+	border-radius: 4px;
+	background: #23b8ff;
+	font-size: 18px;
+	color: #fff;
+	margin: 20px auto 40px;
+}
+.study-main .exchange-btn:hover {
+	color: #fff
+}
+.study-main .exchange-btn.disabled {
+	opacity: .5;
+	color: rgba(255, 255, 255, .5)
+}
+.study-main .rule {
+	position: absolute;
+	bottom: 33px;
+	width: 100%;
+	text-align: center
+}
+.study-main .rule-btn {
+	font-size: 16px;
+	color: #777
+}
+.study-main .rule-btn:hover {
+	color: #777
+}
+.study-main .rule-middle {
+	position: static;
+	margin-top: 20px
+}

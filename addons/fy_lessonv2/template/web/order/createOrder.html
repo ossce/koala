@@ -1,0 +1,113 @@
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">创建课程订单</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择课程</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id='bookname' maxlength="30" class="form-control" readonly />
+							<input type="hidden" id='lessonid' name="lessonid"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="$('#modal-select-lesson').modal();">选择课程</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程价格</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="price" id="price" class="form-control">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">讲师课程佣金分成</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="teacher_income" id="teacher_income" class="form-control">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">课程有效期</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" name="validity" class="form-control" value="365">
+                            <span class="input-group-addon">天</span>
+                        </div>
+                        <div class="help-block">
+                            课程有效期是指从生成订单时起，指定天数内有效，0为长期有效
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择用户</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id='nickname' maxlength="30" class="form-control" readonly />
+							<input type="hidden" id="uid" name="uid"/>
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="$('#modal-select-member').modal();">选择用户</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">讲师课程佣金</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="income_switch" value="1" checked /> 开启</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="income_switch" value="0" /> 关闭</label>
+                        <span class="help-block">开启讲师课程佣金后，该课程的讲师会收到课程佣金</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分销佣金</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="sale_switch" value="1" checked /> 开启</label>
+                        &nbsp;
+                        <label class="radio-inline"><input type="radio" name="sale_switch" value="0" /> 关闭</label>
+                        <span class="help-block">开启分销佣金后，该用户的上级会收到相关的分销佣金</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{template 'web/_searchMemberModal'}
+{template 'web/_searchLessonModal'}
+
+<script type="text/javascript">
+	//选择课程
+	function selectLesson(obj){
+		if(obj.lesson_type == 1){
+			util.message("报名课程不支持创建订单");
+			return false;
+		}
+		$("#bookname").val(obj.bookname);
+		$("#lessonid").val(obj.id);
+		$("#price").val(obj.price);
+		$("#teacher_income").val(obj.teacher_income);
+		$("#modal-select-lesson-close").click();
+	}
+
+	//选择用户
+	function selectMember(obj) {
+		var select_uid = $(obj).data('uid');
+		var select_nickname = $(obj).data('nickname');
+
+		$("#nickname").val('用户uid:' + select_uid + '；昵称:' + select_nickname);
+		$("#uid").val(select_uid);
+	}
+</script>

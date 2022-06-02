@@ -1,0 +1,699 @@
+﻿
+.addorder_topbar {
+	height: 34px;
+	background: #5f6e8b;
+	padding: 15px;
+}
+
+.addorder_topbar .ico {
+	height: 34px;
+	width: 30px;
+	line-height: 34px;
+	float: left;
+	font-size: 26px;
+	text-align: center;
+	color: #fff;
+}
+
+.addorder_topbar .tips {
+	height: 34px;
+	margin-left: 10px;
+	font-size: 13px;
+	color: #fff;
+	line-height: 17px;
+}
+
+.addorder_nav {
+	height: 30px;
+	padding: 10px;
+}
+
+.addorder_nav .nav {
+	padding: 2px 5px 2px 5px;
+	; border: 1px solid #5f6e8b;
+	color: #5f6e8b;
+	background: #fff;
+	float: left;
+	margin-left: 10px;
+}
+
+.addorder_nav .selected {
+	border: 1px solid #ff6600;
+	color: #ff6600;
+}
+
+.addorder_user {
+	height: 54px;
+	background: #fff;
+	padding: 5px;
+	border-bottom: 1px solid #eaeaea;
+}
+
+.addorder_user .info .ico {
+	float: left;
+	height: 50px;
+	width: 30px;
+	line-height: 50px;
+	font-size: 26px;
+	text-align: center;
+	color: #666
+}
+
+.addorder_user .info .info1 {
+	height: 54px;
+	width: 100%;
+	float: left;
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+.addorder_user .info .info1 .inner {
+	margin-left: 30px;
+	margin-right: 30px;
+	overflow: hidden;
+}
+
+.addorder_user .info .info1 .inner .user {
+	height: 30px;
+	width: 100%;
+	font-size: 16px;
+	color: #333;
+	line-height: 35px;
+	overflow: hidden;
+}
+
+.addorder_user .info .info1 .inner .address {
+	height: 20px;
+	width: 100%;
+	font-size: 14px;
+	color: #999;
+	line-height: 20px;
+	overflow: hidden;
+}
+
+.addorder_user .info .ico2 {
+	height: 50px;
+	width: 30px;
+	line-height: 65px;
+	float: right;
+	font-size: 16px;
+	text-align: right;
+	color: #999;
+}
+
+.addorder_exp {
+	height: 42px;
+	background: #fff;
+	padding: 5px;
+	border-bottom: 1px solid #eaeaea;
+	line-height: 42px;
+	font-size: 16px;
+	color: #333;
+}
+
+.addorder_exp .t1 {
+	height: 42px;
+	width: auto;
+	float: left;
+	padding-left: 10px;
+}
+
+.addorder_exp .t2 {
+	height: 42px;
+	width: auto;
+	float: right;
+}
+
+.addorder_exp .ico {
+	height: 42px;
+	width: 30px;
+	float: right;
+	text-align: right;
+	color: #999;
+	font-size: 16px;
+	margin-top: 5px;
+}
+
+.addorder_good {
+	height: auto;
+	margin-top: 10px;
+	padding: 10px;
+	background: #fff;
+	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid #eaeaea;
+}
+
+.addorder_good .ico {
+	width: 10%;
+	height: 35px;
+	float: left;
+	text-align: center;
+}
+
+.addorder_good img {
+	border-radius: 5px;
+	width: 35px;
+}
+
+.addorder_good .shop {
+	height: 36px;
+	width: 84%;
+	padding-left: 15%;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #f7f7f7;
+	line-height: 36px;
+	font-size: 18px;
+	color: #333;
+}
+
+.addorder_good .good {
+	height: 50px;
+	width: 100%;
+	padding: 10px 0px;
+}
+
+.addorder_good .img {
+	width: 82px;
+	height: 50px;
+	float: left;
+}
+
+.addorder_good .img img {
+	height: 100%;
+	width: 100%;
+}
+
+.addorder_good .info {
+	width: 100%;
+	float: left;
+	margin-left: -50px;
+	margin-right: -60px;
+}
+
+.addorder_good .info .inner {
+	margin-left: 60px;
+	margin-right: 60px;
+}
+
+.addorder_good .info .inner .name {
+	height: 35px;
+	width: 100%;
+	float: left;
+	font-size: 13px;
+	color: #555;
+	overflow: hidden;
+}
+
+.addorder_good .info .inner .option {
+	height: 18px;
+	width: 100%;
+	float: left;
+	font-size: 12px;
+	color: #888;
+	overflow: hidden;
+	word-break: break-all
+}
+
+.addorder_good span {
+	color: #666;
+}
+
+.addorder_good .price {
+	float: right;
+	width: 60px;
+	;height: 54px;
+	margin-left: -60px;
+	;
+}
+
+.addorder_good .price .pnum {
+	height: 20px;
+	width: 100%;
+	text-align: right;
+	font-size: 14px;
+}
+
+.addorder_good .price .num {
+	height: 20px;
+	width: 100%;
+	text-align: right;
+}
+
+.addorder_good .text {
+	height: 34px;
+	width: 100%;
+	line-height: 45px;
+	text-align: right;
+	font-size: 14px;
+	color: #999;
+}
+
+.addorder_good input,.addorder_price .coupon-code input {
+	height: 34px;
+	width: 97%;
+	font-size: 12px;
+	padding: 0 5px;
+	background: #f7f7f7;
+	border: 1px solid #e9e9e9;
+	margin: 14px 0px 0;
+	-webkit-appearance: none;
+}
+
+.addorder_price {
+	height: auto;
+	background: #fff;
+	padding: 5px 10px;
+	margin-top: 10px;
+	border-bottom: 1px solid #eaeaea;
+	border-top: 1px solid #eaeaea;
+}
+
+.addorder_price #coupon {
+	display: none;
+}
+
+.addorder_price .price {
+	height: auto;
+	width: 100%;
+}
+
+.addorder_price .price .verify {
+	height: 28px !important;
+	line-height: 28px !important;
+	margin-top: 5px;
+	font-size: 12px;
+	text-align: right;
+	display: inline-block;
+	padding: 0 10px;
+	border-radius: 7px;
+	color: #fff;
+	background-color: #0098ff;
+}
+
+.addorder_price .price .line {
+	height: 33px;
+	width: 100%;
+	font-size: 14px;
+	color: #666;
+	line-height: 33px;
+}
+
+.addorder_price .price .line i {
+	padding: 4px 8px;
+	background: #f23030;
+	color: #fff;
+	font-size: 13px;
+	font-style: normal;
+}
+
+.addorder_price .price .line span {
+	height: 33px;
+	width: auto;
+	float: right;
+}
+
+.addorder_price .price .verify_log {
+	width: 100%;
+	font-size: 13px;
+	color: #666;
+	margin-bottom: 5px;
+}
+
+.addorder_price .all {
+	height: 47px;
+	width: 100%;
+	line-height: 47px;
+	font-size: 16px;
+	color: #666;
+}
+
+.addorder_price .all span {
+	height: 47px;
+	width: auto;
+	float: right;
+	color: #ff771b;
+}
+
+.paysub {
+	width: 90%;
+	height: 38px;
+	line-height: 38px;
+	font-size: 16px;
+	color: #fff;
+	background-color: #f23030;
+	text-align: center;
+	border-radius: 2px;
+	margin: 30px auto;
+}
+
+.verifySub {
+	width: 90%;
+	height: 38px;
+	line-height: 38px;
+	font-size: 16px;
+	color: #fff;
+	background-color: #04be02;
+	border: 1px solid #04be02;
+	text-align: center;
+	border-radius: 2px;
+	margin: 30px auto;
+}
+
+.addorder_price .line .nav {
+	height: 22px;
+	width: 40px;
+	background: #ccc;
+	margin: 3px 0px;
+	float: right;
+	border-radius: 40px;
+}
+
+.addorder_price .line .on {
+	background: #4ad966;
+}
+
+.addorder_price .line .nav nav {
+	height: 20px;
+	width: 20px;
+	background: #fff;
+	margin: 1px;
+	border-radius: 20px;
+}
+
+.addorder_price .line .nav .on {
+	margin-left: 19px;
+}
+
+.cnum {
+	height: 20px;
+	width: 61px;
+	border: 1px solid #e2e2e2;
+}
+
+.cnum .leftnav {
+	height: 20px;
+	width: 19px;
+	float: left;
+	border-right: 1px solid #e2e2e2;
+	background: #eee;
+	color: #6b6b6b;
+	text-align: center;
+	line-height: 20px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.cnum .shownum {
+	height: 20px;
+	width: 20px;
+	float: left;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+.cnum .rightnav {
+	height: 20px;
+	width: 19px;
+	float: right;
+	border-left: 1px solid #e2e2e2;
+	background: #eee;
+	color: #6b6b6b;
+	text-align: center;
+	line-height: 20px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.couponcount {
+	float: right;
+	margin-top: 8px;
+	margin-right: 5px;
+	height: 16px;
+	width: 16px;
+	background: #f30;
+	border-radius: 8px;
+	font-size: 12px;
+	color: #fff;
+	line-height: 16px;
+	text-align: center;
+}
+
+/*选择优惠券*/
+.fr {
+	float: right;
+}
+
+.fl {
+	float: left;
+}
+
+input[type=text],textarea {
+	-webkit-appearance: none;
+}
+
+input:focus {
+	-webkit-user-modify: read-write-plaintext-only;
+}
+
+.confirm .mc {
+	margin: 30px 0 0;
+	text-align: center;
+	color: #3c3c3c;
+}
+
+.border-1px {
+	position: relative
+}
+
+.border-1px:before,.border-1px:after {
+	border-top: 1px solid #e0e0e0;
+	content: ' ';
+	display: block;
+	width: 100%;
+	position: absolute;
+	left: 0
+}
+
+.border-1px:before {
+	top: 0
+}
+
+.border-1px:after {
+	bottom: 0
+}
+
+.btn-bar {
+    width: 100%;
+    max-width: 640px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    margin-top: 40px;
+}
+
+.btn-bar a {
+	width: 74px;
+	height: 34px;
+	padding: 10px 0;
+	background: #fff;
+	border: 1px solid #bfbfbf;
+	text-align: center;
+	display: inline-block;
+	margin-top: 8px;
+	border-radius: 3px;
+	font-size: 13px;
+	float: right;
+	margin-left: 10px;
+	color: #686868
+}
+
+.btn-bar .bb-btn02 {
+	background: #f15353;
+	border: 1px solid #f15353;
+	color: #fff
+}
+
+.pic-ch,.pic-ched {
+	width: 18px;
+	height: 18px;
+	background: url("../../images/changed.png") no-repeat;
+	background-size: 18px 18px;
+	display: block;
+	float: left
+}
+
+.pic-ched {
+	background: url("../../images/changedred.png") no-repeat;
+	background-size: 18px 18px
+}
+
+.btn-bar .button-change-w {
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+	float: none;
+	height: 33px;
+	margin-top: 3px;
+	line-height: 33px;
+	padding: 0
+}
+
+.pic-ched {
+	background: url("../../images/changedred.png") no-repeat;
+	background-size: 18px 18px
+}
+
+.btn-bar .bb-btn02 {
+	background: #f23030;
+	border: 1px solid #f23030;
+	color: #fff;
+	font-size: 14px
+}
+
+.coupons-norepeat {
+	font-size: 11px;
+	color: #f23030;
+	margin-left: 34px;
+	margin-top: 10px
+}
+
+.new-coupon {
+	padding: 10px 10px 0 10px;
+	font-size: 0
+}
+
+.new-coupon .new-bdcolor {
+	position: relative;
+	-webkit-border-radius: 0 0 2px 2px;
+	-moz-border-radius: 0 0 2px 2px;
+	-o-border-radius: 0 0 2px 2px;
+	border-radius: 0 0 2px 2px
+}
+
+.new-coupon .new-bdcolor .newCou-bg {
+	height: 11px;
+	background: #fff url("../../images/coupon-icon.png") repeat-x left top;
+	background-size: 10px 69px;
+	background-position: 0 -58px;
+	margin-right: -1px
+}
+
+.new-coupon .new-bdcolor .myf-bg {
+	background: #fff url("../../images/coupon-icon.png") repeat-x left top;
+	background-size: 10px 86px;
+	background-position: 0 -46px
+}
+
+.new-coupon .new-bdcolor .newCou-item {
+	background-color: #fff;
+	margin-right: -1px;
+	margin-top: 0
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-title {
+	height: 17px;
+	line-height: 17px;
+	font-size: 13px;
+	padding-left: 10px;
+	padding-top: 3px
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content {
+	padding-bottom: 0;
+	position: relative
+}
+
+.new-coupon .new-bdcolor .newCou-item .myf-content {
+	padding-bottom: 2px;
+	position: relative;
+	padding-top: 18px
+}
+
+.newCou-pri-content {
+	margin-left: 26px
+}
+
+.myf-newCou-pri-content {
+	margin-top: 18px
+}
+
+.jq-icon-color {
+	color: #fa9899
+}
+
+.dq-icon-color {
+	color: #74d2d4
+}
+
+.yf-icon-color {
+	color: #7ea7ce
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-l em {
+	font-size: 18px;
+	font-weight: bold;
+	position: relative;
+	left: 6px;
+	margin-right: 5px
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-l .newCou-price {
+	font-size: 44px;
+	font-weight: bold
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-l .myf-price {
+	font-size: 18px;
+	font-weight: bold;
+	position: relative;
+	left: 6px
+}
+
+.newCou-info {
+	font-size: 12px;
+	color: #686868;
+	position: relative;
+	left: 50px
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-r {
+	margin-left: 155px;
+	margin-right: 10px
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-r .newCou-date-name {
+	font-size: 13px;
+	color: #686868;
+	min-height: 39px;
+	display: block;
+	padding-top: 5px;
+	line-height: 20px
+}
+
+.new-coupon .new-bdcolor .newCou-item .newCou-content .newCou-r .newCou-date-content {
+	width: 200%;
+	font-size: 20px;
+	color: #bfbfbf;
+	display: block;
+	text-align: right;
+	margin-top: 11px;
+	transform: scale(0.5, 0.5);
+	-webkit-transform: scale(0.5, 0.5);
+	transform-origin: left top;
+	-webkit-transform-origin: left top;
+	white-space: normal
+}
+
+.newCou-content .ci-left {
+	position: absolute;
+	top: 20px;
+	left: 10px
+}
+
+.newCou-content .myf-ci-left {
+	position: absolute;
+	top: 18px;
+	left: 10px
+}

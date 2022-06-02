@@ -1,0 +1,50 @@
+.navicon_block .icon {
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+}
+.navicon_block .icon img {
+    width: 48px;
+    height: 48px;
+	border-radius: 5px;
+}
+.navicon_block .text {
+    padding: 2px 4px;
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.editor-navicon .navicon-item {
+    border: 1px solid #e1e1e1;
+    background: #fcfcfc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.editor-navicon .navicon-item .navicon-image {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #ececec;
+    text-align: center;
+    vertical-align: middle;
+    background: #ececec;
+}
+.editor-navicon .navicon-item .navicon-image .ep-select-image {
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    height: 18px;
+    line-height: 18px;
+}
+.editor-navicon .navicon-item .navicon-image img {
+    width: 48px;
+    height: 48px;
+    margin: 1px;
+}
+.editor-navicon .navicon-item .navicon-params {
+    margin-left: 80px;
+}

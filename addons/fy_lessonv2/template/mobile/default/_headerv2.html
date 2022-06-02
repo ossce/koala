@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no">
+		<meta name="full-screen" content="yes">
+		<meta name="browsermode" content="application">
+		<meta name="x5-orientation" content="portrait">
+		<meta name="x5-fullscreen" content="true">
+		<meta name="x5-page-mode" content="app">
+		<title>
+			{if !empty($title)}
+				{$title}
+			{elseif empty($title) && !empty($setting['sitename'])}
+				{$setting['sitename']}
+			{elseif empty($title) && empty($setting['sitename'])}
+				微课学堂
+			{/if}		
+		</title>
+		<link rel="stylesheet" href="{MODULE_URL}static/mobile/{$template}/css/weui.2.4.4.css?v={$versions}" />
+		<link rel="stylesheet" href="{MODULE_URL}static/public/fontawesome/font-awesome.min.css?v={$versions}"/>
+		<link rel="stylesheet" href="{MODULE_URL}static/mobile/{$template}/css/index.css?v={$versions}"/>
+		<link rel="stylesheet" href="{MODULE_URL}static/mobile/{$template}/alert/alert.css?v={$versions}" rel="stylesheet" />
+		
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/jquery.min.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/swiper.3.4.1.min.js"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/jquery.qrcode.min.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/alert/alert.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/base.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/weui.min.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/lrz.min.js?v={$versions}"></script>
+		<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/jquery.lazyload.js?v={$versions}"></script>
+
+
+		{php echo register_jssdk(false);}
+		<script type="text/javascript">
+		wx.ready(function(){
+			var shareData = {
+				title: '{php echo $title ? $title : $sharelink["title"]}',
+				desc: '{$sharelink["desc"]}',
+				link: '{php echo $_W["siteurl"] ? $_W["siteurl"]."&uid=".$_W["member"]["uid"] : $shareurl;}',
+				imgUrl: '{php echo $_W["attachurl"];}{$sharelink["images"]}',
+				trigger: function (res) {},
+				complete: function (res) {},
+				success: function (res) {},
+				cancel: function (res) {},
+				fail: function (res) {}
+			};
+			wx.onMenuShareTimeline(shareData);
+			wx.onMenuShareAppMessage(shareData);
+			wx.onMenuShareQQ(shareData);
+			wx.onMenuShareWeibo(shareData);
+			wx.onMenuShareQZone(shareData);
+		});
+
+		$(function() {
+			document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+				var miniprogram_environment = false;
+				wx.miniProgram.getEnv(function(res) {
+					if(res.miniprogram) {
+						miniprogram_environment = true;
+					}
+				})
+				if((window.__wxjs_environment === 'miniprogram' || miniprogram_environment)) {
+					wx.miniProgram.getEnv(function(res) {
+						<?php if(!in_array($_GPC['do'], array('index','lesson','teacher'))){ ?>
+						wx.miniProgram.postMessage({ 
+							data: {
+								'title': "{$title}",
+								'images': "",
+							}
+						})
+						<?php } ?>
+
+						//小程序内显示标题
+						$(".header-2").css('display', 'flex');
+						$(".header-2").css('display', '-webkit-flex');
+						$(".header-2").css('display', '-webkit-box');
+					});
+
+					//隐藏ios小程序支付价格
+					<?php if($systemType=='ios'){ ?>
+						var ios_head = document.head || document.getElementsByTagName('head')[0];
+						var ios_system = document.createElement('style');
+						ios_system.innerHTML = '.ios-system{display:none !important;}';
+						ios_head.appendChild(ios_system);
+					<?php } ?>
+				}
+			});
+
+			//隐藏ios公众号支付价格
+			<?php if($userAgent && $systemType=='ios' && !$setting['ios_pay']){ ?>
+				var ios_head = document.head || document.getElementsByTagName('head')[0];
+				var ios_system = document.createElement('style');
+				ios_system.innerHTML = '.ios-system{display:none !important;}';
+				ios_head.appendChild(ios_system);
+			<?php } ?>
+			
+			<?php if(!$userAgent){ ?>
+				//非微信浏览器显示标题
+				$(".header-2").css('display', 'flex');
+				$(".header-2").css('display', '-webkit-flex');
+				$(".header-2").css('display', '-webkit-box');
+			<?php } ?>
+		})
+		</script>
+		<style type="text/css">
+		{$setting['front_color']}
+		</style>
+	</head>
+	<body>
+		{template $template.'/_WeUIShowToast'}
+		<div class="page-container" id="page-container">

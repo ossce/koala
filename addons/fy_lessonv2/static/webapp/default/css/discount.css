@@ -1,0 +1,187 @@
+@charset "utf-8";
+
+/* 头部背景图 */
+.discount_container {
+    min-width: 1190px;
+}
+.discount_container .discount_skin {
+    overflow: hidden;
+    position: relative;
+}
+.discount_skin_bg {
+    background: url('../images/discount_head_bg.png') no-repeat top;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 274px;
+}
+.discount_container .discount_skin .skhd {
+    min-height: 90px;
+    overflow: visible;
+}
+.discount_container .skhd .grid_c1, .skhd_wrap {
+    position: relative;
+}
+.discount_container .skhd .grid_c1 {
+    z-index: 2;
+    overflow: hidden;
+	width: 1190px;
+	height: 190px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.discount_container .grid_c1 .skhd_tit {
+	color: #e9511b;
+    width: 1200px;
+    margin: 0 auto;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 40px 0 30px 0;
+    text-align: center;
+}
+
+.course-total-title {
+    font-size: 20px;
+    color: #000;
+    padding-bottom: 7px;
+    margin-bottom: 30px;
+	margin-top: -20px;
+    border-bottom: 1px #e3e3e3 solid;
+}
+
+/* 抢购课程列表 */
+.discount-ul {
+    margin-right: -10px;
+    overflow: hidden;
+}
+.discount-ul .items {
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    height: 285px;
+    position: relative;
+    background: #fff;
+}
+
+.discount-ul>li.items:nth-child(4n) {
+    margin-right: 0;
+}
+
+.discount-ul .items .items-link {
+    width: 290px;
+    display: block;
+    text-decoration: none;
+    background: #fff;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+.discount-ul .items a.items-link:hover img.conver {
+	width: 340px;
+	height: 208px;
+    margin-left: -25px;
+    margin-top: -25px;
+    transition: all 0.5s;
+}
+.discount-ul .items .items-link img {
+    width: 290px;
+    height: 177px;
+    overflow: hidden;
+    transition: .3s;
+    -moz-transition: .3s;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+	border: medium none;
+    vertical-align: middle;
+}
+.discount-ul .items .items-link h4 {
+    color: #333;
+    font-size: 14px;
+    margin: 10px 0;
+    display: block;
+    text-align: left;
+    line-height: 20px;
+    height: 40px;
+    overflow: hidden;
+}
+.discount-ul .items .goods-info {
+    overflow: hidden;
+    text-align: left;
+    height: 45px;
+    display: block;
+    border: 1px solid #e4393c;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 288px;
+}
+.discount-ul .items .goods-info-ended{
+	border: 1px solid #636363;
+}
+.discount-ul .items .goods-info .goods-info-txt {
+    padding: 9px 5px;
+    width: 185px;
+    line-height: 1;
+    float: left;
+    overflow: hidden;
+}
+.discount-ul .items .goods-info .goods-info-txt .goods-price {
+    display: block;
+    line-height: 22px;
+}
+.discount-ul .items .goods-info .goods-info-txt .goods-price .price-now {
+	font-style: normal;
+    font-family: arial;
+    margin-right: 5px;
+    line-height: 1;
+}
+.seckill .discount-ul .items .goods-info .goods-info-txt .goods-price .price-now .yuan {
+    font-size: 16px;
+    margin-right: 2px;
+}
+.number-thin .decimal, .number-thin .integer {
+	font-size: 24px;
+    font-weight: bold;
+	font-family: Verdana, Tahoma;
+}
+.number-red {
+    color: #E4393C;
+}
+.number-gray {
+    color: #636363;
+}
+.discount-ul .items .goods-info .goods-info-txt .goods-price .price-pre {
+    font-size: 12px;
+    color: #999;
+	line-height: 22px;
+	text-decoration: line-through;
+}
+.discount-ul .items .goods-info .btn-buy {
+    float: right;
+    color: #fff;
+    line-height: 45px;
+    font-size: 16px;
+    display: block;
+    width: 92px;
+    text-align: center;
+    background: #e4393c;
+}
+.discount-ul .items .goods-info .btn-ended{
+	background: #636363;
+}
+
+.time-list span {
+    font-size: 20px;
+    line-height: 2;
+}
+.time-list .timer .d,.time-list .timer .h, .time-list .timer .m, .time-list .timer .s {
+    background-color: #e4393c;
+    border: 1px solid #e4393c;
+    color: #fff;
+    padding: 5px;
+    margin: 0 3px;
+    border-radius: 5px;
+}
+.time-list .timer em{
+	font-style: normal;
+}

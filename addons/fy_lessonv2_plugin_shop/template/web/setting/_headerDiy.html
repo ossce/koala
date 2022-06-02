@@ -1,0 +1,25 @@
+{php $_urls = parse_url($_W["siteroot"])}
+<script>
+    var _path = "../../../../../web/resource/js/app";
+    require.config({
+        baseUrl: _path,
+        paths: {
+            "select2"	  : "{MODULE_URL}static/web/diy/js/jquery.select/zh-CN",
+            "jquery.ui"	  : "{MODULE_URL}static/web/diy/js/jquery-ui-1.12.1.min",
+            "iosOverlay"  : "{MODULE_URL}static/web/diy/js/iosOverlay",
+        },
+        shim: {
+            "select2": {
+                deps: ["css!{MODULE_URL}static/web/diy/js/jquery.select/select.min.css", "{MODULE_URL}static/web/diy/js/jquery.select/select.min.js"]
+            },
+            "jquery.ui": {
+                deps: ["loadcss!{MODULE_URL}static/web/diy/css/jquery-ui-1.12.1.min.css"],
+                exports: "$",
+            },
+            "iosOverlay": {
+                deps: ["css!{MODULE_URL}static/web/diy/css/iosOverlay.css"],
+                exports: "iosOverlay",
+            },
+        }
+    });
+</script>

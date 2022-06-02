@@ -1,0 +1,200 @@
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop">
+                <input type="hidden" name="do" value="goods">
+                <input type="hidden" name="op" value="postVirtual">
+				<input type="hidden" name="id" value="{$id}">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品名称</label>
+                    <div class="col-sm-2 col-lg-3 w-280">
+                        <input class="form-control" type="text" value="{$goods['title']}" readonly />
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">ID范围</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="card_id1" type="text" value="{$_GPC['card_id1']}" style="display:inline-block;width:44%;"> 至 <input class="form-control" name="card_id2" type="text" value="{$_GPC['card_id2']}" style="display:inline-block;width:44%;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">虚拟卡密</label>
+                    <div class="col-sm-2 col-lg-3 w-280">
+                        <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">卡密状态</label>
+                   <div class="col-sm-2 col-lg-3 w-280">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if $_GPC['status']=='0'}selected{/if}>未出售</option>
+							<option value="1" {if $_GPC['status']=='1'}selected{/if}>已出售</option>
+						</select>
+                    </div>
+					<div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default mar-r-10"><i class="fa fa-search"></i> 搜索</button>
+						<button type="submit" name="export" value="1" class="btn btn-success mar-r-10"><i class="fa fa-arrow-down"></i> 导出</button>
+						<a href="javascript:;" onclick="$('#add-virtual-modal').modal();" class="btn btn-primary"><i class="fa fa-plus"></i> 虚拟卡密</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+		<div class="panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:60px;">全选/ID</th>
+						<th style="width:20%;">卡密信息</th>
+						<th style="width:15%;">状态</th>
+						<th style="width:15%;">订单编号</th>
+						<th style="width:20%;">购买用户</th>
+						<th style="width:15%;">购买时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+						<td>
+							<input type="checkbox" name="virtual_ids[]" value="{$item['id']}"> [{$item['id']}]
+						</td>
+						<td style="word-break:break-all;">
+							{$item['value']}
+						</td>
+						<td>
+							{if $item['status'] == 1}
+								<span class="label label-warning">已出售</span>
+							{elseif $item['status'] == 0}
+								<span class="label label-success">未出售</span>
+							{/if}
+						</td>
+						<td>
+							{$item['ordersn']}
+						</td>
+						<td>
+							{if $item['uid']}
+								[uid:{$item['uid']}]{php echo $item['member']['nickname'] ? '，'.$item['member']['nickname'] : '';}<br/>
+								{$item['member']['realname']}
+								{php echo $item['member']['mobile'] ? '，'.$item['member']['mobile'] : '';}
+							{/if}
+						</td>
+						<td>
+							{php echo $item['buy_time'] ? date('Y-m-d H:i:s', $item['buy_time']) : '';}
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>
+							<input type="checkbox" id="selAll" class="mar-r-15">
+							<a href="javascript:;" id="delAll" class="btn btn-danger mar-r-15">批量删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{$pager}
+
+	<div class="modal fade" id="add-virtual-modal" tabindex="-1">
+		<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return addVirtual();">
+			<div class="we7-modal-dialog modal-dialog" style="width:900px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<div class="modal-title">添加虚拟卡密信息</div>
+					</div>
+					<div class="modal-body">
+						<div class="panel-body">
+							<div class="form-group" style="margin-bottom:0;">
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟卡密信息</label>
+								<div class="col-sm-9">
+									<textarea class="form-control" rows="8" name="virtual_keys" id="virtual_keys" style="width:630px;"></textarea>
+									<span class="help-block">
+										1、每行内容为一条信息，一行即一个库存，购买成功后发送一行内容给用户，也可在订单详情里查看；<br/>
+										2、填写信息比如：<br/>
+										VP3ED8CC9E68CF1FBB<br/>
+										VPJ215E5EJ7FFJF5AC<br/>
+									</span>
+									<div class="mar-t-15">
+										<input type="submit" name="submit" value="添加卡密" class="btn btn-primary col-lg-2">
+										<input type="hidden" name="token" value="{$_W['token']}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function addVirtual(){
+		var virtual_keys = $("#virtual_keys").val();
+		if(virtual_keys == ''){
+			util.message('请填写虚拟卡密信息', '', 'error');
+			return false;
+		}
+	}
+
+	var ids = document.getElementsByName("virtual_ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	function checkStatus(){
+		var checkids = "";
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			util.message('未选中任何卡密', '', 'error');
+			return false;
+		}else{
+			return checkids;
+		}
+	}
+
+	$("#delAll").click(function(){
+		var virtual_keys = checkStatus();
+		if(virtual_keys && confirm('该操作无法撤销，确认删除?')){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('goods',array('op'=>'deleteVirtual','goods_id'=>$id));}",
+				data: {virtual_keys:virtual_keys},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						},1500);
+					}else{
+						util.message(res.msg, '', 'error');
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+	
+</script>

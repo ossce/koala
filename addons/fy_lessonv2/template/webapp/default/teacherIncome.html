@@ -1,0 +1,63 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="myVipWrap flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $op=='display'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/teacherIncome.html">{$title}</a></li>
+				</ul>
+				{if $op=='display'}
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-180">订单编号</div>
+								<div class="txt w-330">项目名称</div>
+								<div class="txt w-100">项目金额</div>
+								<div class="txt w-100">佣金比例</div>
+								<div class="txt w-100">佣金金额</div>
+								<div class="txt w-160">收入时间</div>
+							</div>
+							{loop $list $key $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-180 text-c">{php echo $item['ordersn'] ? $item['ordersn'] : '无';}</p>
+									<p class="w-330 text-c">{$item['bookname']}</p>
+									<p class="w-100 text-c">￥ {$item['orderprice']}</p>
+									<p class="w-100 text-c">{$item['teacher_income']}%</p>
+									<p class="w-100 text-c">￥{$item['income_amount']}</p>
+									<p class="w-160 text-c">{php echo date('Y-m-d H:i:s', $item['addtime']);}</p>
+								</li>
+							</ul>
+							{/loop}
+
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的记录</p>
+						</div>
+					</div>
+					{/if}					
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

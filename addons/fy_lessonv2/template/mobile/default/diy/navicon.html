@@ -1,0 +1,31 @@
+<style type="text/css">
+{if $diy['style']['row_number'] == 2}
+	.grid_wrap .{$diy['tpl_name']}{
+		width: 49%;
+	}
+{elseif $diy['style']['row_number'] == 3}
+	.grid_wrap .{$diy['tpl_name']}{
+		width: 32%;
+	}
+{elseif $diy['style']['row_number'] == 4}
+	.grid_wrap .{$diy['tpl_name']}{
+		width: 24%;
+	}
+{elseif $diy['style']['row_number'] == 5}
+	.grid_wrap .{$diy['tpl_name']}{
+		width: 19%;
+	}
+{/if}
+</style>
+<div class="grid_wrap" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};border-radius: {$diy['style']['wrap_radius']};">
+	{loop $diy['data'] $item}
+	<a class="grid_item {$diy['tpl_name']}" href="{$item['link']}">
+		<div class="grid_hd">
+			<img src="{$item['imgurl']}" alt="{$item['text']}" style="height:{$diy['style']['icon_size']};" />
+		</div>
+		<div class="grid_bd" style="color:{$item['color']};">
+			<p>{$item['text']}</p>
+		</div>
+	</a>
+	{/loop}
+</div>

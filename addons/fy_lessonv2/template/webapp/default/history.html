@@ -1,0 +1,178 @@
+{php include $this->template($template.'/_header')}
+<style type="text/css">
+.course-list>ul>li{
+	margin-right: 40px;
+}
+.course-list>ul>li:nth-child(3n) {
+    margin-right: 0;
+}
+.course-list>ul>li:nth-child(4n){
+	margin-right: 40px;
+}
+.course-list>ul>li>a:hover>.cover:after{
+	margin-top: 0;
+}
+</style>
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="bookCollection flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $op=='display'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/history.html">学习记录</a></li>
+					{if $op=='display'}
+						<div class="searchWrap flex flex-vc" style="right:10px;position: absolute;">
+							<div class="selectCon m-r-6">
+								<select class="w-90 fs-12" id="lesson_type">
+									<option value="">全部</option>
+									<option value="0" {if $_GPC['lesson_type'] == '0'}selected{/if}>普通课程</option>
+									<option value="1" {if $_GPC['lesson_type'] == '1'}selected{/if}>报名课程</option>
+									<option value="3" {if $_GPC['lesson_type'] == '3'}selected{/if}>直播课程</option>
+								</select>
+							</div>
+							<div class="searchCon">
+								<input type="text" value="{$_GPC['bookname']}" id="bookname" placeholder="课程名称" class="w-150">
+								<a href="javascript:;" class="searchBtn">搜索</a>
+							</div>
+						</div>
+						<script type="text/javascript">
+							$(".searchBtn").click(function(){
+								var searchUrl = "{$_W['siteroot']}{$uniacid}/history.html?lesson_type=" + $("#lesson_type").val() + "&bookname=" + $("#bookname").val();
+								window.location.href = searchUrl;
+							})
+						</script>
+					{/if}
+					{if $op=='details'}
+					<li class="items actived"><a class="tabsCard" href="javascript:;">学习记录明细</a></li>
+					{/if}
+				</ul>
+				{if $op=='display'}
+					<div class="goodsLIst">
+						{if $list}
+						<div class="flex flex-vc flex-hw">
+							<div class="course-list">
+								<ul>
+									{loop $list $item}
+									<li>
+										<a href="{if $item['lesson_type']==0}/{$uniacid}/history.html?op=details&lessonid={$item['id']}{else}/{$uniacid}/lesson.html?id={$item['id']}&sectionid={$item['sectionid']}{/if}" title="{$item['bookname']}">
+											<div class="cover">
+												<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}" style="display: block;">
+												<div class="icon-live {$item['icon_live_status']}"></div>
+												{if !empty($item['ico_name'])}
+													<i class="ico_common {$item['ico_name']}"></i>
+												{/if}
+											</div>
+											<div class="info">
+												<p class="title" style="font-size:12px;">
+													{if $item['lesson_type'] == 0}
+														课程学习进度：<span style="font-weight:bold;color:#e9511b;">{$item['study_process']}%</span>
+													{elseif $item['lesson_type'] == 3}
+														<span class="count">累计学习时间：{$item['playtime']}</span>
+													{/if}
+												</p>
+												<p class="item2">
+													<span class="click">
+														<i class="iconfont icon-clock vertical-minus-1"></i> {php echo date('Y-m-d H:i:s', $item['addtime']);}
+													</span>
+												</p>
+												<p class="item1">
+													{if !empty($item['section_title'])}
+														最近学习：<span style="color:#ceab6b;">{$item['section_title']}</span>
+													{else}
+														{$item['bookname']}
+													{/if}
+												</p>
+											</div>
+										</a>
+									</li>
+									{/loop}
+								</ul>
+							</div>
+						</div>
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										{$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						{else}
+							<div class="empty-search pr">
+								<div class="block">
+									<i class="orders"></i>
+									<p>暂无符合条件的数据记录</p>
+								</div>
+							</div>
+						{/if}
+					</div>
+				{elseif $op=='details'}
+					<div class="commonTitle flex flex-v memberCenter">
+						<div class="flex flex-v userInfo">
+							<dl class="items flex" style="width:500px;margin-bottom:0;">
+								<dt class="text-r">课程名称：</dt>
+								<dd class="flex1">
+									<input type="text" class="inputTxt" value="{$lesson['bookname']}" style="width:500px;background:#ececec;" readonly />
+								</dd>
+							</dl>
+						</div>
+					</div>
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-300">章节名称</div>
+								<div class="txt w-120">最长学习时间</div>
+								<div class="txt w-120">章节总时长</div>
+								<div class="txt w-120">学习次数</div>
+								<div class="txt w-160">最后一次学习</div>
+								<div class="txt w-120">操作</div>
+							</div>
+							{loop $list $key $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-300">{$item['title']}</p>
+									<p class="w-120 text-c">
+										<span class="play-record">
+											<progress value="{$item['progress']}" max="100" class="w-100"></progress>
+										</span>
+										<br/>
+										{$item['playtime']}
+									</p>
+									<p class="w-120 text-c">{$item['duration']}</p>
+									<p class="w-120 text-c">{$item['playcount']} 次</p>
+									<p class="w-160 text-c">{php echo date('Y-m-d H:i:s', $item['addtime']);}</p>
+									<p class="w-120 text-c"><a href="/{$uniacid}/lesson.html?id={$item['lessonid']}&sectionid={$item['sectionid']}" class="go-stufy" target="_blank">前往学习</a></p>
+								</li>
+							</ul>
+							{/loop}
+
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的记录</p>
+						</div>
+					</div>
+					{/if}
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+{php include $this->template($template.'/_footer')}

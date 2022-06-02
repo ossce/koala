@@ -1,0 +1,243 @@
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="order" />
+                <input type="hidden" name="op" value="display" />
+				<input type="hidden" name="search" value="1" />
+				<input type="hidden" name="is_delete" value="{$_GPC['is_delete']}" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}" placeholder="订单编号/课程名称">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">用户信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="nickname" type="text" value="{$_GPC['nickname']}" placeholder="昵称/姓名/手机号码">
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">推荐人uid</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="rec_uid" type="text" value="{$_GPC['rec_uid']}" placeholder="推荐人uid">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							{loop $orderStatusList $key $item}
+								<option value="{$key}" {if $_GPC['status'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">支付方式</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="paytype" class="form-control">
+                            <option value="">不限</option>
+							{loop $orderPayType $key $item}
+							<option value="{$key}" {if $_GPC['paytype'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">核销状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_verify" class="form-control">
+                            <option value="">不限</option>
+							<option value="0" {if $_GPC['is_verify'] == '0'} selected="selected" {/if}>未核销</option>
+							<option value="1" {if $_GPC['is_verify'] == 1} selected="selected" {/if}>已核销</option>
+							<option value="2" {if $_GPC['is_verify'] == 2} selected="selected" {/if}>核销完成</option>
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单有效期</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="validity" class="form-control">
+                            <option value="">全部</option>
+                            <option value="2" {if $_GPC['validity'] == 2} selected="selected" {/if}>已过期</option>
+                        </select>
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">时间类型</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<label class="radio-inline" style="padding-top:0;"><input type="radio" name="timetype" value="1" {if $timetype==1}checked{/if}>下单</label>
+						<label class="radio-inline" style="padding-top:0;"><input type="radio" name="timetype" value="2" {if $timetype==2}checked{/if}>付款</label>
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+					</div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	
+    <ul class="page-nav page-nav-tabs" style="background:none;float: left;margin-left: 0px;padding-left: 0px;border-bottom:1px #c5d0dc solid;">
+        <li{if $_GPC['status']=='' && !$_GPC['is_delete']} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display'))}">全部订单</a>
+        </li>
+		<li{if in_array($_GPC['status'], array('0'))} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 0))}">待付款订单</a>
+        </li>
+        <li{if $_GPC['status']==1} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 1))}">已付款订单</a>
+        </li>
+        <li{if $_GPC['status']==2} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 2))}">已评价订单</a>
+        </li>
+        <li{if $_GPC['status']==-1} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -1))}">已取消订单</a>
+        </li>
+        <li{if $_GPC['status']==-2} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -2))}">已退款订单</a>
+        </li>
+		<li{if $_GPC['is_delete']==1} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'is_delete' => 1))}">订单回收站</a>
+        </li>
+		<li style="float:right;">
+			<a style="font-weight:bold;color:#d9534f;">订单总数：{$total}<span style="margin-left:40px;">订单总额：{$statis[0]['price']}</span></a>
+        </li>
+    </ul>
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:60px;">全选</th>
+                    <th style="width:15%;">订单编号</th>
+                    <th style="width:18%;">昵称/姓名/手机号码</th>
+                    <th style="width:18%;">课程名称</th>
+                    <th style="width:8%;">价格</th>
+					<th style="width:9%;">会员状态</th>
+                    <th style="width:8%;">订单状态</th>
+                    <th style="width:10%;">下单时间</th>
+                    <th style="width:10%; text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+					<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+                    <td>{$item['ordersn']}</td>
+                    <td>
+						<a href="{php echo $this->createWebUrl('agent', array('op'=>'detail','uid'=>$item['uid']));}" target="_blank">{$item['nickname']}<br/>{$item['realname']}，{$item['mobile']}</a>
+					</td>
+                    <td>
+						{$item['bookname']}
+						<br/>
+						<em class="spec-name">
+							规格:
+							{if $item['lesson_type']=='0' || $item['lesson_type']==3}
+								{php echo $item['spec_day']>0 ? '有效期'.$item['spec_day'].'天' : '长期有效';}
+							{elseif $item['lesson_type']=='1'}
+								{$item['spec_name']}
+							{/if}
+						</em>
+						
+					</td>
+                    <td>{$item['price']} 元</td>
+					<td>
+						<a href="{php echo $this->createWebUrl('viporder', array('op'=>'createOrder', 'uid'=>$item['uid']));}" target="_blank">
+                        {if $item['vip'] == 0}<span class="label label-default">普通</span>{/if}
+						{if $item['vip'] == 1}<span class="label label-primary">VIP</span>{/if}
+						</a>
+                    </td>
+                    <td>
+                        {if $item['status'] == 0}<span class="label label-danger">待付款</span>{/if}
+						{if $item['status'] >0}
+							<span class="label label-success">
+								{if $item['paytype']}
+									{$orderPayType[$item['paytype']]}
+								{else}
+									已支付
+								{/if}
+							</span>
+							<br/>
+						{/if}
+                        {if $item['status'] == 2}<span class="label label-warning">已评价</span>{/if}
+                        {if $item['status'] == -1}<span class="label label-default">已取消</span>{/if}
+                        {if $item['status'] == -2}<span class="label label-default">已退款</span>{/if}
+                    </td>
+                    <td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('order',array('op'=>'detail','id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" data-toggle="tooltip" data-placement="bottom" data-original-title="查看订单"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+				<tfoot>
+					<tr>
+						<td colspan="9" style="padding-bottom:30px;">
+							<input type="checkbox" id="selAll" style="margin-right:10px;">
+							{if $_GPC['is_delete']}
+								<input type="button" class="btn btn-success" id="delAll" data-type="1" value="批量还原订单">
+							{else}
+								<input type="button" class="btn btn-danger" id="delAll" data-type="0" value="批量加入回收站">
+							{/if}
+						</td>
+					</tr>
+				</tfoot>
+            </table>
+			{$pager}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var ids = document.getElementsByName("ids[]");
+var selectAll = false;
+$("#selAll").click(function(){
+	selectAll = !selectAll;
+	for(var i=0; i<ids.length; i++){
+		ids[i].checked = selectAll;
+	}
+});
+$("#delAll").click(function(){
+	var checkids = "";
+	for(var i=0; i<ids.length; i++){
+		if(ids[i].checked){
+			checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+		}
+	}
+	if(checkids===''){
+		alert('请选择要操作的订单');
+		return;
+	}
+
+	var type = $(this).attr("data-type");	
+	if(type=='1'){
+		if(!confirm('确定批量还原订单?')){
+			return;
+		}
+		var postUrl = "{php echo $this->createWebUrl('order', array('op'=>'recover'))}";
+	}else{
+		if(!confirm('确定加入订单回收站?')){
+			return;
+		}
+		var postUrl = "{php echo $this->createWebUrl('order', array('op'=>'recycle'))}";
+	}
+	
+	$.ajax({
+		type: 'post',
+		url: postUrl,
+		data: {ids:checkids},
+		dataType:'json',
+		success: function(res){
+			if(res.code===0){
+				alert(res.msg);
+				location.reload();
+			}else{
+				alert('网络请求超时，操作失败');
+			}
+		},
+		error: function(error){
+			alert('网络请求超时，请稍后重试!');
+		}
+	});
+});
+</script>

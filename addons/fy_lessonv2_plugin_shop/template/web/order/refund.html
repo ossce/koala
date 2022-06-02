@@ -1,0 +1,479 @@
+<style type="text/css">
+.table-form>tbody>tr>td{height:40px; padding:5px 15px;}
+</style>
+<div class="main">
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="800px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">退款详情</th>
+			</tr>
+			<tr>
+				<td class="table-label">订单编号</td>
+				<td class="ng-binding">{$order['ordersn']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['status'] == -2 || $order['status'] == -3}
+			<tr>
+				<td class="table-label">订单状态</td>
+				<td class="ng-binding">
+					{if $order['status'] == -2}
+						<span class="label label-info">退款中</span>
+					{/if}
+					{if $order['status'] == -3}
+						<span class="label label-default">已退款</span>
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">退款状态</td>
+				<td class="ng-binding">
+					{if $refund['status'] == -1}
+						<span class="label label-default">退款失败</span>
+					{/if}
+					{if $refund['status'] == '0'}
+						<span class="label label-danger">等待审核</span>
+						<a class="btn btn-warning btn-sm" style="margin-left:8px;padding:4px 10px;" onclick="$('#modalRefund').modal();">审核退款</a>
+					{/if}
+					{if $refund['status'] == '1'}
+						<span class="label label-warning">审核通过，等待买家退货</span>
+						<a class="btn btn-warning btn-sm" style="margin-left:8px;padding:4px 10px;" onclick="$('#modalRefund').modal();">审核退款</a>
+					{/if}
+					{if $refund['status'] == '2'}
+						<span class="label label-success">退款成功</span>
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">退款总金额</td>
+				<td class="ng-binding">
+					<strong class="color-e4393c">{$refund['refund_amount']}</strong> 元
+					{if $order['status'] == -2}
+						<a class="label label-warning" style="margin-left:12px;" onclick="$('#refundAmountModal').modal();">修改金额</a>
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">退款总积分</td>
+				<td class="ng-binding"><strong class="color-e4393c">{$refund['integral']}</strong> 积分</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">退款原因</td>
+				<td class="ng-binding">{$refund['reason']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">下单时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['addtime'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['deliver_time']}
+			<tr>
+				<td class="table-label">发货时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['deliver_time'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $order['finish_time']}
+			<tr>
+				<td class="table-label">确认收货时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['finish_time'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+
+	{if $refund['express_title'] && $refund['express_no']}
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="800px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">退货物流信息</th>
+			</tr>
+			<tr>
+				<td class="table-label">快递公司</td>
+				<td class="ng-binding">{$refund['express_title']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">物流单号</td>
+				<td class="ng-binding">{$refund['express_no']} <a class="btn-warning label express-details" style="margin-left:8px;padding:4px 10px;">点击查看物流</a></td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+		</tbody>
+	</table>
+	{/if}
+
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="10px">
+			<col width="1000px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">协商历史</th>
+			</tr>
+			<tr>
+				<td class="text-left" colspan="3">
+					<div class="refund-flex-view consult-history">
+						{loop $refund_log $key $item}
+						<div class="refund-flex-view" style="flex-direction:row;justify-content:flex-start;">
+							<div class="refund-flex-view" style="flex-direction:column;width:50px;align-items:center;">
+								<div class="refund-flex-view {if $key>0}bg-cacaca{/if}" style="height:20px;width:1px;"></div>
+								<div class="refund-flex-view {php echo $key==0 ? 'active-circle' : 'empty-circle';}"></div>
+								<div class="refund-flex-view bg-cacaca {if count($refund_log)>$key+1}flex-110{/if}" style="width:1px;"></div>
+							</div>
+							<div class="refund-flex-view" style="flex-direction:column;flex:1 1 0%;">
+								<div class="h-15"></div>
+								<div class="refund-flex-view pad-r-10" style="flex-direction:column;">
+									<strong>{$item['title']}</strong>
+									<span style="line-height:1.8;">{$item['content']}</span>
+									{if $item['picture']}
+									<ul class="weui-uploader__files">
+										{loop $item['picture'] $img}
+										<li class="member-answer__file">
+											<img src="{$_W['attachurl']}{$img}">
+										</li>
+										{/loop}
+									</ul>
+									{/if}
+									<span class="ds-in-block fs-13 color-666">{php echo date('Y-m-d H:i:s', $item['addtime']);}</span>
+									<div class="h-15"></div>
+								</div>
+							</div>
+						</div>
+						{/loop}
+					</div>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="order-goods">
+		<div class="goods-list ">
+			<table class="tb-void tb-order">
+				<colgroup>
+					<col class="gray">
+					<col class="col-goods">
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col class="gray">
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="gray"></th>
+						<th>商品</th>
+						<th>销售价</th>
+						<th>兑换积分</th>
+						<th>数量</th>
+						<th>一级佣金</th>
+						<th>二级佣金</th>
+						<th>三级佣金</th>
+						<th class="gray"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $goods_list $item}
+					<tr class="first-tr">
+						<td class="gray"></td>
+						<td>
+							<div class="goods-item">
+								<div class="goods-image">
+									<img src="{$_W['attachurl']}{$item['cover']}" title="商品图" width="60" height="60">
+								</div>
+								<div class="goods-info">
+									<div class="goods-title">{$item['title']}</div>
+									<div class="clear"></div>
+									<div class="goods-sku">
+										{if $item['sku_name']}
+											规格：{$item['sku_name']}
+										{/if}
+									</div>
+								</div>
+							</div>
+						</td>
+						<td>¥{$item['price']}</td>
+						<td>{$item['integral']} 积分</td>
+						<td>x {$item['total']}</td>
+						<td>¥{$item['commission1']}</td>
+						<td>¥{$item['commission2']}</td>
+						<td>¥{$item['commission3']}</td>
+						<td class="gray"></td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+		<div class="goods-total">
+			<ul>
+				<li>
+					<span class="item-name">商品总额：</span>
+					<span class="item-amount">¥{$order['price']}</span>
+				</li>
+				<li>
+					<span class="item-name">兑换积分：</span>
+					<span class="item-amount">{$order['integral']} 积分</span>
+				</li>
+				<li>
+					<span class="item-name">运费：</span>
+					<span class="item-amount">¥{$order['express_price']}</span>
+				</li>
+				<li class="color-e4393c">
+					<span class="item-name">实付款：</span>
+					<span class="item-amount count">	
+						{if ($order['price'] > 0 || $order['express_price'] > 0) && !$order['integral']}
+							¥{php echo $order['price']+$order['express_price']}
+						{elseif ($order['price'] == 0 && $order['express_price'] == 0) && $order['integral']}
+							{$order['integral']} 积分
+						{elseif ($order['price'] > 0 || $order['express_price'] > 0) && $order['integral']}
+							¥{php echo $order['price']+$order['express_price']}+{$order['integral']} 积分
+						{/if}
+					</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" style="margin-top:20px;">
+		<input type="button" onclick="javascript:window.history.back(-1);" value="返回列表" class="btn btn-primary col-lg-1">
+	</div>
+</div>
+
+<!-- 更改退款金额 -->
+<div class="modal fade" id="refundAmountModal" tabindex="-1">
+	<form id="deliveryForm" action="" class="form-horizontal" method="post">
+		<div class="we7-modal-dialog modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">修改退款总金额</div>
+				</div>
+				<div class="modal-body">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">退款总金额</label>
+							<div class="col-sm-9">
+								<div class="input-group">
+									<input type="text" name="refund_amount" value="{$refund['refund_amount']}" class="form-control">
+									<span class="input-group-addon">元</span>
+								</div>
+								<span class="help-block">该订单商品金额为{$order['price']} 元，运费{$order['express_price']} 元，实付款{$order['total_amount']} 元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="hidden" name="id" value="{$id}">
+					<input type="submit" class="btn btn-primary" name="submit" value="提交">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- 审核订单退款 -->
+<div class="modal fade" id="modalRefund" tabindex="-1">
+	<form class="form-horizontal">
+		<div class="we7-modal-dialog modal-dialog" style="width:850px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">审核订单退款</div>
+				</div>
+				<div class="modal-body">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作类型</label>
+							<div class="col-xs-10 col-sm-8">
+								<p class="form-control-static">
+									<input type="radio" id="refund_status3" name="refund_status" value="3">
+									<label for="refund_status3" data-toggle="tooltip" data-placement="bottom" data-original-title="补充说明后，用户可看到您的补充的内容">
+										<span class="label label-default" style="vertical-align:text-top;">补充说明</span>
+									</label>
+									{if $refund['status'] == '0'}
+									&nbsp;&nbsp;
+									<input type="radio" id="refund_status-1" name="refund_status" value="-1">
+									<label for="refund_status-1" data-toggle="tooltip" data-placement="bottom" data-original-title="驳回申请后，订单将恢复原来状态且不可再申请退款">
+										<span class="label label-danger" style="vertical-align:text-top;">驳回申请</span>
+									</label>
+									&nbsp;&nbsp;
+									<input type="radio" id="refund_status1" name="refund_status" value="1">
+									<label for="refund_status1" data-toggle="tooltip" data-placement="bottom" data-original-title="同意退货后，用户需退回商品，您收到商品后再确认完成退款">
+										<span class="label label-warning" style="vertical-align:text-top;">同意退货</span>
+									</label>
+									{/if}
+									{if $refund['status'] == '0' || $refund['status'] == '1'}
+									&nbsp;&nbsp;
+									<input type="radio" id="refund_status2" name="refund_status" value="2">
+									<label for="refund_status2" data-toggle="tooltip" data-placement="bottom" data-original-title="完成退款后，订单金额将原路退回，请您在收到买家退回商品后再操作">
+										<span class="label label-success" style="vertical-align:text-top;">完成退款</span>
+									</label>
+									{/if}
+								</p>
+								<span class="help-block">
+								{if $refund['status'] == '0'}
+									1、驳回申请后，订单将恢复原来状态且不可再申请退款；<br/>
+									2、同意退货后，用户需退回商品，您收到商品后再确认完成退款；<br/>
+								{elseif $refund['status'] == '1'}
+									完成退款后，订单金额将原路退回，请您在收到买家退回商品后再操作;
+								{/if}
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">回复内容</label>
+							<div class="col-xs-10 col-sm-8">
+								<textarea id="auditcontent" class="form-control" style="height:120px;"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btn-audit-refund">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- 物流跟踪详情 -->
+<div class="modal fade" id="modalExpressDetails" tabindex="-1">
+	<form class="form-horizontal">
+		<div class="we7-modal-dialog modal-dialog">
+			<div class="modal-content" style="width:900px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">物流详情</div>
+				</div>
+				<div class="modal-body" style="padding-bottom:0;">
+					<div class="panel-body">
+						<ul class="express-status-list">
+							<div style="text-align:center;">正在加载中...</div>
+						</ul>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="express_code" value="">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/public/zoomify/zoomify.min.css?v={$versions}">
+<script type="text/javascript" src="{MODULE_URL}static/public/zoomify/zoomify.min.js?v={$versions}"></script>
+<script type="text/javascript">
+	//图片放大器
+	$('.member-answer__file img').zoomify();
+
+	//审核退款
+	var refund_receive = "{$shop_setting['refund_receive']}";
+	$(':radio[name="refund_status"]').click(function() {
+		if($(this).val()=='1'){
+			$("#auditcontent").attr("placeholder","请填写退货地址信息");
+			$("#auditcontent").val(refund_receive);
+		}else if($(this).val()=='2' || $(this).val()=='3'){
+			$("#auditcontent").val('');
+			$("#auditcontent").attr("placeholder","请填写回复内容");
+		}else if($(this).val()=='-1'){
+			$("#auditcontent").val('');
+			$("#auditcontent").attr("placeholder","请填写拒绝原因");
+		}
+	})
+	$('#btn-audit-refund').click(function() {
+		var refund_status = $("input[name=refund_status]:checked").val();
+		var auditcontent = $("#auditcontent").val();
+		if(!refund_status){
+			util.message('请选择操作类型','','error');
+			return false;
+		}
+		if(refund_status == '-1' && !auditcontent){
+			util.message('请填写拒绝原因','','error');
+			return false;
+		}
+		if(refund_status == 1 && !auditcontent){
+			util.message('请填写退货地址，方便买家寄回商品','','error');
+			return false;
+		}
+		if(refund_status == 3 && !auditcontent){
+			util.message('请填写回复内容','','error');
+			return false;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "{php echo $this->createWebUrl('order', array('op'=>'auditRefund','refund_id'=>$refund['id']))}",
+			data: {refund_status:refund_status,auditcontent:auditcontent},
+			dataType:"json",
+			success: function(res){
+				if(res.code == 0){
+					util.message(res.message, "", "success");
+					setTimeout(function(){
+						window.location.reload();
+					},2000)
+				}else{
+					util.message(res.message, "", "error");
+					return false;
+				}
+			},
+			error: function(error){
+				util.message("网络请求超时，请稍后重试", "", "error");
+			}
+		});
+	})
+
+	//快递物流详情
+	$(".express-details").click(function(){
+		var chtml = '';
+		$("#modalExpressDetails").modal();
+
+		if(!$('.express-status-list').hasClass('has')){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('express', array('op'=>'getProcess','express_code'=>$refund['express_code'],'express_no'=>$refund['express_no'],'mobile'=>$order['receive_mobile']))}",
+				data: {},
+				dataType:"json",
+				success: function(data){
+					if(data.status == 0){
+						var jsonData = data.result.list;
+						if(jsonData.length <= 0){
+							return false;
+						}
+						for(var j=0; j<jsonData.length; j++){
+							chtml += '<li>';
+							chtml += '	<span class="date">' + jsonData[j].time + '</span>';
+							chtml += '	<span class="text">' + jsonData[j].status + '</span>';
+							chtml += '</li>';
+						}
+						$('.express-status-list').html(chtml).addClass('has');
+					}else{
+						$('.express-status-list').html(data.msg);
+					}
+				},
+				error: function(error){
+					util.message("网络请求超时，请稍后重试", "", "error");
+				}
+			});
+		}
+	})
+</script>

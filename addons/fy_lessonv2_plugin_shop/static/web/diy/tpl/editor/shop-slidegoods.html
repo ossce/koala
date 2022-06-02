@@ -1,0 +1,337 @@
+<script>
+    var category = window.category;
+	Diy.Editor.defaultData.slidegoods = {
+        style: {
+            background: '#FFFFFF',
+			speed: 5,
+            vertical_padding: '0px',
+            horizontal_padding: '15px',
+			icon_imgsrc: '{MODULE_URL}static/web/diy/img/icon-recommend-title.png',
+			title_font: '猜您喜欢',
+			title_color: '#FD5A45',
+			title_bottom_color: '#F6F6F6',
+			show_more: 1,
+			more_font: '查看更多',
+			more_color: '#FD5A45',
+			more_top_color: '#ECECEC',
+			more_link: '',
+			goods_from: '0',
+			pid: '0',
+			pid_name: '',
+			cid: '0',
+			cid_name: '',
+			ccid: '0',
+			ccid_name: '',
+        },
+        data: [
+			{
+				goodsid: '',
+				title: '这里是商品名称，选择商品后自动替换',
+				imgurl: '{MODULE_URL}static/web/diy/img/goods_cover_1.png',
+			},
+			{
+				goodsid: '',
+				title: '这里是商品名称，选择商品后自动替换',
+				imgurl: '{MODULE_URL}static/web/diy/img/goods_cover_2.png',
+			},
+		]
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="slidegoods">
+    <div class="editor-slidegoods">
+		<div class="alert alert-info">
+            左侧为商品预览图，图中的销售数量、销售价格等均为预览效果，手机端显示为该商品的实时数据。
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">滚动间隔</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.speed %>" data-type="style" data-key="speed">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.speed %>" data-unit="秒" data-min="1" data-max="10" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.speed %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题两侧图标</div>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.icon_imgsrc %>" data-type="style" data-key="icon_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.icon_imgsrc %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="icon_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+				<span class="help-block">建议图片尺寸38px * 22px，PNG格式</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题名称</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.title_font %>" data-type="style" data-key="title_font" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题名称颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.title_color %>" data-type="style" data-key="title_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FD5A45').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">标题底部线条</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.title_bottom_color %>" data-type="style" data-key="title_bottom_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#F6F6F6').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">查看更多</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_more" class="input_binding" value="1" data-type="style" data-key="show_more" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params" <% if(style.show_more==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_more" class="input_binding" value="0" data-type="style" data-key="show_more" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params" <% if(style.show_more!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+		<div class="form-group" <% if(style.show_more!=1){ %>style="display:none;"<% } %> >
+            <div class="col-sm-2 control-label text-right">更多名称</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.more_font %>" data-type="style" data-key="more_font" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+		<div class="form-group" <% if(style.show_more!=1){ %>style="display:none;"<% } %> >
+            <div class="col-sm-2 control-label text-right">更多颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.more_color %>" data-type="style" data-key="more_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FD5A45').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">更多顶部线条</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.more_top_color %>" data-type="style" data-key="more_top_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#ECECEC').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group" <% if(style.show_more!=1){ %>style="display:none;"<% } %> >
+            <div class="col-sm-2 control-label text-right">更多链接</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.more_link %>" data-type="style" data-key="more_link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="链接以http://或https://开头，留空跳转到商品列表页">
+            </div>
+        </div>
+		<hr/>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">商品来源</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="goods_from" class="input_binding" value="0" data-type="style" data-key="goods_from" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params" <% if(style.goods_from!=1){ %>checked<% } %>> 下方商品
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="goods_from" class="input_binding goods_from_cate" value="1" data-type="style" data-key="goods_from" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params" <% if(style.goods_from==1){ %>checked<% } %>> 商品分类
+                </label>
+            </div>
+        </div>
+		<div class="form-group" <% if(style.goods_from!=1){ %>style="display:none;"<% } %>>
+			<label class="col-sm-2 control-label text-right">商品分类</label>
+			<div class="col-sm-9">
+				<div class="row row-fix pad-l-15 pad-b-15">
+					已选：<%= style.pid_name ? style.pid_name : '全部一级分类' %>、<%= style.cid_name ? style.cid_name : '全部二级分类' %>、<%= style.ccid_name ? style.ccid_name : '全部三级分类' %>
+				</div>
+				<div class="row row-fix pad-l-13">
+					<input type="hidden" class="pid" value="<%= style.pid %>" data-type="style" data-key="pid" data-name="<%= name %>" data-guid="<%= guid %>">
+					<input type="hidden" class="pid_name" value="<%= style.pid_name %>" data-type="style" data-key="pid_name" data-name="<%= name %>" data-guid="<%= guid %>">
+					<input type="hidden" class="cid" value="<%= style.cid %>" data-type="style" data-key="cid" data-name="<%= name %>" data-guid="<%= guid %>">
+					<input type="hidden" class="cid_name" value="<%= style.cid_name %>" data-type="style" data-key="cid_name" data-name="<%= name %>" data-guid="<%= guid %>">
+					<input type="hidden" class="ccid" value="<%= style.ccid %>" data-type="style" data-key="ccid" data-name="<%= name %>" data-guid="<%= guid %>">
+					<input type="hidden" class="ccid_name" value="<%= style.ccid_name %>" data-type="style" data-key="ccid_name" data-name="<%= name %>" data-guid="<%= guid %>">
+					<div class="col-sm-4 pad-l-r-5">
+						<select class="form-control" onchange="renderCategory(this)">
+							<option value="0">全部一级分类</option>
+							<% for(var i=0; i<category.length; i++){ %>
+							<option value="<%= category[i].id %>"><%= category[i].name %></option>
+							<% } %>
+						</select>
+					</div>
+					<div class="col-sm-4 pad-l-r-5">
+						<select class="form-control select_cid" onchange="renderSecondCategory(this)">
+							<option value="0">全部二级分类</option>
+						</select>
+					</div>
+					<div class="col-sm-4 pad-l-r-5">
+						<select class="form-control select_ccid" onchange="renderThirdCategory(this)">
+							<option value="0">全部三级分类</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="" <% if(style.goods_from!=1){ %>style="display:none;"<% } %>>
+		</div>
+        <div class="form-group ui-sortable ep-item-sortable" <% if(style.goods_from!=0){ %>style="display:none;"<% } %>>
+			<div class="alert alert-warning">【单击商品图可拖动排序】该组件为左右滑动组件，左侧仅显示一行两个商品。</div>
+            <% _.each(data, function(item, index) { %>
+            <div class="slidegoods-item ep-item" id="ep-item-<%= guid %>-<%= index %>">
+                <div class="slidegoods-image">
+                    <img src="<%= item.imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                </div>
+                <div class="slidegoods-params">
+                    <div class="input-group" style="margin-bottom: .8rem">
+                        <input type="text" class="form-control input-sm" value="<%= item.title %>" data-type="data" data-key="title" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+                        <span class="input-group-addon btn btn-default ep-select-goods">选择商品</span>
+                    </div>
+					<div class="input-group">
+						<span class="input-group-addon">商品ID</span>
+						<input type="text" class="form-control input-sm input_binding" value="<%= item.goodsid %>" data-type="data" data-key="goodsid" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+						<span class="input-group-addon hide"></span>
+					</div>
+                </div>
+                <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="2"></span>
+            </div>
+            <% }); %>
+        </div>
+        <div class="form-group text-center" <% if(style.goods_from!=0){ %>style="display:none;"<% } %>>
+            <button class="btn btn-default btn-block ep-item-add" type="button" data-name="<%= name %>" data-guid="<%= guid %>">
+                <i class="fa fa-plus-circle"></i> 添加商品
+            </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+	$(document).on('click', 'input[name=goods_from]',function(){
+		if($(this).val() == 0){
+			$(this).parent().parent().parent().next().hide();
+			$(this).parent().parent().parent().next().next().hide();
+			$(this).parent().parent().parent().next().next().next().show();
+			$(this).parent().parent().parent().next().next().next().next().show();
+		}else if($(this).val() == 1){
+			$(this).parent().parent().parent().next().show();
+			$(this).parent().parent().parent().next().next().show();
+			$(this).parent().parent().parent().next().next().next().hide();
+			$(this).parent().parent().parent().next().next().next().next().hide();
+		}
+	})
+
+	function renderCategory(obj){
+		var chtml2 = '<option value="0">全部二级分类</option>';
+
+		var pid = $(obj).val();
+		var pid_name = $(obj).find("option:selected").text();
+		$(obj).parent().parent().find('.pid').val(pid);
+		$(obj).parent().parent().find('.pid_name').val(pid_name);
+		$(obj).parent().parent().find('.cid').val(0);
+		$(obj).parent().parent().find('.cid_name').val('');
+		$(obj).parent().parent().find('.ccid').val(0);
+		$(obj).parent().parent().find('.ccid_name').val('');
+
+		if(pid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						chtml2 += '<option value="' + second[j].id+'">' + second[j].name + '</option>';
+					}
+					$(obj).parent().next().find('.select_cid').html(chtml2);
+				}
+			}
+		}else{
+			$(obj).parent().next().find('.select_cid').html(chtml2);
+		}
+		$(obj).parent().parent().parent().parent().parent().find('.goods_from_cate').click();
+	}
+
+	function renderSecondCategory(obj){
+		var chtml3 = '<option value="0">全部三级分类</option>';
+
+		var pid = $(obj).parent().parent().find('.pid').val();
+		var cid = $(obj).val();
+		var cid_name = $(obj).find("option:selected").text();
+		$(obj).parent().parent().find('.cid').val(cid);
+		$(obj).parent().parent().find('.cid_name').val(cid_name);
+		$(obj).parent().parent().find('.ccid').val(0);
+		$(obj).parent().parent().find('.ccid_name').val('');
+		
+		if(pid && cid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						var third = category[i].second[j].third;
+						for(var k in third){
+							chtml3 += '<option value="' + third[k].id+'">' + third[k].name + '</option>';
+						}
+					}
+					$(obj).parent().next().find('.select_ccid').html(chtml3);
+				}
+			}
+		}else{
+			$(obj).parent().next().find('.select_ccid').html(chtml3);
+		}
+		$(obj).parent().parent().parent().parent().parent().find('.goods_from_cate').click();
+	}
+
+	function renderThirdCategory(obj){
+		var ccid = $(obj).val();
+		var ccid_name = $(obj).find("option:selected").text();
+		$(obj).parent().parent().find('.ccid').val(ccid);
+		$(obj).parent().parent().find('.ccid_name').val(ccid_name);
+
+		$(obj).parent().parent().parent().parent().parent().find('.goods_from_cate').click();
+	}
+</script>

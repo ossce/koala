@@ -1,0 +1,159 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">分类信息</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>上级分类</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" value="{$parent_name}" readonly/>
+						<input type="hidden" name="parentid" value="{php echo $category['parentid'] ? $category['parentid'] : $_GPC['parentid'];}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>分类名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="catename" class="form-control" value="{$category['name']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>分类图标</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('ico', $category['ico']);}
+						<span>建议尺寸200px * 200px</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义链接</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<span class="input-group-addon">手机端</span>
+							<input type="text" name="link" value="{$category['link']}" class="form-control">
+							<span class="input-group-addon">PC端</span>
+							<input type="text" name="link_pc" value="{$category['link_pc']}" class="form-control">
+						</div>
+						<span class="help-block">如需设置自定义链接，请输入http://或https://开头</span>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="displayorder" class="form-control" value="{$category['displayorder']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"style="margin-top: 7px;">其他设置</label>
+                    <div class="col-sm-9" style="margin-top:13px;">
+						<label><input type="checkbox" name="is_show" value="1" {if $category['is_show']==1}checked{/if}>首页显示</label>&nbsp;&nbsp;
+						<label><input type="checkbox" name="is_hot" value="1" {if $category['is_hot']==1}checked{/if}>推荐分类</label>
+						<span class="help-block">首页显示：分类将显示在手机端显示；推荐分类：分类将显示在手机端全部课程页面的推荐分类里。</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">关联课程属性</label>
+                    <div class="col-sm-9">
+						{if $lesson_attribute['attribute1']}
+							<label class="btn btn-default" onclick="popwin = $('#attribute1').modal();">{$lesson_attribute['attribute1']}</label>&nbsp;&nbsp;
+						{/if}
+						{if $lesson_attribute['attribute2']}
+							<label class="btn btn-default" onclick="popwin = $('#attribute2').modal();">{$lesson_attribute['attribute2']}</label>
+						{/if}
+							<span class="help-block">关联课程属性后，前端筛选分类后，将显示对应的课程属性值</span>
+                    </div>
+                </div>
+				<div class="modal fade in" id="attribute1" tabindex="-1">
+					<div class="we7-modal-dialog modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+								<div class="modal-title">关联课程属性【{$lesson_attribute['attribute1']}】</div>
+							</div>
+							<div class="modal-body">
+								<div class="we7-form">
+									<div class="form-group">
+										<label class="control-label col-sm-2" style="padding-top:0;">属性值</label>
+										<div class="form-controls col-sm-10">
+											{loop $attribute1 $item}
+												<label><input type="checkbox" name="attribute1[]" value="{$item['id']}" style="display:inline-block;" {if in_array($item['id'], $category['attribute1'])}checked{/if}>{$item['name']}</label>&nbsp;&nbsp;
+											{/loop}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade in" id="attribute2" tabindex="-1">
+					<div class="we7-modal-dialog modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+								<div class="modal-title">关联课程属性【{$lesson_attribute['attribute2']}】</div>
+							</div>
+							<div class="modal-body">
+								<div class="we7-form">
+									<div class="form-group">
+										<label class="control-label col-sm-2" style="padding-top:0;">属性值</label>
+										<div class="form-controls col-sm-10">
+											{loop $attribute2 $item}
+												<label><input type="checkbox" name="attribute2[]" value="{$item['id']}" style="display:inline-block;" {if in_array($item['id'], $category['attribute2'])}checked{/if}>{$item['name']}</label>&nbsp;&nbsp;
+											{/loop}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>状态</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline"><input type="radio" name="search_show" value="1" {if $category['search_show']=='1' || !$id}checked{/if} /> 显示</label>
+                        <label class="radio-inline"><input type="radio" name="search_show" value="0" {if $category['search_show']=='0'}checked{/if} /> 隐藏</label>
+                    </div>
+                </div>
+				{if $category['id']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类链接(手机端)</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$_W['siteroot']}app/{php echo str_replace("./", "", $this->createMobileUrl('search', array('cat_id'=>$category['id'],'clear'=>1)));}</a></div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类链接(PC端)</label>
+                    <div class="col-sm-9">
+                        <div style="padding-top:8px;font-size: 14px;">
+							<a href="javascript:;" id="copy-pc-btn">
+							{if $category['parentid']}
+								{$setting_pc['site_root']}{$uniacid}/search.html?pid={$category['parentid']}&cid={$category['id']}
+							{else}
+								{$setting_pc['site_root']}{$uniacid}/search.html?pid={$category['id']}
+							{/if}
+							</a>
+						</div>
+                    </div>
+                </div>
+				{/if}
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+        </div>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copy-btn")[0], $("#copy-btn").text());
+		util.clip($("#copy-pc-btn")[0], $("#copy-pc-btn").text());
+	});
+});
+</script>

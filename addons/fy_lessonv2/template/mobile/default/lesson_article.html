@@ -1,0 +1,431 @@
+<!--
+ * 课程文章详情页
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/article.css?v={$versions}" rel="stylesheet" />
+<link href="{MODULE_URL}static/mobile/{$template}/css/lesson.css?v={$versions}" rel="stylesheet" />
+
+{if !$common['article_copy']}
+<style type="text/css">
+	*{margin:0px;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}img{pointer-events:none;-webkit-pointer-events:none;-ms-pointer-events:none;-moz-pointer-events:none;}
+</style>
+{/if}
+<style type="text/css">
+	.right_menu_wrap{display:none;}
+</style>
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="title">{$title}</div>
+	<a href="{php echo $this->createMobileUrl('index', array('t'=>1))}" class="ico go-index"></a>
+</div>
+
+<div class="rich_primary">
+	<div class="rich_title">{$section['title']}</div>
+	<div class="rich_mate">
+		<div class="rich_mate_text"></div>
+		<a href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$lesson['teacherid']));}"><div class="rich_mate_text href">{$lesson['teacher']}</div></a>
+	</div>
+	<div class="rich_content" id="section-content">
+		{if !$common['article_page'] && !$free_article}
+			{php echo htmlspecialchars_decode($section['content']);}
+		{/if}
+
+		{if $free_article}
+			{php echo htmlspecialchars_decode($pageContent[0]);}
+			<div id="lesson_desc_more" style="display: block;height:100px;margin-top:-100px;left:0;">
+				<a href="{php echo $this->createMobileUrl('lesson', array('id'=>$lesson['id']));}" class="more" style="font-size:.9rem;">试读已结束，购买后阅读全文 <i class="fa fa-angle-double-down"></i></a>
+			</div>
+		{/if}
+	</div>
+	{if $common['article_page'] && !$free_article}
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 阅读更多</a>
+	</div>
+	{/if}
+	{if !empty($advs['img'])}
+	<div>
+		<a href="{$advs['link']}"><img src="{$_W['attachurl']}{$advs['img']}" style="width: 98%;"></a>
+	</div>
+	{/if}
+	<div class="rich_tool">
+		<a {if $prev_article['id']}href="{php echo $this->createMobileUrl('lesson', array('id'=>$prev_article['parentid'],'sectionid'=>$prev_article['id']));}"{/if} class="lesson_article_common lesson_prev_article">
+			上一节:{php echo $prev_article['title'] ? $prev_article['title'] : '没有了'}
+		</a>
+
+		<a {if $next_article['id']}href="{php echo $this->createMobileUrl('lesson', array('id'=>$next_article['parentid'],'sectionid'=>$next_article['id']));}"{/if} class="lesson_article_common lesson_next_article">
+			下一节:{php echo $next_article['title'] ? $next_article['title'] : '没有了'}
+		</a>
+	</div>
+</div>
+
+<!-- 目录页S -->
+<div class="btn_dir_mark">
+	<div class="btn_dir_home">
+		<i class="mt15 fa">目录</i>
+	</div>
+	<div class="btn_dir_mark_bg"></div>
+</div>
+<div class="aside">
+	<div class="aside-content">
+		<div class="btn-group-tab">
+			<nav class="btn-group">
+				<h3 class="btn-group-cell">
+					<a href="javascript:" class="btn-blank">目录</a>
+				</h3>
+			</nav>
+		</div>
+		<div class="chapter-section course-container">
+			<ul class="course-chapter">
+				<li>
+					{if $section_count}
+						{loop $title_list $key $title}
+						<h2 class="chapter-title" onclick="handleSection(this)"><i class="section-title-icon"></i>{$title['title']}[{php echo count($title['section'])}课时]<span class="{if $sectionid}{if !$title['play']}open{/if}{else}{if $key>4}open{/if}{/if}"></span></h2>
+						<ul class="course-sections {if $sectionid}{if !$title['play']}hide{/if}{else}{if $key>4}hide{/if}{/if}">
+							{loop $title['section'] $sec}
+							<li>
+								<a href="javascript:;" onclick="readSection({$sec['id']});" class="title_wrap {if $sectionid==$sec['id']}section-active{/if}">
+									<div class="title">
+										<i class="course-type">
+											{if $sec['sectiontype']==1}
+												视频
+											{elseif $sec['sectiontype']==2}
+												图文
+											{elseif $sec['sectiontype']==3}
+												音频
+											{elseif $sec['sectiontype']==4}
+												外链
+											{/if}
+										</i>
+										{if ($sec['sectiontype']==1 || $sec['sectiontype']==3) && $sec['password']}
+										<i class="fa fa-lock"></i>
+										{/if}
+										{$sec['title']}
+									</div>
+									<div class="free-time-content">
+										{if $sec['is_free']==1}
+										<span class="free-play-box">
+											<i class="fa fa-play-circle"></i>
+											<i class="free-play-font">{php echo $lesson_page['freeTip'] ? $lesson_page['freeTip'] : '免费试听';}</i>
+										</span>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										{else}
+											{if $lesson_page['playTip']}
+												<span class="buy-play-box">
+													<i class="fa fa-play-circle"></i>
+													<i class="free-play-font">{$lesson_page['playTip']}</i>
+												</span>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+											{/if}
+										{/if}
+
+										{if $sec['videotime']}
+										<span class="section-time">
+											<i class="fa fa-clock-o"></i>
+											<i>{$sec['videotime']}</i>
+										</span>
+										{/if}
+									</div>
+								</a>
+							</li>
+							{/loop}
+						</ul>
+						{/loop}
+						
+						{if !empty($section_list)}
+							{if empty($title_list)}
+								<h2 class="chapter-title" onclick="location.href='{php echo $this->createMobileUrl('lesson', array('id'=>$lesson['id']));}'"><i class="section-title-icon"></i>{$lesson['bookname']}[{$section_count}课时]</h2>
+							{/if}
+							<ul class="course-sections">
+							{loop $section_list $sec}
+								<li>
+									<a href="javascript:;" onclick="readSection({$sec['id']});" class="title_wrap {if $sectionid==$sec['id']}section-active{/if}">
+										<div class="title">
+											<i class="course-type">
+												{if $sec['sectiontype']=='1'}
+													视频
+												{elseif $sec['sectiontype']=='2'}
+													图文
+												{elseif $sec['sectiontype']=='3'}
+													音频
+												{elseif $sec['sectiontype']=='4'}
+													外链
+												{/if}
+											</i>
+											{if ($sec['sectiontype']==1 || $sec['sectiontype']==3) && $sec['password']}
+											<i class="fa fa-lock"></i>
+											{/if}
+											{$sec['title']}
+										</div>
+										<div class="free-time-content">
+											{if $sec['is_free']==1}
+											<span class="free-play-box">
+												<i class="fa fa-play-circle"></i>
+												<i class="free-play-font">{php echo $lesson_page['freeTip'] ? $lesson_page['freeTip'] : '免费试听';}</i>
+											</span>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+											{else}
+												{if $lesson_page['playTip']}
+												<span class="buy-play-box">
+													<i class="fa fa-play-circle"></i>
+													<i class="free-play-font">{$lesson_page['playTip']}</i>
+												</span>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												{/if}
+											{/if}
+
+											{if $sec['videotime']}
+											<span class="section-time">
+												<i class="fa fa-clock-o"></i>
+												<i>{$sec['videotime']}</i>
+											</span>
+											{/if}
+										</div>
+									</a>
+								</li>
+								{/loop}
+							</ul>
+						{/if}
+					{else}
+						<h2 class="chapter-title" onclick="location.href='{php echo $this->createMobileUrl('lesson', array('id'=>$lesson['id']));}'"><i class="section-title-icon"></i>{$lesson['bookname']}[{$section_count}课时]</h2>
+						<ul class="course-sections">
+							<li style="height:auto;padding:10%;">
+								<a style="text-align:center;">{php echo $lesson['lesson_type']==0 ? '抱歉，该课程没有找到任何内容~' : '请点击“详情”查看相关介绍哦~';}</a>
+							</li>
+						</ul>
+					{/if}
+				</li>
+			<ul>
+		</div>
+	</div>
+</div>
+<!-- 书签页E -->
+
+<!-- 遮罩层 -->
+<div class="flick-menu-mask hide"></div>
+
+{if $common['article_page'] && !$free_article}
+	<script type="text/javascript">
+	var ajaxUrl = "{php echo $this->createMobileUrl('articlepage', array('id'=>$id,'sectionid'=>$sectionid,'type'=>'lesson'));}";
+	var get_status = true; //允许获取状态
+
+	$(function () {
+		var nowPage = 1; //设置当前页数，全局变量
+		function getData(page) {  
+			if(get_status){
+				nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+				$.get(ajaxUrl, {page: page }, function (data) {
+					loadingToast.style.display = 'none';
+
+					var jsonObj = JSON.parse(data);
+					if (jsonObj) {
+						insertDiv(jsonObj);  
+					}
+					if(jsonObj.content==null){
+						get_status = false;  //没有数据后，禁止请求获取数据
+						document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+					}
+				});
+			}
+		} 
+		getData(1);
+
+		//生成数据html,append到div中  
+		function insertDiv(result) {  
+			var mainDiv =$(".rich_content");
+			var chtml = result.content;  
+			
+			mainDiv.append(chtml);
+		}  
+	  
+		//定义鼠标滚动事件
+		var scroll_loading = false;
+		$(window).scroll(function(){
+		　　var scrollTop = $(this).scrollTop();
+		　　var scrollHeight = $(document).height();
+		　　var windowHeight = $(this).height();
+		　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+				scroll_loading = true;
+				getData(nowPage);  
+				scroll_loading = false;
+		　　}
+		});
+		$("#btn_Page").click(function () {
+			loadingToast.style.display = 'block';
+			getData(nowPage);
+		});
+	  
+	});
+	</script>
+{/if}
+
+<script type="text/javascript">
+<?php if($sectionid>0 && $uid>0){ ?>
+	var second = 0;
+	window.setInterval(function () {
+		second ++;
+		var submiting = false;
+		
+		//每分钟记录一次，超过10分钟不再记录
+		if(!submiting && second%60==0 && second<=600){
+			var recordurl = "{php echo $this->createMobileUrl('record', array('lessonid'=>$_GPC['id'],'sectionid'=>$_GPC['sectionid'],'playtoken'=>random(8)));}";
+			$.get(recordurl, {currentTime:second}, function (data){});
+			$.get(recordurl+'&op=realPlay', {realPlayTime:second}, function (data){});
+			submiting = true;
+		}
+	}, 1000);
+<?php } ?>
+
+	$(function() {
+		$(".btn_dir_home").click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).parent().toggleClass("active");
+			$(this).parent().next().toggleClass("active");
+		});
+		$(".btn_dir_mark").click(function(e) {
+			$(this).toggleClass("active");
+			$(this).next().toggleClass("active");
+		});
+	})
+
+	var iosBuyTip = '';
+	var isMiniProgram = false;
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		var miniprogram_environment = false;
+		wx.miniProgram.getEnv(function(res) {
+			if(res.miniprogram) {
+				miniprogram_environment = true;
+			}
+		})
+		if((window.__wxjs_environment === 'miniprogram' || miniprogram_environment)) {
+			isMiniProgram = true;
+			wx.miniProgram.getEnv(function(res) {
+				wx.miniProgram.postMessage({ 
+					data: {
+						'title': "{$sharelesson['title']}",
+						'images': "{$sharelesson['images']}",
+					}
+				})
+			});
+			$("#qq-consult").attr("href","javascript:;");
+			$("#qqgroup-consult").attr("href","javascript:;");
+
+			<?php if(!strstr($config['service_url'], $_W['siteroot'])){ ?>
+				$("#all-consult").attr("href","javascript:;");
+			<?php } ?>
+			$(".follow_qrcode").hide();
+
+			<?php if($systemType=='ios'){ ?>
+				$('.no-ios').hide();
+				$('.is-ios').show();
+				$('.is-ios a p').html('不支持');
+			<?php } ?>
+
+			$(".wxapp-download-tip").click(function(){
+				alert("小程序环境暂不支持下载");
+			})
+		}
+	});
+
+	<?php if($userAgent && $systemType=='ios' && !$setting['ios_pay']){ ?>
+		iosBuyTip = "{php echo $lesson_page['iosBuyTip'] ? $lesson_page['iosBuyTip'] : '根据公众号相关运营规范，iOS端公众号不支持开通VIP或购买课程'}";
+		$('.no-ios').hide();
+		$('.is-ios').show();
+		$('.is-ios').click(function(){
+			alert(iosBuyTip);
+		})
+	<?php } ?>
+	function readSection(sectionid){
+		var lessonid = "{$lesson['id']}";
+		$("#loadingToast").show();
+
+		$.ajax({
+			type: 'get',
+			url: "{php echo $this->createMobileUrl('sectionstudystatus')}",
+			data: {id:lessonid, sectionid:sectionid},
+			dataType: 'json',     
+			success: function(data){
+				$("#loadingToast").hide();
+				if(data.code==0){
+					location.href = "{php echo $this->createMobileUrl('lesson')}&id=" + lessonid + "&sectionid=" + sectionid;
+				}else if(data.code==-99){
+					<?php if($systemType=='ios'){ ?>
+						if(isMiniProgram){
+							alert('不支持该操作类型');
+						}else{
+							alert(iosBuyTip ? iosBuyTip : data.msg);
+						}
+					<?php }else{ ?>
+						alert(iosBuyTip ? iosBuyTip : data.msg);
+					<?php } ?>
+				}else{
+					alert(data.msg);
+				}
+			},
+			error: function(error){
+				$("#loadingToast").hide();
+				alert('网络繁忙，请稍候重试');
+			}
+		});
+	}
+
+	//展开和关闭章节
+	function handleSection(obj){
+		$(obj).find('span').toggleClass("open");
+		$(obj).next('ul').toggleClass("hide");
+	}
+</script>
+
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+
+	$(function(){
+		$(document).on('click', '.rich_content img', function(){
+			let imgs = [];
+			let imgObj = document.querySelectorAll('div.rich_content img');
+			let l=imgObj.length;
+			for (let i = 0; i < l; i++) {
+				imgs.push(imgObj[i].src);
+			}
+
+			WeixinJSBridge.invoke("imagePreview", {
+				"urls": imgs,
+				"current": this.src
+			})
+		})
+	})
+<?php if($userAgent && $common['article_copy']){ ?><?php } ?>
+
+	wx.ready(function(){
+		var shareData = {
+			title: "{$sharelesson['title']}",
+			desc: "{$sharelesson['desc']}",
+			link: "{$sharelesson['link']}",
+			imgUrl: "{$sharelesson['images']}",
+			trigger: function (res) {},
+			complete: function (res) {},
+			success: function (res) {
+				$.post("{php echo $this->createMobileUrl('sharecoupon');}");
+			},
+			cancel: function (res) {},
+			fail: function (res) {}
+		};
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareWeibo(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+</script>
+
+{template $template.'/_footerv2'}

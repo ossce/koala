@@ -1,0 +1,35 @@
+<div class="right_menu_shade" style="display:none;background-color:rgba(0,0,0,0.5);position:fixed;width:100%;height:100%;top:0;z-index:201;"></div>
+<div class="right_menu_wrap">
+	<div class="right_menu_item animated">
+		{loop $right_menu $key $item}
+		<a href="{$item['url_link']}" class="weui-tabbar__item ">
+			<img class="item_icon" src="{$_W['attachurl']}{$item['unselected_icon']}"/>
+			<p class="weui-tabbar__label">{$item['nav_name']}</p>
+		</a>
+		{/loop}
+		<a href="javascript:window.history.go(-1);" class="weui-tabbar__item ">
+			<img class="item_icon" src="{MODULE_URL}static/mobile/default/images/icon-right-menu-goback.png"/>
+			<p class="weui-tabbar__label">返回</p>
+		</a>
+		<a href="javascript:$('html,body,.section').animate({scrollTop:0});" class="weui-tabbar__item ">
+			<img class="item_icon" src="{MODULE_URL}static/mobile/default/images/icon-right-menu-gotop.png"/>
+			<p class="weui-tabbar__label">顶部</p>
+		</a>
+		<a href="javascript:;" class="weui-tabbar__item right_menu_close">
+			<img class="item_icon" src="{MODULE_URL}static/mobile/default/images/icon-close-o-gray.svg" style="width:32px;height:38px;" />
+		</a>
+	</div>
+	<i class="right_menu_name">{php echo $common['index_page']['right_menu'] ? $common['index_page']['right_menu'] : '菜单';}</i>
+</div>
+
+<script type="text/javascript">
+	$(".right_menu_name").click(function(){
+		$(".right_menu_wrap .right_menu_item").addClass("bounceInRight");
+		$(".right_menu_shade").show();
+	})
+	
+	$(".right_menu_shade,.right_menu_item>.weui-tabbar__item").click(function(){
+		$(".right_menu_wrap .right_menu_item").removeClass("bounceInRight");
+		$(".right_menu_shade").hide();
+	})
+</script>

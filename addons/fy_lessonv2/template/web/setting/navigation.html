@@ -1,0 +1,117 @@
+<style type="text/css">
+.table-responsive .table>tbody>tr>td{vertical-align: middle;}
+</style>
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="setting" />
+                <input type="hidden" name="op" value="navigation" />
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">名称</label>
+					<div class="col-sm-8 col-lg-2 col-xs-12">
+                        <input class="form-control" name="nav_name" type="text" value="{$_GPC['nav_name']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">导航位置</label>
+                    <div class="col-sm-8 col-lg-2 col-xs-12">
+                        <select name="location" class="form-control">
+                            <option value="">不限</option>
+							{loop $nav_location $key $item}
+							<option value="{$key}" {if $_GPC['location'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;
+						<a class="btn btn-success" href="{php echo $this->createWebUrl('setting', array('op'=>'addNav','type'=>1));}"><i class="fa fa-plus"></i> 底部导航</a>&nbsp;&nbsp;
+						<a class="btn btn-success" href="{php echo $this->createWebUrl('setting', array('op'=>'addNav','type'=>2));}"><i class="fa fa-plus"></i> 其他导航</a>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <form action="" method="post" class="form-horizontal form" >
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:8%;">{if $_GPC['location']>1}排序{else}ID{/if}</th>
+					<th style="width:15%;">导航位置</th>
+                    <th style="width:13%;">导航名称</th>
+					<th style="width:13%;">未选图标</th>
+                    <th style="width:13%;">已选图标</th>
+					<th style="width:13%;">链接</th>
+                    <th style="width:15%;">添加时间</th>
+                    <th style="text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $navigation $item}
+                <tr>
+                    <td>
+						{if $_GPC['location']>1}
+							<input type="text" class="form-control" name="displayorder[{$item['nav_id']}]" value="{$item['displayorder']}" style="width: 70px;display:inline-block;">
+						{else}
+							{$item['nav_id']}
+						{/if}
+					</td>
+					<td>
+						{$nav_location[$item['location']]}
+						{if $item['nav_ident']!='mobile'}
+							【{$nav_ident[$item['nav_ident']]['name']}】
+						{/if}
+					</td>
+					<td>{$item['nav_name']}</td>
+                    <td>
+						{if $item['unselected_icon']}
+							<img src="{$_W['attachurl']}{$item['unselected_icon']}" style="max-height:25px;"/>
+						{else}
+							未上传
+						{/if}
+					</td>
+					<td>
+						{if $item['selected_icon']}
+							<img src="{$_W['attachurl']}{$item['selected_icon']}" style="max-height:25px;"/>
+						{else}
+							未上传
+						{/if}
+					</td>
+                    <td>
+						{if $item['url_link']}
+							已填写
+						{else}
+							未填写
+						{/if}
+					</td>
+					<td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('setting', array('op'=>'addNav','nav_id'=>$item['nav_id']))}"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('setting', array('op'=>'delNav', 'nav_id'=>$item['nav_id']))}" title="删除导航" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+			{if $_GPC['location']>1}
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>
+							<input name="submit" type="submit" class="btn btn-primary" value="批量排序">
+							<input type="hidden" name="token" value="{$_W['token']}">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{/if}
+            {$pager}
+        </div>
+    </div>
+    </form>
+</div>

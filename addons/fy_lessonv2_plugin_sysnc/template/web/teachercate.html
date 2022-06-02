@@ -1,0 +1,138 @@
+ <!-- 
+ * 讲师复制
+ * ============================================================================
+
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template 'common/header'}
+{template 'web/_header'}
+
+{if $op=='display'}
+	<div class="main">
+		<form method="post" class="form-horizontal form">
+			<div class="panel panel-default">
+				<div class="panel-heading">选择公众号</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">数据来源公众号</label>
+						<div class="col-sm-9">
+							<div class='input-group'>
+								<input type="text" id="from_account_name" maxlength="30" class="form-control" readonly />
+								<input type="hidden" id="from_uniacid" name="from_uniacid" />
+								<div class="input-group-btn">
+									<button class="btn btn-default" type="button" onclick="eqSelectAccount();">选择公众号</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="下一步" class="btn btn-primary col-lg-1"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+	{template 'web/_searchAccount'}
+
+{elseif $op=='copy'}
+	<div class="main">
+		<div class="alert alert-danger">
+			<i class="fa fa-info-circle"></i> 复制数据过程请勿刷新页面或者关闭浏览器，否则会造成数据复制丢失。
+		</div>
+		<form method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkSubmit();return false;">
+			<div class="panel panel-default">
+				<div class="panel-heading">2、开始复制</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+						<div class="col-sm-9">
+							<input type="text"  class="form-control" value="{$from_wechat['name']}" readonly/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="category">
+				<div class="panel panel-default">
+					<div class="panel-body table-responsive">
+						<div class="dd" id="div_nestable">
+							{loop $category $row}
+							<ol class="dd-list" style="margin-bottom:15px;">
+								<li class="dd-item">
+									<input type="checkbox" name="ids[]" value="{$row['id']}" class="checkbox">
+									<div class="dd-handle" style="width:100%;background:#eff5e9;">
+										&nbsp;&nbsp;
+										<img  width="1" height="30">[ID: {$row['id']}] {$row['name']}
+									</div>
+								</li>
+							</ol>
+							{/loop}
+							<input type="checkbox" id="selAll" style="margin-left:15px;margin-bottom:30px;vertical-align:-2px;"> <strong>全选</strong>
+						</div>
+						{$pager}
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12">
+				<a href="{php echo $this->createWebUrl('teachercate');}" class="btn btn-primary col-lg-1" style="margin-right:30px;"/>上一步</a>
+				<input type="submit" name="submit" value="提交" class="btn btn-success col-lg-1"/>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var ids = document.getElementsByName("ids[]");
+		var selectAll = false;
+		$("#selAll").click(function(){
+			selectAll = !selectAll;
+			for(var i=0; i<ids.length; i++){
+				ids[i].checked = selectAll;
+			}
+		});
+
+		//提交
+		function checkSubmit(){
+			var checkids = '';
+			for(var i=0; i<ids.length; i++){
+				if(ids[i].checked){
+					checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+				}
+			}
+			if(checkids===''){
+				util.message('未选中任何分类', '', 'error');
+				return false;
+			}
+
+			if(!confirm('该操作无法撤销，请确认继续操作?')){
+				return false;
+			}
+
+			$("#loadingToast").show();
+		}
+	</script>
+{/if}
+
+{template 'common/footer'}

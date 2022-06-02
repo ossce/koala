@@ -1,0 +1,113 @@
+<!-- 
+ * 订单评价
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-comment.css?v={$versions}">
+
+{if $op == 'display'}
+	<form id="comment_form">
+		{loop $goods_list $key $item}
+		<div class="goods-form" data-goods-id="{$item['goods_id']}">
+			<div class="flex pad-15 bg-fff">
+				<div class="comment-goods">
+					<img src="{$_W['attachurl']}{$item['cover']}" alt="{$item['title']}">
+				</div>
+				<div class="flex-box">
+					<div class="comment-title">{$item['title']}</div>
+					<span class="comment-sku-name">{$item['sku_name']}</span>
+					<div class="star-wrap">
+						<div class="star-score">
+							<a data-score="1"><img src="{MODULE_URL}static/mobile/images/icon-star-active.png"></a>
+							<a data-score="2"><img src="{MODULE_URL}static/mobile/images/icon-star-active.png"></a>
+							<a data-score="3"><img src="{MODULE_URL}static/mobile/images/icon-star-active.png"></a>
+							<a data-score="4"><img src="{MODULE_URL}static/mobile/images/icon-star-active.png"></a>
+							<a data-score="5"><img src="{MODULE_URL}static/mobile/images/icon-star-active.png"></a>
+						</div>
+						<input type="hidden" class="goods_score" name="score" value="5">
+						<div class="attitude">非常好</div>
+					</div>
+				</div>
+			</div>
+			<div class="weui-cells__group weui-cells__group_form bg-fff">
+				<div class="weui-cells__title">评价内容</div>
+				<div class="weui-cells weui-cells_form">
+					<div class="weui-cell ">
+						<div class="weui-cell__bd">
+							<textarea name="content" class="weui-textarea cmt-content fs-14" placeholder="评价内容最多300个字符" rows="3" maxlength="300"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="weui-uploader pad-15 bg-fff">
+				<div class="weui-uploader__hd">
+					<p class="weui-uploader__title">评价晒图</p>
+				</div>
+				<div class="weui-uploader__bd">
+					<ul class="weui-uploader__files"></ul>
+					<div class="weui-uploader__input-box">
+						<input class="weui-uploader__input" name="file" accept="image/*" type="file" onchange="uploadimgs(this, {$item['goods_id']})">
+					</div>
+				</div>
+			</div>
+			{if $key < count($goods_list)-1}
+			<div class="h-15"></div>
+			{/if}
+		</div>
+		{/loop}
+
+		<div class="comment_buttom">
+			<a class="btn-submit">提交</a>
+		</div>
+	</form>
+
+{elseif $op == 'list'}
+	<div class="comment_wrap pad-15 bg-fff">
+		<div class="comment_tag_wrap">
+			<div class="tag_new">
+				<span data-type="" class="selected">全部({php echo $total>9 ? $total.'+' : $total;})</span>
+				<span data-type="good">好评({$good_total})</span>
+				<span data-type="mid">中评({$mid_total})</span>
+				<span data-type="bad">差评({$bad_total})</span>
+			</div>
+		</div>
+		<ul class="comment-list">
+		</ul>
+	</div>
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:;" id="btn_Page" style="display:inline;"><img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多</a>
+	</div>
+	
+	<!-- 非微信接口图片预览 -->
+	<div class="cmt-picture-view cmt-modal-mask">
+		<div class="cmt-picture-view cmt-modal-main">
+			<img src="" style="width:100%;">
+		</div>
+	</div>
+{/if}
+
+<script type="text/javascript">
+	window.config = {
+			   op: "{$op}",
+	    userAgent: "{$userAgent}",
+		  orderid: {php echo intval($orderid)},
+		 goods_id: {php echo intval($goods_id)},
+		 postData: {php echo json_encode($postData)},
+		attachurl: "{$_W['attachurl']}",
+		staticurl: "{MODULE_URL}static/mobile/images/",
+		uploadurl: "{php echo $this->createMobileUrl('uploadimage',array('type'=>'base64'));}",
+	   commenturl: "{php echo $this->createMobileUrl('shopcomment');}",
+		 orderurl: "{php echo $this->createMobileUrl('shoporder');}",
+	};
+</script>
+<script src="{MODULE_URL}static/mobile/js/lrz.min.js"></script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shopcomment.js?v={$versions}"></script>
+
+{template '_footer'}

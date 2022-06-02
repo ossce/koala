@@ -1,0 +1,48 @@
+<div style="background: {$diy['style']['background']};padding: {$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+    <div class="cubeimg_wrap" style="{if $diy['style']['type']==1}padding-bottom:50%{/if}">
+    {if $diy['style']['type']==1}
+        {if !empty($diy['data'][0])}
+            <div class="cubeimg-inner w-50 cubeimg-left">
+                <a href="{$diy['data'][0]['link']}">
+                    <img src="{$diy['data'][0]['imgurl']}"/>
+                </a>
+            </div>
+        {/if}
+            <div class="cubeimg-inner w-50 cubeimg-right">
+                {if !empty($diy['data'][1])}
+                    <div class="cubeimg-top">
+                        <a href="{$diy['data'][1]['link']}">
+                            <img src="{$diy['data'][1]['imgurl']}"/>
+                        </a>
+                    </div>
+                {/if}
+                <div class="cubeimg-bottom">
+                    {if !empty($diy['data'][2])}
+                    <div class="cubeimg-inner w-50 cubeimg-bottom-one">
+                        <a href="{$diy['data'][2]['link']}">
+                            <img src="{$diy['data'][2]['imgurl']}"/>
+                        </a>
+                    </div>
+                    {/if}
+                    {if !empty($diy['data'][3])}
+                    <div class="cubeimg-inner w-50 cubeimg-bottom-two">
+                        <a href="{$diy['data'][3]['link']}">
+                            <img src="{$diy['data'][3]['imgurl']}"/>
+                        </a>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+    {else}
+        {loop $diy['data'] $item}
+            <div class="cubeimg-inner {if $diy['style']['type']==2}w-50{elseif $diy['style']['type']==3}w-33{elseif $diy['style']['type']==4}w-25{/if}">
+                <div class="cubeimg-most">
+                    <a href="{$item['link']}">
+						<img src="{$item['imgurl']}"/>
+					</a>
+                </div>
+            </div>
+        {/loop}
+    {/if}
+    </div>
+</div>

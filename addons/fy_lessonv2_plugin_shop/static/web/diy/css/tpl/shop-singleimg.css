@@ -1,0 +1,29 @@
+.singleimg_block img {
+    width: 100%;
+}
+
+.editor-singleimg .singleimg-item {
+    border: 1px solid #e1e1e1;
+    background: #fcfcfc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.editor-singleimg .singleimg-item .singleimg-image {
+    width: 120px;
+    height: 70px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #ececec;
+    text-align: center;
+    vertical-align: middle;
+}
+.editor-singleimg .singleimg-item .singleimg-image img {
+    height: 70px;
+}
+.editor-singleimg .singleimg-item .singleimg-params {
+    margin-left: 130px;
+}
+.editor-singleimg .singleimg-item .singleimg-params input:last-child {
+    margin-top: 10px;
+}

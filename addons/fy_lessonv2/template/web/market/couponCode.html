@@ -1,0 +1,173 @@
+<div class="main">
+	<div class="alert alert-warning">
+		课程优惠码是优惠券的卡密形式，优惠码需转为优惠券后，购买课程时进行抵扣。一个课程优惠码支持购买多个课程时进行抵扣。
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="market" />
+                <input type="hidden" name="op" value="couponCode" />
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">优惠码ID</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="card_id" type="text" value="{$_GPC['card_id']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">优惠码前缀</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="prefix" type="text" value="{$_GPC['prefix']}">
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">优惠码密钥</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="password" type="text" value="{$_GPC['password']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">优惠码状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="is_use" class="form-control">
+                            <option value="">全部状态</option>
+							<option value="0" {if in_array($_GPC['is_use'],array('0'))} selected="selected" {/if}>未使用</option>
+							<option value="1" {if $_GPC['is_use'] == 1} selected="selected" {/if}>已使用</option>
+							<option value="-1" {if $_GPC['is_use'] == -1} selected="selected" {/if}>已过期</option>
+                        </select>
+                    </div>
+                </div>
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">使用者UID</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="uid" type="text" value="{$_GPC['uid']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">使用者昵称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="nickname" type="text" value="{$_GPC['nickname']}">
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">使用时间</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+					{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+					<div class="col-sm-4">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <form action="{php echo $this->createWebUrl('market', array('op'=>'delAllCouponCode'));}" method="post" class="form-horizontal form">
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:80px;">全选</th>
+                    <th style="text-align:center;width:22%;">密钥</th>
+                    <th style="text-align:center;width:10%;">面值</th>
+					<th style="text-align:center;width:18%;">使用条件</th>
+					<th style="text-align:center;width:13%;">有效期</th>
+                    <th style="text-align:center;width:8%;">状态</th>
+                    <th style="text-align:center;width:13%;">使用时间</th>
+                    <th style="text-align:center;width:11%;">使用者</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{$item['card_id']}"></td>
+                    <td style="text-align:center;">[ID:{$item['card_id']}] {$item['password']}</td>
+                    <td style="text-align:center;">{$item['amount']} 元</td>
+					<td style="text-align:center;">
+						消费满{$item['conditions']}元，{$item['category_name']}可用
+						{if $item['use_type']==2}
+							<a href="javascript:;" style="color:#7AA9F1;" onclick="$('#modalLookLesson-{$item[id]}').modal();">[查看]</a>
+						{/if}
+					</td>
+                    <td style="text-align:center;">{php echo date('Y-m-d H:i',$item['validity'])}</td>
+					<td style="text-align:center;">
+						{if $item['is_use'] == 0 && time() > $item['validity']}<span class="label label-default">已过期</span>{/if}
+						{if $item['is_use'] == 0 && time() <= $item['validity']}<span class="label label-success">未使用</span>{/if}
+						{if $item['is_use'] == 1}<span class="label label-warning">已使用</span>{/if}
+					</td>
+                    <td style="text-align:center;">{if !empty($item['use_time'])}{php echo date('Y-m-d H:i', $item['use_time']);}{/if}</td>
+                    <td  style="text-align:center;">
+                        {if $item['is_use'] == 1}
+							{$item['nickname']}(uid: {$item['uid']})
+						{/if}
+                    </td>
+                </tr>
+				{if $item['use_type']==2}
+				<div id="modalLookLesson-{$item['id']}"  class="modal fade" tabindex="-1">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>优惠码可用课程</h3></div>
+							<div class="modal-body" >
+								<div class="panel-body" style="max-height:350px;overflow-y:auto;border:#eaeaea 1px solid;">
+									{$item['lesson_list']}
+								</div>
+								<div style="padding-top:5px;"></div>
+							</div>
+							<div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+						</div>
+					</div>
+				</div>
+				{/if}
+                {/loop}
+                </tbody>
+				<tfoot>
+					<tr>
+						<td colspan="8">
+							<div style="margin:15px auto;">
+								<input type="checkbox" id="checkItems" style="margin-right:10px;">
+								<a href="{php echo $this->createWebUrl('market', array('op'=>'addCouponCode'));}" class="btn btn-success"><i class="fa fa-plus"></i> 生成优惠码</a>&nbsp;&nbsp;&nbsp;
+								<input name="submit" type="submit" class="btn btn-danger" value="批量删除" onclick="return delAll()">
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+            </table>
+            {$pager}
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+var ids = document.getElementsByName('ids[]');
+$("#checkItems").click(function(){  
+	if (this.checked) {
+		for(var i=0;i<ids.length;i++){
+			var checkElement=ids[i];
+			checkElement.checked="checked";
+		}
+	}else{  
+		for(var i=0;i<ids.length;i++){
+			var checkElement=ids[i];  
+			checkElement.checked=null;  
+		}
+	}
+});
+function delAll(){
+	var flag = false;
+	for(var i=0;i<ids.length;i++){  
+		if(ids[i].checked){
+			flag = true;
+			break;
+		}
+	}
+	if(!flag){  
+		alert("未选中任何选项");
+		return false ;
+	}
+	if(!confirm('该操作无法恢复，确定删除?')){
+		return false;
+	}
+
+	return true;
+}
+</script>

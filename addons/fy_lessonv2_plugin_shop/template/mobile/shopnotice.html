@@ -1,0 +1,186 @@
+<!-- 
+ * 商城公告
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link href="{MODULE_URL}static/mobile/css/shop-notice.css?v={$versions}" rel="stylesheet" />
+
+{if $op=='display'}
+<div class="rich_primary">
+	<div class="rich_title">
+		{$notice['title']}
+	</div>
+	<div class="rich_mate">
+		<div class="rich_mate_text">{php echo date('Y-m-d', $notice['addtime']);}</div>
+		<div class="rich_mate_text"></div>
+		<a href="{php echo str_replace('fy_lessonv2_plugin_shop','fy_lessonv2',$this->createMobileUrl('follow'));}"><div class="rich_mate_text href">{$notice['author']}</div></a>
+	</div>
+	<div class="rich_content">
+		{php echo htmlspecialchars_decode($notice['content']);}
+	</div>
+	<div class="rich_tool">
+	{if !empty($notice['linkurl'])}
+		<a href="{$notice['linkurl']}"><div class="rich_tool_text link">阅读原文</div></a>
+	{/if}
+		<div class="rich_tool_text">阅读 {php echo $notice['view'] + $notice['virtual_view'];}</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<?php if($userAgent){ ?>
+	$(function(){
+		$(".rich_content img").click(function(){
+			let imgs = [];
+			let imgObj = document.querySelectorAll('.rich_content img');
+			let l=imgObj.length;
+			for (let i = 0; i < l; i++) {
+				imgs.push(imgObj[i].src);
+			}
+
+			WeixinJSBridge.invoke("imagePreview", {
+				"urls": imgs,
+				"current": this.src,
+			})
+		})
+	})
+<?php } ?>
+
+	wx.ready(function(){
+		var shareData = {
+			title: "{$notice['title']}",
+			desc: "{$notice['describes']}",
+			link: "{php echo $shareurl;}",
+			imgUrl: "{php echo $_W['attachurl'];}{$notice['images']}",
+			trigger: function (res) {},
+			complete: function (res) {},
+			success: function (res) {},
+			cancel: function (res) {},
+			fail: function (res) {}
+		};
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareWeibo(shareData);
+		wx.onMenuShareQZone(shareData);
+		
+	});
+
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		var miniprogram_environment = false;
+		wx.miniProgram.getEnv(function(res) {
+			if(res.miniprogram) {
+				miniprogram_environment = true;
+			}
+		})
+		if((window.__wxjs_environment === 'miniprogram' || miniprogram_environment)) {
+			wx.miniProgram.getEnv(function(res) {
+				wx.miniProgram.postMessage({ 
+					data: {
+						'title': "{$notice['title']}",
+						'images': "{php echo $_W['attachurl'];}{$notice['images']}",
+					}
+				})
+			});
+		}
+	});
+</script>
+
+{elseif $op=='list'}
+<div class="container">
+	<div class="category-nav">
+		<div class="category-nav-scroll">
+			<a href="{php echo $this->createMobileUrl('shopnotice', array('op'=>'list'))}" class="category-nav-menu {if !$_GPC['cate_id']}actived{/if}">全部<i class="i-cover"></i></a>
+			{loop $category_list $item}
+			<a href="{php echo $this->createMobileUrl('shopnotice', array('op'=>'list','cate_id'=>$item['id']))}" class="category-nav-menu {if $_GPC['cate_id']==$item['id']}actived{/if}">{$item['name']}<i class="i-cover"></i></a>
+			{/loop}
+		</div>
+	</div>
+
+	<ul class="notice_list">
+	</ul>
+</div>
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多</a>
+</div>
+
+<script type="text/javascript">
+var ajaxurl = "{php echo $this->createMobileUrl('shopnotice', array('op'=>'list',cate_id=>$_GPC['cate_id'],'method'=>'ajaxgetlist'));}";
+var noticeurl = "{php echo $this->createMobileUrl('shopnotice');}";
+var get_status = true; //允许获取状态
+
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {
+		if(get_status){
+			nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+			$.get(ajaxurl, {page: page }, function (data) {
+				$("#loadingToast").hide();
+				var jsonObj = JSON.parse(data);
+
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+       
+    }
+
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$(".notice_list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<li>';
+			chtml += '	<div class="thumb fl">';
+			chtml += '		<img src="' + result[j].images + '" />';
+			chtml += '	</div>';
+            chtml += '	<a href="' + noticeurl + '&id=' + result[j].id + '" class="fr">';  
+			chtml += '		<div class="title">';
+			if(result[j].is_vip==1){
+				chtml +=		'<img src="{MODULE_URL}template/mobile/default/images/article-title-vip.png?v=3" class="title-img">';
+			}
+			chtml +=			result[j].title;
+			chtml += '		</div>';
+			chtml += '		<div class="createtime">' + result[j].addtime + '</div>';
+			chtml += '	</a>';
+			chtml += '	<div class="clearfix"></div>';
+			chtml += '</li>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		$("#loadingToast").show();
+        getData(nowPage);
+    });
+});
+</script>
+{/if}
+
+{template '_footer'}

@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+	<li {if $op=='qcloud'}class="active"{/if}><a href="{php echo $this->createWebUrl('live', array('op'=>'qcloud'));}">生成腾讯云直播流</a></li>
+	<li {if $op=='aliyun'}class="active"{/if}><a href="{php echo $this->createWebUrl('live', array('op'=>'aliyun'));}">生成阿里云直播流</a></li>
+	<li {if $op=='stream' || $op=='streamDetails'}class="active"{/if}><a href="{php echo $this->createWebUrl('live', array('op'=>'stream'));}">直播流管理</a></li>
+</ul>

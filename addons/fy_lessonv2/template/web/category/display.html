@@ -1,0 +1,198 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/category.css?v={$versions}">
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">常用菜单</div>
+        <div class="panel-body">
+            <a href="{php echo $this->createWebUrl('category', array('op'=>'post'));}" class="btn btn-success" style="margin-right:15px;"><i class="fa fa-plus"></i> 添加分类</a>
+			<a href="{php echo $this->createWebUrl('category', array('op'=>'attribute','type'=>'contact'));}" class="btn btn-info" style="margin-right:15px;"><i class="fa fa-lock"></i> 一键关联课程属性</a>
+			<a href="{php echo $this->createWebUrl('category', array('op'=>'attribute','type'=>'uncontact'));}" class="btn btn-default" style="margin-right:15px;"><i class="fa fa-unlock"></i> 一键取消关联课程属性</a>
+        </div>
+    </div>
+    <div class="category">
+        <form action="" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+					<div class="dd" id="div_nestable" style="width:850px;">
+						{loop $category $row}
+						<ol class="dd-list" style="margin-bottom:15px;">
+							<li class="dd-item">
+								<div class="dd-handle" style="width:100%;cursor:pointer;background:#eff5e9;">
+									<a href="javascript:;" class="toggle_collapse"><i class="fa {php echo empty($row['son']) ? 'fa-minus' : 'fa-plus';}"></i></a>&nbsp;
+									<input type="text" class="form-control" name="category[{$row['id']}]" value="{$row['displayorder']}" style="width: 70px;display:inline-block;">&nbsp;&nbsp;
+									<img src="{if !empty($row['ico'])}{$_W['attachurl']}{$row['ico']}{else}{MODULE_URL}static/mobile/{$template}/images//nopic.png{/if}" width="30" height="30"> &nbsp;&nbsp;[ID: {$row['id']}] {$row['name']}
+									<span class="pull-right">
+										{if $row['is_show']==1}
+										<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'index','id'=>$row['id']));}" class="btn btn-success btn-sm pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="点击隐藏分类在首页显示">首页显示</a>
+										{else}
+										<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'index','id'=>$row['id']));}" class="btn btn-default btn-sm pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="点击显示分类在首页显示">首页隐藏</a>
+										{/if}
+										&nbsp;&nbsp;
+										{if $row['search_show']==1}
+										<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'search','id'=>$row['id']));}" class="btn btn-success btn-sm pad-3-10">隐藏分类</a>
+										{else}
+										<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'search','id'=>$row['id']));}" class="btn btn-default btn-sm pad-3-10">显示分类</a>
+										{/if}
+										&nbsp;&nbsp;
+										<a href="javascript:;" class="btn btn-primary btn-sm setVipLevel pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="将该分类及子分类下的所有课程设置为指定VIP等级免费学习" data-category-id="{$row['id']}">批量关联VIP等级</a>
+										&nbsp;&nbsp;
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op'=>'post', 'parentid'=>$row['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="添加子分类"><i class="fa fa-plus"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op'=>'post', 'id'=>$row['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="修改"><i class="fa fa-edit"></i></a>
+										<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op'=>'delete', 'id'=>$row['id']))}" data-toggle="tooltip" data-placement="bottom" data-original-title="删除" onclick="return confirm('该操作不可恢复，确定删除？');return false;"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+								{loop $row['son'] $son}
+								<ol class="dd-list cid{$row['id']}" style="width:100%;display:none;">
+									<li class="dd-item">
+										<div class="dd-handle">
+											<input type="text" class="form-control" name="son[{$son['id']}]" value="{$son['displayorder']}" style="width: 70px;display:inline-block;">&nbsp;&nbsp;
+											<img src="{if !empty($son['ico'])}{$_W['attachurl']}{$son['ico']}{else}{MODULE_URL}static/mobile/{$template}/images//nopic.png{/if}" width="30" height="30"> &nbsp;&nbsp;[ID: {$son['id']}] {$son['name']}
+											<span class="pull-right">
+												{if $son['is_show']==1}
+												<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'index','id'=>$son['id']));}" class="btn btn-success btn-sm pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="点击隐藏分类在首页显示">首页显示</a>
+												{else}
+												<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'index','id'=>$son['id']));}" class="btn btn-default btn-sm pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="点击显示分类在首页显示">首页隐藏</a>
+												{/if}
+												&nbsp;&nbsp;
+												{if $son['search_show']==1}
+												<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'search','id'=>$son['id']));}" class="btn btn-success btn-sm pad-3-10">隐藏分类</a>
+												{else}
+												<a href="{php echo $this->createWebUrl('category',array('op'=>'changeShow','type'=>'search','id'=>$son['id']));}" class="btn btn-default btn-sm pad-3-10">显示分类</a>
+												{/if}
+												&nbsp;&nbsp;
+												<a href="javascript:;" class="btn btn-primary btn-sm setVipLevel pad-3-10" data-toggle="tooltip" data-placement="bottom" data-original-title="将该分类下的所有课程设置为指定VIP等级免费学习" data-category-id="{$son['id']}">批量关联VIP等级</a>
+												&nbsp;&nbsp;
+												<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op'=>'post', 'id'=>$son['id']))}" title="修改"><i class="fa fa-edit"></i></a>
+												<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op'=>'delete', 'id'=>$son['id']))}" title="删除" onclick="return confirm('该操作不可恢复，确定删除？');return false;"><i class="fa fa-remove"></i></a>
+											</span>
+										</div>
+									</li>
+								</ol>
+								{/loop}
+							</li>
+						</ol>
+						{/loop}
+						<table class="table">
+							 <tbody>
+								 <tr>
+									 <td>
+										 <input name="submit" type="submit" class="btn btn-primary" value="批量排序">
+										 <input type="hidden" name="token" value="{$_W['token']}">
+									 </td>
+								 </tr>
+							 </tbody>
+						</table>
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="modal fade in" id="vipStudy" tabindex="-1">
+	<form id="form-refund" action="" class="form-horizontal form" method="post">
+		<div class="we7-modal-dialog modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">批量设置VIP免费学习等级</div>
+				</div>
+				<div class="alert alert-info" style="margin: 0 15px;">
+					批量设置后，该分类下的所有课程将支持您设置的VIP等级免费学习。
+				</div>
+				<div class="modal-body">
+					<div class="we7-form">
+						<div class="form-group">
+							<label class="control-label col-sm-2" style="padding-top:0;">免费学习等级</label>
+							<div class="form-controls col-sm-10">
+								{if !empty($level_list)}
+									<label><input type="checkbox" id="selAllVip" style="display:inline-block;">全选</label>&nbsp;&nbsp;&nbsp;&nbsp;
+								{/if}
+								{loop $level_list $item}
+									<label><input type="checkbox" name="vipview[]" value="{$item['id']}" style="display:inline-block;">{$item['level_name']}</label>&nbsp;&nbsp;
+								{/loop}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="set_category_id" value="">
+					<button type="button" class="btn btn-primary" id="submit-setvip">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.dd-handle').click(function(){
+			$(this).siblings('.dd-list').slideToggle(300);
+			if($(this).children(":first").children(":first").hasClass('fa-plus')){
+				$(this).children(":first").children(":first").removeClass('fa-plus').addClass('fa-minus');
+			}else{
+				$(this).children(":first").children(":first").removeClass('fa-minus').addClass('fa-plus');
+			}
+		});
+	});
+
+	//批量关联VIP
+	$(".setVipLevel").click(function(){
+		var category_id = $(this).data('category-id');
+		if(!category_id || category_id==null){
+			util.message('参数错误，请刷新页面重试');
+		}
+		$("#set_category_id").val(category_id);
+		$('#vipStudy').modal();
+	})
+
+	//全选VIP免费学习等级
+	var vipviews = document.getElementsByName("vipview[]");
+	var selectVipAll = false;
+	$("#selAllVip").click(function(){
+		selectVipAll = !selectVipAll;
+		for(var i=0; i<vipviews.length; i++){
+			vipviews[i].checked = selectVipAll;
+		}
+	});
+
+	$("#submit-setvip").click(function(){
+		var category_id = $("#set_category_id").val();
+		if(!category_id || category_id==null){
+			util.message('参数错误，请刷新页面重试');
+		}
+
+		var vipview = document.getElementsByName("vipview[]");
+		var vips = "";
+		for(var i=0; i<vipview.length; i++){
+			if(vipview[i].checked){
+				vips += (vips === '' ? vipview[i].value : ',' + vipview[i].value);
+			}
+		}
+		
+		if(vips===''){
+			alert('未选中任何VIP等级');
+			return false;
+		}else{
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('category',array('op'=>'batchSettingVip'));}",
+				data: {category_id:category_id,vips:vips},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						location.reload();
+					}else{
+						util.message(res.msg);
+						return false;
+					}
+				},
+				error: function(error){
+					alert('网络请求超时，请稍后重试!');
+				}
+			});
+		}
+	});
+</script>

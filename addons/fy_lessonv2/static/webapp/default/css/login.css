@@ -1,0 +1,653 @@
+@charset "utf-8";
+
+body {
+	font: 14px "微软雅黑", "FontAwesome", "Arial Narrow", HELVETICA;
+	-webkit-text-size-adjust: 100%;
+}
+a,a:hover{
+	text-decoration:none;
+}
+.fl {
+	float: left
+}
+
+.fr {
+	float: right
+}
+
+ol, ul {
+	list-style: none outside none;
+}
+
+ul,li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.alignleft {
+	text-align: left
+}
+
+.center {
+	text-align: center
+}
+
+.relative {
+	position: relative
+}
+
+.dnone {
+	display: none
+}
+
+.color1 {
+	color: #8C8C8C
+}
+
+.color2 {
+	color: #EF4548
+}
+
+.color3 {
+	color: #A2A2A2
+}
+
+.mtb10 {
+	margin: 10px 0px;
+}
+
+.mtb20 {
+	margin: 20px 0px;
+}
+
+.mtb30 {
+	margin: 30px 0px;
+}
+
+.mtb40 {
+	margin: 40px 0px;
+}
+
+.mtb50 {
+	margin: 50px 0px;
+}
+
+.mt5 {
+	margin-bottom: 5px
+}
+
+.mt10 {
+	margin-bottom: 10px
+}
+
+.mt20 {
+	margin-bottom: 20px
+}
+
+.mt30 {
+	margin-bottom: 30px
+}
+
+.m-r-10{
+	margin-right: 10px;
+}
+
+.w-175{
+	width:175px !important;
+}
+
+/* 顶部导航栏 */
+.top_box {
+	width: 96%;
+	padding-bottom: 4px;
+	height: 80px;
+	margin: 0 auto;
+}
+
+.wid_con {
+	margin: 0 auto;
+}
+
+.top_logo {
+	float: left;
+	margin: 15px 0;
+}
+
+.top_logo a {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 16px;
+	width: 150px;
+	height: 44px;
+}
+
+.top_logo img {
+	display: block;
+	width: 150px;
+	height: 44px;
+}
+
+.top_menu {
+	float: left;
+	margin-left: 70px;
+	position: relative;
+}
+
+.top_menu ul {
+	overflow: hidden;
+	margin-top: 26px
+}
+
+.top_menu ul li:first-child {
+	margin-left: 0;
+}
+
+.top_menu ul li {
+	float: left;
+	margin-left: 28px;
+	padding: 0 2px;
+}
+
+.top_menu ul li a {
+	display: block;
+	font-size: 16px;
+	color: #666;
+	padding-bottom: 7px;
+}
+
+.top_menu ul li.cur a {
+	color: #e9511b;
+}
+
+.top_menu ul li {
+	float: left;
+	margin-left: 28px;
+	padding: 0 2px;
+}
+
+/* 登录样式 */
+.textright {
+	padding-bottom: 13px;
+    text-align: right;
+}
+
+.textright .forget, .textright .forget:hover{
+	color: #5f5f5f;
+    font-size: 13px;
+	text-decoration: none;
+}
+
+.textright .login-register-icon{
+	display: inline-block;
+	width: 16px;
+    height: 16px;
+    vertical-align: middle;
+	background: url(../images/login/iconfont-register.png) no-repeat;
+}
+.textright .register, .textright .register:hover{
+	color: #fff;
+	font-size: 15px;
+}
+
+.large-header {
+	position: relative;
+	width: 100%;
+	background-image: url(../images/login/bg.jpg);
+	background-repeat: no-repeat;
+	overflow: hidden;
+	background-size: cover;
+	background-position: center center;
+	z-index: 1;
+}
+
+.logobg_style .login-form {
+	position: absolute;
+	top: 43%;
+	font-family: "微软雅黑", Microsoft YaHei UI;
+	margin-top: -225px;
+	margin-left: -225px;
+	left: 50%;
+	z-index: 999;
+	-webkit-transition: all 550ms ease-in-out;
+	-moz-transition: all 550ms ease-in-out;
+	-o-transition: all 550ms ease-in-out;
+	transition: all 550ms ease-in-out;
+}
+
+.logobg_style .login-content {
+	position: relative;
+	width: 450px;
+	z-index: 999;
+	height: 415px;
+	box-shadow: 0px 3px 6px #333333;
+	background-color: #fff;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 0;
+	-webkit-transition: all 550ms ease-in-out;
+	-moz-transition: all 550ms ease-in-out;
+	-o-transition: all 550ms ease-in-out;
+	transition: all 550ms ease-in-out;
+}
+
+.logobg_style .login-content .login-switch {
+	width: 211px;
+	margin: 0 auto 25px;
+	padding-top: 40px;
+	overflow: hidden;
+}
+.logobg_style .login-content .login-switch a {
+    float: left;
+    display: block;
+    width: 106px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: -1px;
+    border: 1px solid #eee;
+    font-size: 15px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+.logobg_style .login-content .login-switch a:hover{
+	color: #00c250;
+}
+.logobg_style .login-content .login-switch .selected {
+    color: #00c250;
+    border-color: #00c250;
+    position: relative;
+    z-index: 2;
+}
+.logobg_style .login-content .login-switch a:first-child {
+    border-top-left-radius: 3px;
+    -moz-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -moz-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+}
+.logobg_style .login-content .login-switch a:last-child {
+    border-top-right-radius: 3px;
+    -moz-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -moz-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+}
+
+.logobg_style .input-group-addon {
+	padding: 6px 20px
+}
+
+.logobg_style .login-content .title_name {
+	color: #444;
+    font-size: 26px;
+    padding: 55px 0 10px;
+}
+
+.login_padding {
+	padding: 0px 40px 15px 40px;
+    position: relative;
+}
+
+.logobg_style .form-control {
+	height: 45px
+}
+
+.logobg_style .input-group {
+	height: 45px;
+	float: left;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.logobg_style a:hover {
+	color: #e9511b;
+}
+
+.logobg_style .form-group {
+	margin-bottom: 25px;
+	display: block
+}
+
+.logobg_style .form-group a:hover{
+	color: #fff;
+}
+
+.logobg_style .input-group-addon i {
+	background-size: 25px;
+	position: absolute;
+	left: 3px;
+	top: 7px;
+	width: 30px;
+	height: 30px;
+}
+
+.logobg_style .icon_user {
+	background: url(../images/login/iconfont-yonghu.png) no-repeat 7px center;
+}
+
+.logobg_style .icon_password {
+	background: url(../images/login/iconfont-psw.png) no-repeat 7px center;
+}
+
+.logobg_style .icon_verify_code {
+	background: url(../images/login/iconfont-verify-code.png)no-repeat 5px center;
+}
+
+.btn-block {
+	height: 45px;
+	line-height: 29px;
+	font-size: 18px
+}
+.btn-login{
+    background: linear-gradient(#20a53a,#189d32);
+    box-shadow: inset 0 1px 2px #30ad42;
+    color: #fff;
+    text-shadow: #00851a 0 -1px 0;
+    border: 1px solid #20a53a;
+}
+.btn-login:hover{
+	background: #10952a;
+    background: linear-gradient(#10952a,#088d22);
+    border: 1px solid #10952a;
+}
+.btn-login.focus, .btn-login:focus, .btn-login:hover{
+	color: #fff;
+}
+
+/*
+@media screen and (max-width: 640px) {
+	.scanCode {
+		display: block !important;
+	}
+	.account {
+		display: none;
+	}
+	.bg_img {
+		display: none;
+	}
+}
+*/
+
+.login_padding .entrance .bg_img {
+	width: 60px;
+	height: 60px;
+	background-image: url('../images/login/qrCode.png');
+	background-size: 120px 120px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.login_padding .entrance .bg_img:hover {
+	background-position: -60px 0;
+	cursor: pointer;
+}
+
+.login_padding .entrance .bg_img.pc {
+	background-position: 0 -60px;
+}
+
+.login_padding .entrance .bg_img.pc:hover {
+	background-position: -60px -60px;
+}
+.login_padding .account{
+	display: none;
+}
+.login_padding .scanCode .qrCode {
+	text-align: center;
+	padding-top: 20px;
+}
+.login_padding .scanCode .scanTip .list_scan {
+	width: 150px;
+	margin: 0 auto;
+	margin-top: 15px;
+}
+.login_padding .scanCode .scanTip .list_scan > img {
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin-right: 15px;
+}
+.login_padding .scanCode .scanTip .list_scan span {
+	display: inline-block;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+.login_padding .scanCode .scanTip .list_scan a:hover .weChatSamll {
+	display: block;
+}
+.login_padding .scanCode .scanTip .list_scan .weChatSamll {
+	display: none;
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	border: 1px solid #ececec;
+	border-radius: 5px;
+	bottom: 105px;
+	right: 80px;
+	padding: 20px;
+	background-color: #fff;
+}
+.login_padding .scanCode .scanTip .list_scan .weChatSamll img {
+	width: 100%;
+}
+.login_padding .scanCode .scanTip  .list_scan .weChatSamll em {
+	position: absolute;
+	border: 7px solid #ececec;
+	border-color: #ececec transparent transparent transparent;
+	width: 0;
+	height: 0;
+	right: 87px;
+	bottom: -14px;
+	margin-left: -6px;
+}
+.login_padding .entrance .tips {
+	font-size: 12px;
+	width: 115px;
+	position: absolute;
+	top: 10px;
+	right: 65px;
+	color: rgb(32, 165, 58);
+	background: #dff0d8;
+	padding: 5px 10px;
+	text-align: center;
+	border-radius: 4px;
+}
+.login_padding .entrance .tips em {
+	position: absolute;
+	border: 6px solid #dff0d8;
+	border-color: transparent transparent transparent #dff0d8;
+	width: 0;
+	height: 0;
+	right: -11px;
+	top: 8px;
+	margin-left: -6px;
+}
+.login_padding .entrance .tips img {
+	height: 16px;
+	width: 16px;
+	vertical-align: middle;
+	margin-top: -1px;
+	margin-right: 4px;
+}
+
+/* 忘记密码二维码 */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#80000000', endColorstr='#80000000');
+    background-color: rgba(0,0,0,.7);
+    z-index: 9999;
+	display: none;
+}
+.qrcode-container {
+	background: #f3f6f9;
+	width: 300px;
+	height: 600px;
+	border-color: #cecece;
+	border-width: 2px;
+	border-radius: 50px;
+	padding: 0;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -177px;
+	margin-top: -335px;
+	z-index: 10000;
+}
+
+.qrcode-container .qrcode-top {
+	margin-top: 43px;
+	width: 60px;
+	height: 10px;
+	margin-left: 120px;
+	background: #cecece;
+	border-radius: 4px;
+	margin-bottom: 25px;
+}
+
+.qrcode-container .qrcode-center {
+	border: 1px solid #cecece;
+	width: 282px;
+	height: 420px;
+	text-align: center;
+	background: #fff;
+	margin-left: 8px
+}
+
+.qrcode-container .qrcode-bottom {
+	margin-left: 103px;
+    margin-top: 16px;
+    width: 90px;
+    height: 30px;
+    border-radius: 15px;
+    background: #cecece;
+}
+
+.qrcode-center .qc-top {
+	height: 53px;
+	line-height: 53px;
+	vertical-align: middle;
+	margin: 42px 50px 24px
+}
+
+.qrcode-center .qc-top div {
+	display: inline-block;
+	vertical-align: middle;
+	zoom: 1
+}
+
+.qrcode-center .qc-top .qct-title {
+	font-size: 28px;
+	margin-left: 20px
+}
+
+.qrcode-center .qc-center {
+	width: 190px;
+	height: 190px;
+	margin-left: 45px;
+	overflow: hidden;
+	position: relative;
+	margin-top: 70px;
+	z-index: 10
+}
+.qrcode-center .qc-bottom {
+	margin-top: 35px;
+	height: 50px;
+	line-height: 25px;
+	padding: 0 24px;
+	font-size: 16px;
+	text-align: center
+}
+
+/* 注册样式 */
+.Retrieve_style {
+    font-family: "微软雅黑", Microsoft YaHei UI;
+    width: 460px;
+    height: 460px;
+    border: 10px solid rgba(255,255,255,0.42);
+    left: 50%;
+    top: 43%;
+    margin-left: -225px;
+    margin-top: -225px;
+    position: absolute;
+    z-index: 999;
+}
+.Retrieve_style h1 {
+	font-weight: bold;
+    margin: 0px;
+    margin-top: 20px;
+    left: 50%;
+    color: #d9534f;
+    border-radius: 20px;
+    text-align: center;
+    background: rgba(255,255,255,1.00);
+}
+.Retrieve_style .Retrieve-content {
+    width: 440px;
+    background: #ffffff;
+    height: 440px;
+    position: absolute;
+    top: 0px;
+}
+.Retrieve_style .Retrieve-content .reg-qrcode{
+	text-align: center;
+    padding: 20px 0 20px;
+}
+.Retrieve_style .Retrieve-content .reg-qrcode img{
+	width: 280px;
+	height: 280px;
+}
+.Retrieve_style .Retrieve-content .reg-scan-qrcode{
+	text-align: center;
+    font-size: 16px;
+    color: #d9534f;
+    font-weight: bold;
+}
+.Retrieve_style .Retrieve-content .go-login{
+    font-size: 12px;
+    text-align: center;
+    line-height: 40px;
+    /*font-weight: bold;*/
+}
+
+.Retrieve_style .Retrieve-content .go-login a,.Retrieve_style .Retrieve-content .go-login a:hover{
+	color: #484848;
+}
+
+/* 底部版权 */
+.footer{
+	width: 100%;
+	margin: 0 auto;
+	padding: 20px 0;
+	text-align: center;
+}
+
+.footer p{
+	margin: 0;
+	line-height: 28px;
+}
+
+.footer p a{
+	color: #333;
+}

@@ -1,0 +1,266 @@
+<link href="{MODULE_URL}static/css/fycommon.css?v={$versions}" rel="stylesheet">
+
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2_plugin_live" />
+                <input type="hidden" name="do" value="lesson" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" id="" type="text" value="{$_GPC['bookname']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">讲师名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="teacher" id="" type="text" value="{$_GPC['teacher']}">
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程分类</label>
+                    <div class="col-sm-3">
+                        <select name="pid" class="form-control" id="category_parent" onchange="renderCategory(this.value)">
+                            <option value="">请选择一级分类</option>
+							{loop $category $cat}
+							   <option value="{$cat['id']}">{$cat['name']}</option>
+							{/loop}
+                        </select>
+                    </div>
+					<div class="col-sm-3">
+                        <select name="cid" class="form-control" id="category_child" onchange="renderChildCategory(this.value)">
+                            <option value="">请选择二级分类</option>
+                        </select>
+                    </div>
+                </div>
+				{if ($lesson_attribute['attribute1']) || ($lesson_attribute['attribute2'])}
+				<div class="form-group">
+					{if $lesson_attribute['attribute1']}
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">{$lesson_attribute['attribute1']}</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select class="form-control" name="attribute1" id="attribute1">
+                            <option value="">不限</option>
+							{loop $attribute1 $item}
+								{if in_array($item['id'], $cat_attribute1)}
+								<option value="{$item['id']}" {if $_GPC['attribute1']==$item['id']}selected{/if}>{$item['name']}</option>
+								{/if}
+							{/loop}
+                        </select>
+                    </div>
+					{/if}
+					{if $lesson_attribute['attribute2']}
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">{$lesson_attribute['attribute2']}</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<select class="form-control" name="attribute2" id="attribute2">
+							<option value="">不限</option>
+							{loop $attribute2 $key $item}
+								{if in_array($item['id'], $cat_attribute2)}
+								<option value="{$item['id']}" {if $_GPC['attribute2']==$item['id']}selected{/if}>{$item['name']}</option>
+								{/if}
+							{/loop}
+						</select>
+					</div>
+					{/if}
+				</div>
+				{/if}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							{loop $lessonStatusList $key $item}
+							<option value="{$key}" {if $_GPC['status']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+							<option value="999" {if $_GPC['status']==999}selected{/if}>库存紧张</option>
+                        </select>
+                    </div>
+					<div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson'));}" class="btn btn-success"><i class="fa fa-plus"></i> 添加课程</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:8%;text-align:center;">排序</th>
+							<th style="width:25%;">课程名称</th>
+							<th style="width:8%;text-align:center;">课程分类</th>
+							<th style="width:8%;text-align:center;">价格</th>
+							<th style="width:8%;text-align:center;">销量/库存</th>
+							<th style="width:8%;text-align:center;">总访问量</th>
+							<th style="width:12%;text-align:center;">vip/讲师服务访问量</th>
+							<th style="width:8%;text-align:center;">课程状态</th>
+							<th style="text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $parent}
+						<tr>
+							<td style="text-align:center;"><input type="text" class="form-control" name="lessonorder[{$parent['id']}]" value="{$parent['displayorder']}" style="width: 70px;display:inline-block;"></td>
+							<td style="word-break:break-all;">[ID:{$parent['id']}] {$parent['bookname']}</td>
+							<td style="text-align:center;">{$parent['category']['name']}</td>
+							<td style="text-align:center;">{$parent['price']}</td>
+							<td style="text-align:center;">{$parent['buynum']}/{$parent['stock']}</td>
+							<td style="text-align:center;">{$parent['visit_number']}</td>
+							<td style="text-align:center;">{$parent['vip_number']}/{$parent['teacher_number']}</td>
+							<td style="text-align:center;">
+								<span class="label {if $parent['status']==-1 || $parent['status']==0 || $parent['status']==3}label-default{elseif $parent['status']==1}label-success{elseif $parent['status']==2 }label-danger{/if}">{$lessonStatusList[$parent['status']]}</span>
+							</td>
+							<td style="text-align:center;">
+								<div class="btn-group btn-group-sm">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="javascript:;">功能列表 <span class="caret"></span></a>
+									<ul class="dropdown-menu dropdown-menu-left" role="menu" style="z-index:99999">
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson', 'id'=>$parent['id'],'refurl'=>urlencode($_W['siteurl'])));}"><i class="fa fa-edit"></i> 编辑课程</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=document&pid={$parent['id']}&do=lesson&module_name=fy_lessonv2" target="_blank"><i class="fa fa-file-word-o"></i> 课件资料</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=qrcode&lessonid={$parent['id']}&do=lesson&module_name=fy_lessonv2" target="_blank"><i class="fa fa-download"></i> 下载二维码</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'auditContent','id'=>$parent['id']));}"><i class="fa fa-check-square-o"></i> 审核聊天内容</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'transform','id'=>$parent['id']));}" onclick="return confirm('转为录播课后，您需要上传视频并发布章节，确认操作？');return false;"><i class="fa fa-exchange"></i> 转为录播课</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'destroyGroup','id'=>$parent['id'],'refurl'=>urlencode($_W['siteurl'])));}"><i class="fa fa-recycle"></i> 重置聊天室</a></li>
+										<li><a href="./index.php?c=site&a=entry&op=informStudent&lessonid={$parent['id']}&do=lesson&module_name=fy_lessonv2" target="_blank"><i class="fa fa-volume-up"></i> &nbsp;开课提醒</a></li>
+										<li><a href="{php echo $this->createWebUrl('lesson', array('op'=>'delete','pid'=>$parent['id']));}" onclick="return confirm('确认删除此课程吗？');return false;"><i class="fa fa-remove"></i> &nbsp;删除课程</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+</div>
+
+<script type="text/javascript">
+	var category = {php echo json_encode($category);};
+	var pid = {php echo $_GPC['pid'] ? $_GPC['pid'] : 0};
+	var cid = {php echo $_GPC['cid'] ? $_GPC['cid'] : 0};
+	var html = '<option value="0">请选择一级分类</option>';
+	var lesson_attribute1 = {php echo $_GPC['attribute1'] ? $_GPC['attribute1'] : 0};
+	var lesson_attribute2 = {php echo $_GPC['attribute2'] ? $_GPC['attribute2'] : 0};
+	var attribute1 = {php echo json_encode($attribute1);};
+	var attribute2 = {php echo json_encode($attribute2);};
+
+
+	$(function(){
+		$("#category_parent").find("option[value='"+pid+"']").attr("selected",true);
+		document.getElementById("category_parent").onchange();
+	});
+
+
+	//选择一级分类
+	function renderCategory(id){
+		var chtml = '<option value="0">请选择二级分类</option>';
+		var chtml_attribute1 = chtml_attribute2 = '<option value="0">请选择</option>';
+
+		if(id>0){
+			for(var i in category){
+				if(category[i].id==id){
+					var child = category[i].child;
+					for(var j in child){
+						if(child[j].id==cid){
+							chtml += '<option value="' + child[j].id+'" selected>' + child[j].name + '</option>';
+						}else{
+							chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+						}
+					}
+					$("#category_child").html(chtml);
+
+					//课程属性1
+					for(var k in category[i].attribute1){
+						var attribute1_item = category[i].attribute1[k];
+						for(var l in attribute1){
+							if(attribute1[l].id==attribute1_item){
+								if(attribute1[l].id==lesson_attribute1){
+									chtml_attribute1 += '<option value="' + attribute1[l].id + '" selected>' + attribute1[l].name + '</option>';
+								}else{
+									chtml_attribute1 += '<option value="' + attribute1[l].id + '">' + attribute1[l].name + '</option>';
+								}
+							}
+						}
+						
+					}
+					$("#attribute1").html(chtml_attribute1);
+
+					//课程属性2
+					for(var m in category[i].attribute2){
+						var attribute2_item = category[i].attribute2[m];
+						for(var n in attribute2){
+							if(attribute2[n].id==attribute2_item){
+								if(attribute2[n].id==lesson_attribute2){
+									chtml_attribute2 += '<option value="' + attribute2[n].id + '" selected>' + attribute2[n].name + '</option>';
+								}else{
+									chtml_attribute2 += '<option value="' + attribute2[n].id + '">' + attribute2[n].name + '</option>';
+								}
+							}
+						}
+					}
+					$("#attribute2").html(chtml_attribute2);
+				}
+			}
+		}else{
+			$("#category_child").html(chtml);
+		}
+	}
+
+	//选择二级分类
+	function renderChildCategory(id){
+		var chtml_attribute1 = chtml_attribute2 = '<option value="0">请选择</option>';
+		var select_pid = $("#category_parent").val();
+		
+		if(id>0){
+			for(var i in category){
+				if(category[i].id==select_pid){
+					var child = category[i].child;
+					for(var j in child){
+						if(child[j].id==id){
+							
+
+							//课程属性1
+							for(var k in child[j].attribute1){
+								var attribute1_item = child[j].attribute1[k];
+								for(var l in attribute1){
+									if(attribute1[l].id==attribute1_item){
+										if(attribute1[l].id==lesson_attribute1){
+											chtml_attribute1 += '<option value="' + attribute1[l].id + '" selected>' + attribute1[l].name + '</option>';
+										}else{
+											chtml_attribute1 += '<option value="' + attribute1[l].id + '">' + attribute1[l].name + '</option>';
+										}
+									}
+								}
+								
+							}
+							$("#attribute1").html(chtml_attribute1);
+
+							//课程属性2
+							for(var m in child[j].attribute2){
+								var attribute2_item = child[j].attribute2[m];
+								for(var n in attribute2){
+									if(attribute2[n].id==attribute2_item){
+										if(attribute2[n].id==lesson_attribute2){
+											chtml_attribute2 += '<option value="' + attribute2[n].id + '" selected>' + attribute2[n].name + '</option>';
+										}else{
+											chtml_attribute2 += '<option value="' + attribute2[n].id + '">' + attribute2[n].name + '</option>';
+										}
+									}
+								}
+								
+							}
+							$("#attribute2").html(chtml_attribute2);
+						}
+					}
+				}
+			}
+		}
+		
+	}
+</script>

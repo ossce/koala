@@ -1,0 +1,67 @@
+<div class="main">
+	<div class="panel panel-default">
+        <form id="myform" name="myform" method="post" class="form-horizontal form" >
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="text-align:center;width:40px;"><input type="checkbox" id="btnSelect" class="btn btn-default" onclick="checkAll(myform.hidnSelectFlag.value);" /></th>
+						<th style="width:40%;padding-left:30px;">课程名称</th>
+						<th style="width:12%;">课程价格</th>
+						<th style="width:12%;">课程折扣</th>
+						<th style="width:35%;">起止时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td style="text-align:center;"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
+						<td style="padding-left:30px;">[ID: {$item['id']}] {$item['bookname']}</td>
+						<td>{php echo $item['price']?$item['price'].'元':'免费';}</td>
+						<td>{$item['discount']}%</td>
+						<td>{php echo date('Y-m-d H:i', $item['starttime']);} ~ {php echo date('Y-m-d H:i', $item['endtime']);}</td>
+					</tr>
+					{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" style="padding-top: 30px;">
+								<a href="{php echo $this->createWebUrl('market', array('op'=>'addDiscountLesson','discount_id'=>$discount_id));}" class="btn btn-success"><i class="fa fa-plus"></i> 添加课程</a>
+								&nbsp;&nbsp;&nbsp;
+								<a onclick="addclassToRec('cancel');" class="btn btn-danger"><i class="fa fa-minus"></i> 批量取消</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				{$pager}
+			</div>
+			<input type="hidden"  name="discount_id" value="{$discount_id}"/>
+			<input type="hidden"  name="hidnSelectFlag" value="1"/>
+		</form>
+    </div>
+</div>
+<script language="javascript">
+function checkAll(type) {
+    var type = Number(type);
+    var inputs = document.getElementsByTagName("input");
+    for(var i = 0; i < inputs.length; i++) {
+        if(inputs[i].type == "checkbox") {
+            inputs[i].checked = type;
+        }
+    }
+    myform.hidnSelectFlag.value = Number(!type);
+}
+
+function addclassToRec(obj){
+	if(obj!=''){
+		var check = $("input[type=checkbox][class!=check_all]:checked");
+        if(check.length < 1){
+            alert('您还没有没有任何课程');
+            return false;
+        }
+		document.getElementById("myform").action="{php echo $this->createWebUrl('market', array('op'=>'discountLessonPost','posttype'=>'cancel'));}";
+
+		document.getElementById("myform").submit();
+	}
+}
+</script>

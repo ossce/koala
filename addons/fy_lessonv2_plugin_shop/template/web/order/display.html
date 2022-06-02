@@ -1,0 +1,406 @@
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop" />
+                <input type="hidden" name="do" value="order" />
+                <input type="hidden" name="op" value="display" />
+				<input type="hidden" name="search" value="1" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单编号</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control w-280" name="ordersn" type="text" value="{$_GPC['ordersn']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control w-280" name="goods_name" type="text" value="{$_GPC['goods_name']}">
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">购买人信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control w-280" name="buyer" type="text" value="{$_GPC['buyer']}" placeholder="购买人昵称/姓名/手机号码">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">收货人信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control w-280" name="receiver" type="text" value="{$_GPC['receiver']}" placeholder="收货人姓名/手机号码">
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单状态</label>
+                    <div class="col-sm-2 col-lg-3">
+						<select name="status" class="form-control w-280">
+								<option value="">全部(正常订单)</option>
+                            {loop $order_status $key $item}
+								<option value="{$key}" {if $_GPC['status']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+								<option value="-99" {if $_GPC['status']=="-99"}selected{/if}>已删除</option>
+                        </select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">支付方式</label>
+                    <div class="col-sm-2 col-lg-3">
+						<select name="paytype" class="form-control w-280">
+								<option value="">不限</option>
+                            {loop $paytype_list $key $item}
+								<option value="{$key}" {if $_GPC['paytype']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">时间类型</label>
+					<div class="col-sm-2 col-lg-3">
+						<label class="radio-inline" style="padding-top:0;"><input type="radio" name="timetype" value="1" {if $timetype==1}checked{/if}>下单</label>
+						<label class="radio-inline" style="padding-top:0;"><input type="radio" name="timetype" value="2" {if $timetype==2}checked{/if}>付款</label>
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+					</div>
+					<div class="col-sm-2 col-lg-3">
+                        <button class="btn btn-default mar-r-15"><i class="fa fa-search"></i> 搜索</button>
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+                    </div>
+				</div>
+            </form>
+        </div>
+    </div>
+
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<ul class="page-nav page-nav-tabs">
+				<li {if $_GPC['status'] == ''}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order');}">全部(正常订单)</a>
+				</li>
+				<li {if $_GPC['status'] == '0'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>0));}">待付款</a>
+				</li>
+				<li {if $_GPC['status'] == '1'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>1));}">待发货</a>
+				</li>
+				<li {if $_GPC['status'] == '2'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>2));}">待收货</a>
+				</li>
+				<li {if $_GPC['status'] == '3'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>3));}">已完成</a>
+				</li>
+				<li {if $_GPC['status'] == '-1'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>'-1'));}">已取消</a>
+				</li>
+				<li {if $_GPC['status'] == '-2'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>'-2'));}">退款中</a>
+				</li>
+				<li {if $_GPC['status'] == '-3'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>'-3'));}">已退款</a>
+				</li>
+				<li {if $_GPC['status'] == '-99'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('order',array('status'=>'-99'));}">订单回收站</a>
+				</li>
+				<li class="mar-l-10">
+					<a class="no-border"><span class="red-bold">订单总数：{$total}</span></a>
+				</li>
+				<li>
+					<a class="no-border"><span class="red-bold">订单金额：{$statis[0]['price']}</span></a>
+				</li>
+				<li>
+					<a class="no-border"><span class="red-bold">订单积分：{$statis[0]['integral']}</span></a>
+				</li>
+			</ul>
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="width:70px;">全选</th>
+						<th style="width:15%;">订单编号</th>
+						<th style="width:14%;">昵称/收货人姓名/手机</th>
+						<th style="width:20%;">商品名称</th>
+						<th style="width:13%;">价格</th>
+						<th style="width:8%;">订单状态</th>
+						<th style="width:9%;">支付方式</th>
+						<th style="width:10%;">下单时间</th>
+						<th style="width:7%; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+						<td>{$item['ordersn']}</td>
+						<td>
+							{$item['nickname']}<br/>{$item['receive_name']}，{$item['receive_mobile']}
+						</td>
+						<td class="over-descript" data-toggle="tooltip" data-placement="bottom" data-original-title="{$item['title']}">{$item['title']}</td>
+						<td>
+							{if $item['price'] > 0 && !$item['integral']}
+								￥{$item['price']}
+							{else if $item['price'] == 0 && $item['integral']}
+								{$item['integral']}积分
+							{else if $item['price'] > 0 && $item['integral']}
+								￥{$item['price']}+{$item['integral']}积分
+							{/if}
+						</td>
+						<td>
+							{if $item['status'] == 0}<span class="label label-danger">待付款</span>{/if}
+							{if $item['status'] == 1}<span class="label label-warning">待发货</span>{/if}
+							{if $item['status'] == 2}<span class="label label-primary">待收货</span>{/if}
+							{if $item['status'] == 3}<span class="label label-success">已完成</span>{/if}
+							{if $item['status'] == -1}<span class="label label-default">已取消</span>{/if}
+							{if $item['status'] == -2}<span class="label label-info">退款中</span>{/if}
+							{if $item['status'] == -3}<span class="label label-default">已退款</span>{/if}
+						</td>
+						<td>
+							{if $item['paytype']}
+								<span class="label label-success">{$paytype_list[$item['paytype']]}</span>
+							{else}
+								无
+							{/if}
+						</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+						<td style="text-align:right;">
+							{if $item['status'] < '-1'}
+							<a href="{php echo $this->createWebUrl('order',array('op'=>'refund','id'=>$item['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" data-original-title="退款详情" target="_blank"><i class="fa fa-rotate-left"></i></a>
+							{/if}
+							{if $item['status'] == 1}
+							<a href="javascript:;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" data-original-title="发货" onclick='deliverGoods({php echo $item[express_info] ? $item[express_info] : "0"},{$item[id]})'><i class="fa fa-paper-plane"></i></a>
+							{/if}
+							<a href="{php echo $this->createWebUrl('order',array('op'=>'details','id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" data-original-title="订单详情"><i class="fa fa-pencil"></i></a>
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="9" style="padding-bottom:30px;">
+								<input type="checkbox" id="selAll" style="margin-right:10px;">
+								{if $_GPC['status']==-99}
+									<input type="button" class="btn btn-success" id="delAll" data-type="1" value="批量还原订单">
+								{else}
+									<input type="button" class="btn btn-danger" id="delAll" data-type="0" value="批量加入回收站">
+								{/if}
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		{$pager}
+	</form>
+</div>
+
+<div class="modal fade" id="deliveryModal" tabindex="-1">
+	<form id="deliveryForm" action="{php echo $this->createWebUrl('order',array('op'=>'delivery'))}" class="form-horizontal" method="post">
+		<div class="we7-modal-dialog modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">发货设置</div>
+				</div>
+				<div class="alert alert-info">
+					如果您的订单分多个包裹发出，您可以同时添加多个快递物流信息。
+				</div>
+				<div class="modal-body" style="padding-top: 0;">
+					<div class="panel-body" id="express_list" style="height:400px;overflow-y:auto;">
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="hidden" name="orderid" value="">
+					<button type="button" class="btn btn-primary" id="btn-deliver">提交</button>
+					<a class="btn btn-default" onclick="appendExpress();">继续添加物流</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	var ids = document.getElementsByName("ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	var select_ids = "";
+	function checkSelectIds(){
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				select_ids += (select_ids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+
+		return select_ids;
+	}
+	
+	//批量删除、还原订单
+	$("#delAll").click(function(){
+		select_ids = checkSelectIds();
+		if(select_ids==''){
+			util.message("请选择要操作的订单", "", "error");
+			return;
+		}
+
+		var type = $(this).attr("data-type");	
+		if(type=='1'){
+			if(!confirm('确定批量还原订单?')){
+				return;
+			}
+			var postUrl = "{php echo $this->createWebUrl('order', array('op'=>'recover'))}";
+		}else{
+			if(!confirm('确定加入订单回收站?')){
+				return;
+			}
+			var postUrl = "{php echo $this->createWebUrl('order', array('op'=>'recycle'))}";
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: postUrl,
+			data: {ids:select_ids},
+			dataType:"json",
+			success: function(res){
+				if(res.code===0){
+					util.message(res.message, "", "success");
+					setTimeout(function(){
+						location.reload();
+					},2000)
+				}else{
+					util.message("网络请求超时，操作失败", "", "error");
+				}
+			},
+			error: function(error){
+				util.message("网络请求超时，请稍后重试", "", "error");
+			}
+		});
+	});
+
+	//发货设置
+	var express_list = {php echo json_encode($express_list)};
+	var express_number = 0;
+	function deliverGoods(express, orderid){
+		if(express){
+			if(express.length > 0){
+				loopExpress(express);
+				$("#express_list").scrollTop(10000);
+			}else{
+				appendExpress();
+			}
+		}else{
+			appendExpress();	
+		}
+		$("#deliveryModal").modal();
+		$("input[name=orderid]").val(orderid);
+	}
+
+	function appendExpress(){
+		express_number++;
+
+		var chtml = '';
+			chtml = '<div class="express_info">';
+			chtml += '	<div class="form-group">';
+			chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label color-f2270c">* 快递公司' + express_number + '</label>';
+			chtml += '		<div class="col-xs-10 col-sm-8">';
+			chtml += '			<select class="form-control" name="express_code[]">';
+			chtml += '				<option value="" selected>请选择...</option>';
+			for(var j=0; j<express_list.length; j++){
+				chtml += '			<option value="' + express_list[j].code + '">' + express_list[j].name + '</option>';
+			}
+			chtml += '			</select>';
+			chtml += '			<a class="btn btn-default btn-sm hand btn-express-delete" onclick="removeExpress(this);"><i class="fa fa-times"></i></a>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="form-group">';
+			chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="red-bold">*</span> 物流单号' + express_number + '</label>';
+			chtml += '		<div class="col-xs-10 col-sm-8">';
+			chtml += '			<input type="text" name="express_no[]" class="form-control" value="">';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="form-group">';
+			chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label">物流备注' + express_number + '</label>';
+			chtml += '		<div class="col-xs-10 col-sm-8">';
+			chtml += '			<input type="text" name="express_remark[]" class="form-control" value="" placeholder="备注包裹的商品信息">';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '</div>';
+			
+			$("#express_list").append(chtml);
+			$("#express_list").scrollTop(10000);
+	}
+
+	function loopExpress(express){
+		for(var j=0; j<express.length; j++){
+			express_number++;
+
+			var chtml = '';
+				chtml = '<div class="express_info">';
+				chtml += '	<div class="form-group">';
+				chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label color-f2270c">* 快递公司' + express_number + '</label>';
+				chtml += '		<div class="col-xs-10 col-sm-8" style="position: relative;">';
+				chtml += '			<select class="form-control" name="express_code[]">';
+				chtml += '				<option value="" selected>请选择...</option>';
+				for(var k=0; k<express_list.length; k++){
+					var selected = '';
+					if(express[j].express_code == express_list[k].code){
+						selected = 'selected';
+					}
+					chtml += '			<option value="' + express_list[k].code + '"' + selected + '>' + express_list[k].name + '</option>';
+				}
+				chtml += '			</select>';
+				chtml += '			<a class="btn btn-default btn-sm hand btn-express-delete" onclick="removeExpress(this);"><i class="fa fa-times"></i></a>';
+				chtml += '		</div>';
+				chtml += '	</div>';
+				chtml += '	<div class="form-group">';
+				chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="red-bold">*</span> 物流单号' + express_number + '</label>';
+				chtml += '		<div class="col-xs-10 col-sm-8">';
+				chtml += '			<input type="text" name="express_no[]" class="form-control" value="' + express[j].express_no + '">';
+				chtml += '		</div>';
+				chtml += '	</div>';
+				chtml += '	<div class="form-group">';
+				chtml += '		<label class="col-xs-12 col-sm-3 col-md-2 control-label">物流备注' + express_number + '</label>';
+				chtml += '		<div class="col-xs-10 col-sm-8">';
+				chtml += '			<input type="text" name="express_remark[]" class="form-control" value="' + express[j].express_remark + '" placeholder="备注包裹的商品信息">';
+				chtml += '		</div>';
+				chtml += '	</div>';
+				chtml += '</div>';
+
+				$("#express_list").append(chtml);
+		}
+	}
+
+	function removeExpress(obj){
+		$(obj).parent().parent().parent().remove();
+	}
+
+	$("#btn-deliver").click(function(){
+		var status = true;
+		var selects = $("#express_list").find("select");
+		selects.each(function(){
+			if($(this).val() == ''){
+				status = false;
+				util.message("请选择快递公司");
+				return false;
+			}
+		})
+
+		if(!status){
+			return false;
+		}
+
+		var inputs = $("#express_list").find("input");
+		inputs.each(function(){
+			var key_name = $(this).attr("name");
+			if(key_name == 'express_no[]' && $(this).val() == ''){
+				status = false;
+				util.message("请填写物流单号");
+				return false;
+			}
+		})
+		
+		if(status){
+			$("#deliveryForm").submit();
+		}
+	})
+</script>

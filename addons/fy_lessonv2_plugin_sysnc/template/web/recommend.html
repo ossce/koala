@@ -1,0 +1,162 @@
+ <!-- 
+ * 板块复制
+ * ============================================================================
+
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+
+{template 'common/header'}
+<link href="{MODULE_URL}static/web/css/common.css" rel="stylesheet">
+<link href="{MODULE_URL}static/web/css/category.css" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('recommend');}">【复制板块】1、选择公众号</a>
+	</li>
+	{if $op=='copy'}
+	<li class="active">
+		<a href="javascript:;">【复制板块】2、开始复制</a>
+	</li>
+	{/if}
+</ul>
+
+{if $op=='display'}
+<div class="main">
+    <form method="post" class="form-horizontal form">
+        <div class="panel panel-default">
+            <div class="panel-heading">选择公众号</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+                    <div class="col-sm-9">
+                    	<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">数据来源公众号</label>
+                    <div class="col-sm-9">
+                    	<select name="from_uniacid" class="form-control">
+                    		<option>请选择...</option>
+                    		{loop $account_list $account}
+                    		<option value="{$account['uniacid']}">{$account['name']}</option>
+                    		{/loop}
+                    	</select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="下一步" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{elseif $op=='copy'}
+<style type="text/css">
+.dd-item .checkbox {
+	margin: 8px 10px 15px 15px;
+}
+</style>
+<div class="main">
+	<div class="alert alert-info">
+	    复制数据过程请勿刷新页面或者关闭浏览器，否则会造成数据复制丢失
+	</div>
+    <form method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkSubmit();return false;">
+        <div class="panel panel-default">
+            <div class="panel-heading">公众号数据复制</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+                    <div class="col-sm-9">
+                    	<input type="text"  class="form-control" value="{$wechat['name']}" readonly/>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">复制到目标公众号</label>
+                    <div class="col-sm-9">
+                    	<input type="text"  class="form-control" value="{$obj_wechat['name']}" readonly/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="category">
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+					<div class="dd" id="div_nestable">
+						{loop $recommend $row}
+						<ol class="dd-list" style="margin-bottom:15px;">
+							<li class="dd-item">
+								<input type="checkbox" name="ids[]" value="{$row['id']}" class="checkbox">
+								<div class="dd-handle" style="width:100%;background:#eff5e9;">
+									<img src="{if !empty($row['icon'])}{$_W['attachurl']}{$row['icon']}{else}{MODULE_URL}static/web/images/recommend_default_icon.png{/if}" width="20" height="20"> [ID: {$row['id']}] {$row['rec_name']}
+								</div>
+							</li>
+						</ol>
+						{/loop}
+						<input type="checkbox" id="selAll" style="margin-left:15px; vertical-align:-2px;"> <strong>全选</strong>
+					</div>
+					{$pager}
+				</div>
+			</div>
+		</div>
+
+        <div class="form-group col-sm-12">
+			<a href="{php echo $this->createWebUrl('teacher');}" class="btn btn-primary col-lg-1" style="margin-right:30px;"/>上一步</a>
+            <input type="submit" name="submit" value="提交" class="btn btn-success col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;">
+	<img src="{MODULE_URL}static/web/images/refresh.gif">
+	<span class="mloading-text">复制数据中，请稍等...</span>
+</div>
+<div id="overlay"></div>
+<script type="text/javascript">
+	var ids = document.getElementsByName("ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	//提交
+	function checkSubmit(){
+		var checkids = '';
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			alert('未选中任何选项');
+			return false;
+		}
+
+		if(!confirm('该操作无法撤销，请确认继续操作?')){
+			return false;
+		}
+
+		$("#overlay").height("100%");
+		$("#overlay").width("100%");
+		$("#overlay").fadeTo(200, 0);
+		$(".mloading-bar").show();
+	}
+
+	
+</script>
+{/if}
+
+{template 'common/footer'}

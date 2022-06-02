@@ -1,0 +1,176 @@
+<script>
+    Diy.Editor.defaultData.selfmenu = {
+        style: {
+			show_background: 1,
+            background: '#FFFFFF',
+			bg_radius: '0px',
+            vertical_padding: '0px',
+            horizontal_padding: '15px',
+			show_subscribe: 1,
+			subscribe_font: '订阅消息',
+			subscribe_color: '#494949',
+			subscribe_imgsrc: '{MODULE_URL}static/web/diy/img/self_menu_subscribe.png',
+        },
+		data: [
+			{
+                imgurl: '{MODULE_URL}static/web/diy/img/self_menu_1.png?v=1',
+                text: '菜单名称',
+                color: '#494949',
+                link: '',
+            },
+		],
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="selfmenu">
+    <div class="editor-selfmenu">
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景色选择</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_background" class="input_binding self_menu_show_background" value="0" data-type="style" data-key="show_background" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_background!=1){ %>checked<% } %>> 无背景色
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="show_background" class="input_binding self_menu_show_background" value="1" data-type="style" data-key="show_background" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_background==1){ %>checked<% } %>> 有背景颜色
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="display:<% if(style.show_background==1){ %>block<% }else{ %>none<% } %>;">
+            <div class="col-sm-2 control-label text-right">背景色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景图圆角</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.bg_radius %>" data-type="style" data-key="bg_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.bg_radius %>" data-unit="px" data-min="1" data-max="50" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.bg_radius %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">订阅消息</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_subscribe" class="input_binding self_show_subscribe" value="1" data-type="style" data-key="show_subscribe" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_subscribe==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_subscribe" class="input_binding self_show_subscribe" value="0" data-type="style" data-key="show_subscribe" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_subscribe!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+		<div class="form-group self_subscribe_area" style="<% if(style.show_subscribe != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">订阅消息文字</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.subscribe_font %>" data-type="style" data-key="subscribe_font" data-name="<%= name %>" data-guid="<%= guid %>">
+            </div>
+        </div>
+		<div class="form-group self_subscribe_area" style="<% if(style.show_subscribe != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">订阅消息颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.subscribe_color %>" data-type="style" data-key="subscribe_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#494949').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group self_subscribe_area" style="<% if(style.show_subscribe != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">订阅消息图标</div>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.subscribe_imgsrc %>" data-type="style" data-key="subscribe_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.subscribe_imgsrc %>" class="img-responsive img-thumbnail" data-type="style" data-key="subscribe_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" style="width:48px;height:48px;">
+                </div>
+				<span class="help-block">建议尺寸 48 * 48px，png格式</span>
+            </div>
+        </div>
+		<hr/>
+		<div class="form-group ui-sortable ep-item-sortable">
+            <% _.each(data, function(item) { %>
+            <div class="selfmenu-item ep-item">
+                <div class="selfmenu-image">
+                    <img src="<%= item.imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                    <div class="ep-select-image">更换</div>
+                </div>
+                <div class="selfmenu-params">
+                    <div class="input-group">
+                        <span class="input-group-addon ep-input-lable">文字</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.text %>" data-type="data" data-key="text" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                        <input type="color" class="form-control input-sm input_color input_binding" value="<%= item.color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                        <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#494949').trigger('change')">
+                            <i class="fa fa-remove"></i>
+                        </span>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <span class="input-group-addon ep-input-lable">链接</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="链接以http://或https://开头"/>
+						<span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+                    </div>
+                </div>
+                <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="1"></span>
+            </div>
+            <% }); %>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-default btn-block ep-item-add" type="button" data-name="<%= name %>" data-guid="<%= guid %>">
+                <i class="fa fa-plus-circle"></i> 新增菜单
+            </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+	$(document).on('click', '.self_menu_show_background',function () {
+	   if ($(this).val()=='0') {
+			$(this).parent().parent().parent().next().hide();
+		} else {
+			$(this).parent().parent().parent().next().show();
+		}
+	});
+
+	$(document).on('click', '.self_show_subscribe',function () {
+	   if ($(this).val()=='0') {
+			$(".self_subscribe_area").hide();
+		} else {
+			$(".self_subscribe_area").show();
+		}
+	});
+</script>

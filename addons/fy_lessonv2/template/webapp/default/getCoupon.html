@@ -1,0 +1,137 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/getcoupon.css?v={$versions}">
+
+<div class="w-1200 m-auto">
+	<div class="hg-30"></div>
+
+    <div id="full-screen-slider">
+        <ul id="slides">
+		{loop $banner_list $item}
+            <li style="background:url({$item['picture']}) center top no-repeat;"><a {if $item['link']}href="{$item['link']}" target="_blank"{/if}></a></li>
+			{if count($banner_list)==1}
+			<li style="background:url({$item['picture']}) center top no-repeat;"><a {if $item['link']}href="{$item['link']}" target="_blank"{/if}></a></li>
+			{/if}
+		{/loop}
+        </ul>
+	</div>
+
+	<div class="clear"></div>
+	<div class="hg-30"></div>
+
+	<div class="course-total-title">优惠券列表<a href="/{$uniacid}/coupon.html" class="my-coupon"><i class="iconfont icon-coupon vertical-minus-1"></i> 我的优惠券<i class="iconfont icon-pull-right vertical-minus-1"></i></a></div>
+		{if $list}
+		<div class="cate-cont">
+			{loop $list $item}
+			<div class="quan-item">
+				<a href="{$item['coupon_link']}">
+					<div class="q-img">
+						<img src="{$_W['attachurl']}{$item['images']}" width="100" height="100">
+					</div>
+					<div class="q-type">
+						<div class="q-price {if $item['is_end']}ftc-d3d3d3{else}ftc-f23030{/if}">
+							<em>¥</em>
+							<strong>{php echo round($item['amount'],1)}</strong>
+							<span class="q-limit">
+								{if $item['conditions']>0}
+									满{$item['conditions']}可用
+								{else}
+									无金额门槛
+								{/if}
+							</span>
+						</div>
+						<div class="q-range">
+							<span title="{$item['category_name']}">{$item['category_name']}</span>
+						</div>
+						<div class="q-progress">
+							<span class="txt">
+								{if $item['is_end']}
+									已被抢完啦
+								{else}
+									已抢{$item['already_per']}
+								{/if}
+							</span>
+							{if !$item['is_end']}
+							<span class="progress-wrap">
+								<span class="progress-bg"></span>
+								<span class="progress" style="width:{$item['already_per']"></span>
+							</span>
+							{/if}
+						</div>
+					</div>
+				</a>
+				<div class="q-circle">
+					<i class="i1"></i>
+					<i class="i2"></i>
+					<div class="clear"></div>
+				</div>
+				<div class="q-ops-box">
+					<div class="q-opbtns {if $item['is_end']}end{else}normal{/if}">
+						<a href="javascript:;" class="btn btn-def" {if !$item['is_end']}onclick="exchange({$item['id']}, {$item['exchange_integral']})"{/if}>
+							<b></b>
+							<span class="txt">立即领取</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			{/loop}
+		</div>
+		{else}
+		<div class="no-content">
+			<div class="msg-inner">
+				<div class="msg-text">
+					<i class="iconfont i-info icon-information" style="color:#e9511b;"></i> 没有找到任何优惠券：）
+				</div>
+			</div>
+		</div>
+		{/if}
+	</div>
+
+	<div class="clear"></div>
+	<div class="w-amin hg-30"></div>
+	{$pager}
+	<div class="w-amin hg-30"></div>
+</div>
+
+<script type="text/javascript">
+	function exchange(id, integral){
+		if(!login()) return false;
+
+		if(integral > 0){
+			var setContents = '确定使用<strong> '+ integral +' </strong>积分兑换该优惠券?';
+		}else{
+			var setContents = '确定免费兑换该优惠券?';
+		}
+
+		swal({
+			title: "系统提示",
+			text: setContents,
+			type: "warning",
+			html: true,
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonText: "确定",
+			confirmButtonColor: "#1AB61B"
+		}, function() {
+			$.ajax({
+				url:  "/{$uniacid}/getcoupon.html?op=ajaxExchange",
+				type: "POST",
+				data: {id:id},
+				dataType: "json",
+			}).done(function(res) {
+				if(res.code==0){
+					swal("系统提示", res.message, "success");
+				}else if(res.code==-1){
+					swal("系统提示", res.message, "error");
+				}else if(res.code==-2){
+					swal("系统提示", res.message, "error");
+					login();
+				}
+			}).error(function(err) {
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			});
+		});
+	}
+</script>
+
+
+{php include $this->template($template.'/_footer')}

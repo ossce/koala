@@ -1,0 +1,250 @@
+.myteacher-bg {
+	font-family: "微软雅黑";
+	line-height: 40px;
+	color: #999;
+	font-size: 13px;
+	border-bottom: 1px solid #efefef;
+}
+.myteacher-bg .teacher-bg {
+	width: 100%;
+}
+.myteacher-bg .teacher-bg img {
+	max-width: 100%;
+	vertical-align: middle;
+	border: 0;
+}
+
+/* 我的讲师服务 */
+.myteacher-info{
+	padding: 10px 0px 20px;
+	background-color: #FFFFFF;
+	border-top: 3px #e4e4e4 solid;
+}
+.myteacher-info .teacher-prompt {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-size: 15px;
+}
+.myteacher-info .teacher-prompt .red {
+	padding: 5px 15px;
+	border: 1px solid #BC2838;
+	border-radius: 20px;
+	font-size: 13px;
+}
+.myteacher-info .teacher-prompt .green {
+	color: #2b9c05;
+	padding: 5px 15px;
+	border: 1px solid #2b9c05;
+	border-radius: 20px;
+	font-size: 13px;
+}
+
+.myteacher-info .myvip-title li {
+	font-family: "微软雅黑";
+	font-size: 14px;
+	float: left;
+	margin: 0;
+	padding: 5px 0;
+	text-align: center;
+}
+.myteacher-info .myteacher-list{
+	margin: 20px 0;
+	max-height: 50px;
+}
+.myteacher-info .myteacher-list:first-child{
+	margin: 10px 0;
+}
+.myteacher-info .myteacher-list li {
+	font-family: "微软雅黑";
+	font-size: 14px;
+	float: left;
+	text-align: center;
+	max-height: 42px;
+    overflow: hidden;
+}
+.myteacher-info .myteacher-list .buyteacher-btn{
+	display: inline-block;
+    background: #edd5a0;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+	color: #5f462b;
+}
+
+.myteacher-info .myteacher-list .buybtn a {
+	color: #FFFFFF;
+	display: inline-block;
+	width: 50px;
+	padding: 4px 15px;
+	background-color: #F1C332;
+	border-radius: 7px;
+	border: 1px solid #F1C332;
+}
+
+
+.teacher-menu {
+	background: #FFF;
+	border-bottom: 1px solid #e8e8e8;
+	box-shadow: 0 3px 7px #eaeaea;
+	width: 100%;
+}
+.teacher-menu>h2 {
+	font-size: 14px;
+	line-height: 40px;
+	border-bottom: 1px solid #F1F1F1;
+	padding: 0 12px;
+	color: #999;
+}
+.teacher-menu>h2>a {
+	display: block;
+}
+.teacher-menu .my-teacher-icon{
+	width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+    background: url(../../images/my-teacher-icon.png);
+}
+.teacher-menu .my-viporder-icon{
+	width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+    background: url(../../images/my-teacherorder-icon.png);
+}
+.teacher-menu_one {
+	background: #FFF;
+}
+.teacher-menu>ul>li {
+	cursor:pointer;
+	text-align: center;
+	font-size: 14px;
+	padding: 10px 0;
+	margin-bottom: 0;
+}
+.teacher-menu>ul>li.active{
+	color: #ff5e32;
+}
+
+.am-avg-sm-5>li {
+	width: 25%;
+	float: left;
+}
+.teacher-menu>h2>a {
+	display: block;
+}
+.teacher-menu>ul>li.w-col-5 {
+	width: 49%;
+}
+.teacher-menu>ul>li.w-col-5:first-child {
+	border-right: 1px solid #efefef;
+}
+.teacher-menu>ul>li.w-col-5 i {
+	font-size: 16px;
+	display: inline-block;
+	line-height: 30px;
+	color: #999;
+	margin-right: 5px;
+}
+
+
+/* 讲师服务订单 */
+.aui-order-box {
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background: #ffffff;
+    padding: 15px 15px 10px 15px;
+    box-shadow: 0 1px 16px 0 rgba(0,0,0,.1);
+}
+.aui-well-item {
+    padding: 0;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.aui-well-item-bd {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+}
+.aui-well-item-bd h3 {
+    color: #131313;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+.aui-well-item-fr {
+    font-size: 0.8rem;
+    text-align: right;
+    color: #999999;
+    padding-right: 13px;
+    position: relative;
+}
+.aui-well-item-fr:after {
+    content: " ";
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-width: 2px 2px 0 0;
+    border-color: #999999;
+    border-style: solid;
+    -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+    transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+    position: relative;
+    top: -2px;
+    position: absolute;
+    top: 50%;
+    margin-top: -5px;
+    right: 2px;
+    border-radius: 2px;
+}
+.aui-order-fl {
+    color: #666666;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+    padding-left: 15px;
+}
+.aui-order-fl .income_amount{
+	font-weight: bold;
+    color: #fc9153;
+}
+.aui-order-time:before {
+    content: " ";
+    display: inline-block;
+    height: 13px;
+    width: 13px;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAADM0lEQVRIS8WXTWhUVxTH///3YqZtsLgJLR2FanEjCLXdpA2li4pC1ZWhG60fkHn3vrQNNKWlqRRm1VaRLCLJ+5gQlYpIpIuKkIWuxBipYJdFMLULC3EV2mYoDL575A0zIZPkzbz3qPSuhrnnf37n3K9zHvE/DWbhBkGwybKsviiKtpJ8RUQKJBdJ/rm8vDw3MjLyb1p/qcBhGB40xpwkuR9AT4LzvwBctizrXKlU+q1TAG3Bvu/vIjkJ4P1OjprzImIAnLdt+1SpVHqSpEsEh2G4V0R+BvBSWugau39IHnUc59pG+g3Bvu8PkLwCwE6CishhkvMAfgfwQhu7s1rrL9fOrwOHYfimMeYuyUK7TG3b3jk4OPjQ9/3HJIvtbEXkE611vGUrowU8Pj7+cqFQiA/Ga52WNwsYQGSMedd13V+aflvAQRCcBfBFJ2g8nxEcS+4rpd5eB/Y8r2hZ1iMAm54TOHb7kVLqavxjJeMgCL4CcDoNNGfGEJHrWutDLWDf9++QfOd5ggHUqtXqlviFq2c8Njb2Yk9PT3X1CnQKIMce112KyD6t9Y06OAiCNwA87ARbPZ8XHD+9ruteqIMrlcp7xphbOcE3SX6QQXtKKfVdHex5Xr9lWbcziGGMOea67o8zMzPdS0tLUwA+TqkfVUr9UAdPTk7usG17IaWwuVeG5Ldx9I3tckVknGRXBz8nlFIXcx+upvP4itRqtSPDw8N/VyqVPmNMXBR6k+Athys28n1/nmRflqxX2S5EUXRgaGjoged5r1uW9QBA9wa+Wq9TAzxKsr5sOUeV5HGSf0RRNJdQZGaVUh+2PCATExPburq64n1O9WTmCY7kgOM4P7WAGwfkDIB1tTMPZK1GRH7VWr/V/D93WcwYTPuy2LjTe+LOolMjkBH8qVJqYrUmsfUBcOm/gIvIOa318NpAE5u9IAh2A4ibve0Zs1sxF5FvtNbfb6Rv2942qtbnAL4GsDlDAAskP3McZzZJk6qhn56e7q3Vaoqkm9SPichTknMicmVxcXGqXC4/bRdoKnDTQblctorFYn/jE+ZVEekWkSe2bT8WkXtKqfhrItXIBE7lMaXRM3ROWy7DMy5UAAAAAElFTkSuQmCC");
+    background-size: 13px;
+}
+.aui-order-address:before {
+    content: " ";
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    left: 2px;
+    top: 5px;
+    background: #44bea3;
+    border-radius: 100%;
+}
+.aui-order-door:before {
+    content: " ";
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    left: 2px;
+    top: 5px;
+    background: #fc9153;
+    border-radius: 100%;
+}

@@ -1,0 +1,109 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="myVipWrap flex flex-v">
+				<ul class="commonTab flex flex-vc">
+					<li class="items {if $op=='display'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/myteacher.html">我的讲师服务</a></li>
+					<li class="items {if $op=='orderlist'}actived{/if}"><a class="tabsCard" href="/{$uniacid}/myteacher.html?op=orderlist">讲师服务订单</a></li>
+				</ul>
+				{if $op=='display'}
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-80">讲师编号</div>
+								<div class="txt w-353">讲师名称</div>
+								<div class="txt w-353">有效期限</div>
+								<div class="txt w-200">操作</div>
+							</div>
+							{loop $list $key $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-80 text-c">{$item['teacher']['id']}</p>
+									<p class="w-353 text-c">{$item['teacher']['teacher']}</p>
+									<p class="w-353 text-c">{php echo date('Y-m-d H:i:s', $item['validity']);}</p>
+									<p class="w-200 text-c"><a href="/{$uniacid}/teacher.html?teacherid={$item['teacherid']}" class="go-stufy" target="_blank">去学习</a></p>
+								</li>
+							</ul>
+							{/loop}
+
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的记录</p>
+						</div>
+					</div>
+					{/if}
+				{elseif $op=='orderlist'}
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-180">订单编号</div>
+								<div class="txt w-180">购买详情</div>
+								<div class="txt w-120">支付方式</div>
+								<div class="txt w-120">订单金额</div>
+								<div class="txt w-180">下单时间</div>
+								<div class="txt w-180">支付时间</div>
+							</div>
+							{loop $list $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-180 text-c">{$item['ordersn']}</p>
+									<p class="w-180 text-c">购买[{$item['teacher']}] - {$item['ordertime']}天</p>
+									<p class="w-120 text-c">{$paytype[$item['paytype']]}</p>
+									<p class="w-120 text-c">￥{$item['price']}</p>
+									<p class="w-180 text-c">{php echo date('Y-m-d H:i:s', $item['addtime']);}</p>
+									<p class="w-180 text-c">
+										{if $item['status']}
+											{php echo date('Y-m-d H:i:s', $item['paytime']);}
+										{else}
+										{/if}
+									</p>
+								</li>
+							</ul>
+							{/loop}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+						</div>
+					{else}
+						<div class="empty-search pr">
+							<div class="block">
+								<i class="orders"></i>
+								<p>没有找到符合条件的记录</p>
+							</div>
+						</div>
+					{/if}
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function goStudy(level_id){
+		window.open("/{$uniacid}/vipLesson.html?level_id="+level_id ,"_blank");
+	}
+</script>
+
+{php include $this->template($template.'/_footer')}

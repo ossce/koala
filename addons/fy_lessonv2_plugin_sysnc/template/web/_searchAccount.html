@@ -1,0 +1,56 @@
+<!-- Search Account -->
+<div class="modal fade modal-app modal-select-account" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header clearfix">
+				<h4 class="text-over">选择数据来源公众号</h4>
+				<div class="type"></div>
+				<button type="button" class="close btn-close-account" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="search-box">
+					<span class="we7-margin-right">公众号名称:</span>
+					<div class="search-form">
+						<div class="input-group">
+							<input type="text" id="account_name_kwd" class="form-control" autocomplete="false">
+							<span class="input-group-btn"><button class="btn btn-default" onclick="getWechatList();"><i class="fa fa-search"></i></button></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-app-list">
+					
+				</div>
+			</div>
+			<div class="modal-footer" style="padding-top:10px;">
+				<a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Search Account -->
+
+<script type="text/javascript">
+	function eqSelectAccount(){
+		getWechatList();
+		$('.modal-select-account').modal();
+	}
+	function getWechatList(){
+		$(".modal-app-list").html('<p style="font-size:14px;padding:150px;text-align:center;">正在搜索...</p>');
+		$.get("{php echo $this->createWebUrl('GetWechatList')}", { 
+			keyword: $.trim($("#account_name_kwd").val())
+		}, function (dat) {
+			$(".modal-app-list").html(dat);
+		});
+	}
+	function selectAccount(uniacid,name){
+		$("#from_uniacid").val(uniacid);
+		$("#from_account_name").val(name);
+		$(".btn-close-account").click();
+	}
+	$("#account_name_kwd").bind("keypress", function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			getWechatList();
+		}
+	});
+</script>

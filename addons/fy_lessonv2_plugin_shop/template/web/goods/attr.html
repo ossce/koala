@@ -1,0 +1,48 @@
+<div class="main">
+	<div class="alert alert-warning">
+	    <i class="fa fa-info-circle"></i> 请勿删除规格名称或规格值，否则会影响已经发布的商品规格显示。
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form action="" method="post" class="form-horizontal form">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="text-align:center;width:90px;">排序</th>
+							<th style="text-align:center;width:15%;">规格名称</th>
+							<th style="width:65%;">规格值</th>
+							<th style="text-align:right;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $item}
+						<tr>
+							<td style="text-align:center;">
+								<input type="text" class="form-control" name="displayorder[{$item['id']}]" value="{$item['displayorder']}">
+							</td>
+							<td style="text-align:center;">{$item['title']}</td>
+							<td style="table-layout:fixed; word-break: break-all; white-space: normal">{$item['values']}</td>
+							<td class="text-right">
+								<div class="btn-group">
+									<a href="{php echo $this->createWebUrl('goods',array('op'=>'postAttr','id'=>$item['id']));}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" data-original-title="编辑"><i class="fa fa-edit"></i></a>
+									<a href="{php echo $this->createWebUrl('goods',array('op'=>'deleteAttr','id'=>$item['id']));}" class="btn btn-default btn-sm" onclick="return confirm('此操作不可恢复，确认删除？'); return false;" data-toggle="tooltip" data-placement="bottom" data-original-title="删除"><i class="fa fa-times"></i></a>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4">
+								<a href="{php echo $this->createWebUrl('goods',array('op'=>'postAttr'));}" class="btn btn-success" style="margin-right:15px;"><i class="fa fa-plus"></i> 添加规格</a>
+								<input name="submitOrder" type="submit" value="批量排序" class="btn btn-primary">
+								<input type="hidden" name="token" value="{$_W['token']}">
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+	</div>
+	{$pager}
+</div>

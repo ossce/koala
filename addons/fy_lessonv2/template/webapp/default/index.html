@@ -1,0 +1,279 @@
+{php include $this->template($template.'/_header')}
+
+<div class="w-all w-minw banner ps-r">
+    <div id="full-screen-slider">
+        <ul id="slides">
+			{loop $banner_list $banner}
+            <li style="background:url({$_W['attachurl']}{$banner['picture']}) center top no-repeat;"><a {if $banner['link']}href="{$banner['link']}"{/if} target="_blank"></a></li>
+			{/loop}
+        </ul>
+    </div>
+</div> 
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden m-t-30"> 
+	
+	{if $notice_list}
+    <!-- 通知公告 -->
+	<div class="w-main m-auto"> 
+        <div class="w-main ovhidden fl m-b-6">
+			<h3 class="fl gray3 fs-20 ft-w-b line-h50">
+				<span class="dsblock w-25 fs-26 index_notice_icon ql_h_news tx-ind m-r-10 fl" {if $new_notice_setting['icon']}style="background-image:url({$_W['attachurl']}{$new_notice_setting['icon']})"{/if}>{php echo $new_notice_setting['font'] ? $new_notice_setting['font'] : '最新通知';}</span>{php echo $new_notice_setting['font'] ? $new_notice_setting['font'] : '最新通知';}
+			</h3>
+            <a href="/{$uniacid}/article.html" class="fr gray7 fs-14 ftc-000000 line-h50 more">查看更多&gt;</a>
+		</div>
+        <div class="w-main"> 
+            <div class="w-285 hot_news bg-c-ffffff fl">
+				{if $notice_adv}
+				<a {if $notice_adv['link']}href="{$notice_adv['link']}"{/if} class="dsblock w-all hg-64 ovhidden fl">
+					<img src="{$_W['attachurl']}{$notice_adv['picture']}" />
+				</a>
+				{/if}
+			</div>
+            <div class="w-906 fr"> 
+                <div class="w-895 m-auto">
+                    <ul id="hotnewlist" class="bg-c-ffffff p-l-25 p-r-30 ovhidden">
+                        <p class="hg-185 w-1 tx-ind">竖线</p>
+                        {loop $notice_list $item}
+						<li>
+							<a href="/{$uniacid}/article.html?op=details&aid={$item['id']}">
+								<h3 class="w-270 fl fs-13 line-h32 ftc-000000 one_hidden">
+									{if $item['is_vip']}
+										<img src="{MODULE_URL}static/webapp/default/images/article-title-vip.png?v=3" height="18" style="vertical-align:-4px;" >
+									{/if}
+									{$item['title']}
+								</h3>
+								<span class="dsblock w-115 fs-13 line-h32 ftc-8c8c8c lspa-1 fr">【{php echo date('Y-m-d', $item['addtime']);}】</span>
+							</a>
+						</li>
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                    <script type="text/javascript">
+						window.onload = function () {
+							var ul = document.getElementById ("hotnewlist");
+							var lis = ul.getElementsByTagName("li");
+							for (var i = 0; i < lis.length; i++) {
+								if(i>0 && i%2==1){
+									lis[i].className="note";
+								}
+							};
+						}
+					</script> 
+                </div>
+            </div>
+        </div>
+		<div class="clear"></div>
+    </div>
+	<!-- 分割线 -->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-30"></div>
+        <div class="w-main fl hg-1 bg-c-e5e5e5"></div>
+        <div class="w-main fl hg-30"></div>
+    </div>
+	{/if}
+
+	{if $discount_adv}    
+    <!-- 限时折扣广告 -->
+    <div class="w-main m-auto">
+		{loop $discount_adv $key $item}
+		<a {if $item['link']}href="{$item['link']}"{/if} class="dsblock homead ovhidden w-380 hg-170 fl {if $key}m-l-30{/if}" target="_blank">
+			<img src="{$_W['attachurl']}{$item['picture']}" alt="{$item['banner_name']}"/>
+		</a>
+		{/loop}
+	</div>
+	<!-- 分割线 -->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-40"></div>
+        <div class="w-main fl hg-1 bg-c-e5e5e5"></div>
+        <div class="w-main fl hg-8"></div>
+    </div>
+	{/if}
+
+	{if $rec_teacher}
+	<!-- 名师风采 -->
+    <div class="w-main m-auto"> 
+        <div class="w-main ovhidden fl m-b-6">
+			<h3 class="fl gray3 fs-20 ft-w-b line-h50">
+				<span class="dsblock w-25 fs-26 index_rec_teacher_icon ql_h_news tx-ind m-r-10 fl" {if $rec_teacher_setting['icon']}style="background-image:url({$_W['attachurl']}{$rec_teacher_setting['icon']})"{/if}>{php echo $rec_teacher_setting['font'] ? $rec_teacher_setting['font'] : '名师风采';}</span>{php echo $rec_teacher_setting['font'] ? $rec_teacher_setting['font'] : '名师风采';}
+			</h3>
+            <a href="/{$uniacid}/teacherlist.html" class="fr gray7 fs-14 ftc-000000 line-h50 more">查看更多&gt;</a>
+		</div>
+    </div>
+    <div class="w-main m-auto">
+        <ul class="home_tearch w-main ovhidden">
+			{loop $rec_teacher $item}
+            <li>
+                <div class="h_tea_img w-120">
+					<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" class="dsblock" target="_blank">
+						<img class="lazy" data-original="{$_W['attachurl']}{$item['teacherphoto']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC">
+					</a>
+                    <p class="w-all fl fs-14 ft-w-b ftc-000000 text-c line-h30">{$item['teacher']}</p>
+                </div>
+                <div class="w-200 fl">
+					<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank">
+						<h3 class="fs-14 ftc-000000 line-h22 lesson-total">
+							{if $item['total']}
+								总共{$item['total']}{php echo $lesson_page['lessonNum'] ? $lesson_page['lessonNum'] : '个课程'}
+							{else}
+								暂无发布课程
+							{/if}
+						</h3>
+						<h3 class="fs-14 ftc-000000 line-h22 all-lesson"><em></em>{php echo $lesson_page['allLesson'] ? $lesson_page['allLesson'] : '查看全部课程'}</h3>
+					</a>
+                </div>
+                <div class="w-all fl fs-14 ftc-000000 line-h22 m-t-50 fu_hidden teacher-descript">
+					{loop $item['teacherdes'] $digest}
+						<p>{$digest}</p>
+					{/loop}
+				</div>
+            </li>
+            {/loop}
+            <div class="clear"></div>
+        </ul>
+    </div>
+	<!-- 分割线 -->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-11"></div>
+        <div class="w-main fl hg-1 bg-c-e5e5e5"></div>
+        <div class="w-main fl hg-8"></div>
+    </div>
+	{/if}
+
+	{if $newlesson}
+	<!-- 最新更新课程 -->
+	<div class="w-main m-auto"> 
+        <div class="w-main ovhidden fl m-b-6">
+			<h3 class="fl gray3 fs-20 ft-w-b line-h50">
+				<span class="dsblock w-25 fs-26 index_newlesson_icon ql_h_news tx-ind m-r-10 fl" {if $newlesson_setting['icon']}style="background-image:url({$_W['attachurl']}{$newlesson_setting['icon']})"{/if}>{php echo $newlesson_setting['font'] ? $newlesson_setting['font'] : '最新更新';}</span>{php echo $newlesson_setting['font'] ? $newlesson_setting['font'] : '最新更新';}
+			</h3>
+		</div>
+		<div class="w-main w-1200 course-list">
+			<ul>
+				{loop $newlesson $item}
+				<li>
+					<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+						<div class="cover">
+							<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}">
+							<div class="icon-live {$item['icon_live_status']}"></div>
+							{if !empty($item['ico_name'])}
+								<i class="ico_common {$item['ico_name']}"></i>
+							{/if}
+							{if $item['section_status']=='0'}
+								<i class="section_ended">已完结</i>
+							{/if}
+						</div>
+						<div class="info">
+							<p class="title">{$item['bookname']}</p>
+							<p class="item1">
+								{if $setting['show_study_number']}
+								<span class="click"><i class="click-count-icon"></i>{$item['study_number']}</span>
+								{/if}
+								<span class="type price">
+								{if $item['price']==0}
+									免费
+								{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+									VIP免费
+								{else}
+									{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} <strong>¥ {$item['price']}</strong>
+								{/if}
+								</span>
+							</p>
+							<p class="item2">
+								<span class="teacher">
+									<img src="{$_W['attachurl']}{$item['teacher']['teacherphoto']}" width="32"
+									 height="32" >{$item['teacher']['teacher']}
+								</span>
+								{if $item['count'] && $item['lesson_type']!=3}
+								<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+								{/if}
+							</p>
+							<p class="update-info">
+								{if $item['lesson_type']!=3}
+								<span class="section-title"><i class="section-title-icon"></i>{$item['section']['title']}</span>
+								{/if}
+								<span class="update-time"><i class="section-update-icon"></i>{$item['tran_time']} 更新</span>
+							</p>
+						</div>
+					</a>
+				</li>
+				{/loop}
+			</ul>
+        </div> 
+    </div>
+	<!-- 分割线 -->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-11"></div>
+        <div class="w-main fl hg-1 bg-c-e5e5e5"></div>
+        <div class="w-main fl hg-8"></div>
+    </div>
+	{/if}
+
+{if $rec_lesson}
+	{loop $rec_lesson $rec}
+	<div class="w-main m-auto"> 
+        <div class="w-main ovhidden fl m-b-6">
+			<h3 class="fl gray3 fs-20 ft-w-b line-h50">
+				<span class="dsblock w-25 fs-26 index_rec_lesson_icon ql_h_news tx-ind m-r-10 fl" {if $rec['icon']}style="background-image:url({$_W['attachurl']}{$rec['icon']})"{/if}>{$rec['rec_name']}</span>{$rec['rec_name']}
+			</h3>
+			<a href="/{$uniacid}/recommend.html?recid={$rec['recid']}" class="fr gray7 fs-14 ftc-000000 line-h50 more">查看更多&gt;</a>
+		</div>
+		<div class="w-main w-1200 course-list">
+			<ul>
+				{loop $rec['lesson'] $item}
+				<li>
+					<a href="/{$uniacid}/lesson.html?id={$item['id']}" title="{$item['bookname']}" target="_blank">
+						<div class="cover">
+							<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" alt="{$item['bookname']}">
+							<div class="icon-live {$item['icon_live_status']}"></div>
+							{if !empty($item['ico_name'])}
+								<i class="ico_common {$item['ico_name']}"></i>
+							{/if}
+							{if $item['section_status']=='0'}
+								<i class="section_ended">已完结</i>
+							{/if}
+						</div>
+						<div class="info">
+							<p class="title">{$item['bookname']}</p>
+							<p class="item1">
+								{if $setting['show_study_number']}
+								<span class="click">
+									<i class="click-count-icon"></i> {$item['study_number']}
+								</span>
+								{/if}
+								<span class="type price">
+								{if $item['price']==0}
+									免费
+								{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+									VIP免费
+								{else}
+									{if $item['market_price']}<i class="market-price">¥{$item['market_price']}</i>{/if} <strong>¥ {$item['price']}</strong>
+								{/if}
+								</span>
+							</p>
+							<p class="item2">
+								<span class="teacher">
+									<img src="{$_W['attachurl']}{$item['teacher']['teacherphoto']}" width="32" height="32" />{$item['teacher']['teacher']}
+								</span>
+								{if $item['lesson_type']!=3}
+								<span class="count"><i class="section-count-icon"></i>共{$item['count']}课时</span>
+								{/if}
+							</p>
+							<p class="description">{$item['descript']}</p>
+						</div>
+					</a>
+				</li>
+				{/loop}
+			</ul>
+        </div> 
+    </div>
+	<!-- 分割线 -->
+    <div class="w-main m-auto">
+        <div class="w-main fl hg-11"></div>
+        <div class="w-main fl hg-1 bg-c-e5e5e5"></div>
+        <div class="w-main fl hg-8"></div>
+    </div>
+	{/loop}
+{/if}
+</div>
+
+{php include $this->template($template.'/_footer')}

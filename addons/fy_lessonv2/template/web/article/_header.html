@@ -1,0 +1,10 @@
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('article');}">文章列表</a></li>
+	{if $op=='post'}
+	<li {if $op=='post'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op'=>'post','id'=>$_GPC['id']));}">{if $_GPC['aid']>0}编辑{else}添加{/if}文章</a></li>
+	{/if}
+	<li {if $op=='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op'=>'category'));}">分类管理</a></li>
+	{if $op=='postCategory'}
+	<li {if $op=='postCategory'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op'=>'postCategory','id'=>$_GPC['id']));}">{if $_GPC['cate_id']>0}编辑{else}添加{/if}分类</a></li>
+	{/if}
+</ul>

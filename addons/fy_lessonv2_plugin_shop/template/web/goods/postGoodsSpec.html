@@ -1,0 +1,219 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品规格</label>
+	<div class="col-sm-9" style="padding-top:7px;">
+		<input type="hidden" class="js-switch" name="spec_switch" value="{$goods['spec_switch']}">
+		<div class="switchery {if $goods['spec_switch']}checked{/if}" {if !$id || ($id && $goods['goods_type']==1)}onclick="specSwitch();"{/if}><small></small></div>
+		<span class="color-red"><i class="fa fa-info-circle mar-l-10"></i> (仅限实物商品使用)开启规格后，实物商品价格以规格价格为准，总库存是各个规格的库存之和；</span>
+		<div class="goods_spec_wrap mar-t-10" {if !$goods['spec_switch']}style="display:none;"{/if}>
+			<div class="clearfix">
+				<ul class="goods_spec_inner">
+					{if $sku && $goods_attr && $attr_title}
+						{loop $attr_title $title=>$value}
+						<li class="item_spec clearfix mar-b-10">
+							<div class="col-md-6 clearfix mar-l-m-15">
+								<select class="goods_attr form-control pull-left w-280" name="goods_attr[]" data-index="1">
+									<option value="0">请选择</option>
+									{loop $goods_attr $attr}
+									<option value="{$attr['id']}" {if $title==$attr['title']}selected{/if}>{$attr['title']}</option>
+									{/loop}
+								</select>
+								<div class="btn-group">
+									<span class="btn btn-default btn-sm pad-t-b-7 pad-l-r-10 del_goods_attr" title="删除"><i class="fa fa-times"></i></span>
+								</div>
+							</div>
+							<div class="col-md-12 mar-t-10 mar-b-15">
+								<ul class="goods_value_wrap">
+									<span class="label label-default fl hand mar-t-2 check-all-spec" data-status="0">全选/反选</span>
+									{loop $value $val}
+									<li class="item_value fl mar-l-10">
+										<label>
+											<input type="checkbox" value="{$val['id']}" {if $val['checked']}checked{/if} data-value="{$val['value']}"> {$val['value']}
+										</label>
+									</li>
+									{/loop}
+								</ul>
+							</div>
+						</li>
+						{/loop}
+					{/if}
+				</ul>
+				<button type="button" class="btn btn-primary select_goods_attr" data-id="{$id}" data-index="{php echo count($attr_title);}">
+					<img src="{MODULE_URL}static/web/images/loading.gif" style="width:16px; height:16px; display:none;">
+					<i class="fa fa-list-ul"></i> 选择规格
+				</button>
+				<button type="button" class="btn btn-warning mar-l-10 refresh_goods_attr">
+					<i class="fa fa-refresh"></i> 刷新规格表
+				</button>
+				<a href="{php echo $this->createWebUrl('goods',array('op'=>'attr'));}" class="btn btn-default mar-l-10" target="_blank">
+					<i class="fa fa-plus"></i> 添加新规格
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"></label>
+    <div class="col-sm-12 col-md-10 col-xs-12">
+        <div class="panel panel-default goods_sku_list" style="display: none">
+            <div id="goods_sku_wrap" class="panel-body table-responsive max-w-1200">
+			</div>
+            <div class="panel-footer">
+                批量设置：
+                <a class="btn btn-default btn-sm" data-toggle="modal" data-target=".total_modal">库存</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" data-target=".integral_modal">兑换积分</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" data-target=".price_modal">销售价</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" data-target=".market_price_modal">市场价</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" data-target=".unit_modal">单位</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade sku-cover-update-modal" tabindex="-1" role="dialog" style="z-index:1021;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">设置规格缩略图</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group" style="margin-bottom: 0">
+                        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label text-right"></label>
+                        <div class="col-sm-9">
+                            {php echo tpl_form_field_image('cur_sku_cover', $cur_sku_cover)}
+                            <span class="help-block">建议尺寸200 * 200px，用户选择规格时显示的产品缩略图</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary update_skucover_btn" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量设置规格 START -->
+<div class="modal fade total_modal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量设置库存</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">库存</label>
+						<div class="col-sm-9">
+							<input type="text" name="batch_total" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn_total_submit" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade integral_modal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量设置兑换积分</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">兑换积分</label>
+						<div class="col-sm-9">
+							<input type="text" name="batch_integral" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn_integral_submit" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade price_modal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量设置销售价</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">销售价</label>
+						<div class="col-sm-9">
+							<input type="text" name="batch_price" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn_price_submit" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade market_price_modal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量设置市场价</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">市场价</label>
+						<div class="col-sm-9">
+							<input type="text" name="batch_market_price" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn_market_price_submit" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade unit_modal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量设置单位</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">单位</label>
+						<div class="col-sm-9">
+							<input type="text" name="batch_unit" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn_unit_submit" data-dismiss="modal">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 批量设置规格 END -->

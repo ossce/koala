@@ -1,0 +1,15 @@
+{template 'common/header'}
+{template 'web/setting/_header'}
+
+{if $op == 'display'}
+
+	{template 'web/setting/display'}
+
+{elseif $op == 'im'}
+
+	{template 'web/setting/im'}
+
+{/if}
+
+
+{template 'common/footer'}

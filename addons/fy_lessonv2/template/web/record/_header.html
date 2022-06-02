@@ -1,0 +1,6 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('record');}">最近学习记录</a></li>
+	<li {if $op=='studyDuration' || $op=='studyDurationDetails'}class="active"{/if}><a href="{php echo $this->createWebUrl('record', array('op'=>'studyDuration'));}">学习时长汇总</a></li>
+</ul>

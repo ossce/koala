@@ -1,0 +1,112 @@
+<style type="text/css">
+.mloading-bar {
+    width: 300px;
+    min-height: 22px;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 7px;
+    padding: 20px 15px;
+    font-size: 14px;
+    color: #000;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    margin-left: -140px;
+    margin-top: -30px;
+    word-break: break-all;
+	z-index:999;
+	display:none;
+}
+#overlay{
+	background:#000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	display:none;
+}
+</style>
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}static/mobile/{$template}/images//download.gif"><span class="mloading-text">正在发放优惠券，请稍等...</span></div>
+<div id="overlay"></div>
+<div class="main">
+	<div class="alert alert-info">
+	    单次发放大量优惠券会占用服务器资源，建议在夜间访问量少的时候进行该操作。为了减少微信模版消息违规情况，后台发放优惠券不再发送模版消息通知用户。
+	</div>
+    <form method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return check();">
+        <div class="panel panel-default">
+            <div class="panel-heading">发放优惠券</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券</label>
+                    <div class="col-sm-9">
+                        <select name="coupon_id" class="form-control">
+							<option value="">请选择优惠券</option>
+							{loop $couponList $item}
+							<option value="{$item['id']}">{$item['name']}</option>
+							{/loop}
+						</select>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">发放范围</label>
+                    <div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="send_type" value="1" onclick="checkType(this.value)"/> 全部会员</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="send_type" value="2" onclick="checkType(this.value)"/> 指定会员</label>&nbsp;
+						<label class="radio-inline"><input type="radio" name="send_type" value="3" onclick="checkType(this.value)"/> 指定VIP等级</label>
+						<label class="radio-inline"><input type="radio" name="send_type" value="4" onclick="checkType(this.value)"/> 指定加入日期</label>
+					</div>
+                </div>
+				<div id="uids" class="form-group hide-type">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员uid</label>
+                    <div class="col-sm-9">
+						<textarea name="uids" class="form-control"></textarea>
+						<span class="help-block">请输入会员uid，多个会员uid请用英文半角逗号","隔开</span>
+                    </div>
+                </div>
+				<div id="vip-level" class="form-group hide-type" style="display:none;">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员等级</label>
+                    <div class="col-sm-9">
+                        <select name="level_id" class="form-control">
+							<option value="">请选择会员等级</option>
+							{loop $levelList $item}
+							<option value="{$item['id']}">{$item['level_name']}</option>
+							{/loop}
+						</select>
+                    </div>
+                </div>
+				<div id="reg-date" class="form-group hide-type" style="display:none;">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">加入日期</label>
+                    <div class="col-sm-9">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>false,'endtime'=>false));}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+function checkType(type){
+	$(".hide-type").hide();
+	if(type==2){
+		$("#uids").show();
+	}else if(type==3){
+		$("#vip-level").show();
+	}else if(type==4){
+		$("#reg-date").show();
+	}
+}
+function check(){
+	/* 显示遮罩层 */
+	$("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0.2);
+	$(".mloading-bar").show();
+}
+</script>

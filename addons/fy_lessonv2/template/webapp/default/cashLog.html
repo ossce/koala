@@ -1,0 +1,185 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="userCenterIndex flex flex-v">
+				<div class="flex flex-vc m-b-20">
+					<div class="treasure flex flex-vc" style="width:660px;">
+						<dl class="items flex flex-v">
+							<dt><a href="javascript:;" class="ftc-e9511b">{$member['nopay_commission']}</a></dt>
+							<dd class="txt">{php echo $salefont['nopay_commission'] ? $salefont['nopay_commission'] : '可提现佣金';}(元)</dd>
+						</dl>
+						<dl class="items flex flex-v">
+							<dt><a href="javascript:;" class="ftc-7a7a7a">{php echo sprintf("%.2f",$member['nopay_commission']+$member['pay_commission']);}</a></dt>
+							<dd class="txt">{php echo $salefont['total_commission'] ? $salefont['total_commission'] : '累计佣金';}(元)</dd>
+						</dl>
+						<dl class="items flex flex-v">
+							<dt><a href="javascript:;" class="ftc-7a7a7a">{php echo date('Y-m-d', $member['addtime']);}</a></dt>
+							<dd class="txt">加入时间</dd>
+						</dl>
+					</div>
+					<div class="treasure flex flex-vc" style="width:330px;border-left:none;">
+						<a class="btn-ghost" href="javascript:;" id="btn-cash">提现</a>
+					</div>
+				</div>
+			</div>
+			<div class="myVipWrap flex flex-v">
+				<form method="get">
+					<div class="filter flex flex-vc">
+						<ul class="flex flex-vc innerWrap">
+							<li class="items actived"><a href="/{$uniacid}/cashLog.html">{$title}</a></li>
+						</ul>
+						<div class="searchWrap flex flex-vc m-t-10">
+							<div class="selectCon m-r-6">
+								<select class="w-130 fs-12" name="cash_way">
+									<option value="">全部提现方式</option>
+									{loop $cashWayList $key $item}
+									<option value="{$key}" {if $_GPC['cash_way']=="$key"}selected{/if}>{$item}</option>
+									{/loop}
+								</select>
+							</div>
+							<div class="selectCon m-r-6">
+								<select class="w-100 fs-12" name="status">
+									<option value="" selected="">全部状态</option>
+									{loop $cashStatusList $key $item}
+									<option value="{$key}" {if $_GPC['status']=="$key"}selected{/if}>{$item}</option>
+									{/loop}
+								</select>
+							</div>
+							<div class="searchCon">
+								<input type="submit" class="searchBtn" value="搜索">
+							</div>
+						</div>
+					</div>
+				</form>
+				{if $op=='display'}
+					{if $list}
+						<div class="listContent">
+							<div class="header flex flex-vc">
+								<div class="txt w-80">提现编号</div>
+								<div class="txt w-110">提现方式</div>
+								<div class="txt w-110">提现金额/手续费</div>
+								<div class="txt w-110">提现二维码</div>
+								<div class="txt w-110">提现状态</div>
+								<div class="txt w-180">申请时间/审核时间</div>
+								<div class="txt w-290">备注</div>
+							</div>
+							{loop $list $key $item}
+							<ul class="flex flex-v mb20">
+								<li class="items flex flex-vc">
+									<p class="w-80 text-c">{$item['id']}</p>
+									<p class="w-110 text-c">{$cashWayList[$item['cash_way']]}</p>
+									<p class="w-110 text-c">
+										<span class="ftc-e9511b">￥{$item['cash_num']}</span><br/>
+										￥{$item['service_num']}
+									</p>
+									<p class="w-110 text-c">
+										{if $item['cash_way']==5}
+											<a href="{$_W['attachurl']}{$item['user_img']}" target="_blank"><img src="{$_W['attachurl']}{$item['user_img']}" width="40" class="bd-1s-d5d5d5" /></a>
+										{/if}
+									</p>
+									<p class="w-110 text-c">{$cashStatusList[$item['status']]}</p>
+									<p class="w-180 text-c">
+										{php echo date('Y-m-d H:i', $item['addtime']);}<br/>
+										{if $item['disposetime']}
+											{php echo date('Y-m-d H:i', $item['disposetime']);}
+										{/if}
+									</p>
+									<p class="w-290">
+										{$item['remark']}<br/>
+										{if $item['cash_way']==4}
+											提现银行：{$item['bank_name']}<br/>
+											银行开户行：{$item['bank_row']}<br/>
+										{/if}
+										{if $item['cash_way']==3 || $item['cash_way']==4}
+											收款人姓名：{$item['pay_name']}<br/>
+											提现帐号：{$item['pay_account']}<br/>
+										{/if}
+										{if $item['admin_img']}
+											<a href="{$_W['attachurl']}{$item['admin_img']}" target="_blank"><img src="{$_W['attachurl']}{$item['admin_img']}" width="40" class="bd-1s-d5d5d5" /></a>
+										{/if}
+									</p>
+								</li>
+							</ul>
+							{/loop}
+
+							{if $pager}
+							<div class="tfoot clearfix m-t-40">
+								<div class="tfoot-page">
+									<div class="pagination">
+										 {$pager}
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+					{else}
+					<div class="empty-search pr">
+						<div class="block">
+							<i class="orders"></i>
+							<p>没有找到符合条件的记录</p>
+						</div>
+					</div>
+					{/if}					
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="overlay sale-modal-shade" style="display: none;"></div>
+<div class="modal sale-modal" style="width: 490px;margin-top: -199px;margin-left: -245px;display: none;">
+	<div class="modal-hd">
+		<h3 class="hd-tt js-modal-title">申请提现</h3><a href="javascript:void(0);" class="btn-close" title="关闭">×</a>
+	</div>
+	<div class="modal-bd modal-bd--padding">
+		<div class="sale-url-wrapper">
+			
+			<p class="sale-desc"></p>
+			<div class="url-card-wrapper">
+				
+				<div class="url-card-info url-card-info-qrcode">
+					<h3 class="url-card-tt">手机微信扫一扫即可申请提现</h3>
+					<div class="url-qrcode" id="cash-qrcode"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-ft">
+		<a href="javascript:void(0);" title="关闭" class="js-modal-yes btn-default">关闭</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('#btn-cash').click(function(){
+		 $.ajax({
+			url:"/{$uniacid}/cashLog.html?op=getCashStatus",
+			type: "POST",
+			dataType: "json"
+		}).done(function(res) {
+			if(res.code==0){
+				$('.sale-modal-shade').show();
+				$('.sale-modal').show();
+			}else if(res.code==-1){
+				swal("系统提示", res.message, "error");
+			}
+		}).error(function(err) {
+			swal("系统提示", "网络错误，请稍候重试", "error");
+		});
+	});
+
+	$('.btn-close,.js-modal-yes').click(function(){
+		$('.sale-modal-shade').hide();
+		$('.sale-modal').hide();
+	});
+
+	jQuery('#cash-qrcode').qrcode({width: 110, height: 110, text: "{$wap_cash_url}"});
+</script>
+
+{php include $this->template($template.'/_footer')}

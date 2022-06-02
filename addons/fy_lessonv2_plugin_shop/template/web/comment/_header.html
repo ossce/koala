@@ -1,0 +1,11 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('comment');}">评价列表</a></li>
+	{if $op=='reply'}
+	<li class="active"><a href="{php echo $this->createWebUrl('comment', array('op'=>'reply','id'=>$_GPC['id']));}">评价详情</a></li>
+	{/if}
+	{if $op=='addComment'}
+	<li class="active"><a href="javascript:;">新增评价</a></li>
+	{/if}
+</ul>

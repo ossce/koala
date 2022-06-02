@@ -1,0 +1,35 @@
+<div class="main">
+	<div class="alert alert-info">
+		<a href="{php echo $this->createWebUrl('lesson', array('op'=>'editQrcode'));}" class="btn btn-primary"><i class="fa fa-plus"></i> 添加海报</a>
+	</div>
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:80px;">编号</th>
+                    <th style="width:35%;">海报名称</th>
+                    <th style="width:35%;">海报背景图</th>
+                    <th style="width:15%;">添加时间</th>
+                    <th style="width:10%;text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $list $item}
+                <tr>
+					<td>{$item['id']}</td>
+                    <td>{$item['poster_name']}</td>
+                    <td><a href="{$_W['attachurl']}{$item['poster_bg']}" target="_blank"><img src="{$_W['attachurl']}{$item['poster_bg']}" width="40"></a></td>
+                    <td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'editQrcode','id'=>$item['id']))}" title="编辑海报"><i class="fa fa-pencil"></i></a>
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'delQrcode','id'=>$item['id']))}" title="删除海报" onclick="return confirm('确认删除？');return false;"><i class="fa fa-remove"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+﻿@charset "UTF-8";
+
+.examine-wrap {
+    width: 100%;
+    font-size: 0;
+    background: #fff;
+}
+.examine-wrap .content-wrap, .examine-wrap .content-wrap .title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.examine-wrap .content-wrap {
+	font-size: 12px;
+    min-height: 96px;
+	padding: 5px 16px;
+	border-bottom: #efefef 1px solid;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    
+}
+.related-lesson-warp, .examine-wrap .content-wrap .text-break-model {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.examine-wrap .content-wrap .text-break-model {
+    word-break: break-all;
+}
+.examine-wrap .content-wrap .title {
+    font-size: 18px;
+    color: #353535;
+    line-height: 26px;
+    text-align: left;
+    margin-top: 16px;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+.examine-wrap .content-wrap .test-name {
+	max-width: 80%;
+}
+.examine-wrap .content-wrap .check-end {
+    height: 22px;
+    font-size: 13px;
+    line-height: 22px;
+    text-align: right;
+    color: #b2b2b2;
+}
+.examine-wrap .content-wrap .related-lesson-warp, .examine-wrap .content-wrap .text-break-model {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.examine-wrap .content-wrap .related-lesson-warp {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.examine-wrap .content-wrap .related-lesson-warp .related-lesson {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #888;
+    line-height: 22px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.examine-wrap .content-wrap .submit-status-wrap {
+    margin: 10px 0;
+    height: 22px;
+    line-height: 22px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+.examine-wrap .content-wrap .submit-status-wrap .submit-time {
+    height: 22px;
+    font-size: 13px;
+    color: #888;
+    line-height: 22px;
+    text-align: left;
+}
+.examine-wrap .content-wrap .result-wrap{
+	margin-bottom: 8px;
+	text-align: right;
+}
+.examine-wrap .content-wrap .result-wrap>a {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 50px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    margin-left: 10px;
+}
+.examine-wrap .content-wrap .result-wrap .error-btn{
+	background-color: #e89907;
+}
+.examine-wrap .content-wrap .result-wrap .cert-btn{
+	background-color: #ff7b7b;
+}
+.examine-wrap .content-wrap .result-wrap .score-btn{
+	background-color: #1da167;
+}
+.examine-wrap .content-wrap .result-wrap .continue-btn{
+	background-color: #5dacfd;
+}

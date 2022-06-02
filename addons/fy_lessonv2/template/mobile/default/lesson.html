@@ -1,0 +1,1102 @@
+<!-- 
+ * 课程详情页【非直播课程】
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/qunService.css?v={$versions}" rel="stylesheet" />
+<link href="{MODULE_URL}static/mobile/{$template}/css/lesson.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox" id="header-2">
+	<a href="javascript:;" id="lesson-back" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+	<a href="{php echo $this->createMobileUrl('index', array('t'=>1))}" class="ico go-index"></a>
+</div>
+
+{if $poster_show && !$sectionid}
+<!-- 赚取佣金 S -->
+<div class="sharecard__entry-global max-width-640 ios-system" style="top:50px;" onclick="location.href='{php echo $this->createMobileUrl('lessonqrcode', array('lessonid'=>$id));}'">
+	<div class="sharecard__entry">
+		<div class="sharecard__entry-icon">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/icon-lesson-share.png" />
+		</div>
+		{if $commisson1_amount}
+			{php echo $lesson_page['shareIncome'] ? $lesson_page['shareIncome'] : '赚'.$commisson1_amount.'元';}
+		{else}
+			{php echo $lesson_page['inviteCard'] ? $lesson_page['inviteCard'] : '邀请卡';}
+		{/if}
+	</div>
+</div>
+<!-- 赚取佣金 E -->
+{/if}
+
+<div class="content-inner" style="min-height:100%;" onbeforeunload="goodbye()">
+	<!-- 视频区域 S -->
+	<input type="hidden" id="realPlayTime" value="0" />
+	<div id="video-wrap" class="video-wrap max-width-640">
+		{if $_GPC['sectionid']>0}
+			{if $section['password'] && !$_SESSION[$uniacid.'_'.$id.'_'.$sectionid]}
+				<!-- 密码验证 -->
+				<div class="password-wrap">
+					<span class="enter-password">{php echo $lesson_page['visit_password'] ? $lesson_page['visit_password'] : '请输入访问密码';}</span>
+					<form class="form" action="{$_W['siteurl']}" method="post" id="password_form">
+						<input type="password" name="visit_password" placeholder="输入访问密码" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+						<button type="submit">提交</button>
+					</form>
+				</div>
+			{else}
+				{if $section['sectiontype']==1}
+					{if $section['savetype']==2}
+						<!-- 内嵌代码方式 -->
+						{php echo htmlspecialchars_decode($section['videourl']);}
+					{elseif $section['savetype']==5}
+						<!-- 腾讯云点播 -->
+						<style type="text/css">
+							.video-js{width:100%;}
+						</style>
+						{if empty($qcloudvod['player_name'])}
+							<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+							<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.12.4.js"></script>
+							<script src="{MODULE_URL}static/public/tcplayer/tcplayer.min.js"></script>
+						{else}
+							<link href="{MODULE_URL}static/public/tcplayer/tcplayer.css" rel="stylesheet">
+							<script src="{MODULE_URL}static/public/tcplayer/hls.min.0.13.2m.js"></script>
+							<script src="{MODULE_URL}static/public/tcplayer/tcplayer.v4.1.min.js"></script>
+						{/if}
+						<video id="player-container-id" width="100%" height="220" preload="auto" x5-playsinline playsinline webkit-playsinline></video>
+					{else}
+						<!-- 阿里云点播 -->
+						<link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.9.11/skins/default/aliplayer-min.css" />
+						<script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.9.11/aliplayer-min.js"></script>
+						<script type="text/javascript" src="//player.alicdn.com/aliplayer/presentation/js/aliplayercomponents.min.js"></script>
+						<div class="prism-player" id="J_prismPlayer"></div>
+						<style type="text/css">
+						.prism-player .prism-big-play-btn{
+							left: 50% !important;
+							bottom: 50% !important;
+							margin-left: -32px;
+							margin-bottom: -32px;
+						}
+						.prism-player .prism-liveshift-progress, .prism-player .prism-progress{
+							bottom: 45px!important;
+						}
+						</style>
+					{/if}
+
+					{if !$drag_play}
+					<div class="verify_wrap_shade hide"></div>
+					<div class="verify_wrap hide" id="verification">
+					</div>
+
+					<style type="text/css">
+					.verify-img-panel{width:100% !important;}
+					</style>
+					<link rel="stylesheet" href="{MODULE_URL}static/public/verification/verification.css">
+					<script type="text/javascript" src="{MODULE_URL}static/public/verification/verification.js"></script>
+					{/if}
+
+				{elseif $section['sectiontype']==3}
+					<script type="text/javascript" src="{MODULE_URL}static/public/AudioPlay/audio.js?v={$versions}"></script>
+					<link href="{MODULE_URL}static/public/AudioPlay/audio.css?v={$versions}" rel="stylesheet" />
+
+					<div class="fylesson_audio">
+						<div class="audio-wrapper">
+							<audio id="section-audio" autoplay="autoplay">
+								<source src="{$section['videourl']}" type="audio/mpeg">
+							</audio>
+							<div class="audio-left">
+								<img class="audio-bg-img playing" src="{$_W['attachurl']}{php echo $section['images'] ? $section['images'] : $lesson['images'];}">
+								<img id="audioPlayer" class="audio-control" src="{MODULE_URL}static/public/AudioPlay/pause.png">
+							</div>
+							<div class="audio-right">
+								<p style="max-width: 536px;">{$section['title']}</p>
+								<div class="progress-bar-bg" id="progressBarBg">
+									<span id="progressDot"></span>
+									<div class="progress-bar" id="progressBar"></div>
+								</div>
+								<div class="audio-time">
+									<span class="audio-length-current" id="audioCurTime">00:00</span>
+									<span class="audio-length-total" id="audioDuration">00:00</span>
+									<input type="hidden" id="current-ptime" value="0">
+								</div>
+							</div>
+						</div>
+					</div>
+				{/if}
+			{/if}
+		{else}
+			<img src="{$_W['attachurl']}{$lesson['images']}" alt="{$lesson['bookname']}" width="100%">
+			<div class="cover-shade">
+				<a href="{php echo $study_link ? $study_link : $this->createMobileUrl('lesson', array('id'=>$lesson['id'],'sectionid'=>$first_section['id']));}" class="section-play">
+					<img src="{MODULE_URL}static/mobile/default/images/icon-section-play.png" width="64">
+				</a>
+			</div>
+			
+			{if $setting['show_study_number']}
+			<div class="learned">
+				{$lesson['buyTotal']}
+				{if $lesson['lesson_type'] == 0}
+					{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+				{elseif $lesson['lesson_type'] == 1}
+					{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+				{/if}
+			</div>
+			{/if}
+
+			{if $virtual_buyinfo}
+				<div class="newbuy_wrap">
+					<div class="newbuy_info">
+						<div class="newbuy_info_item"></div>
+					</div>
+				</div>
+			{/if}
+		{/if}
+	</div>
+	<!-- 视频区域 E -->
+
+	{if $lesson['lesson_type']==1 && $buynow_info['appoint_validity'] && time() < strtotime($buynow_info['appoint_validity'])}
+	<!-- 报名活动截至 S -->
+	<div id="appoint-banner" class="appoint-banner">
+		<div class="appoint-message">
+			{php echo $lesson_page['appoint_validity'] ? $lesson_page['appoint_validity'] : '距活动结束仅剩'} <i class="time_days" id="time_d">-天</i>
+			<span id="time_h">--</span>:
+			<span id="time_m">--</span>:
+			<span id="time_s">--</span>
+		</div>
+	</div>
+	<!-- 报名活动截至 E -->
+	{elseif $discount_endtime && !$show_isbuy}
+	<!-- 限时折扣 S -->
+	<div class="discount-limit-price ios-system">
+		<div class="discount-limit-price-left">
+			<div class="discount-sale-price weui-flex">
+				<span class="discount-sale-num">
+					<span class="discount-sale-num-text">￥</span>
+					<span class="discount-sale-num-main">{$diacount_price[0]}</span>
+					<span class="discount-sale-num-point">.</span>
+					<span class="discount-sale-num-sub">{$diacount_price[1]}</span>
+				</span>
+			<div class="weui-flex-item text-left flash-sale-original">
+				<div class="original-cost">￥{$market_price}</div>
+					<span class="original-tips">限时折扣</span>
+				</div>
+			</div>
+		</div>
+		<div class="discount-limit-price-right discount-sale-countdown text-center">
+			<p class="discount-sale-text">距离特价结束仅剩</p>
+			<div class="time-item discount-sale-time">
+				<span class="discount-sale-time-day" id="time_d">-天</span>
+				<span class="discount-sale-time-item" id="time_h">--</span>
+				<span class="discount-sale-time-mh">:</span>
+				<span class="discount-sale-time-item" id="time_m">--</span>
+				<span class="discount-sale-time-mh">:</span>
+				<span class="discount-sale-time-item" id="time_s">--</span>
+			</div>
+		</div> 
+	</div>
+	<!--限时折扣 E -->
+	{/if}
+
+	{if !$sectionid && $commission_log && $lesson['price'] > 0}
+	<div class="article_div flex0_1">
+		<i class="flex_g0 share_cash_title">{php echo $lesson_page['lately_commission'] ? $lesson_page['lately_commission'] : '推广收益';}</i>
+		<ul class="article_div_list flex_all">
+			{loop $commission_log $item}
+			<li>
+				<a href="javascript:;">
+					{$item['nickname']}获得推广佣金 <strong class="red-color">{$item['change_num']}元</strong>
+				</a>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	{/if}
+	
+	<!-- 导航目录 S -->
+	<ul id="course-tab-fixed" class="course-tab flex0_1 max-width-640">
+			<li {if $show_details}class="curr"{/if}>{php echo $lesson_page['details'] ? $lesson_page['details'] : '详情'}</li>
+		{if $lesson['lesson_type']!=1 || ($lesson['lesson_type']==1 && $lesson['appoint_dir'])}
+			<li {if $show_dir}class="curr"{/if}>{php echo $lesson_page['directory'] ? $lesson_page['directory'] : '目录'}</li>
+		{/if}
+		{if !empty($course_list) || !empty($examine_list)}
+			<li>{php echo $lesson_page['test'] ? $lesson_page['test'] : '测验'}</li>
+		{/if}
+		{if $like_goods_list}
+			<li>{php echo $lesson_page['goods'] ? $lesson_page['goods'] : '商品'}</li>
+		{/if}
+		{if $lesson_config['document'] && $document_list}
+			<li>{php echo $lesson_page['document'] ? $lesson_page['document'] : '课件'}({php echo count($document_list)})</li>
+		{/if}
+		{if $lesson_config['evaluate']}
+			<li>{php echo $lesson_page['evaluate'] ? $lesson_page['evaluate'] : '评价'}({$total})</li>
+		{/if}
+	</ul>
+	<!-- 导航目录 E -->
+
+	<div id="course-container" class="course-container">
+		<!-- 课程介绍 S -->
+		<div class="js-tab" {if $show_details}style="display: block;"{/if}>
+			<ul class="course-intro">
+				{if !$sectionid || !$section['content']}
+					<li style="padding-bottom: 10px;">
+						<a href="{php echo $this->createMobileUrl('lesson',array('id'=>$id));}" class="title-bar__title">{if $lesson['section_status']==0}<span class="section-status-btn fs-14 vertical-botton">已完结</span>{/if} {$lesson['bookname']}</a>
+						<p class="lesson-bar clear">
+							<span class="grid_info mar15-left fl ios-system">
+								{if $setting['lesson_vip_status']!=1 && !$discount_lesson}
+									<span class="price index_price_lesson font-bold flex_g0 ios-system">
+									{if $lesson['price']>0}
+										¥{$lesson['price']}
+									{else}
+										免费
+									{/if}
+									</span>
+									<span class="mar5 ios-system">|</span>
+								{/if}
+								{if $section_count}
+									<span>{$section_count}节</span>
+								{/if}
+							</span>
+							{if $setting['lesson_vip_status']!=1}
+							<span class="vnum fr">
+								{if $lesson['integral_rate']>0}
+									赠{$lesson['integral_rate']}倍{php echo $common['self_page']['credit1'] ? $common['self_page']['credit1'] : '积分';}
+								{elseif $lesson['integral']>0}
+									赠{$lesson['integral']}{php echo $common['self_page']['credit1'] ? $common['self_page']['credit1'] : '积分';}
+								{/if}
+							</span>
+							{/if}
+						</p>
+						<div class="flex1" style="margin: 5px 15px 0 15px;">
+							<div class="grid_info flex0">
+								{$lesson['teacher']}
+							</div>
+							<span class="teacher flex_g0">
+								{if $setting['stock_config'] && $lesson['stock']>0}
+									<span class="fl sale-on-btn">剩余{$lesson['stock']}个名额</span>
+								{elseif $setting['stock_config'] && $lesson['stock']==0}
+									已售罄
+								{/if}
+							</span>
+						</div>
+					</li>
+					{if $lesson['lesson_type']==1 && ($buynow_info['appoint_addres'] || $buynow_info['appoint_validity'])}
+					<li class="details">
+						<div class="weui-cells">
+							{if $buynow_info['appoint_addres']}
+								<div class="weui-cell appoint_cell"><i class="fa fa-map-marker"></i>{$buynow_info['appoint_addres']}</div>
+							{/if}
+							{if $buynow_info['appoint_validity']}
+								<div class="weui-cell appoint_cell"><i class="fa fa-clock-o"></i>报名截至时间：{$buynow_info['appoint_validity']}</div>
+							{/if}
+						</div>
+					</li>
+					{/if}
+					{if $lesson_config['lesson_all_qun']}
+					<li class="details">
+						<div class="teacher-main">
+							<div class="teacher-avatar">
+								<img src="{$_W['attachurl']}{$lesson['teacherphoto']}">
+							</div>
+							<div class="teacher-info">
+								<div class="teacher-name">{$lesson['teacher']}<span class="all-lesson">(总共{$lessonNumber}{php echo $lesson_page['lessonNum'] ? $lesson_page['lessonNum'] : '个课程'})</span></div>
+								<div class="teacher-home">
+									<a class="cell" href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$lesson['teacherid']));}">{php echo $lesson_page['allLesson'] ? $lesson_page['allLesson'] : '全部课程'}</a>
+									{if $userAgent && !empty($now_service)}
+										<a id="join-qun" class="cell" href="javascript:;">粉丝群</a>
+									{/if}
+									{if $userAgent && !$member['follow']}
+									<a id="follow-wechat" class="cell" href="javascript:;">关注公众号</a>
+									{/if}
+								</div>
+							</div>
+						</div>
+					</li>
+					{/if}
+					<li class="details">
+						<div class="index_title bor flex1">
+							<div class="img flex0">
+								<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/lesson_introduce.png" style="width: 20px;">
+							</div>
+							<div class="flex_all">{php echo $lesson_page['lessonIntroduce'] ? $lesson_page['lessonIntroduce'] : '课程介绍'}</div>
+						</div>
+						<div class="lesson-content chapter-content" id="lesson_desc" style="overflow:hidden;">
+							{php echo htmlspecialchars_decode($lesson['descript']);}
+						</div>
+						<div id="lesson_desc_more" style="display:none;">
+							<span class="more">显示全部 <i class="fa fa-angle-double-down"></i></span>
+						</div>
+					</li>
+					{if $lesson_config['teacher_introduce']}
+					<li class="details teacher_introduce">
+						<div class="index_title bor flex1">
+							<div class="img flex0">
+								<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/lesson_teacher_introduce.png" style="width: 20px;">
+							</div>
+							<div class="flex_all">{php echo $lesson_page['teacherIntroduce'] ? $lesson_page['teacherIntroduce'] : '讲师介绍'}</div>
+						</div>
+						<div class="chapter-content">
+							<div>
+								{php echo htmlspecialchars_decode($lesson['teacherdes']);}
+							</div>
+						</div>
+					</li>
+					{/if}
+
+					{if $like_list}
+					<div class="index_unit ">
+						<div class="index_title flex1">
+							<div class="img flex0">
+								<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/icon_like_lesson.svg" style="width: 20px;">
+							</div>
+							<div class="flex_all index_recommend_title">{php echo $lesson_page['like_lesson'] ? $lesson_page['like_lesson'] :'为您推荐';}</div>
+						</div>
+						<div class="small_grid">
+							{loop $like_list $item}
+							<a href="{php echo $this->createMobileUrl('lesson',array('id'=>$item['id']))}" class="small_grid_a pad-b-0">
+								<div class="img-box">
+									<div class="img">
+										<img src="{$_W['attachurl']}{$item['images']}" />
+										<div class="icon-live {$item['icon_live_status']}"></div>
+									</div>
+								</div>
+								<div class="grid_title flex1">{$item['bookname']} </div>
+								<div class="grid_info flex0">
+									{if $item['price']==0}
+										<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+									{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+										<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+									{else}
+										<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+									{/if}
+								</div>
+							</a>
+							{/loop}
+						</div>
+					</div>
+					{/if}
+				{else}
+					<li class="details">
+						<div class="index_title bor flex1">
+							<div class="img flex0">
+								<img class="flex_g0" src="{MODULE_URL}static/mobile/{$template}/images/lesson_introduce.png" style="width: 20px;">
+							</div>
+							<div class="flex_all">{php echo $lesson_page['sectionIntroduce'] ? $lesson_page['sectionIntroduce'] : '章节介绍'}</div>
+						</div>
+						<div class="lesson-content" style="padding:10px 15px; {if $section['sectiontype']==1}overflow-y:auto; max-height:400px;{/if}">
+							{php echo htmlspecialchars_decode($section['content']);}
+						</div>
+					</li>
+				{/if}
+			</ul>
+		</div>
+		<!-- 课程介绍 E -->
+
+		<!-- 章节目录 S -->
+		{if $lesson['lesson_type']!=1 || ($lesson['lesson_type']==1 && $lesson['appoint_dir'])}
+		<div class="js-tab" {if $show_dir}style="display: block;"{/if}>
+			<ul class="course-chapter">
+				<li>
+					{if $section_count}
+						{loop $title_list $key $title}
+						<h2 class="chapter-title" onclick="handleSection(this)"><i class="section-title-icon"></i>{$title['title']}[{php echo count($title['section'])}{php echo $lesson_page['classHour'] ? $lesson_page['classHour'] : '课时'}]<span class="{if $sectionid}{if !$title['play']}open{/if}{else}{if $key>4}open{/if}{/if}"></span></h2>
+						<ul class="course-sections {if $sectionid}{if !$title['play']}hide{/if}{else}{if $key>4}hide{/if}{/if}">
+							{loop $title['section'] $sec}
+							<li>
+								<a href="javascript:;" onclick="readSection({$sec['id']});" class="title_wrap {if $sectionid==$sec['id']}section-active{/if}">
+									<div class="title">
+										<i class="course-type">
+											{if $sec['sectiontype']==1}
+												视频
+											{elseif $sec['sectiontype']==2}
+												图文
+											{elseif $sec['sectiontype']==3}
+												音频
+											{elseif $sec['sectiontype']==4}
+												外链
+											{/if}
+										</i>
+										{if ($sec['sectiontype']==1 || $sec['sectiontype']==3) && $sec['password']}
+										<i class="fa fa-lock"></i>
+										{/if}
+										{$sec['title']}
+									</div>
+									<div class="free-time-content">
+										{if $sec['is_free']==1}
+										<span class="free-play-box">
+											<i class="fa fa-play-circle"></i>
+											<i class="free-play-font">{php echo $lesson_page['freeTip'] ? $lesson_page['freeTip'] : '免费试听';}</i>
+										</span>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										{else}
+											{if $lesson_page['playTip']}
+												<span class="buy-play-box">
+													<i class="fa fa-play-circle"></i>
+													<i class="free-play-font">{$lesson_page['playTip']}</i>
+												</span>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+											{/if}
+										{/if}
+
+										{if $sec['videotime']}
+										<span class="section-time">
+											<i class="fa fa-clock-o"></i>
+											<i>{$sec['videotime']}</i>
+										</span>
+										{/if}
+									</div>
+								</a>
+							</li>
+							{/loop}
+						</ul>
+						{/loop}
+						
+						{if !empty($section_list)}
+							{if empty($title_list)}
+								<h2 class="chapter-title" onclick="location.href='{php echo $this->createMobileUrl('lesson', array('id'=>$lesson['id']));}'"><i class="section-title-icon"></i>{php echo $section_keyword ? '“'.$section_keyword.'”搜索结果' : $lesson['bookname']}[{$section_count}课时]</h2>
+							{/if}
+							<ul class="course-sections">
+							{loop $section_list $sec}
+								<li>
+									<a href="javascript:;" onclick="readSection({$sec['id']});" class="title_wrap {if $sectionid==$sec['id']}section-active{/if}">
+										<div class="title">
+											<i class="course-type">
+												{if $sec['sectiontype']=='1'}
+													视频
+												{elseif $sec['sectiontype']=='2'}
+													图文
+												{elseif $sec['sectiontype']=='3'}
+													音频
+												{elseif $sec['sectiontype']=='4'}
+													外链
+												{/if}
+											</i>
+											{if ($sec['sectiontype']==1 || $sec['sectiontype']==3) && $sec['password']}
+											<i class="fa fa-lock"></i>
+											{/if}
+											{$sec['title']}
+										</div>
+										<div class="free-time-content">
+											{if $sec['is_free']==1}
+											<span class="free-play-box">
+												<i class="fa fa-play-circle"></i>
+												<i class="free-play-font">{php echo $lesson_page['freeTip'] ? $lesson_page['freeTip'] : '免费试听';}</i>
+											</span>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+											{else}
+												{if $lesson_page['playTip']}
+												<span class="buy-play-box">
+													<i class="fa fa-play-circle"></i>
+													<i class="free-play-font">{$lesson_page['playTip']}</i>
+												</span>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												{/if}
+											{/if}
+
+											{if $sec['videotime']}
+											<span class="section-time">
+												<i class="fa fa-clock-o"></i>
+												<i>{$sec['videotime']}</i>
+											</span>
+											{/if}
+										</div>
+									</a>
+								</li>
+								{/loop}
+							</ul>
+						{/if}
+					{else}
+						<h2 class="chapter-title" onclick="location.href='{php echo $this->createMobileUrl('lesson', array('id'=>$lesson['id']));}'"><i class="section-title-icon"></i>{$lesson['bookname']}[{$section_count}课时]</h2>
+						<ul class="course-sections">
+							<li style="height:auto;padding:10%;">
+								<a style="text-align:center;">{php echo $lesson['lesson_type']==0 ? '未找到任何内容' : '请点击“详情”查看相关介绍';}</a>
+							</li>
+						</ul>
+					{/if}
+				</li>
+			<ul>
+		</div>
+		{/if}
+		<!-- 章节目录 E -->
+
+		{if !empty($course_list) || !empty($examine_list)}
+		<!-- 测验 S -->
+		<div class="js-tab bg-fff">
+			{loop $course_list $item}
+			<div class="lesson-wrapper">
+				<a href="./index.php?i={$uniacid}&c=entry&op=&id={$item['id']}&lessonid={$id}&do=course&m=fy_lessonv2_plugin_exam" class="lesson-info-wrap">
+					<img src="{$_W['attachurl']}{$item['images']}" class="lesson-img">
+					<div class="lesson-detail">
+						<div class="lesson-name">{$item['title']}</div>
+					</div>
+					<img src="{MODULE_URL}static/mobile/{$template}/images/icon_more_right.png" class="lesson-go-img">
+				</a>
+			</div>
+			{/loop}
+			{loop $examine_list $item}
+			<div class="lesson-wrapper">
+				<a href="./index.php?i={$uniacid}&c=entry&op=&id={$item['id']}&lessonid={$id}&do=examine&m=fy_lessonv2_plugin_exam" class="lesson-info-wrap">
+					<img src="{$_W['attachurl']}{$item['images']}" class="lesson-img">
+					<div class="lesson-detail">
+						<div class="lesson-name">{$item['title']}</div>
+					</div>
+					<img src="{MODULE_URL}static/mobile/{$template}/images/icon_more_right.png" class="lesson-go-img">
+				</a>
+			</div>
+			{/loop}
+		</div>
+		<!-- 测验 E -->
+		{/if}
+
+		{if $like_goods_list}
+		<!-- 商品 S -->
+		<div class="js-tab bg-fff">
+			{loop $like_goods_list $item}
+			<div class="shop-recommend-one">
+				<div class="shop-flex-2">
+					<a href="./index.php?i={$uniacid}&c=entry&do=shopgoods&m=fy_lessonv2_plugin_shop&id={$item['id']}" class="shop-goods-img">
+						<img src="{$_W['attachurl']}{$item['cover']}">
+					</a>
+					<div class="shop-flex-box">
+						<a href="./index.php?i={$uniacid}&c=entry&do=shopgoods&m=fy_lessonv2_plugin_shop&id={$item['id']}" class="ds-block">
+							<h2>{$item['title']}</h2>
+							<h3>
+								<em>{$item['show_price']}</em>
+								{if $item['sell_type'] != 1 && $item['market_price']>0}
+								<i>￥{$item['market_price']}</i>
+								{/if}
+							</h3>
+						</a>
+						{if $item['show_sales']}
+						<h4>
+							<em>已售{$item['show_sales']}</em>
+						</h4>
+						{/if}
+					</div>
+				</div>
+			</div>
+			{/loop}
+		</div>
+		<!-- 商品 E -->
+		{/if}
+
+		{if $lesson_config['document'] && $document_list}
+		<!-- 课件列表 S -->
+		<div class="js-tab">
+			<ul class="course-chapter">
+				<li>
+					{if !empty($document_list)}
+						<ul class="course-sections">
+							{loop $document_list $key $document}
+							<li>
+								<a href="{if $plays}{php echo $this->createMobileUrl('downloadfile', array('fileid'=>$document['id']));}{else}javascript:alert('请您先登录或购买课程');{/if}" class="wxapp-download-tip">
+									<div>
+										<i class="fa fa-file-text-o"></i>&nbsp;
+										{php echo $key+1;}、{$document['title']}
+									</div>
+								</a>
+							</li>
+							{/loop}
+						</ul>
+					{else}
+						<ul class="course-sections">
+							<li style="height:auto;padding:10%;">
+								<a style="text-align:center;">暂时没有任何{php echo $lesson_page['document'] ? $lesson_page['document'] : '课件'}~</a>
+							</li>
+						</ul>
+					{/if}
+				</li>
+			<ul>
+		</div>
+		<!-- 课件列表 E -->
+		{/if}
+
+		{if $lesson_config['evaluate']}
+		<!-- 评价列表 S -->
+		<div class="js-tab">
+			<div class="evaluate-wrap">
+				<div class="evaluate-general" id="evaluate_general">
+					<div class="score-general">{$evaluate_score['score']}%</div>
+					<div class="score-item">
+						<p class="score-title">{php echo $evaluate_page['global_score'] ? $evaluate_page['global_score'] : '综合评分';}</p>
+						<p class="score-num">{$evaluate_score['global_score']}</p>
+					</div>
+					<div class="score-item">
+						<p class="score-title">{php echo $evaluate_page['content_score'] ? $evaluate_page['content_score'] : '内容实用';}</p>
+						<p class="score-num">{$evaluate_score['content_score']}</p>
+					</div>
+					<div class="score-item">
+						<p class="score-title">{php echo $evaluate_page['understand_score'] ? $evaluate_page['understand_score'] : '通俗易懂';}</p>
+						<p class="score-num">{$evaluate_score['understand_score']}</p>
+					</div>
+				</div>
+				{if $allow_evaluate}
+				<div class="lesson-evaluate">
+					<div class="reply-div">
+						有什么想要说的呢？赶紧
+						<a class="btn btn-default btn-sm" href="{$evaluate_url}">去评价</a>
+						吧~
+					</div>
+				</div>
+				{/if}
+
+				<div class="evaluate-list" id="evaluate_list">
+				</div>
+			</div>
+
+			<div id="loading_div" class="loading_div">
+				<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+			</div>
+		</div>
+		<!-- 评价列表 E -->
+		{/if}
+	</div>
+
+	{if !empty($advs)}
+	<div style="margin-top: 10px;;">
+		<a href="{$advs['link']}"><img src="{$_W['attachurl']}{$advs['picture']}" style="width:100%;"></a>
+	</div>
+	{/if}
+
+	{if !empty($hissection)}
+	<!-- <div id="bottom_bar" class="bottom_bar" style="display: block;">
+		<div class="close">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/btn-close-o-white.png" />
+		</div>
+		<a href="{$hisplayurl}" class="play">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/btn-play-o-white.png" />
+		</a>
+		<div class="content">
+			<div class="con1">上次学习章节：</div>
+			<div class="con2">{$hissection['title']}</div>
+		</div>
+	</div> -->
+	{/if}
+</div>
+
+
+{if !empty($lesson['weixin_qrcode'])}
+<div id="cover" class="teacher-qrcode max-width-640">
+	<div class="qrcode-content">
+		<img src="{$_W['attachurl']}{$lesson['weixin_qrcode']}" />
+		<p>二维码咨询方式</p>
+	</div>
+</div>
+{/if}
+
+<div id="bottom-contact" class="max-width-640 hide">
+	<div class="contact-wrap">
+		<div class="contact-wrap-title">咨询交流</div>
+		{if !empty($lesson['weixin_qrcode'])}
+		<div class="border-top layer-list_item">
+			<a href="javascript:;" id="btn-qrcode">
+				<div class="layer-list_item-icon">
+					<img class="layer-list_item-img" src="{MODULE_URL}static/mobile/default/images/contact-wechat.png">
+				</div>
+				<p class="layer-list_item-name">微信咨询</p>
+				<p class="layer-list_item-info">点击查看二维码</p>
+				<div class="layer-list_item-go">
+					<i class="icon-font i-v-right">&gt;</i>
+				</div>
+			</a>
+		</div>
+		{/if}
+		{if !empty($config['tel'])}
+		<div class="border-top layer-list_item">
+			<a href="tel:{$config['tel']}">
+				<div class="layer-list_item-icon">
+					<img class="layer-list_item-img" src="{MODULE_URL}static/mobile/{$template}/images/contact-tel.png?v=2">
+				</div>
+				<p class="layer-list_item-name">客服电话</p>
+				<p class="layer-list_item-info">{$config['tel']}</p>
+				<div class="layer-list_item-go">
+					<i class="icon-font i-v-right">&gt;</i>
+				</div>
+			</a>
+		</div>
+		{/if}
+		{if !empty($lesson['online_url'])}
+		<div class="border-top layer-list_item">
+			<a href="{$lesson['online_url']}">
+				<div class="layer-list_item-icon">
+					<img class="layer-list_item-img" src="{MODULE_URL}static/mobile/{$template}/images/contact-online.png">
+				</div>
+				<p class="layer-list_item-name">在线客服</p>
+				<p class="layer-list_item-info">点击咨询客服</p>
+				<div class="layer-list_item-go">
+					<i class="icon-font i-v-right">&gt;</i>
+				</div>
+			</a>
+		</div>
+		{/if}
+		{if !empty($lesson['qq'])}
+		<div class="border-top layer-list_item">
+			<a id="qq-consult" href="http://wpa.qq.com/msgrd?v=3&uin={$lesson['qq']}&site=qq&menu=yes">
+				<div class="layer-list_item-icon">
+					<img class="layer-list_item-img" src="{MODULE_URL}static/mobile/{$template}/images/contact-1v1.png?v=1">
+				</div>
+				<p class="layer-list_item-name">QQ咨询</p>
+				<p class="layer-list_item-info">QQ:{$lesson['qq']}</p>
+				<div class="layer-list_item-go">
+					<i class="icon-font i-v-right">&gt;</i>
+				</div>
+			</a>
+		</div>
+		{/if}
+		{if !empty($lesson['qqgroup'])}
+		<div class="contact-wrap__qun border-top">
+			<div class="contact-wrap-qun-title">加群交流<span class="contact-wrap-qun-desc">(获取资料、学员交流)</span></div>
+			<ul>
+				<li class="layer-list_item">
+					<a id="qqgroup-consult" {if !empty($lesson['qqgroupLink'])}href="{$lesson['qqgroupLink']}"{/if}>
+						<div class="layer-list_item-icon">
+							<img class="layer-list_item-img" src="{$_W['attachurl']}{$lesson['teacherphoto']}">
+						</div>
+						<p class="layer-list_item-name z-tail">{$lesson['teacher']}讲师交流群</p>
+						<p class="layer-list_item-info">QQ群:{$lesson['qqgroup']}</p>
+						<div class="layer-list_item-go">
+							<i class="icon-font i-v-right">&gt;</i>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		{/if}
+		{if empty($lesson['qq']) && empty($lesson['qqgroup']) && empty($lesson['weixin_qrcode']) && empty($lesson['online_url'])}
+		<div class="contact-wrap__qun border-top" style="text-align:center;">
+			<div class="contact-wrap-qun-title">抱歉，未找到任何交流方式~</div>
+		</div>
+		{/if}
+	</div>
+	<div class="layer-close">关闭</div>
+</div>
+<div id="layer-bg" class="hide"></div>
+
+<!-- 遮罩层 -->
+<div class="flick-menu-mask hide"></div>
+<!--课程规格start-->
+<div class="spec-menu-content max-width-640 spec-menu-show hide">
+	<div class="spec-menu-top bdr-b">
+		<div class="spec-first-pic">
+			<img id="spec_image" src="{$_W['attachurl']}{$lesson['images']}" onerror="imgErr(this)">
+		</div>
+		<a class="rt-close-btn-wrap spec-menu-close">
+			<p class="flick-menu-close"></p>
+		</a>
+		<div class="spec-price" id="specJdPri" style="display: block">
+			<span class="yang-pic spec-yang-pic"></span>
+			<span id="spec_price"> ￥{$lesson['price']} </span>
+		</div>
+	</div>
+	<div class="spec-menu-middle">
+		<div class="prod-spec" id="prodSpecArea">
+			<!-- 已选 -->
+			<div class="spec-desc">
+				<span class="part-note-msg">已选</span>
+				<div id="specDetailInfo_lesson" class="base-txt">
+				</div>
+			</div>
+			<div class="nature-container" id="natureCotainer">
+				<div class="pro-color">
+					<span class="part-note-msg"> 规格 </span>
+					<p id="color">
+					{if $lesson['lesson_type']==1}
+						{loop $spec_list $spec}
+							<a class="a-item spec_{$spec['spec_id']}" href="javascript:;" onclick="updateColorSizeSpec('{$spec[spec_id]}','{$spec[spec_price]}','{$spec[spec_day]}','{$spec[spec_name]}')">{$spec['spec_name']}</a>
+						{/loop}
+					{else}
+						{loop $spec_list $spec}
+							{if $spec['spec_day']==-1}
+							<a class="a-item spec_{$spec['spec_id']}" href="javascript:;" onclick="updateColorSizeSpec('{$spec[spec_id]}','{$spec[spec_price]}','{$spec[spec_day]}','')">长期有效</a>
+							{else}
+							<a class="a-item spec_{$spec['spec_id']}" href="javascript:;" onclick="updateColorSizeSpec('{$spec[spec_id]}','{$spec[spec_price]}','{$spec[spec_day]}','')">有效期{$spec['spec_day']}天</a>
+							{/if}
+						{/loop}
+					{/if}
+					</p>
+					<input type="hidden" id="spec_id" value=""/>
+				</div>
+			</div>
+			{if !empty($teacher_price)}
+			<div class="nature-container" style="margin-top:10px;">
+				<span class="part-note-msg" style="width:60px; line-height:26px;">您也可以</span>
+				<div class="base-txt">
+					{if !empty($teacher_price)}
+						<a href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$lesson['teacherid']))}" class="buy-teacher">开通讲师服务免费{php echo $lesson_page['studyFont'] ? $lesson_page['studyFont'] : '学习';}</a>
+					{/if}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+	<div class="flick-menu-btn spec-menu-btn">
+		<a class="directorder" id="buy_now">{php echo $buynow_name ? $buynow_name : '立即购买';}</a>
+	</div>
+</div>
+<!--课程规格end-->
+
+<!--VIP列表start-->
+<div class="spec-menu-content vip-menu-show max-width-640 hide">
+	<div class="spec-menu-top bdr-b">
+		<div class="spec-first-pic">
+			<img id="spec_image" src="{MODULE_URL}static/mobile/{$template}/images/lesson_buy_vip.png" onerror="imgErr(this)">
+		</div>
+		<a class="rt-close-btn-wrap spec-menu-close">
+			<p class="flick-menu-close"></p>
+		</a>
+		<div class="spec-price vip-price-color" style="display: block">
+			<span class="yang-pic spec-yang-pic"></span>
+			<span id="discount_price"></span>
+			<span id="level_price" style="color:#333;font-weight:normal;margin-left:8px;text-decoration:line-through;"></span>
+			<div id="discount_info" style="display:none;color:#f36f0f;font-weight:normal;margin-left:6px;margin-top:6px;font-size:.8rem;"><i class="fa fa-info-circle"></i> 限时开通即可享受<span id="discount_number"></span>折优惠</div>
+		</div>
+	</div>
+	<div class="spec-menu-middle">
+		<div class="prod-spec">
+			<div class="spec-desc" style="margin-bottom: 5px;">
+				<span class="part-note-msg" style="width:55px;">已选</span>
+				<div id="specDetailInfo_vip" class="base-txt">
+				</div>
+			</div>
+			<div class="nature-container">
+				<div class="pro-color">
+					<span class="part-note-msg" style="width:55px;">VIP等级</span>
+					<p>
+					{loop $lesson_vip_list $item}
+						<a class="a-item vip_{$item['id']}" href="javascript:;" onclick="selectVipSpec('{$item[id]}','{$item[level_price]}','{$item[discount_price]}','{$item[open_discount]}','{$item[level_validity]}','{$item[level_name]}-{$item[level_validity]}天')">{$item[level_name]}-{$item[level_validity]}天</a>
+					{/loop}
+					</p>
+					<input type="hidden" id="vip_id" value=""/>
+				</div>
+			</div>
+			{if $comsetting['vip_agreement']}
+			<div class="weui-cells weui-cells_checkbox">
+				<label class="weui-cell weui-cell_active weui-check__label" for="vip_agreement">
+					<div class="weui-cell__hd" style="padding-right:10px;">
+						<input type="checkbox" class="weui-check" id="vip_agreement" checked />
+						<i class="weui-icon-checked vip_agreement_checked"></i>
+					</div>
+					<div class="weui-cell__bd agreement_tips">
+						<p>我已阅读并同意<a href="javascript:;" id="view-vip-agreement">《VIP服务协议》</a></p>
+					</div>
+				</label>
+			</div>
+			<div class="privacy_agreement_notice-mask" id="vip-agreement-content" style="display:none;">
+				<div class="privacy_agreement_notice">
+					<div class="close">
+						<img src="{MODULE_URL}static/mobile/default/images/btn-close.png?v=6" width="32" height="32">
+					</div>
+					<h3 class="notice-title">VIP服务协议</h3>
+					<ul class="notice-body">
+						{php echo htmlspecialchars_decode($comsetting['vip_agreement'])}<p><br></p>
+					</ul>
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+	<div class="flick-menu-btn spec-menu-btn">
+		<a class="btn-buy-vip" id="buy_vip">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</a>
+	</div>
+</div>
+<!--VIP列表end-->
+
+{template $template.'/writemsg'}
+
+<ul class="d-buynow max-width-640">
+	<li class="btn-qq {if !$lesson_vip_list || $show_isbuy || $setting['lesson_vip_status']<=1 || $lesson['lesson_type'] || ($setting['stock_config'] && !$lesson['stock'])}one-btn-qq{/if}">
+		<a href="{php echo $config['service_url'] ? $config['service_url'] : 'javascript:;';}" id="{php echo $config['service_url'] ? 'all-consult' : 'btn-qq';}"><i class="ico ico-lessonqq"></i>咨询</a>
+	</li>
+	<li class="btn-collect {if !$lesson_vip_list || $show_isbuy || $setting['lesson_vip_status']<=1 || $lesson['lesson_type'] || ($setting['stock_config'] && !$lesson['stock'])}one-btn-collect{/if}" id="btn-collect">
+		<a href="javascript:;" {if !empty($collect)}class="cur"{/if}><i class="ico ico-collect"></i>收藏</a>
+	</li>
+
+	{if $lesson['lesson_type']==0}
+		{if $show_isbuy}
+			<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now study"><p class="num"><em class="money"></em>{php echo $study_name ? $study_name : '开始学习';}</p></a></li>
+		{else}
+			{if $setting['stock_config'] && !$lesson['stock']}
+				<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>已售罄</p></a></li>
+			{else}
+				{if $setting['lesson_vip_status']==0}
+					<!-- 仅显示立即购买 -->
+					<li class="btn-buy one-btn-buy no-ios" {if empty($buynow_link) || $buynow_link=='#'}id="buy-now"{/if}><a href="{if !empty($buynow_link) && $buynow_link!='#'}{$buynow_link}{else}javascript:;{/if}" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+					<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+				{elseif $setting['lesson_vip_status']==1}
+					<!-- 仅显示开通VIP -->
+					{if $lesson_vip_list}
+						<li class="btn-buy one-btn-buy no-ios" {if empty($config['buy_vip_link'])}id="buy-vip"{/if}><a href="{if !empty($config['buy_vip_link'])}{$config['buy_vip_link']}{else}javascript:;{/if}" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+						<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+					{else}
+						<li class="btn-buy one-btn-buy no-ios" {if empty($buynow_link) || $buynow_link=='#'}id="buy-now"{/if}><a href="{if !empty($buynow_link) && $buynow_link!='#'}{$buynow_link}{else}javascript:;{/if}" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+						<li class="btn-buy one-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+					{/if}
+				{elseif $setting['lesson_vip_status']==2}
+					<!-- 显示开通VIP和立即购买 -->
+					{if $lesson_vip_list}
+						<li class="btn-buy two-btn-buy no-ios"  {if empty($config['buy_vip_link'])}id="buy-vip"{/if}><a href="{if !empty($config['buy_vip_link'])}{$config['buy_vip_link']}{else}javascript:;{/if}" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+						<li class="btn-buy two-btn-buy is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now orange"><p class="num">{php echo $config['buy_vip_name'] ? $config['buy_vip_name'] : '开通VIP'}</p></a></li>
+					{/if}
+					<li class="btn-buy {if $lesson_vip_list}two-btn-buy{else}one-btn-buy{/if} no-ios" {if empty($buynow_link) || $buynow_link=='#'}id="buy-now"{/if}><a href="{if !empty($buynow_link) && $buynow_link!='#'}{$buynow_link}{else}javascript:;{/if}" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+					<li class="btn-buy {if $lesson_vip_list}two-btn-buy{else}one-btn-buy{/if} is-ios" style="display:none;"><a href="javascript:;" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+
+	{if $lesson['lesson_type']==1}
+		{if $show_qrcode}
+			<li class="btn-buy one-btn-buy"><a href="{php echo $this->createMobileUrl('orderdetail', array('orderid'=>$apply_order['id']))}" class="buy buy_now blue"><p class="num"><em class="money"></em>{php echo $study_name ? $study_name : '查看二维码';}</p></a></li>
+		{else}
+			{if $setting['stock_config']==1 && $lesson['stock']==0}
+				<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>已售罄</p></a></li>
+			{elseif $buynow_info['appoint_validity'] && time() > strtotime($buynow_info['appoint_validity'])}
+				<li class="btn-buy one-btn-buy"><a href="javascript:;" class="buy buy_now gray" style="background-color:#7D7D7D;"><p class="num"><em class="money"></em>已结束</p></a></li>
+			{else}
+				<li class="btn-buy one-btn-buy" {if empty($buynow_link) || $buynow_link=='#'}id="buy-now"{/if}><a href="{if !empty($buynow_link) && $buynow_link!='#'}{$buynow_link}{else}javascript:;{/if}" class="buy buy_now red"><p class="num">{php echo $buynow_name ? $buynow_name : '立即购买';}</p></a></li>
+			{/if}
+		{/if}
+	{/if}
+</ul>
+{if $isfollow['follow_lesson'] && $member['follow']==0 && $userAgent}
+<div class="force-contact-main max-width-640 follow_qrcode">
+	<div class="force-contact-content_new">
+		<p class="force-contact-tips">{php echo $setting['lesson_follow_title'] ? $setting['lesson_follow_title'] : '长按指纹识别二维码, 关注公众号';}</p>
+		<p class="force-contact-desc">{php echo $setting['lesson_follow_desc'] ? $setting['lesson_follow_desc'] : '关注后继续学习, 可接收最新课程通知';}</p>
+		<img class="receive-red-packet-contact-touch" src="{$dirpath}lesson_{$id}.jpg">
+	</div>
+	{if $isfollow['follow_lesson_close']}
+	<div class="follow_lesson_close">
+		<img src="{MODULE_URL}static/mobile/{$template}/images/index-coupon-close.png">
+	</div>
+	{/if}
+</div>
+{/if}
+
+<div class="aui-dialog follow-wechat">
+	<div class="listInformation background_default" style="padding: 18px 0;background: rgb(245, 245, 245);">
+		<div class="listInformationWord">
+			<p class="t6 color-ff5b35" style="width:100%;text-align:center;">{php echo $common['follow_page']['first_title'] ? $common['follow_page']['first_title'] : '您可关注公众号方便下次学习'}</p>
+		</div>
+	</div>
+	<div class="textCenter" style="padding-top: 0.3rem;">
+		<p style="padding:10px 0;"><img src="{$_W['attachurl']}{$setting['qrcode']}" class="erweima"></p>
+		<p class="c3 p-b-10">{php echo $common['follow_page']['app_tip'] ? $common['follow_page']['app_tip'] : '长按识别关注公众号，方便下次进入学习'}</p>
+	</div>
+	<div class="listInformationBtn t2 c3 flagDiv"><span onclick="closeTip()" class="listInformationBtnChild">关闭</span></div>
+</div>
+
+<div class="aui-dialog lesson-qun" {if $show_service}style="display:block;"{/if}>
+	<div class="listInformation background_default " style="background: rgb(245, 245, 245);"><span class="listInformationImg listInformationImg2"><img src="{$_W['attachurl']}{$now_service['avatar']}"></span>
+		<div class="listInformationWord">
+			<p class="t2 c8" style="width: 100%; text-align: left;">HI，我是 {$now_service['nickname']}</p>
+			<p class="t1 c2" style="width: 100%; text-align: left;">{php echo $common['other_page']['invite_join'] ? $common['other_page']['invite_join'] : '邀请你加入用户粉丝群'}</p>
+		</div>
+	</div>
+	<div class="textCenter" style="padding-top: 0.3rem;">
+		<p style="padding-top: 0.3rem;"><img src="{$_W['attachurl']}{$now_service['qrcode']}" class="erweima"></p>
+		<p class="c3 p-b-10">微信里长按识别二维码</p>
+	</div>
+	<div class="listInformationBtn t2 c3 flagDiv"><span onclick="closeTip()" class="listInformationBtnChild">关闭</span></div>
+</div>
+<div class="aui-mask" {if $show_service}style="display:block;"{/if}></div>
+
+
+<script type="text/javascript">
+	var wxapp_audition_end = "";
+	var isMiniProgram = false;
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		var miniprogram_environment = false;
+		wx.miniProgram.getEnv(function(res) {
+			if(res.miniprogram) {
+				miniprogram_environment = true;
+			}
+		})
+		if((window.__wxjs_environment === 'miniprogram' || miniprogram_environment)) {
+			wxapp_audition_end = "试听已结束";
+			isMiniProgram = true;
+			wx.miniProgram.getEnv(function(res) {
+				wx.miniProgram.postMessage({ 
+					data: {
+						'title': "{$sharelesson['title']}",
+						'images': "{$sharelesson['images']}",
+					}
+				})
+			});
+			$("#qq-consult").attr("href","javascript:;");
+			$("#qqgroup-consult").attr("href","javascript:;");
+
+			<?php if(!strstr($config['service_url'], $_W['siteroot'])){ ?>
+				$("#all-consult").attr("href","javascript:;");
+			<?php } ?>
+			$(".follow_qrcode").hide();
+
+			<?php if($systemType=='ios'){ ?>
+				$('.no-ios').hide();
+				$('.is-ios').show();
+				$('.is-ios a p').html('不支持');
+			<?php } ?>
+
+			$(".wxapp-download-tip").click(function(){
+				showSingleDialog("小程序环境暂不支持下载");
+			})
+		}
+	});
+
+	window.config = {
+		  attachurl: "{$_W['attachurl']}",
+		 systemType: "{$systemType}",
+		  userAgent: "{$userAgent}",
+ wxapp_audition_end: wxapp_audition_end,
+		     common: {php echo json_encode($common)},
+			    uid: {php echo intval($uid)},
+			 member: {php echo json_encode($member)},
+			  plays: {php echo intval($plays)},
+		  sectionid: {php echo intval($sectionid)},
+	 next_sectionid: {php echo intval($next_sectionid)},
+			 lesson: {php echo json_encode($lesson)},
+		lesson_page: {php echo json_encode($lesson_page)},
+	  lesson_config: {php echo json_encode($lesson_config)},
+			section: {php echo json_encode($section)},
+		  qcloudvod: {php echo json_encode($qcloudvod)},
+       qcloudVodRes: {php echo json_encode($qcloudVodRes)},
+		   playAuth: "{$playAuth}",
+		m3u8_format: "{$m3u8_format}",
+		      audio: "{$audio}",
+		  drag_play: {php echo intval($drag_play)},
+	  prev_playtime: {php echo intval($prev_record['playtime'])},
+		drag_imgurl: "{MODULE_URL}static/public/verification/images/",
+		buynow_info: {php echo json_encode($buynow_info)},
+   appoint_validity: {php echo intval(strtotime($buynow_info['appoint_validity']))},
+		    nowtime: {php echo time()},
+   discount_endtime: "{$discount_endtime}",
+         show_isbuy: {php echo intval($show_isbuy)},
+repeat_record_lesson: {php echo intval($setting['repeat_record_lesson'])},
+	setting_ios_pay: {php echo intval($setting['ios_pay'])},
+   setting_mustinfo: {php echo intval($setting['mustinfo'])},
+		 hissection: {php echo json_encode($hissection)},
+		   writemsg: {php echo intval($writemsg)},
+		  spec_list: {php echo json_encode($spec_list)},
+    virtual_buyinfo: {php echo json_encode($virtual_buyinfo)},
+	    sharelesson: {php echo json_encode($sharelesson)},
+	      recordurl: "{php echo $this->createMobileUrl('record', array('lessonid'=>$_GPC['id'],'sectionid'=>$_GPC['sectionid'],'playtoken'=>random(8)));}",
+		  lessonurl: "{php echo $this->createMobileUrl('lesson', array('id'=>$id));}",
+		evaluateurl: "{php echo $this->createMobileUrl('getevaluate', array('id'=>$id));}",
+		 sectionurl: "{php echo $this->createMobileUrl('sectionstudystatus')}",
+		 confirmurl: "{php echo $this->createMobileUrl('confirm', array('id'=>$lesson['id']));}",
+		  buyvipurl: "{php echo $this->createMobileUrl('vip', array('op'=>'buyvip'));}",
+		 collecturl: "{php echo $this->createMobileUrl('updatecollect', array('ctype'=>'lesson'));}",
+		   studyurl: "{php echo $study_link ? $study_link : $this->createMobileUrl('lesson', array('id'=>$lesson['id'],'sectionid'=>$first_section['id']));}",
+     sharecouponurl: "{php echo $this->createMobileUrl('sharecoupon');}",
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/{$template}/js/lesson.js?v={$versions}"></script>
+
+{template $template.'/_footerv2'}

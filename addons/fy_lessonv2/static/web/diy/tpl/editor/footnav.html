@@ -1,0 +1,108 @@
+<script>
+    Diy.Editor.defaultData.footnav = {
+        style: {
+            background: '#FFFFFF',
+        },
+        data: [
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/icon-footer-home.png',
+                imgurl_active: '{MODULE_URL}static/web/diy/img/icon-footer-home-actived.png',
+                text: '首页',
+                color: '#818085',
+                color_active: '#FD5A45',
+                link: '{$_W["siteroot"]}app{php echo str_replace("./","/",$this->createMobileUrl("index"))}',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/icon-footer-search.png',
+                imgurl_active: '{MODULE_URL}static/web/diy/img/icon-footer-search-actived.png',
+                text: '课程',
+                color: '#818085',
+                color_active: '#FD5A45',
+                link: '{$_W["siteroot"]}app{php echo str_replace("./","/",$this->createMobileUrl("search"))}',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/icon-footer-vip.png',
+                imgurl_active: '{MODULE_URL}static/web/diy/img/icon-footer-vip-actived.png',
+                text: '会员',
+                color: '#818085',
+                color_active: '#FD5A45',
+                link: '{$_W["siteroot"]}app{php echo str_replace("./","/",$this->createMobileUrl("vip"))}',
+            },
+            {
+                imgurl: '{MODULE_URL}static/web/diy/img/icon-footer-my.png',
+                imgurl_active: '{MODULE_URL}static/web/diy/img/icon-footer-my-actived.png',
+                text: '我的',
+                color: '#818085',
+                color_active: '#FD5A45',
+                link: '{$_W["siteroot"]}app{php echo str_replace("./","/",$this->createMobileUrl("self"))}',
+            },
+        ]
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="footnav">
+    <div class="editor-footnav">
+        <div class="alert alert-info">
+            1、菜单名称后面的第一个颜色为默认颜色，第二个为选中颜色；<br/>
+			2、上面的图标为默认图标，下方的为选中图标；
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="form-group ui-sortable ep-item-sortable">
+            <% _.each(data, function(item) { %>
+            <div class="footnav-item ep-item">
+                <div class="footnav-image">
+                    <div>
+                        <img src="<%= item.imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                        <div class="ep-select-image">更换</div>
+                    </div>
+                    <div class="active">
+                        <img src="<%= item.imgurl_active%>" data-type="data" data-key="imgurl_active" data-name="<%= name %>" data-guid="<%= guid %>"/>
+                        <div class="ep-select-image">更换</div>
+                    </div>
+                </div>
+                <div class="footnav-params">
+                    <div class="input-text-color">
+                        <div class="input-text">
+                            <span class="input-group-addon ep-input-lable">名称</span>
+                            <input type="text" class="form-control input-sm input_binding" value="<%= item.text %>" data-type="data" data-key="text" data-name="<%= name %>" data-guid="<%= guid %>">
+                        </div>
+                        <div class="input-color">
+                            <input type="color" class="form-control input-sm input_color input_binding" value="<%= item.color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>">
+                            <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#818085').trigger('change')">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                        </div>
+                        <div class="input-color">
+                            <input type="color" class="form-control input-sm input_color input_binding" value="<%= item.color_active %>" data-type="data" data-key="color_active" data-name="<%= name %>" data-guid="<%= guid %>">
+                            <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FD5A45').trigger('change')">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <span class="input-group-addon ep-input-lable">链接</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="跳转链接以http://或https://开头"/>
+                        <span class="input-group-addon" style="cursor:pointer;" onclick="$('#lookLink').modal();">查看链接</span>
+                    </div>
+                </div>
+                <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="1"></span>
+            </div>
+            <% }); %>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-default btn-block ep-item-add" type="button" data-name="<%= name %>" data-guid="<%= guid %>" data-item-max="5">
+                <i class="fa fa-plus-circle"></i> 新增底部菜单
+            </button>
+        </div>
+    </div>
+</script>

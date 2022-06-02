@@ -1,0 +1,75 @@
+<div class="main">
+	<div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-success" href="{php echo $this->createWebUrl('recommend', array('op'=>'addtorec'));}"><i class="fa fa-plus"></i> 添加推荐课程</a>
+        </div>
+    </div>
+	<div class="panel panel-default">
+        <div class="table-responsive panel-body">
+			<form id="myform" name="myform" method="post" class="form-horizontal form">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="width:70px;text-align:center;"><input type="checkbox" id="btnSelect" class="btn btn-default" onclick="checkAll(myform.hidnSelectFlag.value);"></th>
+						<th style="width:35%;">课程名称</th>
+						<th style="width:15%;">课程价格</th>
+						<th style="width:15%;">讲师名称</th>
+						<th style="width:15%;">课程状态</th>
+						<th style="width:15%;text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td align="center"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
+						<td>[ID:{$item['id']}]{$item['bookname']}</td>
+						<td>{php echo $item['price']?$item['price'].'元':'免费';}</td>
+						<td>{$item['teacher']}</td>
+						<td>{php echo $item['status']==0?'已下架':'出售中';}</td>
+						<td style="text-align:right;">
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson', 'id'=>$item['id'],'refurl'=>$_W['siteurl']));}" title="修改"><i class="fa fa-edit"></i></a>
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('recommend', array('op' => 'removerec', 'id' => $item['id']))}" title="移出该板块" onclick="return confirm('确定移出推荐板块？');return false;"><i class="fa fa-times"></i></a>
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" style="padding-top: 30px;">
+								<a onclick="cancelRec();" class="btn btn-primary">批量取消推荐</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<input type="hidden"  name="hidnSelectFlag" value="1"/>
+				<input type="hidden"  name="cancleRec" value="1"/>
+			</form>
+            {$pager}
+        </div>
+    </div>
+</div>
+<script language="javascript">
+/**
+ * 选择复选框
+ * @param type 1 全选；0 全不选
+ */
+function checkAll(type) {
+    var type = Number(type);
+    var inputs = document.getElementsByTagName("input");
+    for(var i = 0; i < inputs.length; i++) {
+        if(inputs[i].type == "checkbox") {
+            inputs[i].checked = type;
+        }
+    }
+    myform.hidnSelectFlag.value = Number(!type);
+}
+
+function cancelRec(){
+	var check = $("input[type=checkbox][class!=check_all]:checked");
+	if(check.length < 1){
+		alert('您还没有没有任何课程');
+		return false;
+	}
+	document.getElementById("myform").submit();
+}
+</script>

@@ -1,0 +1,18 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('goods',array('status'=>1));}">商品列表</a></li>
+	{if $op=='postGoods'}
+	<li class="active"><a href="{php echo $this->createWebUrl('goods',array('op'=>'postGoods','id'=>$_GPC['id']));}">{php echo $_GPC['id'] ? '编辑' : '添加';}商品</a></li>
+	{/if}
+	{if $op=='postVirtual'}
+	<li class="active"><a href="{php echo $this->createWebUrl('goods',array('op'=>'postVirtual','id'=>$_GPC['id']));}">虚拟卡密</a></li>
+	{/if}
+	
+	<li {if $op=='attr'}class="active"{/if}><a href="{php echo $this->createWebUrl('goods',array('op'=>'attr'));}">商品规格</a></li>
+	{if $op=='postAttr'}
+	<li class="active"><a href="{php echo $this->createWebUrl('goods',array('op'=>'postAttr','id'=>$_GPC['id']));}">{php echo $_GPC['id'] ? '编辑' : '添加';}规格</a></li>
+	{/if}
+
+
+</ul>

@@ -1,0 +1,409 @@
+{template 'web/setting/_headerDiy'}
+<link rel="stylesheet" href="{MODULE_URL}static/web/diy/css/header.css?v={$versions}">
+<link rel="stylesheet" href="{MODULE_URL}static/web/diy/css/edit.css?v={$versions}">
+
+<div class="main">
+	<form class="form-horizontal form">
+		<div class="designer clearfix">
+			<div class="phone pull-left">
+				<div class="phone_head"></div>
+				<div class="phone_body">
+					<div class="phone_title text-center"></div>
+					<div class="phone_content ui-sortable"></div>
+				</div>
+			</div>
+			<div class="editor pull-left">
+				<div class="editor_arrow"></div>
+				<div class="editor_content"></div>
+			</div>
+			<div class="toolbar">
+				<div>
+					<ul>
+						{loop $module_list $item}
+						<li>
+							<button type="button" class="btn btn-default" data-name="{$item[name]}" data-repeat="{$item[repeat]}">
+								{$item[title]}
+							</button>
+						</li>
+						{/loop}
+						<div style="clear:both;"></div>
+					</ul>
+				</div>
+				<div class="col-sm-12 text-center btn_wrap">
+					<a href="javascript:;" class="btn btn-warning" style="margin-right:20px;" onclick="$('#setCover').modal();">设置封面图</a>
+					<button type="button" class="btn btn-primary btnSave" data-original-text="提交保存" autocomplete="off">保存模板</button>
+					<input type="hidden" name="token" value="{$_W['token']}"/>
+					<input type="hidden" name="page_title" value="{$tpl_item['page_title']}"/>
+					<input type="hidden" name="page_desc" value="{$tpl_item['page_desc']}"/>
+					<input type="hidden" name="page_type" value="{$page_type}"/>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- Look Link -->
+	<style type="text/css">
+		.navigation {
+			height: 400px;
+			overflow-y: auto;
+		}
+		.navigation-ul .name {
+			width: 13%;
+			text-align: right;
+		}
+		.navigation-ul .link {
+			width: 85%;
+		}
+		.navigation-ul li {
+			float: left;
+		}
+	</style>
+	<div id="lookLink" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">常见链接列表</div>
+				</div>
+				<div class="modal-body" style="padding-bottom: 10px;">
+					<div class="alert alert-info navigation">
+						<ul class="navigation-ul">
+							<li class="name">首 页：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&t=1&do=index&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">全部课程：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=search&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">全部分类：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&op=allcategory&clear=1&do=search&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">VIP会员：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=vip&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						{if pdo_tableexists('fy_lesson_plugin_shop_goods')}
+						<ul class="navigation-ul">
+							<li class="name">商城首页：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shop&m=fy_lessonv2_plugin_shop</li>
+							<div class="clear"></div>
+						</ul>
+						{/if}
+						<ul class="navigation-ul">
+							<li class="name">课程订单：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=mylesson&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">个人中心：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=self&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">全部公告：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=article&op=list&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">讲师列表：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=teacherlist&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">我的足迹：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=history&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">收藏课程：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&ctype=1&do=collect&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">收藏讲师：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&ctype=2&do=collect&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						{if pdo_tableexists('fy_lesson_plugin_exam_examine_record')}
+						<ul class="navigation-ul">
+							<li class="name">我的考试：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=myexamine&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						{/if}
+						<ul class="navigation-ul">
+							<li class="name">讲师服务：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=myteacher&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">兑换课程：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=lessoncard&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">课程邀请：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=reclesson&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">讲师中心：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=teachercenter&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">分销中心：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=commission&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">学习时长：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=studyduration&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">优惠券：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=coupon&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">推广海报：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=qrcode&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">绑定手机：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=modifyMobile&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">关注公众号：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=follow&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">每日签到：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=signin&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+						<ul class="navigation-ul">
+							<li class="name">投诉建议：</li>
+							<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=suggest&m=fy_lessonv2</li>
+							<div class="clear"></div>
+						</ul>
+					</div>
+				</div>
+				<div class="modal-footer" style="padding-top:0;">
+					<a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Look Link -->
+
+	<!-- Set Cover -->
+	<div class="modal fade" id="setCover" tabindex="-1">
+		<div class="we7-modal-dialog modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close close-cover-moadl" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<div class="modal-title">模板封面图</div>
+				</div>
+				<div class="modal-body">
+					<div class="we7-form">
+						<div class="form-group">
+							<label class="control-label col-sm-2" style="padding-top:0;">封面图</label>
+							<div class="form-controls col-sm-10">
+								<script type="text/javascript">
+									function showImageDialog(elm, opts, options) {
+										require(["util"], function(util){
+											var btn = $(elm);
+											var ipt = btn.parent().prev();
+											console.log(ipt);
+											var val = ipt.val();
+											var img = ipt.parent().next().children();
+											options = {'global':false,'class_extra':'','direct':true,'multiple':false,'fileSizeLimit':5120000};
+											util.image(val, function(url){
+												if(url.url){
+													if(img.length > 0){
+														img.get(0).src = url.url;
+													}
+													ipt.val(url.attachment);
+													ipt.attr("filename",url.filename);
+													ipt.attr("url",url.url);
+												}
+												if(url.media_id){
+													if(img.length > 0){
+														img.get(0).src = url.url;
+													}
+													ipt.val(url.media_id);
+												}
+											}, options);
+										});
+										$(".close-cover-moadl").click();
+									}
+									function deleteImage(elm){
+										$(elm).prev().attr("src", "./resource/images/nopic.jpg");
+										$(elm).parent().prev().find("input").val("");
+									}
+								</script>
+								<div class="input-group ">
+									<input type="text" name="cover" value="{$tpl_item['cover']}" class="form-control" autocomplete="off">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button>
+									</span>
+								</div>
+								<div class="input-group " style="margin-top:.5em;">
+									<img src="{php echo $tpl_item['cover'] ? $_W['attachurl'].$tpl_item['cover'] : '';}" onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'" class="img-responsive img-thumbnail" width="150">
+									<em class="close" style="position:absolute; top: 0px; right: -14px;" title="删除这张图片" onclick="deleteImage(this)">×</em>
+								</div>
+								<span class="help-block">建议竖屏图片，尺寸205*315px</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Set Cover -->
+
+	<!-- Delete Module -->
+	<div class="modal fade modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-tip">
+			<div class="modal-content">
+				<div class="modal-header clearfix">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<div class="text-center"> <i class="text-info wi wi-info"></i>
+						<p class="title">系统提示</p>
+						<p class="content">确认移除?</p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-footer"><button type="button" class="btn btn-primary remove-btn" data-dismiss="modal">确认</button></div>
+			</div>
+		</div>
+	</div>
+	<!-- /Delete Module -->
+
+	<!-- Select Lesson -->
+	<div class="modal fade modal-select-lesson" tabindex="-1" role="dialog" data-url="{php echo $this->createWebUrl('setting', array('op' =>'addDiySelectLesson'))}">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">选择课程</h4>
+				</div>
+				<div class="item-search">
+					<div class="select-form">
+						<div class="select-list">
+							<select class="form-control" id="pid" onchange="renderCategory(this.value)">
+								<option value="">一级分类</option>
+								{loop $category_list $item}
+								<option value="{$item['id']}">{$item['name']}</option>
+								{/loop}
+							</select>
+						</div>
+					</div>
+					<div class="select-form">
+						<div class="select-list">
+							<select class="form-control" id="cid">
+								<option value="">二级分类</option>
+							</select>
+						</div>
+					</div>
+					<div class="select-form">
+						<div class="select-list">
+							<select class="form-control" id="lessonType">
+								<option value="">课程类型</option>
+								<option value="0">普通课程</option>
+								<option value="1">报名课程</option>
+								<option value="3">直播课程</option>
+							</select>
+						</div>
+					</div>
+					<div class="select-form">
+						<div class="select-list">
+							<select class="form-control" id="lessonStatus">
+								<option value="">状态</option>
+								{loop $lessonStatusList $key $item}
+								<option value="{$key}" {if $key==1}selected{/if}>{$item}</option>
+								{/loop}
+							</select>
+						</div>
+					</div>
+					<div class="input-group">
+						<input type="text" name="keyword" class="form-control" autocomplete="off" placeholder="请输入课程标题" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default search-button">
+								<span class="fa fa-search"></span>搜索
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="item-content clearfix"></div>
+				</div>
+				<div class="modal-footer" style="padding-top:10px;">
+					<a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Select Lesson -->
+</div>
+
+<script>
+    window.Diy = {
+        Editor: {
+            defaultData: {},
+            data: {},
+        }
+    };
+	window.category = {php echo json_encode($category_list)};
+    {$editor_data}
+
+	var category = {php echo json_encode($category_list)};
+	function renderCategory(pid){
+		var chtml = '<option value="0">二级分类</option>';
+
+		if(pid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var child = category[i].child;
+					for(var j in child){
+						chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+					}
+					$("#cid").html(chtml);
+				}
+			}
+		}else{
+			$("#cid").html(chtml);
+		}
+	}
+</script>
+
+{if !empty($block_tpl)}
+{loop $block_tpl $tpl}
+    {template '../static/web/diy/tpl/block/'.$tpl}
+{/loop}
+{/if}
+{if !empty($editor_tpl)}
+{loop $editor_tpl $tpl}
+    {template '../static/web/diy/tpl/editor/'.$tpl}
+{/loop}
+{/if}
+<script>
+    var fylesson = {};
+</script>
+<script src="{MODULE_URL}static/web/diy/js/diy.js?v={$versions}"></script>
+<script src="{MODULE_URL}static/web/diy/js/edit.js?v={$versions}"></script>

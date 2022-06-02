@@ -1,0 +1,253 @@
+<style type="text/css">
+.navigation{height: 200px; overflow-y: auto;}
+.navigation-ul li{float:left;}
+.navigation-ul .name{width: 13%; text-align: right;}
+.navigation-ul .link{width: 85%;}
+</style>
+<div class="main">
+	<div class="alert alert-info navigation">
+		<ul class="navigation-ul">
+			<li class="name">首 页：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&t=1&do=index&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">全部课程：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=search&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">全部分类：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&op=allcategory&clear=1&do=search&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">VIP会员：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=vip&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		{if pdo_tableexists('fy_lesson_plugin_shop_goods')}
+		<ul class="navigation-ul">
+			<li class="name">商城首页：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=shop&m=fy_lessonv2_plugin_shop</li>
+			<div class="clear"></div>
+		</ul>
+		{/if}
+		<ul class="navigation-ul">
+			<li class="name">课程订单：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=mylesson&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">个人中心：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=self&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">全部公告：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=article&op=list&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">讲师列表：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=teacherlist&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">学习记录：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=history&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">收藏课程：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&ctype=1&do=collect&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">收藏讲师：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&ctype=2&do=collect&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		{if pdo_tableexists('fy_lesson_plugin_exam_examine_record')}
+		<ul class="navigation-ul">
+			<li class="name">我的考试：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=myexamine&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		{/if}
+		<ul class="navigation-ul">
+			<li class="name">讲师服务：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=reclesson&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">兑换课程：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=lessoncard&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">课程邀请：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=myteacher&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">讲师中心：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=teachercenter&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">分销中心：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=commission&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">学习时长：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=studyduration&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">优惠券：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=coupon&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">推广海报：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=qrcode&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">修改/绑定手机：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=modifyMobile&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">关注公众号：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=follow&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">每日签到：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=signin&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">投诉建议：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=suggest&m=fy_lessonv2</li>
+			<div class="clear"></div>
+		</ul>
+		<ul class="navigation-ul">
+			<li class="name">余额充值(框架功能)：</li>
+			<li class="link">{$_W['siteroot']}app/index.php?i={$uniacid}&c=entry&do=pay&m=recharge</li>
+			<div class="clear"></div>
+		</ul>
+	</div>
+
+	{if $type==1}
+	<!-- 底部导航栏 -->
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $_GPC['nav_id']}修改{else}添加{/if}底部导航栏</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航栏位置</label>
+                    <div class="col-sm-3">
+						<select name="nav_ident" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $nav_ident $ident $item}
+								{if !$item['exist'] || $nav_id}
+									<option value="{$ident}" {if $navigation['nav_ident'] == "$ident"}selected="selected"{/if}>{$item['name']}</option>
+								{/if}
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="nav_name" class="form-control" value="{$navigation['nav_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 未选状态图标</label>
+					<div class="col-sm-9">
+                        {php echo tpl_form_field_image('unselected_icon', $navigation['unselected_icon'])}
+						<span class="help-block">建议图标长宽尺寸100*100px，<a href="{MODULE_URL}static/mobile/{$template}/images//icon_packet.zip" target="_blank" style="color:#428bca;">点击下载默认图标</a>，更多精美图标请访问<a href="https://www.iconfont.cn/" target="_blank" style="color:#428bca;"> 阿里巴巴矢量图标库</a></span>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 已选状态图标</label>
+					<div class="col-sm-9">
+                        {php echo tpl_form_field_image('selected_icon', $navigation['selected_icon'])}
+						<span class="help-block">已选状态图标尺寸和未选状态图标尺寸必须一致</span>
+                    </div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="url_link" class="form-control" value="{$navigation['url_link']}">
+						<span class="help-block">链接请以http://或https://开头</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="nav_id" value="{$nav_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+	{elseif $type==2}
+	<!-- 其他菜单 -->
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $_GPC['nav_id']}修改{else}添加{/if}菜单</div>
+			<div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航栏位置</label>
+                    <div class="col-sm-3">
+						<select name="location" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $nav_location $key $item}
+								{if $key>1}
+									<option value="{$key}" {if $navigation['location'] == "$key"}selected="selected"{/if}>{$item}</option>
+								{/if}
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="nav_name" class="form-control" value="{$navigation['nav_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航图标</label>
+					<div class="col-sm-9">
+                        {php echo tpl_form_field_image('unselected_icon', $navigation['unselected_icon'])}
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 导航链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="url_link" class="form-control" value="{$navigation['url_link']}">
+						<span class="help-block">链接请以http://或https://开头</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$navigation['displayorder']}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="nav_id" value="{$nav_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+	{/if}
+</div>

@@ -1,0 +1,105 @@
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="./index.php" method="get" class="form-horizontal" role="form">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="module_name" value="fy_lessonv2" />
+				<input type="hidden" name="do" value="commission" />
+				<input type="hidden" name="op" value="commissionlog" />
+				<input type="hidden" name="search" value="1" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">会员昵称</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="nickname" type="text" value="{$_GPC['nickname']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">分销内容</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="bookname" type="text" value="{$_GPC['bookname']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">分销等级</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<select name="grade" class="form-control">
+							<option value="">不限</option>
+							<option value="1" {if $_GPC['grade'] == 1} selected="selected" {/if}>一级分销</option>
+							<option value="2" {if $_GPC['grade'] == 2} selected="selected" {/if}>二级分销</option>
+							<option value="3" {if $_GPC['grade'] == 3} selected="selected" {/if}>三级分销</option>
+							<option value="-1" {if $_GPC['grade'] == -1} selected="selected" {/if}>管理员操作</option>
+						</select>
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">备注</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="remark" id="" type="text" value="{$_GPC['remark']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">分销时间</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+					</div>
+					<div class="col-sm-3 col-lg-3" style="width: 22%;">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			总数：{$total}
+			<span style="margin-left:50px;">佣金总和：{$change_total_num}</span>
+		</div>
+		<div class="panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style='width:70px;'>ID</th>
+						<th style='width:12%;'>昵称/姓名/手机</th>
+						<th style='width:23%;'>分销内容</th>
+						<th style='width:10%;'>分销等级</th>
+						<th style='width:10%;'>分销佣金</th>
+						<th style='width:24%;'>备注</th>
+						<th style='width:13%;'>分销时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+						<td>{$item['id']}</td>
+						<td>
+							{$item['nickname']}<br/>
+							{$item['realname']},{$item['mobile']}
+						</td>
+						<td>{$item['bookname']}</td>
+						<td>
+							{if $item['grade']==1}
+								<span class="label label-success">一级分销</span>
+							{elseif $item['grade']==2}
+								<span class="label label-primary">二级分销</span>
+							{elseif $item['grade']==3}
+								<span class="label label-warning">三级分销</span>
+							{elseif $item['grade']==-1}
+								<span class="label label-info">管理员操作</span>
+							{/if}
+						</td>
+						<td>{$item['change_num']} 元</td>
+						<td>
+							{$item['remark']}
+							{if $item['buyer_uid']}
+							，购买者信息:[uid:{$item['buyer_uid']}]
+							{/if}
+						</td>
+						<td>{php echo date('Y-m-d H:i',$item['addtime']);}</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</div>

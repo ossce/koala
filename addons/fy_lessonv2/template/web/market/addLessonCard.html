@@ -1,0 +1,100 @@
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return checkSubmit();">
+        <div class="panel panel-default">
+            <div class="panel-heading">生成课程卡密</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 卡密前缀</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="prefix" maxlength="4" value="LESS" class="form-control">
+                        <div class="help-block">支持自定义课程卡密的4位前缀，如：LESS</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 对应课程</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" id="bookname" maxlength="30" class="form-control" readonly>
+							<input type="hidden" id="lesson_id" name="lesson_id" value="">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-select-lesson').modal();">选择课程</button>
+                            </div>
+                        </div>
+						<div class="help-block">使用该卡密可以直接完成购买对应的课程</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 生成数量</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" name="number" class="form-control" maxlength="5" oninput="value=value.replace(/^\.+|[^\d]+/g,'')">
+                            <span class="input-group-addon">张</span>
+                        </div>
+                        <div class="help-block">建议单次生成不要超过1万张，单次生成过多优惠卡会占用大量服务器资源</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 卡密时长</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" name="cardtime" class="form-control" oninput="value=value.replace(/[^\d^\.]+/g,'')">
+                            <span class="input-group-addon">天</span>
+                        </div>
+						<div class="help-block">开通课程订单后，该课程订单的有效期。例如30天，即从使用该卡密开通课程订单起，用户从开通时往后30天内都可以免费学习该课程</div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span> 使用有效期</label>
+                    <div class="col-sm-4">
+                        {php echo tpl_form_field_date('validity', strtotime('+365 day'), true);}
+						<div class="help-block">在这个使用有效期之前该卡密有效，超过这个有效期后，卡密为未使用状态也无法继续使用</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{template 'web/_searchLessonModal'}
+
+<script type="text/javascript">
+	//选择课程
+	function selectLesson(obj) {
+		if(obj.lesson_type == 1){
+			util.message("报名课程不支持生成卡密");
+			return false;
+		}
+		$("#lesson_id").val(obj.id);
+		$("#bookname").val(obj.bookname);
+		$("#modal-select-lesson-close").click();
+	}
+
+	function checkSubmit(){
+		var prefix = $("input[name=prefix]").val();
+		var lesson_id = $("#lesson_id").val();
+		var number = $("input[name=number]").val();
+		var cardtime = $("input[name=cardtime]").val();
+
+		if(prefix == ''){
+			util.message('请输入卡密前缀', '', 'error');
+			return false;
+		}
+		if(prefix.length != 4){
+			util.message('卡密前缀长度必须为4位', '', 'error');
+			return false;
+		}
+		if(lesson_id == ''){
+			util.message('请选择对应课程', '', 'error');
+			return false;
+		}
+		if(cardtime == ''){
+			util.message('请填写卡密时长', '', 'error');
+			return false;
+		}
+	}
+</script>

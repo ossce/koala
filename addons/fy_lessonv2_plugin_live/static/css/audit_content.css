@@ -1,0 +1,226 @@
+.centerBox {
+    width: 1200px;
+    height: 740px;
+    margin: 36px auto 42px auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.leftBox {
+    height:740px;
+    width:200px;
+    float:left;
+    background-color:rgb(89,89,89);
+}
+.leftBox ul li a {
+    display:block;
+    height:50px;
+    line-height:50px;
+    padding: 0 0 0 58px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    cursor:pointer;
+    color: rgb(250,250,250);
+    font-size:14px;
+    transition: 0.3s ease-in-out;
+}
+.leftBox ul li a:hover {
+    background-color:#808080;
+}
+.leftBox ul .selMenuItem a {
+    background-color:white;
+    color: #222;
+}
+.leftBox ul .selMenuItem a:hover {
+    background-color:white;
+    cursor:default;
+}
+.leftBox ul li .menuItemTips {
+    background-color:rgb(244,107,10);
+    font-size:10px;
+    display:inline-block;
+    border-radius:50%;
+    height:20px;
+    width:20px;
+    line-height:20px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    text-align:center;
+    margin-left:8px;
+    color:white;
+	vertical-align: middle;
+}
+.leftBox ul li .menuItemSplit {
+    height:50px;
+    line-height:50px;
+    color: #9d9d9d;
+    border-top:1px solid rgb(217,218,220);
+}
+.leftBox ul li .menuItemSplit img {
+    margin:14px 5px 0px -24px;
+    float:left;
+}
+.leftBox ul li .menuItemSplit:hover {
+    background-color:rgb(89,89,89);
+    cursor:text;
+}
+.rightBox {
+    width:1000px;
+    height:740px;
+    float:left;
+    background-color:white;
+	border: 1px #ddd solid;
+}
+.auditList {
+    height:680px;
+    font-family: "Microsoft YaHei","微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:15px;
+    background-color:rgb(250,250,250);
+    word-break:break-all;
+    padding:10px;
+    overflow:hidden;
+    overflow-y:auto;
+}
+.auditList .msgWrap {
+    border:1px solid #eceef8;
+    border-radius:5px;
+    margin-bottom:10px;
+}
+.auditList .msgWrap:hover {
+    background-color:#f4f6f9;
+    border:1px solid #e0e0e0;
+}
+.auditList .auditMsg {
+    width:825px;
+    display:inline-block;
+    margin:5px 0px 5px 0px;
+    padding:5px;
+    font-family: 'Microsoft YaHei';
+    font-size: 13px;
+    cursor:default;
+}
+.auditList .auditMsg .tis-msg-body{
+	padding: 10px;
+	font-size: 15px;
+}
+.auditList .auditMsg .tis-msg-head span {
+    color:#555;
+    display:inline-block;
+    height:20px;
+    line-height:20px;
+}
+.auditList .auditMsg .tis-msg-head .tis-msg-name {
+    color: #1e78dc;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:730px;
+    white-space:nowrap;
+    float:left;
+}
+.auditList .auditMsg .tis-msg-head .tis-msg-time {
+	margin-left: 20px;
+}
+.auditList .auditBtns {
+    margin:10px 10px 0px 0px;
+    display:inline-block;
+    float:right;
+}
+.auditList .auditBtns a {
+    display:inline-block;
+}
+.auditList .auditBtns a:first-child, .auditPagination a:first-child {
+	margin-right: 10px;
+}
+.auditPagination {
+    height:60px;
+    text-align:center;
+    box-shadow: -1px 0px 1px rgba(0, 0, 0, .04),0px 1px 1px rgba(0, 0, 0, .13),1px 0px 2px rgba(0, 0, 0, .05);
+    border-top: 1px solid #e4e4e4;
+}
+.auditPagination a{
+	margin: 12px auto
+}
+
+/* 遮罩层 */
+.loading-mask_white{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+.loadEffect{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	margin-left: -50px;
+	top: 40%;
+	z-index: 9999;
+}
+.loadEffect span{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #ffffff;
+	position: absolute;
+	-webkit-animation: load 1.04s ease infinite;
+}
+@-webkit-keyframes load{
+	0%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0.2;
+	}
+}
+.loadEffect span:nth-child(1){
+	left: 0;
+	top: 50%;
+	margin-top:-8px;
+	-webkit-animation-delay:0.13s;
+}
+.loadEffect span:nth-child(2){
+	left: 14px;
+	top: 14px;
+	-webkit-animation-delay:0.26s;
+}
+.loadEffect span:nth-child(3){
+	left: 50%;
+	top: 0;
+	margin-left: -8px;
+	-webkit-animation-delay:0.39s;
+}
+.loadEffect span:nth-child(4){
+	top: 14px;
+	right:14px;
+	-webkit-animation-delay:0.52s;
+}
+.loadEffect span:nth-child(5){
+	right: 0;
+	top: 50%;
+	margin-top:-8px;
+	-webkit-animation-delay:0.65s;
+}
+.loadEffect span:nth-child(6){
+	right: 14px;
+	bottom:14px;
+	-webkit-animation-delay:0.78s;
+}
+.loadEffect span:nth-child(7){
+	bottom: 0;
+	left: 50%;
+	margin-left: -8px;
+	-webkit-animation-delay:0.91s;
+}
+.loadEffect span:nth-child(8){
+	bottom: 14px;
+	left: 14px;
+	-webkit-animation-delay:1.04s;
+}

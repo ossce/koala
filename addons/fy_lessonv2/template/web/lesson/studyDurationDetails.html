@@ -1,0 +1,126 @@
+<!--
+ * 单个会员学习时长走势
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+
+<style>
+.account-stat{overflow:hidden; color:#666;}
+.account-stat .account-stat-btn{width:100%; overflow:hidden;}
+.account-stat .account-stat-btn > div{text-align:center; margin-bottom:5px;margin-right:2%; float:left;width:23%; height:80px; padding-top:10px;font-size:16px; border-left:1px #DDD solid;}
+.account-stat .account-stat-btn > div:first-child{border-left:0;}
+.account-stat .account-stat-btn > div span{display:block; font-size:30px; font-weight:bold}
+</style>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		今日学习统计
+	</div>
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>今日学习视频时长<span>{$today['video_duration']}</span></div>
+			<div>今日学习图文时长<span>{$today['article_duration']}</span></div>
+			<div>今日学习音频时长<span>{$today['audio_duration']}</span></div>
+			<div>今日学习总时长<span>{$today['total_duration']}</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		昨日学习统计
+	</div>
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>昨日学习视频时长<span>{$yesterday['video_duration']}</span></div>
+			<div>昨日学习图文时长<span>{$yesterday['article_duration']}</span></div>
+			<div>昨日学习音频时长<span>{$yesterday['audio_duration']}</span></div>
+			<div>昨日学习总时长<span>{$yesterday['total_duration']}</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-info">
+	<div class="panel-heading">累计学习时长：{$total_time}</div>
+	<div style="height:20px;"></div>
+	<form method="get" class="form-horizontal" role="form">
+		<input type="hidden" name="c" value="site" />
+		<input type="hidden" name="a" value="entry" />
+		<input type="hidden" name="module_name" value="fy_lessonv2" />
+		<input type="hidden" name="do" value="lesson" />
+		<input type="hidden" name="op" value="studyDurationDetails" />
+		<input type="hidden" name="uid" value="{$uid}" />
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">日期</label>
+			<div class="col-sm-8 col-lg-3 col-xs-12">
+				{php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d', $starttime),'endtime'=>date('Y-m-d', $endtime)));}
+			</div>
+			<div class="col-sm-3 col-lg-3" style="width: 22%;">
+				<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+			</div>
+		</div>
+	</form>
+    <div class="panel-body">
+		<div id="container" style="min-width:400px;height:400px"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('container')); 
+	var option = {
+		title: {
+			text: '学习趋势图'
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		legend: {
+			data:['视频(分钟)','图文(分钟)','音频(分钟)','总时长(分钟)']
+		},
+		toolbox: {
+			feature: {
+				saveAsImage: {}
+			}
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: {php echo json_encode($day)}
+		},
+		yAxis: {
+			type: 'value'
+		},
+		series: [
+			{
+				name:'视频(分钟)',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($video)}
+			},
+			{
+				name:'图文(分钟)',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($article)}
+			},
+			{
+				name:'音频(分钟)',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($audio)}
+			},
+			{
+				name:'总时长(分钟)',
+				type:'line',
+				smooth: true,
+				data:{php echo json_encode($day_total)}
+			}
+		]
+	}; 
+    myChart.setOption(option); 
+</script>

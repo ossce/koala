@@ -1,0 +1,142 @@
+<script type="text/javascript" src="{MODULE_URL}static/js/jquery.qrcode.min.js"></script>
+<div class="main">
+	<form class="form-horizontal form">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {if $stream['type']==1}
+					腾讯云直播流详情
+				{elseif $stream['type']==2}
+					阿里云直播流详情
+				{/if}
+            </div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">直播流名称</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						{$stream['stream_name']}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">类型</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						{if $stream['live_speed']}
+							<span class="label label-primary">快直播(低延迟直播)</span>
+						{else}
+							<span class="label label-info">标准直播</span>
+						{/if}
+					</div>
+				</div>
+				{if $stream['validity']}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">有效期</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						{php echo date('Y-m-d H:i:s', $stream['validity']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+					<div class="col-sm-9" style="padding-top:7px;">
+						{if time() < $stream['validity']}
+							<span class="label label-success">有效</span>
+						{else}
+							<span class="label label-danger">过期</span>
+						{/if}
+					</div>
+				</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">完整推流地址</label>
+					<div class="col-sm-9" style="padding-top:7px;"><a href="javascript:;" id="push_url">{$stream['server_url']}{$stream['stream_sign']}</a></div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9" style="padding-top:7px;" id="push_qrcode"></div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">推流服务器</label>
+					<div class="col-sm-9" style="padding-top:7px;"><a href="javascript:;" id="server_url">{$stream['server_url']}</a></div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">推流串流密钥</label>
+					<div class="col-sm-9" style="padding-top:7px;"><a href="javascript:;" id="stream_sign">{$stream['stream_sign']}</a></div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">播放地址</label>
+					<div class="col-sm-9" style="padding-top:7px;"><a href="javascript:;" id="play_url">{$stream['play_url']}</a></div>
+				</div>
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+            <a href="javascript:;" class="btn btn-primary col-lg-1" onclick="popwin = $('#modal-selete-lesson').modal();" style="width:180px;">将直播信息插入课程</a>
+        </div>
+		<div id="modal-selete-lesson"  class="modal fade" tabindex="-1">
+			<div class="modal-dialog" style='width: 920px;'>
+				<div class="modal-content">
+					<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择课程</h3></div>
+					<div class="modal-body" >
+						<div class="row">
+							<div class="input-group">
+								<input type="text" class="form-control" name="keyword" value="" id="search-kwd" placeholder="请输入课程名称" />
+								<span class='input-group-btn'><button type="button" class="btn btn-default" onclick="searchLesson();">搜索</button></span>
+							</div>
+						</div>
+						<div id="module-menus" style="padding-top:5px;"></div>
+					</div>
+					<div class="modal-footer"><a href="javascript:;" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	var push_url = "{$stream['server_url']}{$stream['stream_sign']}";
+	jQuery('#push_qrcode').qrcode({width: 150, height: 150, text: push_url});
+
+	//允许点击复制链接
+	require(['jquery', 'util'], function($, util){
+		$(function(){
+			util.clip($("#push_url")[0], $("#push_url").text());
+			util.clip($("#server_url")[0], $("#server_url").text());
+			util.clip($("#stream_sign")[0], $("#stream_sign").text());
+			util.clip($("#play_url")[0], $("#play_url").text());
+		});
+	});
+
+	function searchLesson() {
+		var uniacid = {php echo $uniacid};
+		if ($.trim($('#search-kwd').val()) == '') {
+			document.getElementById('search-kwd').focus();
+			return;
+		}
+		$("#module-menus").html("正在搜索....");
+		$.get("{php echo $this->createWebUrl('getLesson')}", { 
+			uniacid:uniacid,keyword: $.trim($('#search-kwd').val())
+		}, function (dat) {
+			$('#module-menus').html(dat);
+		});
+	}
+	function selectLesson(lessonid, bookname) {
+		var streamid = "{$stream['id']}";
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url:"{php echo $this->createWebUrl('lesson', array('op'=>'ajaxUpdate'))}",
+			data:{lessonid:lessonid, streamid:streamid},
+			success: function (res) {
+				alert(res.message);
+				return;
+			},
+			error: function(e){
+				alert('网络异常，请稍后重试');
+				return;
+			}
+		});
+	}
+	$('#search-kwd').bind('keypress', function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			searchLesson();
+		}
+	});
+</script>

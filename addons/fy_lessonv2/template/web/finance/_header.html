@@ -1,0 +1,6 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<ul class="nav nav-tabs">
+	<li {if $op=='display'} class="active"{/if}><a href="{php echo $this->createWebUrl('finance');}">财务概览</a></li>
+    <li {if $op=='commission' || $op=='detail'} class="active"{/if}><a href="{php echo $this->createWebUrl('finance', array('op'=>'commission'));}">提现列表</a></li>
+	<li {if $op=='handle'} class="active"{/if}><a href="{php echo $this->createWebUrl('finance', array('op'=>'handle'));}">佣金调整</a></li>
+</ul>

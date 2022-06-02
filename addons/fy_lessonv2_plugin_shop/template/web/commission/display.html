@@ -1,0 +1,121 @@
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="./index.php" method="get" class="form-horizontal" role="form">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop" />
+				<input type="hidden" name="do" value="commission" />
+				<input type="hidden" name="search" value="1" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">用户信息</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}" placeholder="昵称/姓名/手机号码">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">分销内容</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="goods_name" type="text" value="{$_GPC['goods_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">分销等级</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<select name="grade" class="form-control">
+							<option value="">不限</option>
+							<option value="1" {if $_GPC['grade'] == 1} selected="selected" {/if}>一级分销</option>
+							<option value="2" {if $_GPC['grade'] == 2} selected="selected" {/if}>二级分销</option>
+							<option value="3" {if $_GPC['grade'] == 3} selected="selected" {/if}>三级分销</option>
+						</select>
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">佣金状态</label>
+					<div class="col-sm-8 col-lg-3 col-xs-12">
+						<select name="status" class="form-control">
+							<option value="">不限</option>
+							<option value="0" {if $_GPC['status'] == '0'} selected="selected" {/if}>待发放</option>
+							<option value="1" {if $_GPC['status'] == '1'} selected="selected" {/if}>已发放</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">备注</label>
+					<div class="col-sm-2 col-lg-3">
+						<input class="form-control" name="remark" id="" type="text" value="{$_GPC['remark']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">添加时间</label>
+					<div class="col-sm-2 col-lg-2">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+					</div>
+					<div class="col-sm-2 col-lg-3">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success"><i class="fa fa-arrow-down"></i> 导出</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			总数：{$total}
+			<span style="margin-left:50px;">佣金总和：{$change_total_num}</span>
+		</div>
+		<div class="panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style='width:70px;'>ID</th>
+						<th style='width:10%;text-align:center;'>昵称/姓名/手机</th>
+						<th style='width:18%;'>分销内容</th>
+						<th style='width:10%;text-align:center;'>分销等级</th>
+						<th style='width:8%;text-align:center;'>分销佣金</th>
+						<th style='width:18%;'>备注</th>
+						<th style='width:8%;text-align:center;'>佣金状态</th>
+						<th style='width:12%;text-align:center;'>(预计)发放时间</th>
+						<th style='width:12%;text-align:center;'>添加时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+						<td>{$item['id']}</td>
+						<td style="text-align:center;">
+							{$item['nickname']}<br/>
+							{$item['realname']},{$item['mobile']}
+						</td>
+						<td>{$item['goods_name']}</td>
+						<td style="text-align:center;">
+							{if $item['grade']==1}
+								<span class="label label-success">一级分销</span>
+							{elseif $item['grade']==2}
+								<span class="label label-primary">二级分销</span>
+							{elseif $item['grade']==3}
+								<span class="label label-warning">三级分销</span>
+							{elseif $item['grade']==-1}
+								<span class="label label-info">管理员操作</span>
+							{/if}
+						</td>
+						<td style="text-align:center;">{$item['commission']} 元</td>
+						<td>
+							{$item['remark']}
+							{if $item['buyer_uid']}
+							，购买者信息:[uid:{$item['buyer_uid']}]
+							{/if}
+						</td>
+						<td style="text-align:center;">
+							{if $item['status'] == 0}
+								<span class="label label-default">待发放</span>
+							{elseif $item['status'] == 1}
+								<span class="label label-success">已发放</span>
+							{/if}
+						</td>
+						<td style="text-align:center;">{php echo $item['predict_sendtime'] ? date('Y-m-d H:i',$item['predict_sendtime']) : '订单未完成';}</td>
+						<td style="text-align:center;">{php echo date('Y-m-d H:i',$item['addtime']);}</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</div>

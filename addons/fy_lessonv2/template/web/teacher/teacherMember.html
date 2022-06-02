@@ -1,0 +1,87 @@
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="teacher" />
+                <input type="hidden" name="op" value="teacherMember" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">用户信息</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}" placeholder="昵称/姓名/手机号码">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">有效期</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+                            <option value="">不限</option>
+							<option value="1" {if $_GPC['status'] == 1} selected="selected" {/if}>生效中</option>
+							<option value="-1" {if $_GPC['status'] == -1} selected="selected" {/if}>已过期</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">讲师ID</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="teacher_id" type="text" value="{$_GPC['teacher_id']}">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">讲师名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="teacher_name" type="text" value="{$_GPC['teacher_name']}">
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="submit" name="export" value="1" class="btn btn-success">导出Excel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+		<div class="panel-heading">总数：{$total}</div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:8%;">编号</th>
+                    <th style="width:13%;">[会员ID]昵称</th>
+					<th style="width:11%;">姓名</th>
+                    <th style="width:11%;">手机号码</th>
+					<th style="width:11%;">讲师名称</th>
+                    <th style="width:14%;">有效期</th>
+                    <th style="width:10%;">状态</th>
+                    <th style="width:15%;">更新时间</th>
+					<th style="float:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody style="font-size: 13px;">
+                {loop $list $item}
+                <tr>
+                    <td>{$item['id']}</td>
+                    <td>[ID: {$item['uid']}] {$item['nickname']}</td>
+                    <td>{$item['realname']}</td>
+                    <td>{$item['mobile']}</td>
+					<td>{$item['teacher']}</td>
+					<td>{php echo date('Y-m-d H:i', $item['validity'])}</td>
+                    <td>
+                        {if $item['validity'] >= time()}
+							<span class="label label-success">生效中</span>
+						{else}
+							<span class="label label-danger">已过期</span>
+						{/if}
+                    </td>
+                   <td>{php echo date('Y-m-d H:i', $item['update_time'])}</td>
+				   <td style="text-align:right;">
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('teacher', array('op'=>'editTeacherMember','id'=>$item['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>

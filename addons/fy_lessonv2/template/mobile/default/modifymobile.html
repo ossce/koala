@@ -1,0 +1,250 @@
+<!-- 
+ * 完善手机号码/姓名
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $op=='display'}
+<div class="modify_wrap">
+	<div class="weui-cells weui-cells_form">
+		{if $member['mobile']}
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">已绑定手机</label></div>
+			<div class="weui-cell__bd">
+				{$encrypt_mobile}
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">原手机号码</label></div>
+			<div class="weui-cell__bd">
+				<input type="tel" class="weui-input" name="old_mobile" placeholder="不修改手机请留空">
+			</div>
+		</div>
+		{/if}
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">新手机号码</label></div>
+			<div class="weui-cell__bd">
+				<input type="tel" class="weui-input" name="mobile" placeholder="{php echo $member['mobile'] ? '不修改手机请留空' : '请输入手机号码';}">
+			</div>
+		</div>
+		<div class="weui-cell weui-cell_vcode">
+			<div class="weui-cell__hd">
+				<label class="weui-label">验证码</label>
+			</div>
+			<div class="weui-cell__bd">
+				<input type="number" class="weui-input" name="verify_code" placeholder="{php echo $member['mobile'] ? '不修改手机请留空' : '请输入验证码';}">
+			</div>
+			<div class="weui-cell__ft">
+				<a href="javascript:;" class="weui-vcode-btn" id="weui_btn_send" onclick="sendcode()">获取验证码</a>
+			</div>
+		</div>
+
+		{if $userAgent}
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">登录密码</label></div>
+			<div class="weui-cell__bd">
+				<input type="password" class="weui-input" name="new_password" placeholder="不重置密码请留空">
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">确认密码</label></div>
+			<div class="weui-cell__bd ">
+				<input type="password" class="weui-input" name="new_password2" placeholder="不重置密码请留空">
+			</div>
+		</div>
+		{/if}
+
+		{if $setting['privacy_agreement']}
+		<div class="weui-cells weui-cells_checkbox">
+			<label class="weui-cell weui-cell_active weui-check__label" for="privacy_agreement">
+				<div class="weui-cell__hd" style="padding-right:10px;">
+					<input type="checkbox" class="weui-check" id="privacy_agreement" checked />
+					<i class="weui-icon-checked privacy_agreement_checked"></i>
+				</div>
+				<div class="weui-cell__bd agreement_tips">
+					<p>我已阅读并同意<a href="javascript:;" id="view_agreement">《用户服务(隐私)协议》</a></p>
+				</div>
+			</label>
+		</div>
+		{/if}
+		<div class="weui-btn-area" style="margin:20px auto;">
+			<a href="javascript:;" class="weui-btn weui-btn_primary btn-submit">提交</a>
+		</div>
+	</div>
+</div>
+
+<div class="privacy_agreement_notice-mask" style="display:none;">
+	<div class="privacy_agreement_notice">
+		<div class="close">
+			<img src="{MODULE_URL}static/mobile/default/images/btn-close.png?v=6" width="32" height="32">
+		</div>
+		<h3 class="notice-title">用户服务(隐私)协议</h3>
+		<ul class="notice-body">
+			{php echo htmlspecialchars_decode($setting['privacy_agreement'])}<p><br></p>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(".btn-submit").click(function(){
+		var myreg = /^((1)+\d{10})$/;
+		var mobile		= $("input[name=mobile]").val();
+		var verify_code = $("input[name=verify_code]").val();
+		var old_mobile = new_password = new_password2 = "";
+		
+		if(mobile != ''){
+			<?php if(!empty($member['mobile'])){ ?>
+				old_mobile	= $("input[name=old_mobile]").val();
+				if(old_mobile == '') {
+					alert('请输入原手机号码');
+					return false;
+				}
+				if(!myreg.test(old_mobile)) {
+					alert('您输入的原手机号码有误');
+					return false;
+				}
+			<?php } ?>
+			if(!myreg.test(mobile)) {
+				alert('您输入的新手机号码有误');
+				return false;
+			}
+			if(verify_code == ''){
+				alert("请输入短信验证码");
+				return false;
+			}
+		}
+
+		<?php if($userAgent){ ?>
+			new_password  = $("input[name=new_password]").val();
+			new_password2 = $("input[name=new_password2]").val();
+
+			if(new_password != ''){
+				if(new_password.length < 6){
+					alert("登录密码长度不能小于6位");
+					return false;
+				}
+				if(new_password.length > 20){
+					alert("登录密码长度不能大于20位");
+					return false;
+				}
+				if(new_password != new_password2){
+					alert("两次密码不一致");
+					return false;
+				}
+			}
+		<?php } ?>
+
+		if(mobile == '' && new_password == ''){
+			alert("请填写要修改的信息");
+			return false;
+		}
+
+		<?php if($setting['privacy_agreement']){ ?>
+			if(!$("#privacy_agreement").is(':checked')){
+				alert("请阅读并同意协议");
+				return false;
+			}
+		<?php } ?>
+
+		$("#loadingToast").show();
+		$.ajax({
+            type: "POST",
+            url:"{php echo $this->createMobileUrl('modifymobile')}",
+            data:{old_mobile:old_mobile,mobile:mobile,verify_code:verify_code,new_password:new_password,new_password2:new_password2},
+            dataType: "json",
+            success:function(res){
+				$("#loadingToast").hide();
+				if(res.code == '-1'){
+					alert(res.errmsg);
+					return false;
+				}else if(res.code == '0'){
+					alert(res.errmsg);
+					location.reload();
+				}
+            },
+			error: function(){
+				$("#loadingToast").hide();
+				alert('网络繁忙，请稍后再试');
+				return false;
+            }
+         });
+	})
+
+
+	//获取短信验证码
+	var countdown = 60;
+	function sendcode() {
+		var result = checkMobile();
+		if(!result){
+			return;
+		}
+		if ($('#weui_btn_send').hasClass('has_send')) {
+			return false;
+		}
+
+		var mobile = $('input[name="mobile"]').val();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "{php echo $this->createMobileUrl('sendcode');}",
+			data: {mobile:mobile},
+			success: function (data) {
+				if(data.code==0){
+					settime($("#weui_btn_send"));
+					$("#weui_btn_send").addClass("grey-color");
+				}else{
+					alert(data.msg);
+				}
+			},
+			error: function(e){
+			}
+		});
+		
+	}
+	function settime(obj) { //发送验证码倒计时
+		if(countdown == 0) {
+			$('#weui_btn_send').removeClass('has_send').text('重新发送');
+			countdown = 60;
+			return;
+		} else {
+			$('#weui_btn_send').addClass('has_send').text('重新获取(' + countdown + ')');
+			countdown--;
+		}
+		setTimeout(function() {
+			settime(obj)
+		}, 1000)
+	}
+	//校验手机号是否合法
+	function checkMobile() {
+		var mobile = $('input[name="mobile"]').val();
+		var myreg = /^((1)+\d{10})$/;
+		if(!myreg.test(mobile)) {
+			alert('请输入有效的手机号码');
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	//查看用户隐私协议
+		$("#view_agreement").click(function(){
+			$('.privacy_agreement_notice-mask').fadeIn(200).unbind('click').click(function(){
+				$(this).fadeOut(100);
+			})
+		});
+</script>
+{/if}
+
+{template $template.'/_footerv2'}

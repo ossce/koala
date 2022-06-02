@@ -1,0 +1,10 @@
+<link href="{MODULE_URL}static/css/fycommon.css?v={$versions}" rel="stylesheet">
+
+<ul class="nav nav-tabs">
+		<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('lesson');}">课程列表</a></li>
+	{if $op=='postlesson'}
+		<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'postlesson','id'=>$_GPC['pid']));}">{if $_GPC['id']>0}编辑{else}添加{/if}课程</a></li>
+	{elseif $op=='auditContent'}
+		<li class="active"><a href="{php echo $this->createWebUrl('lesson', array('op'=>'auditContent','id'=>$_GPC['id']));}">审核聊天内容</a></li>
+	{/if}
+</ul>

@@ -1,0 +1,44 @@
+ <!-- 
+ * 清空缓存
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('clearcache');}">清空缓存</a>
+	</li>
+</ul>
+
+{if $op=='display'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">更多操作</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">同时清空</label>
+					<div class="col-sm-9">
+						<label class="radio-inline" style="padding-left:0;"><input type="checkbox" name="goodsposter" value="1" checked> 商品海报</label> &nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="清空缓存" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{/if}
+
+{template 'common/footer'}

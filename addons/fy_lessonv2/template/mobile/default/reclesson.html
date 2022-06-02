@@ -1,0 +1,263 @@
+<!-- 
+ * 我的课程邀请
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+{if $op=='display'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/search.css?v={$versions}" rel="stylesheet" />
+
+{if $total}
+<div class="list_grid" id="lesson-list">
+</div>
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+</div>
+{else}
+<div class="my_empty">
+	<div class="empty_bd my_course_empty">
+		<h3>未找到任何记录~</h3>
+		<p><a href="{php echo $this->createMobileUrl('index');}">到首页去看看</a></p>
+	</div>
+</div>
+{/if}
+
+
+<script type="text/javascript">
+var ajaxurl = "{php echo $this->createMobileUrl('reclesson', array('op'=>'ajaxgetlist'));}";
+var attachurl = "{php echo $_W['attachurl'];}";
+var details_url = "{php echo $this->createMobileUrl('reclesson', array('op'=>'details'));}";
+var get_status = true; //允许获取状态
+var loadingToast = document.getElementById("loadingToast");
+
+$(function () {
+    var nowPage = 1;
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxurl, {page: page}, function (data) {  
+				loadingToast.style.display = 'none';
+				
+				var jsonObj = JSON.parse(data);
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#lesson-list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<a href="' + details_url + '&activity_id=' + result[j].id + '" class="normal_grid flex0_1">';
+			chtml += '	<div class="normal_grid_a flex_g0">';
+			chtml += '		<div class="img-box flex_g0">';
+			chtml += '			<div class="img"><img src="'+attachurl+result[j].images + '"></div>';
+			chtml += '			<div class="icon-live ' + result[j].icon_live_status + '"></div>';
+			chtml += '			<div class="learned">已邀请' + result[j].invite_number + '人</div>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="flex-al1 flex10">';
+			chtml += '		<div>';
+			chtml += '			<div class="grid_title2">' + result[j].bookname + '</div>';
+			chtml += '				<div class="grid_info flex0">';
+			if (result[j].status==1){
+				chtml += '				<span class="price flex_g0" style="width:100%;font-size:12px;">完成时间: ' + result[j].update_time + '</span>';
+			}else if(result[j].status==0){
+				chtml += '				<span class="flex_g0" style="width:100%;font-size:12px;">截至时间: ' + result[j].endtime + '</span>';
+			}else if(result[j].status==-1){
+				chtml += '				<span class="flex_g0" style="width:100%;font-size:12px;">参加时间: ' + result[j].addtime + '</span>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '		<div class="grid_bottom2 flex1">';
+			if (result[j].status==1){
+				chtml += '		<div class="text" style="color:#00ab60;">'+result[j].statusname+'</div>';
+			}else if (result[j].status==0){
+				chtml += '		<div class="grey-color">还需邀请<i class="red-color">'+result[j].remain_number+'</i>位好友</div>';
+			}else if (result[j].status==-1){
+				chtml += '		<div class="text" style="color:#ec1616;">'+result[j].statusname+'</div>';
+			}
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '</a>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //==============核心代码=============  
+    var winH = $(window).height(); //页面可视区域高度   
+  
+    var scrollHandler = function () {  
+        var pageH = $(document.body).height();  
+        var scrollT = $(window).scrollTop(); //滚动条top   
+        var aa = (pageH - winH - scrollT) / winH;  
+        if (aa < 0.02) { 
+            if (nowPage % 1 === 0) {
+                getData(nowPage);  
+                $(window).unbind('scroll');  
+                $("#btn_Page").show();
+            } else {  
+                getData(nowPage);  
+                $("#btn_Page").hide();
+            }  
+        }  
+    }  
+    //定义鼠标滚动事件
+    $(window).scroll(scrollHandler);
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+		loading.style.display = 'block';
+        getData(nowPage);
+        $(window).scroll(scrollHandler);
+    });
+  
+});
+</script>
+
+{elseif $op=='details'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/reclesson.css?v={$versions}" rel="stylesheet" />
+
+<div id="main">
+	<div class="act-group-container">
+		<div class="rule" id="btn-rule">
+			<span class="rule-btn">
+				<span class="rule-text">?</span>
+			</span>规则
+		</div>
+		<div class="group-info">
+			<div class="detail">
+				<div class="content"><span class="group-dialog-head-avatar"><img src="{$avatar}" alt="头像"></span>
+					<p class="user-nickname">{$member['nickname']}</p>
+					<p class="help-message">“在{$activity['recommend_free_limit']}天内，通过课程海报或课程链接邀请{$activity['recommend_free_num']}位好友进来，即可免费学习该课程{$activity['recommend_free_day']}天”</p>
+				</div>
+				<div class="goods-info"><span class="goods-info-default-thumburl"><img src="{$_W['attachurl']}{$activity['images']}" alt="课程封面图" class="goods-info-avatar"></span>
+					<div class="goods-info-right">
+						<div class="goods-info-desc">《{$activity['bookname']}》</div>
+						<div class="goods-info-sale">
+							<p class="goods-info-sale-desc"><span>已邀请<em>{$invite_number}</em>人/共需邀请<em>{$activity['recommend_free_num']}</em>人</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="user-info">
+			<ul class="user-info-users">
+				{loop $invite_list $invirer}
+					<li class="user default-user">
+						<span class="have-user" style="background-image:url({$invirer['avatar']});"></span>
+						<p>{$invirer['nickname']}</p>
+					</li>
+				{/loop}
+				<?php for($i=0;$i<$remain_num;$i++){ ?>
+					<li class="user default-user">
+						<span class="no-user"></span>
+						<p>待邀请</p>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+		{if $activity['status']=='0' && $remain_num}
+		<div class="count-down">
+			<p>还差<em class="count-down-left-user">{$remain_num}</em>人，邀请任务于<span class="count-down-timer">{$enddate}</span>后失效</p>
+		</div>
+		<div class="act-group-footer-buttons">
+			<a href="{php echo $this->createMobileUrl('lessonqrcode', array('lessonid'=>$activity['lessonid']));}" class="having">任务进行中</a>
+		</div>
+		{elseif $activity['status']=='1'}
+		<div class="act-group-footer-buttons">
+			<a class="complete">任务已完成</a>
+		</div>
+		{elseif $activity['status']=='-1'}
+		<div class="count-down">
+			<p>任务于<span class="count-down-timer">{$enddate}</span>失败</p>
+		</div>
+		<div class="act-group-footer-buttons">
+			<a class="ended">任务已失败</a>
+		</div>
+		{/if}
+	</div>
+</div>
+<div class="act-group-notice-mask" style="display:none;">
+	<div class="act-group-notice">
+		<div class="close">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/btn-close.png?v=2" width="22" height="22">
+		</div>
+		<h3 class="notice-title">活动规则</h3>
+		<ul class="notice-body">
+			<li class="notice-item">
+				<p class="notice-sub-title">
+					<i class="fa fa-caret-right"></i> 发送<a href="{php echo $this->createMobileUrl('lessonqrcode', array('lessonid'=>$activity['lessonid']))}" class="my-invite">课程海报</a>给好友，邀请好友一起进来学习。
+				</p>
+			</li>
+			<li class="notice-item">
+				<p class="notice-sub-title">
+					<i class="fa fa-caret-right"></i> 通过课程海报成功邀请第一位好友时，表示您正式参加邀请好友享受免费学习该课程活动。
+				</p>
+			</li>
+			<li class="notice-item">
+				<p class="notice-sub-title">
+					<i class="fa fa-caret-right"></i> 您需要在<span class="notice-number">{$activity['recommend_free_limit']}</span>天内成功邀请<span class="notice-number">{$activity['recommend_free_num']}</span>位好友即可获得免费学习该课程<span class="notice-number">{$activity['recommend_free_day']}</span>天的奖励。
+				</p>
+			</li>
+			<li class="notice-item">
+				<p class="notice-sub-title">
+					<i class="fa fa-caret-right"></i> 通过课程海报成功邀请第一位好友开始，<span class="notice-number">{$activity['recommend_free_limit']}</span>天内未完成邀请好友任务，即表示邀请任务失败。任务失败后，已邀请的好友人数作废，您可以继续邀请好友重新创建邀请任务。
+				</p>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#btn-rule").click(function(){
+	$('.act-group-notice-mask').fadeIn(200).unbind('click').click(function(){
+		$(this).fadeOut(100);
+	})
+})
+
+wx.ready(function(){
+	var shareData = {
+		title: "{$sharelesson['title']}",
+		desc: "{$sharelesson['desc']}",
+		link: "{php echo $sharelesson['link'];}",
+		imgUrl: "{php echo $_W['attachurl'];}{$sharelesson['images']}",
+		trigger: function (res) {},
+		complete: function (res) {},
+		success: function (res) {},
+		cancel: function (res) {},
+		fail: function (res) {}
+	};
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	wx.onMenuShareQZone(shareData);
+	
+});
+</script>
+
+{/if}
+
+{template $template.'/_footerv2'}

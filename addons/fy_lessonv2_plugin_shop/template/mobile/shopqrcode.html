@@ -1,0 +1,83 @@
+<!-- 
+ * 商品海报
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+{template $template.'/_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-qrcode.css?v={$versions}">
+
+<div class="sharecard__entry-global" style="top:60px;" onclick="location.href='{php echo $this->createMobileUrl('shopqrcode', array('id'=>$id,'op'=>delete));}'">
+	<div class="sharecard__entry">
+		<div class="sharecard__entry-icon">
+			<img src="{MODULE_URL}static/mobile/images/poster-refresh.png?v=1" />
+		</div>
+		更新海报
+	</div>
+</div>
+
+<div>
+	<div class="qrcode_wrap">
+		<div class="qrcode_inner">
+			<img id="spreadImg" src="{$imagepath}">
+		</div>
+	</div>
+	<div class="qrcode_footer">
+		<p class="tips">长按上方图片保存，分享给朋友</p>
+		<div id="scroll" class="qrcode_thum_wrap" style="overflow: auto;">
+			{loop $poster_list $key $item}
+			<div class="qrcode_thum" onclick="cutPoster({$key});">
+				{if $item['poster_default']}
+					<img src="{$item['poster_bg']}">
+				{else}
+					<img src="{$_W['attachurl']}{$item['poster_bg']}">
+				{/if}
+				{if $key==$poster_no}
+				<img src="{MODULE_URL}template/mobile/default/images/qrcode_checked_icon.png" class="checked">
+				{/if}
+			</div>
+			{/loop}
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	var clientH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	if(clientH >= 812){
+		var poster_height = clientH - 350;
+		$("#spreadImg").css('margin','60px auto');
+		document.getElementById('page-container').style.marginBottom = '0px';
+	}else{
+		var poster_height = clientH - 105;
+	}
+	$("#spreadImg").css('height', poster_height + 'px');
+})
+
+wx.ready(function(){
+	var shareData = {
+		title: "{$share_goods['title']}",
+		desc: "{$share_goods['desc']}",
+		link: "{php echo $share_goods['link'];}",
+		imgUrl: "{$_W['attachurl']}{$share_goods['cover']}",
+		trigger: function (res) {},
+		complete: function (res) {},
+		success: function (res) {},
+		cancel: function (res) {},
+		fail: function (res) {}
+	};
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	wx.onMenuShareQZone(shareData);
+	
+});
+</script>
+
+{template $template.'/_footer'}

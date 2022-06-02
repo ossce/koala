@@ -1,0 +1,65 @@
+<style type="text/css">
+.self{margin:4px 0;}
+</style>
+<div class="main">
+	<div class="panel panel-default">
+		<div class='panel-body'>
+		<div style='height:100px;width:110px;float:left;'>
+			 <img src='{$member['avatar']}' style='width:100px;height:100px;border:1px solid #ccc;padding:1px' />
+		</div>
+		<div style='float:left;height:100px;overflow: hidden'>
+			<p class="self">会员昵称：{$member['nickname']}</p>
+			<p class="self">会员姓名：{$member['realname']}</p>
+			<p class="self">手机号码：{$member['mobile']}</p>
+			<p class="self">下级讲师：<span style="color:red">{$total}</span> 位</p>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">我的下级讲师</div>
+		<div class="panel-body">
+			<table class="table table-hover" style="overflow:visible;">
+				<thead class="navbar-inner">
+					<tr>
+						<th style='width:10%;'>讲师ID</th>
+						<th style='width:20%;'>讲师名称</th>
+						<th style='width:15%;'>会员ID</th>
+						<th style='width:20%;'>会员昵称</th>
+						<th style='width:15%;'>讲师状态</th>
+						<th style='width:15%;'>加入时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $row}
+					<tr>
+						<td>{$row['uid']}</td>
+						<td>
+							{if !empty($row['teacherphoto'])}
+							<img src="{$_W['attachurl']}{$row['teacherphoto']}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+							{/if}
+							{if empty($row['teacher'])}未设置{else}{$row['teacher']}{/if}
+
+						</td>
+						<td>{$row['uid']}</td>
+						<td>{if !empty($row['avatar'])}
+							<img src="{$row['avatar']}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+							{/if}
+							{$row['nickname']}
+						</td>
+						<td>
+							{if $row['status']=='-1'}
+								<span class="label label-default">{$teacherStatusList[$row['status']]}</span>
+							{elseif $row['status']=='1'}
+								<span class="label label-success">{$teacherStatusList[$row['status']]}</span>
+							{elseif $row['status']=='2'}
+								<span class="label label-danger">{$teacherStatusList[$row['status']]}</span>
+							{/if}
+						</td>
+						<td>{php echo date('Y-m-d H:i',$row['addtime']);}</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</div>

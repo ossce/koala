@@ -1,0 +1,43 @@
+<!--
+ * 佣金明细
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+{template $template.'/_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-commission.css?v={$versions}">
+
+
+{if $op == 'display'}
+	<div class="shop-warning-box pad-10">
+		<i class="iconfont icon-info-circle"></i> 已发放佣金表示已发放到用户账户，可在分销中心里申请提现；待发放佣金包含订单未完成的佣金和等待发放的佣金。
+	</div>
+	<div id="commission_log" class="mar-t-10 mar-l-10 mar-r-10">
+		<div class="shop-commission-box total_cashlog">
+			<span class="fl">已发放：<strong class="amount color-green">{php echo round($send_commission[0]['total_commission'],2);}</strong> 元</span>
+			<span class="fr text-r">待发放：<strong class="amount color-fd5a45">{php echo round($nosend_commission[0]['total_commission'],2);}</strong> 元</span>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:;" id="btn_Page" style="display:inline;">
+			<img src="{MODULE_URL}static/mobile/images/icon-pull-down.svg" class="pull-down"> 加载更多
+		</a>
+	</div>
+
+	<script type="text/javascript">
+		window.config = {
+			        op: "{$op}",
+			   listurl: "{php echo $this->createMobileUrl('shopcommission')}",
+		};
+	</script>
+	<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shopcommission.js?v={$versions}"></script>
+{/if}
+
+{template $template.'/_footer'}

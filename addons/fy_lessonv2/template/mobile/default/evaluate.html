@@ -1,0 +1,187 @@
+<!--
+ * 评价课程
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/evaluate.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div class="contaniner fixed-cont">
+	<form id="submit_form" method="post" onsubmit="return checksubmit();">
+		<section class="lesson-div">
+			<div class="lesson-div-l">
+				<img src="{$_W['attachurl']}{$order['images']}">
+			</div>
+			<div class="lesson-div-r">
+				<h2>课程：《{$order['bookname']}》</h2>
+				<div class="lesson-price">价格：<strong style="color:red;">{$order['price']}</strong> 元</div>
+			</div>
+		</section>
+		<section class="assess">
+			<p>
+				<textarea name="content" rows="7" maxlength="500" placeholder="评论内容不得少于10个字符，最多500个字符"></textarea>
+			</p>
+			<ul>
+				<li>{php echo $evaluate_page['grade'] ? $evaluate_page['grade'] : '总体评价';}</li>
+				<li class="assess-right">
+					<div><input type="radio" name="grade" value="1"/><img src="{MODULE_URL}static/mobile/default/images/oc-h.png"/></div>
+					<div><input type="radio" name="grade" value="2"/><img src="{MODULE_URL}static/mobile/default/images/oc-z.png"/></div>
+					<div><input type="radio" name="grade" value="3"/><img src="{MODULE_URL}static/mobile/default/images/oc-c.png"/></div>
+				</li>
+			</ul>
+		</section>
+		<section class="main">
+			<div class="main-wrap">
+				<span class="revtit">{php echo $evaluate_page['global_score'] ? $evaluate_page['global_score'] : '综合评分';}:</span>
+				<div id="global_score" currentIndex="0" class="mydiv">
+					<ul class="star_ul">
+						<li num="1"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png" class="xing_hui"/></li>
+						<li num="2"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="3"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="4"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="5"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+					</ul>
+					<input type="hidden" name="global_score" value="">
+				</div>
+			</div>
+			
+			<div class="main-wrap">
+				<span class="revtit">{php echo $evaluate_page['content_score'] ? $evaluate_page['content_score'] : '内容实用';}:</span>
+				<div id="content_score" currentIndex="0" class="mydiv">
+					<ul class="star_ul">
+						<li num="1"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png" class="xing_hui"/></li>
+						<li num="2"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="3"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="4"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="5"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+					</ul>
+					<input type="hidden" name="content_score" value="">
+				</div>
+			</div>
+
+			<div class="main-wrap">
+				<span class="revtit">{php echo $evaluate_page['understand_score'] ? $evaluate_page['understand_score'] : '通俗易懂';}:</span>
+				<div id="understand_score" currentIndex="0" class="mydiv">
+					<ul class="star_ul">
+						<li num="1"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png" class="xing_hui"/></li>
+						<li num="2"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="3"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="4"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+						<li num="5"><img src="{MODULE_URL}static/mobile/default/images/star_empty.png"  class="xing_hui"/></li>
+					</ul>
+					<input type="hidden" name="understand_score" value="">
+				</div>
+			</div>
+		</section>
+		
+		<section class="submit-div">
+			<input type="submit" name="submit" value="提交评价" class="allsubmit-btn">
+			<input type="hidden" name="orderid" value="{$orderid}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</section>
+
+	</form>
+</div>
+
+<script type="text/javascript">
+	var isclick = false;
+	var star_empty = "{MODULE_URL}static/mobile/default/images/star_empty.png";
+	var star_full = "{MODULE_URL}static/mobile/default/images/star_full.png";
+	
+	function change(mydivid,num) {
+		if (!isclick) {
+			var tds = $("#"+mydivid+" ul li");
+			for (var i = 0; i < num; i++) {
+				var td = tds[i];
+				$(td).find("img").attr("src", star_full);
+			}
+			var tindex = $("#"+mydivid).attr("currentIndex");
+			tindex = tindex==0?0:tindex+1;
+			for (var j = num; j < tindex; j++) {
+				var td = tds[j];
+				$(td).find("img").attr("src", star_empty);
+			}
+			$("#"+mydivid).attr("currentIndex", num);
+			$('input[name=' + mydivid + ']').val(num);
+		}
+	}
+	function change1(mydivid,num) {
+		if (!isclick) {
+			change(mydivid,num);
+		}
+		else {
+			alert("请对课程进行总体评价");
+		}
+	}
+
+	$(function(){
+		initEvent('global_score');
+		initEvent('content_score');
+		initEvent('understand_score');
+	});
+	function initEvent(mydivid) {
+		var tds = $("#"+mydivid+" ul li");
+		for (var i = 0; i < tds.length; i++) {
+			var td = tds[i];
+			$(td).on('mouseover',function(){
+				var num = $(this).attr("num");
+				change(mydivid,num);
+			});
+
+			$(td).on('click',function(){
+				var num = $(this).attr("num");
+				change1(mydivid,num);
+			});
+		}
+	}
+
+	function checksubmit(){
+		var content = $('textarea[name="content"]').val();
+		var grade = $('input[name="grade"]:checked').val();
+		var global_score = $('input[name="global_score"]').val();
+		var content_score = $('input[name="content_score"]').val();
+		var understand_score = $('input[name="understand_score"]').val();
+
+		var setTitle = '提示';
+		var setButton = '["好的"]';
+		var setCancelUrl,setConfirmUrl = 'javascript:;';
+
+		if(!content){
+			var setContents = '请填写评论内容';
+			$(this).openWindow(setTitle,setContents,setButton,setCancelUrl,setConfirmUrl);
+			return false;
+		}
+		if(content.length<10){
+			var setContents = '评论内容不得少于10个字符';
+			$(this).openWindow(setTitle,setContents,setButton,setCancelUrl,setConfirmUrl);
+			return false;
+		}
+
+		if(!grade){
+			var setContents = '请对课程进行总体评价';
+			$(this).openWindow(setTitle,setContents,setButton,setCancelUrl,setConfirmUrl);
+			return false;
+		}
+		if(!global_score || !content_score || !understand_score){
+			var setContents = '请点亮评分的每一行星星';
+			$(this).openWindow(setTitle,setContents,setButton,setCancelUrl,setConfirmUrl);
+			return false;
+		}
+
+		document.getElementById("submit_form").submit();
+	}
+</script>
+
+{template $template.'/_footerv2'}

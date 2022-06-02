@@ -1,0 +1,241 @@
+<!-- 
+ * 收藏页面
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+
+<ul class="tab_wrap bg-eee">
+	<li class="tab_item {if $ctype==1}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('collect', array('ctype'=>1));}" class="fs-15">{php echo $common['page_title']['collectLesson'] ? $common['page_title']['collectLesson'] : '收藏课程';}</a>
+	</li>
+	<li class="tab_item {if $ctype==2}tab_item_on{/if}">
+		<a href="{php echo $this->createMobileUrl('collect', array('ctype'=>2));}" class="fs-15">{php echo $common['page_title']['collectTeacher'] ? $common['page_title']['collectTeacher'] : '关注讲师';}</a>
+	</li>
+</ul>
+
+
+{if $ctype==1}
+	<link href="{MODULE_URL}static/mobile/{$template}/css/search.css?v={$versions}" rel="stylesheet" />
+
+	{if !empty($lessonlist)}
+	<div class="list_grid" id="lesson-list">
+	</div>
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+	{else}
+	<div class="my_empty">
+	    <div class="empty_bd my_course_empty">
+	        <h3>您还没有收藏任何课程~</h3>
+	        <p><a href="{php echo $this->createMobileUrl('index');}">到首页去看看</a></p>
+	    </div>
+	</div>
+	{/if}
+
+<script type="text/javascript">
+var ajaxUrl = "{php echo $this->createMobileUrl('collect', array('op'=>'ajaxgetlesson','ctype'=>1));}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var lessonUrl = "{php echo $this->createMobileUrl('lesson');}";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true; //允许获取状态
+
+$(function () {
+    var nowPage = 1;
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxUrl, {page: page}, function (data) {  
+				loadingToast.style.display = 'none';
+				
+				var jsonObj = JSON.parse(data);
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#lesson-list");
+		var lesson_vip_status = {$setting['lesson_vip_status']};
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {  
+            chtml += '<a href="' + lessonUrl + '&id=' + result[j].id + '" class="normal_grid flex0_1">';
+			chtml += '	<div class="normal_grid_a flex_g0">';
+			chtml += '		<div class="img-box flex_g0">';
+			chtml += '			<div class="img"><img src="' + attachUrl + result[j].images + '"></div>';
+			chtml += '			<div class="icon-live ' + result[j].icon_live_status + '"></div>';
+		<?php if($setting['show_study_number']){ ?>
+			chtml += '			<div class="learned ' + result[j].learned_hide + '">' + result[j].buynum_total + result[j].study_word + '</div>';
+		<?php } ?>
+			chtml += '			<i class="ico_common '+ result[j].ico_name +'"></i>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="flex-al1 flex10">';
+			chtml += '		<div>';
+			chtml += '			<div class="grid_title2">' + result[j].bookname + '</div>';
+			chtml += '			<div class="grid_info flex0">';
+			if(result[j].price==0){
+				chtml += '			<span class="price flex_g0 index_price_lesson fs-14">免费</span>';
+			}else if(result[j].show_vip==1){
+				chtml += '			<span class="price flex_g0 index_price_lesson fs-14">VIP免费</span>';
+			}else{
+				chtml += '			<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥' + result[j].price + '</span>';
+			}
+			if(result[j].soncount>0){
+				chtml += '			<span class="index_section_number mar-l-a">' + result[j].soncount + '节</span>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '		<div class="grid_bottom2 flex1">';
+			if(result[j].score>0){
+					chtml += '	<span class="eva index_lesson_evaluation">' + result[j].score_rate + '%好评</span>';
+			}
+			chtml += '			<div class="text">';
+			if(result[j].section_status==0){
+				chtml += '			已完结';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '</a>';			
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+  
+});
+</script>
+
+{elseif $ctype==2}
+<link href="{MODULE_URL}static/mobile/{$template}/css/teacherlist.css?v={$versions}" rel="stylesheet" />
+
+
+<!-- 讲师列表 -->
+<div class="section">
+	{if !empty($teacherlist)}
+	<ul class="teacher_list row2 wider">
+	</ul>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+	{else}
+	<div class="my_empty">
+	    <div class="empty_bd my_course_empty">
+	        <h3>您还没有收藏任何讲师~</h3>
+			<p><a href="{php echo $this->createMobileUrl('index', array('t'=>1));}">到首页去看看</a></p>
+	    </div>
+	</div>
+	{/if}
+</div>
+<!-- /讲师列表 -->
+
+<script type="text/javascript">
+var nowPage = 1; //设置当前页数，全局变量
+var ajaxUrl = "{php echo $this->createMobileUrl('collect', array('op'=>'ajaxgetteacher','ctype'=>2));}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var teacherUrl = "{php echo $this->createMobileUrl('teacher');}";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true; //允许获取状态
+
+$(function () {
+    //根据页数读取数据  
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxUrl, {page: page}, function (data) {  
+				loadingToast.style.display = 'none';
+				
+				var jsonObj = JSON.parse(data);
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$(".teacher_list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<li class="item">';
+			chtml += '	<a href="' + teacherUrl + '&teacherid=' + result[j].id + '">';
+			chtml += '		<img src="' + attachUrl + result[j].teacherphoto + '" alt="' + result[j].teacher + '">';
+			chtml += '		<div class="con">';
+			chtml += '			<h3 class="title te">' + result[j].teacher + '</h3>';
+			chtml += '			<p class="info te3">' + result[j].teacherdes + '</p>';
+			chtml += '			<div class="cbox overview">';
+			if(result[j].lessonCount>0){
+				chtml += '				<p class="flex te">共<em class="c-green">' + result[j].lessonCount + '</em>课程</p>';
+				chtml += '				<span class="te"><i class="fa fa-exclamation-circle"> 查看全部课程</i></span>';
+			}else{
+				chtml += '				<p class="flex te">暂无课程</p>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '	</a>';
+			chtml += '	</li>';
+        }
+        
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+  
+});
+</script>
+{/if}
+
+{template $template.'/_footerv2'}

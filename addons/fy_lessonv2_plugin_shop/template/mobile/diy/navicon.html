@@ -1,0 +1,32 @@
+<style type="text/css">
+{if $diy['style']['row_number'] == 2}
+	.{$diy['tpl_name']}{
+		width: 50%;
+	}
+{elseif $diy['style']['row_number'] == 3}
+	.{$diy['tpl_name']}{
+		width: 33.3%;
+	}
+{elseif $diy['style']['row_number'] == 4}
+	.{$diy['tpl_name']}{
+		width: 25%;
+	}
+{elseif $diy['style']['row_number'] == 5}
+	.{$diy['tpl_name']}{
+		width: 20%;
+	}
+{/if}
+</style>
+
+<div class="shop-palace shop-palace-one" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	{loop $diy['data'] $item}
+	<a href="{$item['link']}" class="shop-palace-grid {$diy['tpl_name']}">
+		<div class="shop-palace-grid-icon">
+			<img src="{$item['imgurl']}" alt="{$item['text']}" />
+		</div>
+		<div class="shop-palace-grid-text">
+			<h2 style="color:{$item['color']};">{$item['text']}</h2>
+		</div>
+	</a>
+	{/loop}
+</div>

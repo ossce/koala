@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+.hand{
+	cursor: pointer;
+}
+.require{
+	color: red;
+	font-weight: bolder;
+}
+.label-middle{
+	vertical-align: text-bottom;
+    margin-left: 2px;
+}
+.fl{
+	float: left !important;
+}
+.fr{
+	float: right !important;
+}
+.red-bold{
+	font-weight: bold;
+	color: #d9534f;
+}
+.no-border{
+	border: none !important;
+}
+
+.mar-t-10{
+	margin-top: 10px;
+}
+.mar-l-10{
+	margin-left: 10px;
+}
+.mar-r-10{
+	margin-right: 10px !important;
+}
+.mar-t-15{
+	margin-top: 15px;
+}
+.mar-b-15{
+	margin-bottom: 10px;
+}
+.mar-r-15{
+	margin-right: 15px !important;
+}
+.mar-l-30{
+	margin-left: 30px;
+}
+.mar-l-m-15{
+	margin-left: -15px;
+}
+.pad-l-0{
+	padding-left: 0 !important;
+}
+.pad-l-8{
+	padding-left: 8px !important;
+}
+.pad-t-b-7{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.pad-l-r-10{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.w-280{
+	width: 280px;
+}
+.max-w-200{
+	max-width: 200px;
+}
+.max-w-1200{
+	max-width: 1200px;
+}
+
+/* 表格文字垂直居中 */
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+	vertical-align: middle;
+}
+
+/* 单行查看内容溢出处理 */
+.over-descript {
+	height: 52px;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: inherit !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    word-wrap: break-word;
+}

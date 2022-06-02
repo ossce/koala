@@ -1,0 +1,242 @@
+<!-- 
+ * 机构中心
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/company.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="title">{$title}</div>
+</div>
+
+{if $op == 'display'}
+<div id="container">
+    <div class="teacher-topbar">
+        <div class="user_face" style="background-image:url({$avatar});background-size:contain;"></div>
+        <div class="user_info">
+            <div class="user_name"> {$member['nickname']}<span> [uid:{$uid}]</span></div>
+            <div class="user_date"></div>
+        </div>
+    </div>
+
+	<div class="teacher-top">
+        <div class="top_1">
+            <div class="text">机构累计收入：{$income_amount} 元<br>可提现佣金（元）</div>
+        </div>
+       <div class="top_2">{$member['nopay_commission']}<a href="{if $member['nopay_commission']<$cash_lower}javascript:;{else}{php echo $this->createMobileUrl('commission', array('op'=>'cash'));}{/if}" id="cash_btn"><span class="{if $member['nopay_commission']<$cash_lower}disabled{/if}">提现</span></a></div>
+    </div> 
+
+    <div class="teache-menu mt15"> 
+        <a href="{php echo $this->createMobileUrl('company', array('op'=>myteacher));}"><div class="nav nav1"><i class="ico ico-myteacher"></i><div class="title">我的讲师</div><div class="con"><span>{$myteachercount}</span>位讲师</div></div></a>
+        <a href="{php echo $this->createMobileUrl('company', array('op'=>income));}"><div class="nav nav2"><i class="ico ico-income"></i><div class="title">机构收入</div><div class="con">机构收入明细</div></div></a>
+        <a href="{php echo $this->createMobileUrl('commission', array('op'=>'cashlog'));}"><div class="nav nav3"><i class="ico ico-income-log"></i><div class="title">提现记录</div><div class="con">收入提现记录</div></div></a>        
+    </div>
+</div>
+
+{if $member['nopay_commission'] < $cash_lower}
+<script type="text/javascript">
+var cash_lower = {php echo $cash_lower;};
+$("#cash_btn").click(function(){
+	alert("当前提现最低额度为"+cash_lower+"元");
+});
+</script>
+{/if}
+
+{elseif $op == 'myteacher'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/teacherlist.css?v={$versions}" rel="stylesheet" />
+
+<!-- 讲师列表 -->
+<div>
+	{if !empty($teacherlist)}
+	<ul class="teacher_list row2 wider">
+	</ul>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+	{else}
+	<div class="my_empty">
+		<div class="empty_bd  my_course_empty">
+			<h3>没有找到任何讲师~</h3>
+			<p><a href="{php echo $this->createMobileUrl('index', array('t'=>1));}">到首页去看看</a></p>
+		</div>
+	</div>
+	{/if}
+</div>
+<!-- /讲师列表 -->
+
+<div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:999999999;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script type="text/javascript">
+var ajaxUrl   = "{php echo $this->createMobileUrl('company', array('op'=>'myteacher','ajax'=>1));}";
+var attachUrl = "{php echo $_W['attachurl'];}";
+var teacherUrl = "{php echo $this->createMobileUrl('teacher');}";
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {  
+        nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+        $.get(ajaxUrl, {page: page}, function (data) {  
+            if (data.length > 0) {
+            	loading.style.display = 'none';
+                var jsonObj = JSON.parse(data);
+                insertDiv(jsonObj);  
+            }
+        });  
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$(".teacher_list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+            chtml += '<li class="item">';
+			chtml += '	<a href="' + teacherUrl + '&teacherid=' + result[j].id + '">';
+			chtml += '		<img src="' + attachUrl + result[j].teacherphoto + '" alt="' + result[j].teacher + '">';
+			chtml += '		<div class="con">';
+			chtml += '			<h3 class="title te">' + result[j].teacher + '</h3>';
+			chtml += '			<p class="info te3">' + result[j].teacherdes + '</p>';
+			chtml += '			<div class="cbox overview">';
+			if(result[j].lessonCount>0){
+				chtml += '				<p class="flex te">共<em class="c-green">' + result[j].lessonCount + '</em>课程</p>';
+				chtml += '				<span class="te"><i class="fa fa-exclamation-circle"> 查看全部课程</i></span>';
+			}else{
+				chtml += '				<p class="flex te">暂无课程</p>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '	</a>';
+			chtml += '	</li>';
+        }
+		mainDiv.append(chtml);
+		if(result.length==0){
+			document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+		}
+    }  
+  
+    //==============核心代码=============  
+    var winH = $(window).height(); //页面可视区域高度   
+  
+    var scrollHandler = function () {  
+        var pageH = $(document.body).height();  
+        var scrollT = $(window).scrollTop(); //滚动条top   
+        var aa = (pageH - winH - scrollT) / winH;  
+        if (aa < 0.02) { 
+            if (nowPage % 1 === 0) {
+                getData(nowPage);  
+                $(window).unbind('scroll');  
+                $("#btn_Page").show();
+            } else {  
+                getData(nowPage);  
+                $("#btn_Page").hide();
+            }  
+        }  
+    }  
+    //定义鼠标滚动事件
+    $(window).scroll(scrollHandler);
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+    	loading.style.display = 'block';
+        getData(nowPage);
+        $(window).scroll(scrollHandler);
+    });
+  
+});
+</script>
+
+{elseif $op=='income'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/commission.css?v={$versions}" rel="stylesheet" />
+
+<div id="container">
+	{if empty($list)}
+	<div class="commission_no" style="margin:0;padding:50px 0px 60px;background-color:#fff;">
+		<span style="line-height:18px;font-size:16px;margin-top:40px;display:inline-block;">未找到任何明细~</span>
+	</div>
+	{/if}
+</div>
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+</div>
+
+<div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+
+<script type="text/javascript">
+var ajaxurl   = "{php echo $this->createMobileUrl('company', array('op'=>'income','ajax'=>1));}";
+var loading = document.getElementById("loading");
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {  
+        nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+        $.get(ajaxurl, {page: page }, function (data) {  
+            if (data.length > 0) {
+				loading.style.display = 'none';
+                var jsonObj = JSON.parse(data);
+                insertDiv(jsonObj);  
+            }
+        });  
+       
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#container");
+        var chtml = '';
+        for (var j = 0; j < result.length; j++) {  
+            chtml += '<div class="commission_list">';  
+            chtml += '	<div class="left">'; 
+			chtml += '		<div class="inner">编号: ' + result[j].orderid + '[机构收入]' + '<br><span>' + result[j].remarks + '</span></div>';
+			chtml += '	</div>';
+			chtml += '	<div class="right"><span>+' + result[j].change_num + '</span><br>' + result[j].addtime + '</div>';
+			chtml += '</div>'; 
+        }
+		mainDiv.append(chtml);
+		if(result.length==0){
+			document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+		}
+    }  
+  
+    //==============核心代码=============  
+    var winH = $(window).height(); //页面可视区域高度   
+  
+    var scrollHandler = function () {  
+        var pageH = $(document.body).height();  
+        var scrollT = $(window).scrollTop(); //滚动条top   
+        var aa = (pageH - winH - scrollT) / winH;  
+        if (aa < 0.02) { 
+            if (nowPage % 1 === 0) {
+                getData(nowPage);  
+                $(window).unbind('scroll');  
+                $("#btn_Page").show();
+            } else {  
+                getData(nowPage);  
+                $("#btn_Page").hide();
+            }  
+        }  
+    }  
+    //定义鼠标滚动事件
+    $(window).scroll(scrollHandler);
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+		loading.style.display = 'block';
+        getData(nowPage);
+        $(window).scroll(scrollHandler);
+    });
+  
+});  
+</script>
+{/if}
+
+{template $template.'/_footerv2'}

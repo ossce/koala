@@ -1,0 +1,383 @@
+<style type="text/css">
+.table-form>tbody>tr>td{height:40px; padding:5px 15px;}
+</style>
+<div class="main">
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">订单信息</th>
+			</tr>
+			<tr>
+				<td class="table-label">订单编号</td>
+				<td class="ng-binding">{$order['ordersn']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">课程名称</td>
+				<td class="ng-binding">{$order['bookname']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">实付金额</td>
+				<td class="ng-binding">{$order['price']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['deduct_integral']}
+			<tr>
+				<td class="table-label">积分抵扣</td>
+				<td class="ng-binding">{$order['deduct_integral']} 积分</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if !empty($order['coupon'])}
+			<tr>
+				<td class="table-label">优惠券编号</td>
+				<td class="ng-binding">{$order['coupon']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">优惠券面值</td>
+				<td class="ng-binding">{$order['coupon_amount']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">付款方式</td>
+				<td class="ng-binding">
+					{if $order['paytype']}
+						{$orderPayType[$order['paytype']]}
+					{else}
+						无
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['paytype'] && $order['integral']}
+			<tr>
+				<td class="table-label">获赠积分</td>
+				<td class="ng-binding">{$order['integral']} 积分</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+
+			{if $pay_log['uniontid']}
+			<tr>
+				<td class="table-label">商户订单号</td>
+				<td class="ng-binding">{$pay_log['uniontid']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $pay_log['transaction']['transaction_id']}
+			<tr>
+				<td class="table-label">微信支付单号</td>
+				<td class="ng-binding">{$pay_log['transaction']['transaction_id']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+
+			<tr>
+				<td class="table-label">订单状态</td>
+				<td class="ng-binding">
+					{if $order['status'] == 0}
+						<span class="label label-danger">待付款</span>&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-sm" style="padding:4px 10px;" onclick="return confirm('该操作不可恢复，确定已付款?');return false;" href="{php echo $this->createWebUrl('order',array('op'=>'confirmpay','orderid'=>$order['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])));}">确认付款?</a>
+					{/if}
+					{if $order['status'] == 1}<span class="label label-success">已付款</span>{/if}
+					{if $order['status'] == 2}<span class="label label-warning">已评价</span>{/if}
+					{if $order['status'] == -1}<span class="label label-default">已取消</span>{/if}
+					{if $order['status'] == -2}<span class="label label-default">已退款</span>{/if}
+					{if $order['status'] >= 1 && time()-$order['paytime'] < 30*24*3600 && ($order['paytype'] == 'wechat' || $order['paytype'] == 'wxapp' || $order['paytype'] == 'alipay')}
+						&nbsp;&nbsp;&nbsp;
+						<a class="btn btn-danger btn-sm" style="padding:4px 10px;" onclick="popwin = $('#refund').modal();">确认退款?</a>
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<div class="modal fade in" id="refund" tabindex="-1">
+				<form id="form-refund" action="{php echo $this->createWebUrl('refund');}" class="form-horizontal form" method="post">
+					<div class="we7-modal-dialog modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+								<div class="modal-title">订单退款信息</div>
+							</div>
+							<div class="modal-body">
+								<div class="we7-form">
+									<div class="form-group">
+										<label for="" class="control-label col-sm-2">订单编号</label>
+										<div class="form-controls col-sm-10">
+											<input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" value="{$order['ordersn']}" readonly="true">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2">退款金额</label>
+										<div class="form-controls col-sm-10">
+											<div class="input-group">
+												<input type="text" name="refund_amount" value="{$order['price']}" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="退款金额不得超过{$order['price']}元">
+												<a href="javascript:;" class="input-group-addon">元</a>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2">退款理由</label>
+										<div class="form-controls col-sm-10">
+											<textarea name="reason" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="最多不可超过100字" maxlength="100"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<input type="hidden" name="id" value="{$order['id']}">
+								<input type="hidden" name="ordertype" value="lesson">
+								<button type="button" class="btn btn-primary" id="submit-refund">确定</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<tr>
+				<td class="table-label">下单时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['addtime'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if $order['paytime']>0}
+			<tr>
+				<td class="table-label">付款时间</td>
+				<td class="ng-binding">{php echo date('Y-m-d H:i:s', $order['paytime'])}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+		<form id="form-order" action="{php echo $this->createWebUrl('order', array('op'=>'detail'));}" method="post">
+			{if $order['status']>0}			
+				<tr>
+					<td class="table-label">订单有效期</td>
+					<td class="ng-binding">
+						{if !empty($order['validity']) && !empty($order['paytype'])}
+							{php echo tpl_form_field_date('validity', $order['validity'],true);}
+						{else}
+							{php echo $order['validity']==0 ? '长期有效' : date('Y-m-d H:i:s', $order['validity'])}
+						{/if}
+					</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+			{/if}
+			<tr>
+				<td class="table-label">昵称/姓名/手机号</td>
+				<td class="ng-binding">
+					<img src="{$avatar}" width="35" height="35">&nbsp;(uid:{$order['uid']})&nbsp;{$order['nickname']}&nbsp;/&nbsp;{$order['realname']}&nbsp;/&nbsp;{$order['mobile']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">微信/身份证/公司</td>
+				<td class="ng-binding">
+					{php echo $order['msn']?$order['msn']:'无';}&nbsp;/&nbsp;{php echo $order['idcard']?$order['idcard']:'无';}&nbsp;/&nbsp;{php echo $order['company']?$order['company']:'无';}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">职业/学校/班级</td>
+				<td class="ng-binding">
+					{php echo $order['occupation']?$order['occupation']:'无';}&nbsp;/&nbsp;{php echo $order['graduateschool']?$order['graduateschool']:'无';}&nbsp;/&nbsp;{php echo $order['grade']?$order['grade']:'无';}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">地址</td>
+				<td class="ng-binding">{$order['address']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{if !empty($evaluate['content'])}
+			<tr>
+				<td class="table-label">评价内容</td>
+				<td class="ng-binding">{$evaluate['content']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+
+	{if $order['status']>0 && $order['lesson_type']==1}
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">核销信息</th>
+			</tr>
+			{if $order['spec_name']}
+			<tr>
+				<td class="table-label">规格名称</td>
+				<td class="ng-binding">{$order['spec_name']}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			<tr>
+				<td class="table-label">核销订单</td>
+				<td class="ng-binding">
+					【总次数{$order['verify_number']}】已核销{$verify_log['count']}次
+					{if !$verify_log['count'] || $verify_log['count'] < $order['verify_number']}
+						<a class="btn btn-success btn-sm" style="padding:4px 10px;" onclick="return confirm('该操作不可恢复，确定核销?');return false;" href="{php echo $this->createWebUrl('order',array('op'=>'detail','id'=>$order['id'], 'verify_order'=>1));}">核销订单</a>
+					{else}
+						，核销次数已用完
+					{/if}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">核销记录</td>
+				<td class="ng-binding"><a class="btn btn-info btn-sm" style="padding:4px 10px;" onclick="popwin = $('#showVerifyLog').modal();">查看核销记录</a></td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<div class="modal fade in" id="showVerifyLog" tabindex="-1">
+				<div class="we7-modal-dialog modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<div class="modal-title">订单核销记录</div>
+						</div>
+						<div class="modal-body">
+							<div class="we7-form">
+								<div class="form-group">
+									<div class="form-controls col-sm-12">
+										<textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" style="height:250px;" readonly>
+										{if $verify_log}
+											{loop $verify_log $log_arr}
+												{$log_arr['log']}
+											{/loop}
+										{else}
+											没有任何核销记录
+										{/if}
+										</textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</tbody>
+	</table>
+	{/if}
+				
+	{if !empty($appoint_info) && $order['lesson_type']==1}
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">报名课程信息</th>
+			</tr>
+			{loop $appoint_info $item}
+			<tr>
+				<td class="table-label">{php echo explode('：', $item)[0];}</td>
+				<td class="ng-binding">{php echo explode('：', $item)[1];}</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/loop}
+		</tbody>
+	</table>
+	{/if}
+
+	{if $member1>0 && $order['commission1']>0}
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th class="text-left" colspan="3">佣金信息</th>
+			</tr>
+			{if $member1>0}
+			<tr>
+				<td class="table-label">一级佣金</td>
+				<td class="ng-binding">{$order['commission1']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">一级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar1}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member1']})&nbsp;{$member1['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $member2>0 && $order['commission2']>0}
+			<tr>
+				<td class="table-label">二级佣金</td>
+				<td class="ng-binding">{$order['commission2']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">二级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar2}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member2']})&nbsp;{$member2['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+			{if $member3>0 && $order['commission3']>0}
+			<tr>
+				<td class="table-label">三级佣金</td>
+				<td class="ng-binding">{$order['commission3']} 元</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			<tr>
+				<td class="table-label">三级推荐人</td>
+				<td class="ng-binding">
+					<img src="{$avatar3}" style="width:30px;height:30px;padding:1px;border:1px solid #ccc">&nbsp;(uid:{$order['member3']})&nbsp;{$member3['nickname']}
+				</td>
+				<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+	{/if}
+
+	<table class="table we7-table table-hover table-form">
+		<colgroup>
+			<col width="160px">
+			<col width="400px">
+		</colgroup>
+
+			<tbody>
+				<tr>
+					<th class="text-left" colspan="3">备注信息</th>
+				</tr>
+				<tr>
+					<td class="table-label">文字备注</td>
+					<td class="table-label"><textarea name="remark" style="width:500px;height:50px;" class="form-control">{$order['remark']}</textarea></td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+				<tr>
+					<td class="table-label">图片备注</td>
+					<td class="table-label">{php echo tpl_form_field_image('admin_img', $order['admin_img']);}</td>
+					<td class="text-right"><div class="link-group"><a href="javascript:;"></a></div></td>
+				</tr>
+			</tbody>
+			<input type="hidden" name="id" value="{$order['id']}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+	</table>
+		
+	<div class="form-group col-sm-12">
+		<input type="submit" name="submit_order" value="提交" class="btn btn-primary col-lg-1">
+		<input type="button" onclick="javascript:window.history.back(-1);" value="返回列表" class="btn btn-default col-lg-1" style="margin-left:40px;">
+	</div>
+
+	</form>
+</div>
+
+<script>
+	$("#submit-refund").click(function(){
+		$("#form-refund").submit();
+	});
+</script>

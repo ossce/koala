@@ -1,0 +1,28 @@
+<div style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="swiper-container diy-swiper-{$diy['tpl_name']}" style="border-radius:{$diy['style']['image_radius']};box-shadow: {$diy['style']['offset_x']} {$diy['style']['offset_y']} {$diy['style']['blur_radius']} {$diy['style']['spread_radius']} rgba(0, 0, 0, 0.2);">
+		<div class="swiper-wrapper" style="border-radius:{$diy['style']['image_radius']};">
+			{loop $diy['data'] $item}
+			<div class="swiper-slide">
+				<a href="{$item['link']}">
+					<img class="swiper-lazy" src="{$item['imgurl']}" style="border-radius:{$diy['style']['image_radius']};">
+				</a>
+			</div>
+			{/loop}
+		</div>
+		<div class="swiper-pagination diy-swiper-pagination-{$diy['tpl_name']}"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//动画效果
+	var {$diy['tpl_name']} = new Swiper(".diy-swiper-{$diy['tpl_name']}", {
+		pagination: ".diy-swiper-pagination-{$diy['tpl_name']}",
+		effect: 'coverflow',
+		paginationClickable: true,
+		centeredSlides: true,
+		autoplay: 5000,
+		autoplayDisableOnInteraction: false,
+		preloadImages: false,
+		lazyLoading: true
+	});
+</script>

@@ -1,0 +1,134 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="userCenterTips">
+				<h1>修改说明</h1>
+				<ul>
+					{if !$teacher['account']}
+						<li>该帐号用于{php echo $teacher_page['account2'] ? $teacher_page['account2'] : '登录讲师平台凭证';}，用户名只能设置一次且不允许修改</li>
+					{else}
+						<li>您已设置过帐号密码，如果忘记密码，请使用微信扫一扫以下二维码重置密码</li>
+					{/if}
+				</ul>
+			</div>
+			<div class="commonTitle flex flex-v memberCenter">
+				<div class="title">{php echo $teacher['account'] ? '密码重置' : '帐号设置'}</div>
+				<div class="flex flex-v commonContent userInfo">
+					{if !$teacher['account']}
+					<form method="post" id="teacherAccountForm">
+						<dl class="items flex">
+							<dt>登录帐号：</dt>
+							<dd class="flex1">
+								<input type="text" class="inputTxt" name="account" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" maxlength="16" autocomplete="off">
+								<div class="tips">
+									<p>仅支持数字和字母，长度介于6~16位</p>
+								</div>
+							</dd>
+						</dl>
+						<dl class="items flex">
+							<dt>登录密码：</dt>
+							<dd class="flex1">
+								<input type="password" class="inputTxt" name="password" autocomplete="new-password">
+								<div class="tips">
+									<p>密码长度为6~16位</p>
+								</div>
+							</dd>
+						</dl>
+						<dl class="items flex">
+							<dt>确认密码：</dt>
+							<dd class="flex1">
+								<input type="password" class="inputTxt" name="password2" autocomplete="new-password">
+							</dd>
+						</dl>
+						<dl class="items flex mt50">
+							<dt></dt>
+							<dd class="btns flex1">
+								<a id="btnSubmit" class="miBtn btn-primary" href="javascript:;">确认提交</a>
+							</dd>
+						</dl>
+					</form>
+					{else}
+					<dl class="items flex">
+						<dt>登录帐号：</dt>
+						<dd class="flex1">
+							<input type="text" class="inputTxt" value="{$teacher['account']}" style="background:#ececec;" readonly >
+						</dd>
+					</dl>
+					<dl class="items flex">
+						<dt>重置密码：</dt>
+						<dd class="flex1">
+							<div id="account-qrcode"></div>
+						</dd>
+					</dl>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('#btnSubmit').click(function(){
+		var account = $("input[name=account]").val();
+		var password = $("input[name=password]").val();
+		var password2 = $("input[name=password2]").val();
+
+		if(account=='' || account.length<6 || account.length>16){
+			swalalert('系统提示', '登录帐号长度为6~16位', 'error');
+			return false;
+		}
+		if(password=='' || password.length<6 || password.length>16){
+			swalalert('系统提示', '登录密码长度为6~16位', 'error');
+			return false;
+		}
+		if(password != password2){
+			swalalert('系统提示', '两次密码不一致，请重新输入', 'error');
+			return false;
+		}
+
+		var reload = false;
+		swal({
+			title: "系统提示",
+			text: "帐号设置后不可修改，确认提交?",
+			type: "warning",
+			html: true,
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonText: "确定",
+			confirmButtonColor: "#1AB61B"
+		}, function() {
+			$.ajax({
+				url:  "/{$uniacid}/teacherAccount.html?op=setAccountInfo",
+				type: "POST",
+				data: {account:account, password:password, password2:password2},
+				dataType: "json",
+			}).done(function(res) {
+				if(res.code==0){
+					reload = true;
+					swal("系统提示", res.message, "success");
+				}else if(res.code==-1){
+					swal("系统提示", res.message, "error");
+				}
+			}).error(function(err) {
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			});
+		});
+
+		$(document).on("click",".swal-confirm",function(){
+			if(reload){
+				location.reload();
+			}
+		});
+	});
+
+	jQuery('#account-qrcode').qrcode({width: 150, height: 150, text: "{$wap_account_url}"});
+</script>
+
+{php include $this->template($template.'/_footer')}

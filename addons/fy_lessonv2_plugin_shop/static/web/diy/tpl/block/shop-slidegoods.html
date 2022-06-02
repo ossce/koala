@@ -1,0 +1,54 @@
+<script type="text/template" id="tpl_block_slidegoods">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+        <div class="block_content slidegoods_block">
+            <div class="shop-goods-wrap">
+				<div class="flex shop-flex-title pad-15" style="border-bottom:solid 1px <%= style.title_bottom_color %>;">
+					<div class="flex-box shop-recommend-title" style="color:<%= style.title_color %>;">
+						<i class="icon-title mar-r-8" style="background-image:url(<%= style.icon_imgsrc %>);"></i><%= style.title_font %><i class="icon-title mar-l-8"  style="background-image:url(<%= style.icon_imgsrc %>);"></i>
+					</div>
+				</div>
+				<div class="shop-recommend-two">
+					<% _.each(data, function(item, index) { %>
+						<% if(index < 2){ %>
+						<div class="shop-hot-list-img">
+							<a href="" class="position-re ds-block">
+								<img src="<%= item.imgurl %>">
+								<div class="icon-sell-num">已售253</div>
+								<i class="icon-goods-image icon-hot"></i>
+							</a>
+							<a href="" class="goods-title"><%= item.title %></a>
+							<h2>￥199<% if(index==1){ %>+100积分<% } %> <i class="icon-common icon-add-cart top-9"></i></h2>
+							<h3><em>￥399<% if(index==1){ %>+299积分<% } %></em></h3>
+						</div>
+						<% } %>
+					<% }); %>
+				</div>
+				<div class="browse-more" style="border-top:solid 1px <%= style.more_top_color %>;<% if(style.show_more!=1){ %>display:none;<% } %>" >
+					<a href="" style="color:<%= style.more_color %>;"><%= style.more_font %>&gt;&gt; </a>
+				</div>
+			</div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_slidegoods_item">
+    <div class="slidegoods-item ep-item" <% if (itemIndex>=0) { %>id="ep-item-<%= guid %>-<%= itemIndex %>"<% } %>>
+        <div class="slidegoods-image">
+            <img src="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+        </div>
+        <div class="slidegoods-params">
+            <div class="input-group" style="margin-bottom: .8rem">
+                <input type="text" class="form-control input-sm" value="<%= data[0].title %>" data-type="data" data-key="title" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+                <span class="input-group-addon btn btn-default ep-select-goods">选择商品</span>
+            </div>
+            <div class="input-group">
+				<span class="input-group-addon">商品ID</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].goodsid %>" data-type="data" data-key="goodsid" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+                <span class="input-group-addon hide"></span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+    </div>
+</script>

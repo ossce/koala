@@ -1,0 +1,67 @@
+<div class="main">
+	<div class="alert alert-info">
+		1、公众号主动给粉丝发送信息属于滥用模版消息，请不要大量频繁发送模版消息，如需大量发送消息，请到微信公众号里群发。
+		<br/>
+		2、定时通知开课任务链接(建议3分钟执行一次)：{$_W['siteroot']}app/{php echo substr($this->createMobileUrl('notice'),2);}<br/>
+		3、系统将实行每隔1~2秒发送一次，超过24小时未发送完成的粉丝列表将放弃发送。如有被举报，请停止使用该功能。<br/>
+		4、每天22:00~次日07:00停止发送，避免夜间打扰用户被举报。
+	</div>
+	<div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-primary" href="{php echo $this->createWebUrl('lesson', array('op'=>'informStudent'));}"><i class="fa fa-plus"></i>添加开课提醒</a>&nbsp;&nbsp;
+        </div>
+    </div>
+	<form action="" method="post" class="form-horizontal form">
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:6%;">编号</th>
+							<th style="width:20%;">课程名称</th>
+							<th style="width:15%;">用户类型</th>
+							<th style="width:12%;">状态</th>
+							<th style="width:12%;">发送总量</th>
+							<th style="width:12%;">剩余数量</th>
+							<th style="width:12%;">添加时间</th>
+							<th style="width:6%;text-align:right;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $item}
+						<tr>
+							<td>{$item['inform_id']}</td>
+							<td>{$item['book_name']}</td>
+							<td>
+								{if $item['user_type']==1}
+									全部粉丝
+								{elseif $item['user_type']==2}
+									全部VIP粉丝
+								{elseif $item['user_type']==3}
+									购买该讲师任意课程的粉丝
+								{elseif $item['user_type']==4}
+									购买该课程的粉丝
+								{elseif $item['user_type']==5}
+									购买该讲师服务的粉丝
+								{/if}
+							</td>
+							<td>
+								{if $item['status']==1}
+									<span class="label label-success">发送中</span>
+								{else}
+									<span class="label label-default">发送结束</span>
+								{/if}
+							</td>
+							<td>{$item['inform_number']}</td>
+							<td>{$item['remain_number']}</td>
+							<td>{php echo date('Y-m-d H:i:s',$item['addtime']);}</td>
+							<td style="text-align:right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lesson',array('op'=>'delInform','id'=>$item['inform_id']));}" onclick="return confirm('该操作不可恢复，确定删除？');return false;" data-toggle="tooltip" data-placement="bottom" data-original-title="删除"><i class="fa fa-remove"></i></a>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+</div>

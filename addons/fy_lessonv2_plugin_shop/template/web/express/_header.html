@@ -1,0 +1,12 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('express');}">配送方式</a></li>
+	
+	{if $op=='postExpress'}
+	<li class="active"><a href="javascript:;">{php echo $_GPC['id'] ? '编辑' : '添加'}配送方式</a></li>
+	{/if}
+	
+	<li {if $op=='setting'}class="active"{/if}><a href="{php echo $this->createWebUrl('express',array('op'=>'setting'));}">快递设置</a></li>
+	<li {if $op=='code'}class="active"{/if}><a href="{php echo $this->createWebUrl('express',array('op'=>'code'));}">快递编码</a></li>
+</ul>

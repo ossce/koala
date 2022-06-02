@@ -1,0 +1,63 @@
+.clipButton {
+	height:56px;
+	line-height:36px;
+	text-align:center;
+	padding-top:8px
+}
+.clipButton>a {
+	display: inline-block;
+    width: 70px;
+    height: 36px;
+    border-radius: 4px;
+    background-color: #ff8a00;
+    color: #fff;
+    font-size: 14px;
+    margin: 0 5px;
+}
+.clipBgn {
+	width:60%;
+	margin:5% auto;
+	background-color:#fff;
+	overflow:hidden;
+	border-radius:4px
+}
+.cover-wrap {
+	display:none;
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,.4);
+	z-index:10000000;
+	text-align:center
+}
+.clipRow2 {
+	min-height:1px;
+	line-height:160px;
+	text-align:center;
+	position:relative
+}
+.clipContent {
+	width:140px;
+	height:32px;
+	border-radius:4px;
+	background-color:#ff8a00;
+	color:#fff;
+	font-size:14px;
+	text-align:center;
+	line-height:32px;
+	outline:0;
+	margin-left:37px;
+	position:relative
+}
+#file {
+	cursor:pointer;
+	opacity:0;
+	filter:alpha(opacity=0);
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0
+}

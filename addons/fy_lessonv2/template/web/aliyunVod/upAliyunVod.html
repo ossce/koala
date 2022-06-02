@@ -1,0 +1,178 @@
+<div class="main">
+	<div class="alert alert-info">
+	    <span>选择文件后，系统将自动开始上传，上传过程请勿刷新浏览器，否则将导致文件上传失败。</span>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-lg-1 control-label" style="width:60px;">分类信息</label>
+				<div class="col-xs-12 col-lg-2">
+					<select class="form-control" id="pid" onchange="firstCategory(this.value)">
+						<option value="0" selected="selected">请选择一级分类</option>
+						{loop $category_list $item}
+						<option value="{$item['id']}">{$item['name']}</option>
+						{/loop}
+					</select>
+				</div>
+				<div class="col-xs-12 col-lg-2">
+					<select class="form-control" id="cid" onchange="secordCategory(this.value)">
+						<option value="0">请选择二级分类</option>
+					</select>
+				</div>
+				<div class="col-xs-12 col-lg-2">
+					<select class="form-control" id="ccid">
+						<option value="0">请选择三级分类</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="panel admin-panel">
+		<div class="body-content">
+			<input type="file" name="file" id="files" accept="video/*,audio/mp3" class="btn btn-default" multiple/>
+			<br/>
+			<textarea id="textarea" style="margin-top:15px;width:98%;height:350px;" readonly></textarea>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	/* 选择分类信息 START */
+	var category = {php echo json_encode($category_list)};
+	function firstCategory(pid){
+		var chtml2 = '<option value="0">请选择二级分类</option>';
+		var chtml3 = '<option value="0">请选择三级分类</option>';
+
+		if(pid>0){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						chtml2 += '<option value="' + second[j].id+'">' + second[j].name + '</option>';
+					}
+					$("#cid").html(chtml2);
+					$("#ccid").html(chtml3);
+				}
+			}
+		}else{
+			$("#cid").html(chtml2);
+			$("#ccid").html(chtml3);
+		}
+	}
+
+	function secordCategory(cid){
+		var pid = $("#pid").val();
+		var chtml3 = '<option value="0">请选择三级分类</option>';
+		
+		if(pid>0 && cid>0){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						if(second[j].id==cid){
+							var third = category[i].second[j].third;
+							for(var k in third){
+								chtml3 += '<option value="' + third[k].id+'">' + third[k].name + '</option>';
+							}
+						}
+					}
+					$("#ccid").html(chtml3);
+				}
+			}
+		}else{
+			$("#ccid").html(chtml3);
+		}
+	}
+	/* 选择分类信息 END */
+
+
+	var uploader = new AliyunUpload.Vod({
+		retryCount: 5,
+		'onUploadFailed': function (uploadInfo, code, message) {
+			log("上传文件失败：" + uploadInfo.file.name + ",错误代码:" + code + ", 错误信息:" + message);
+		},
+		'onUploadSucceed': function (uploadInfo) {
+			var file_size = parseFloat((uploadInfo.file.size/1024)/1024).toFixed(2);
+			$.ajax({
+				url:"<?php echo $this->createWebUrl('aliyunvod', array('op'=>'saveVideo')); ?>",
+				data:{
+					filename: uploadInfo.file.name,
+					object: uploadInfo.object,
+					videoId: uploadInfo.videoId,
+					size: file_size,
+					pid: $("#pid").val(),
+					cid: $("#cid").val(),
+					ccid: $("#ccid").val(),
+				},
+				type:'post',
+				dataType:'json',
+				success:function(msg){
+				}
+			});
+			log("上传文件成功：" + uploadInfo.file.name + ", VideoId： " + uploadInfo.videoId);
+			log("\n");
+		},
+		'onUploadProgress': function (uploadInfo, totalSize, loadedPercent) {
+			log("正在上传:文件名：" + uploadInfo.file.name + ", 大小:" + ((totalSize/1024)/1024).toFixed(2) + "MB, 进度:" + (loadedPercent * 100.00).toFixed(2) + "%");
+		},
+		// 上传凭证超时
+		'onUploadTokenExpired': function (uploadInfo) {
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('aliyunvod', array('op'=>'refreshUploadInfo'));}",
+				data: {videoId:uploadInfo.videoId},
+				dataType: "json",
+				success: function(res){
+					uploader.resumeUploadWithAuth(res.UploadAuth);
+				},
+				fail: function(res){
+					log("获取上传信息失败，请刷新重试!");
+				}
+			});
+			
+		},
+		onUploadCanceled:function(uploadInfo){
+			log("用户取消上传文件：" + uploadInfo.file.name);
+		},
+		'onUploadstarted': function (uploadInfo) {
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('aliyunvod', array('op'=>'getUploadInfo'));}",
+				data: {filename:uploadInfo.file.name},
+				dataType: "json",
+				success: function(res){
+					uploader.setUploadAuthAndAddress(uploadInfo, res.UploadAuth, res.UploadAddress,res.VideoId);
+				},
+				fail: function(res){
+					log("获取上传信息失败，请刷新重试!");
+				}
+			});
+			log("开始上传文件：" + uploadInfo.file.name);
+		}
+		,
+		'onUploadEnd':function(uploadInfo){
+			log("上传结束：已成功上传全部文件");
+		}
+	});
+
+	document.getElementById("files").addEventListener('change', function (event) {
+		var userData;
+		for(var i=0; i<event.target.files.length; i++) {
+			userData = '{"Vod":{"StorageLocation":"","Title":"'+event.target.files[i].name+'","Description":"","CateId":"","Tags":"","UserData":""}}';
+			log("添加待上传文件: " + event.target.files[i].name);
+			uploader.addFile(event.target.files[i], null, null, null, userData);
+		}
+		uploader.startUpload();
+	});
+
+	var textarea=document.getElementById("textarea");
+	function log(value) {
+		if (!value) {
+			return;
+		}
+
+		$("#textarea").append(value+'\n');
+		textarea.scrollTop  = '100000000';
+	}
+</script>
+			

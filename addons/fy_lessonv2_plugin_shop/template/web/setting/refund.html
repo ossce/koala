@@ -1,0 +1,123 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">退款原因设置</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 退款原因</label>
+                    <div class="col-sm-5">
+                        <table class="table table-hover" style="margin-top:-17px;">
+							<thead>
+								<tr>
+									<th style="width:30px;"></th>
+									<th style="width:70%;">退款原因</th>
+									<th style="text-align:right;">操作</th>
+								</tr>
+							</thead>
+							<tbody id="reason_list" class="ui-sortable">
+								{loop $reason_list $item}
+								<tr>
+									<td>
+										<a href="javascript:;" class="fa fa-move" data-toggle="tooltip" data-placement="bottom" data-original-title="按住鼠标左键，拖动调整顺序">
+											<i class="fa fa-arrows"></i>
+										</a>
+									</td>
+									<td>
+										<div class="form-group" style="margin-bottom:0">
+											<div class="col-xs-12">
+												<input name="title[]" value="{$item['title']}" type="text" class="form-control" placeholder="请输入退款原因，最多30个字符" maxlength="30">
+												<input name="id[]" value="{$item['id']}" type="hidden" />
+											</div>
+										</div>
+									</td>
+									<td style="text-align:right;">
+										<a href="javascript:;" class="btn btn-default btn-sm" onclick="deleteReason(this)" data-id="{$item['id']}" data-toggle="tooltip" data-placement="bottom" data-original-title="删除">
+											<i class="fa fa-remove"></i>
+										</a>
+									</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+						<a type="button" class="btn btn-info btn-add-spec">
+							<i class="fa fa-plus"></i> 新增退款原因
+						</a>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">默认退货地址</label>
+                    <div class="col-sm-5">
+						<textarea style="height:70px;" class="form-control" name="refund_receive">{$shop_setting['refund_receive']}</textarea>
+						<span class="help-block">
+							审核用户退款订单时，可快速使用该地址接收用户退回的商品<br/>
+							格式如：姓名：张三，手机号码：139xxxx6666，收货地址：xx省xx市xx区xx路xx号xx大厦，备注：只接收中通、圆通、韵达快递，到付和平邮一律拒收
+						</span>
+					</div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+	</form>
+</div>
+
+<script>
+    require(['jquery', 'jquery.ui'], function($){
+		//拖动排序
+		$('#reason_list').sortable({handle: '.fa-move'});
+        
+		//添加
+        $('.btn-add-spec').click(function(){
+			var chtml = '';
+			chtml += '<tr>';
+			chtml += '	<td>';
+			chtml += '		<a href="javascript:;" class="fa fa-move" data-toggle="tooltip" data-placement="bottom" data-original-title="按住鼠标左键，拖动调整顺序">';
+			chtml += '			<i class="fa fa-arrows"></i>';
+			chtml += '		</a>';
+			chtml += '	</td>';
+			chtml += '	<td>';
+			chtml += '		<div class="form-group" style="margin-bottom:0">';
+			chtml += '			<div class="col-xs-12">';
+			chtml += '				<input name="title[]" value="" type="text" class="form-control" placeholder="请输入退款原因，最多30个字符" maxlength="30">';
+			chtml += '				<input name="id[]" value="" type="hidden" />';
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '	</td>';
+			chtml += '	<td style="text-align:right;">';
+			chtml += '		<a href="javascript:;" class="btn btn-default btn-sm" onclick="deleteReason(this)" data-id="0" data-toggle="tooltip" data-placement="bottom" data-original-title="删除">';
+			chtml += '		<i class="fa fa-remove"></i>';
+			chtml += '		</a>';
+			chtml += '	</td>';
+			chtml += '</tr>';				
+            $('#reason_list').append(chtml);
+        });
+
+        //删除
+        window.deleteReason = function(obj) {
+            var id = $(obj).attr('data-id');
+            if(id == 0){
+                $(obj).parent().parent().remove();            
+			}else{
+				$.ajax({
+					type:"POST",
+					url:"{php echo $this->createWebUrl('setting',array('op'=>'deleteRefund','id'=>$id));}",
+					data:{id:id},
+					dataType: "json",
+					success:function(res){
+						if(res.code == '-1'){
+							util.message(res.message, '', 'error');
+							return false;
+						}else if(res.code == '0'){
+							$(obj).parent().parent().remove();
+						}
+					},
+					error: function(){
+						util.message('网络繁忙，请稍后重试', '', 'error');
+					}
+				 });
+			}
+        }
+    });
+</script>

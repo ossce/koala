@@ -1,0 +1,46 @@
+<div style="background:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="shop-goods-wrap">
+		<div class="flex shop-flex-title pad-15" style="border-bottom: 1px solid {$diy['style']['title_bottom_color']};">
+			<div class="flex-box shop-recommend-title" style="color:{$diy['style']['title_color']};">
+				<i class="icon-title mar-r-8" style="background-image:url({$diy['style']['icon_imgsrc']});"></i>{$diy['style']['title_font']}<i class="icon-title mar-l-8" style="background-image:url({$diy['style']['icon_imgsrc']});"></i>
+			</div>
+		</div>
+		<div class="swiper_shop_wrap shop-recommend-two slidegoods_{$diy['tpl_name']}">
+			<div class="swiper-wrapper">
+				{loop $diy['data'] $item}
+				<div class="swiper-slide shop-hot-list-img mar-0-0-0-5">
+					<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="position-re ds-block">
+						<img src="{$_W['attachurl']}{$item['cover']}">
+						{if $item['show_sales']}
+							<div class="icon-sell-num">已售{$item['show_sales']}</div>
+						{/if}
+						<i class="icon-goods-image {$item['icon_name']}"></i>
+					</a>
+					<a href="{php echo $this->createMobileUrl('shopgoods',array('id'=>$item['id']))}" class="goods-title">{$item['title']}</a>
+					<h2>{$item['show_price']}</h2>
+					{if $item['sell_type'] != 1 && $item['market_price']>0}
+						<h3><em>￥{$item['market_price']}</em></h3>
+					{/if}
+				</div>
+				{/loop}
+			</div>
+		</div>
+		{if $diy['style']['show_more']}
+		<div class="browse-more" style="border-top:1px solid {$diy['style']['more_top_color']};">
+			<a href="{$diy['style']['more_link']}" style="color:{$diy['style']['more_color']};">{$diy['style']['more_font']}&gt;&gt; </a>
+		</div>
+		{/if}
+	</div>
+</div>
+<script>
+	var slidegoods_{$diy['tpl_name']} = new Swiper(".slidegoods_{$diy['tpl_name']}", {
+		slidesPerView: 2, 
+		spaceBetween: 5, 
+		autoplay: {
+			delay: {php echo $diy['style']['speed']*1000},
+			stopOnLastSlide: false,
+			disableOnInteraction: false,
+		}, 
+		loop : true,
+	});
+</script>

@@ -1,0 +1,27 @@
+<style>
+#diy_index_search_input::-webkit-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+#diy_index_search_input::-webkit-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+#diy_index_search_input:-moz-placeholder{
+	color: {$diy['style']['text_color']};
+}
+#diy_index_search_input::-moz-placeholder{
+	color: {$diy['style']['text_color']};
+} 
+#diy_index_search_input:-ms-input-placeholder{
+	color: {$diy['style']['text_color']};
+}
+</style>
+
+<div class="index-search" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="index-header-search" style="background-color:{$diy['style']['input_background']};border-radius:{$diy['style']['searchbar_radius']};">
+		<div class="u-search">
+			<i class="fa fa-search" style="color:{$diy['style']['icon_color']};"></i>
+			<input type="text" name="keyword" id="diy_index_search_input" class="search_input z-abled" autocorrect="off" placeholder="{$diy['style']['input_placeholder']}" style="color:{$diy['style']['text_color']};background-color:{$diy['style']['input_background']};">
+			<a class="search-btn" style="color:{$diy['style']['btn_color']};background-color:{$diy['style']['btn_background']};">搜索</a>
+		</div>
+	</div>
+</div>

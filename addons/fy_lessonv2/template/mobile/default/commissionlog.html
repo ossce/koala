@@ -1,0 +1,112 @@
+<!--
+ * 分销佣金明细
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/commission.css?v={$versions}" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<div id="container" class="mar10-top mar10-left-right">
+	{if empty($list)}
+	<div class="commission_no"><span style="line-height:18px;font-size:16px;margin-top:40px;display:inline-block;">您还没有佣金明细哦~</span></div>
+	{else}
+	<div class="aui-order-box text-center total_commission">
+		累计佣金：<strong class="amount">{$total_commission[0]['change_num']}</strong> 元
+	</div>
+	{/if}
+</div>
+
+<div id="loading_div" class="loading_div">
+	<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+</div>
+
+
+<script type="text/javascript">
+var ajaxurl   = "{php echo $this->createMobileUrl('commission', array('op'=>'commissionlog'));}";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true; //允许获取状态
+
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {  
+        if(get_status){
+			nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+			$.get(ajaxurl, {page: page }, function (data) {  
+				loadingToast.style.display = 'none';
+				
+				var jsonObj = JSON.parse(data);
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;  //没有数据后，禁止请求获取数据
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+       
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#container");
+        var chtml = '';
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<div class="aui-order-box">';
+			chtml += '	<a href="javascript:void(0);" class="aui-well-item">';
+			chtml += '		<div class="aui-well-item-bd">';
+			chtml += '		<h3>编号：' + result[j].id + '[' + result[j].comtype + ']</h3>';
+			chtml += '		</div>';
+			chtml += '	</a>';
+			chtml += '	<p class="aui-order-fl aui-order-address">';
+			chtml += '		奖励明细：'+ result[j].remark;
+			if(result[j].buyer_uid>0){
+				chtml +=	'，用户信息:[uid:' + result[j].buyer_uid + ']';	
+			}
+			if(result[j].buyer_name){
+				chtml +=	result[j].buyer_name;	
+			}
+			chtml += '	</p>';
+			chtml += '	<p class="aui-order-fl aui-order-door">奖励金额：<em class="income_amount">'+ result[j].change_num + '</em> 元</p>';
+			chtml += '	<p class="aui-order-fl aui-order-time">奖励时间：' + result[j].addtime + '</p>';
+			chtml += '</div>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+
+
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+  
+});  
+</script>
+
+{template $template.'/_footerv2'}

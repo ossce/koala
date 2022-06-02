@@ -1,0 +1,62 @@
+<link href="{MODULE_URL}static/web/css/common.css" rel="stylesheet">
+<link href="{MODULE_URL}static/web/css/category.css" rel="stylesheet">
+
+
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do']=='category'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('category');}">同步课程分类</a>
+	</li>
+	<li {if $_GPC['do']=='teachercate'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('teachercate');}">同步讲师分类</a>
+	</li>
+	<li {if $_GPC['do']=='teacher'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('teacher');}">同步讲师</a>
+	</li>
+	<li {if $_GPC['do']=='vip'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('vip');}">同步VIP等级</a>
+	</li>
+	<li {if $_GPC['do']=='lesson'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('lesson');}">同步课程</a>
+	</li>
+</ul>
+
+
+<div id="loadingToast" style="display:none;">
+	<div class="loading-mask_white"></div>
+	<div class="loadEffect">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function eqSelectAccount(){
+		getWechatList();
+		$('.modal-select-account').modal();
+	}
+	function getWechatList(){
+		$(".modal-app-list").html('<p style="font-size:14px;padding:150px;text-align:center;">正在搜索...</p>');
+		$.get("{php echo $this->createWebUrl('GetWechatList')}", { 
+			keyword: $.trim($("#account_name_kwd").val())
+		}, function (dat) {
+			$(".modal-app-list").html(dat);
+		});
+	}
+	function selectAccount(uniacid,name){
+		$("#from_uniacid").val(uniacid);
+		$("#from_account_name").val(name);
+		$(".btn-close-account").click();
+	}
+	$("#account_name_kwd").bind("keypress", function(e) {
+		if (e.keyCode == "13") {
+			e.preventDefault();
+			getWechatList();
+		}
+	});
+</script>

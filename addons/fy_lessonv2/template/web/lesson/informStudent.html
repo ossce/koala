@@ -1,0 +1,119 @@
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" onsubmit="showLoading();">
+        <div class="panel panel-default">
+            <div class="panel-heading">课程通知</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择课程</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='input-group'>
+                            <input type="text" id="bookname" value="{$bookname}" maxlength="30" class="form-control" readonly />
+							<input type="hidden" id="lesson_id" name="lesson_id" value="{$lessonid}" />
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="$('#modal-select-lesson').modal();">选择课程</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">发送对象</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="user_type" value="1" /> 全部粉丝</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="user_type" value="2" /> 全部VIP粉丝</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="user_type" value="3" /> 购买该讲师任意课程的粉丝</label>
+						<label class="radio-inline"><input type="radio" name="user_type" value="4" /> 购买该课程的粉丝</label>
+						<label class="radio-inline"><input type="radio" name="user_type" value="5" /> 购买该讲师服务的粉丝</label>
+					</div>
+				</div>
+            </div>
+        </div>
+
+		<div class="panel panel-default">
+            <div class="panel-heading">模版消息设置</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 开头语</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[first]" value="{$first}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 课程名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword1]" value="{$bookname}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 地点</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword2]" value="{$setting['sitename']}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 讲师</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword3]" value="{$teacher['teacher']}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[keyword4]" value="{$today}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 备注</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[remark]" value="{$remark}" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="content[link]" value="{$link}" class="form-control">
+						<span class="help-block">链接请以http://或https://开头，链接为空时，点击模版消息详情将跳转到课程详情页面</span>
+					</div>
+				</div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+
+{template 'web/_searchLessonModal'}
+
+<script type="text/javascript">
+	//选择课程
+	function selectLesson(obj){
+		$("#bookname").val(obj.bookname);
+		$("#lesson_id").val(obj.id);
+		$("#modal-select-lesson-close").click();
+	}
+
+	function showLoading(){
+		$("#loadingToast").show();
+	}
+
+	var category = {php echo json_encode($category)};
+	function renderCategory(pid){
+		var chtml = '<option value="0">二级分类</option>';
+
+		if(pid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var child = category[i].child;
+					for(var j in child){
+						chtml += '<option value="' + child[j].id+'">' + child[j].name + '</option>';
+					}
+					$("#cid").html(chtml);
+				}
+			}
+		}else{
+			$("#cid").html(chtml);
+		}
+	}
+</script>

@@ -1,0 +1,256 @@
+<style type="text/css">
+.col-lg-3{width:22%;}
+.m-r-5{
+	margin-top: 4px;
+    display: inline-block;
+}
+.descript {
+	height: 52px;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: inherit !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+</style>
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2" />
+                <input type="hidden" name="do" value="comment" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">订单编号</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="ordersn" type="text" value="{$_GPC['ordersn']}">
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" type="text" value="{$_GPC['bookname']}">
+                    </div>
+                </div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">回复状态</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="reply" class="form-control">
+							<option value="">请选择...</option>
+							<option value="0" {if in_array($_GPC['reply'], array('0'))}selected{/if}>未回复</option>
+							<option value="1" {if $_GPC['reply']==1}selected{/if}>已回复</option>
+						</select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">审核状态</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="status" class="form-control">
+							<option value="">请选择...</option>
+							<option value="0" {if in_array($_GPC['status'], array('0'))}selected{/if}>待审核</option>
+							<option value="1" {if $_GPC['status']==1}selected{/if}>已审核</option>
+							<option value="-1" {if $_GPC['status']==-1}selected{/if}>审核未通过</option>
+						</select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label" style="width: 100px;">评价结果</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <select name="grade" class="form-control">
+							<option value="">请选择...</option>
+							<option value="1" {if $_GPC['grade']==1}selected{/if}>好评</option>
+							<option value="2" {if $_GPC['grade']==2}selected{/if}>中评</option>
+							<option value="3" {if $_GPC['grade']==3}selected{/if}>差评</option>
+						</select>
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">评价日期</label>
+                    <div class="col-sm-2 col-lg-3">
+						{php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}
+                    </div>
+					<div class="col-sm-3 col-lg-3">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+					</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="table-responsive panel-body">
+            <table class="table table-hover" style="margin-bottom:20px;">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:60px;">全选</th>
+                    <th style="width:15%;">订单遍号</th>
+                    <th style="width:20%;">课程名称</th>
+                    <th style="width:12%;text-align:center;">评价/回复</th>
+					<th style="width:22%;">评价内容</th>
+                    <th style="width:9%;text-align:center;">状态</th>
+                    <th style="width:9%;">评价日期</th>
+                    <th style="width:9%;text-align:right;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+					<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+                    <td>
+						{if $item['ordersn']}
+							{$item['ordersn']}
+						{else}
+							{if !$item['uid'] && $item['virtual_nickname']}
+								后台评价
+							{elseif $item['uid']}
+								免费课程
+							{/if}
+						{/if}
+					</td>
+                    <td>{$item['bookname']}</td>
+                    <td align="center">
+						{if $item['grade']==1}<span class="label" style="background-color:#FB5B5B;">好评</span>
+						{elseif $item['grade']==2}<span class="label" style="background-color:#D99810;">中评</span>
+						{elseif $item['grade']==3}<span class="label" style="background-color:#555555;">差评</span>{/if}
+						
+						{if !empty($item['reply'])}
+						<span class="label label-success m-r-5" data-toggle="tooltip" data-placement="bottom" data-original-title="{$item['reply']}">已回复</span>
+						{else}
+						<span class="label label-default m-r-5">未回复</span>
+						{/if}
+                    </td>
+					<td class="descript" data-toggle="tooltip" data-placement="bottom" data-original-title="{$item['content']}">{$item['content']}</td>
+                    <td align="center">
+                    	{if $item['status']==-1}
+						<span class="label label-default">未通过</span>
+						{elseif $item['status']==0}
+						<span class="label label-primary">待审核</span>
+						{elseif $item['status']==1}
+						<span class="label label-success">已审核</span>
+						{/if}
+                    </td>
+                    <td>{php echo date('Y-m-d', $item['addtime'])}</td>
+                    <td style="text-align:right;">
+						<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('comment', array('op'=>'reply', 'id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" data-toggle="tooltip" data-placement="bottom" data-original-title="查看"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('comment',array('op'=>'delete', 'id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" data-toggle="tooltip" data-placement="bottom" data-original-title="删除"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+				<tfoot>
+					<tr>
+						<td colspan="9">
+							<input type="checkbox" id="selAll" style="margin-right:15px;">
+							<input type="button" class="btn btn-primary" id="batchAudit" value="批量审核/回复" style="margin-right:15px;">
+						</td>
+					</tr>
+				</tfoot>
+            </table>
+			{$pager}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade in" id="batchAuditModal" tabindex="-1">
+	<div class="we7-modal-dialog modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<div class="modal-title">批量审核/回复</div>
+			</div>
+			<div class="modal-body">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label" >处理状态</label>
+						<div class="col-sm-10">
+							<p class="form-control-static">
+								<label>
+									<input type="radio" name="status" value="0" />
+									<span class="label label-primary" style="vertical-align:text-top;">待审核</span>
+								</label>
+								&nbsp;&nbsp;
+								<label>
+									<input type="radio" name="status" value="1" checked/>
+									<span class="label label-success" style="vertical-align:text-top;">已审核</span>
+								</label>
+								&nbsp;&nbsp;
+								<label>
+									<input type="radio" name="status" value="-1" />
+									<span class="label label-default" style="vertical-align:text-top;">审核未通过</span>
+								</label>
+							</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label" >回复内容</label>
+						<div class="col-sm-9">
+							<p class="form-control-static">
+								<textarea id="reply" class="form-control" style="width:464px;height:100px;"></textarea>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="submit-batch-audit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var ids = document.getElementsByName("ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	var checkids = "";
+	$("#batchAudit").click(function(){
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			alert('未选择任何内容');
+			return;
+		}else{
+			$('#batchAuditModal').modal();
+		}
+	});
+
+	$("#submit-batch-audit").click(function(){
+		var reply = $("#reply").val();
+		var status = $("input[name=status]:checked").val();
+
+		if(checkids===''){
+			alert('未选择任何内容');
+			return false;
+		}else{
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('comment', array('op'=>'batchAudit'));}",
+				data: {checkids:checkids,status:status,reply:reply},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						alert(res.msg);
+						location.reload();
+					}else{
+						alert(res.msg);
+						return false;
+					}
+				},
+				error: function(error){
+					alert('网络请求超时，请稍后重试!');
+				}
+			});
+		}
+	});
+</script>

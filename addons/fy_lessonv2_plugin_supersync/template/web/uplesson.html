@@ -1,0 +1,84 @@
+{template 'common/header'}
+
+
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">
+            同步课程
+        </div>
+        <div class="panel-body">
+            <form action="{php echo $this->createWebUrl('uplesson', array('op'=>'tongkecheng'));}" method="post" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">同步数量</label>
+                <div class="col-sm-2 col-lg-3">
+                    <input class="form-control" name="amount" id="amount" placeholder="最大更新数量为1200个" type="number" value="" min="1" max="1200">
+                </div>
+                <!--<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 100px;">时间范围</label>-->
+                <!--<div class="col-sm-8 col-lg-3 col-xs-12">-->
+                <!--        {php echo tpl_form_field_daterange('time', array('starttime'=>($starttime ? date('Y-m-d', $starttime) : false),'endtime'=> ($endtime ? date('Y-m-d', $endtime) : false)));}-->
+                <!--</div>-->
+                <div class="col-sm-3 col-lg-3">
+                    <button class="btn btn-success"></i> 同步课程</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+    <form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:60px;">全选</th>
+							<th style="width:8%;text-align:center;">排序</th>
+							<th style="width:25%;">课程名称</th>
+							<th style="width:8%;text-align:center;">分类/讲师名称</th>
+							<th style="width:8%;text-align:center;">价格</th>
+							<th style="width:8%;text-align:center;">销量/库存</th>
+							<th style="width:8%;text-align:center;">总访问量</th>
+							<th style="width:12%;text-align:center;">vip/讲师服务访问量</th>
+							<th style="width:8%;text-align:center;">课程状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $parent}
+						<tr>
+							<td><input type="checkbox" name="ids[]" value="{$parent['id']}" ></td>
+							<td style="text-align:center;">
+							    <input type="text" class="form-control" name="lessonorder[{$parent['id']}]" value="{$parent['displayorder']}" style="width: 70px;display:inline-block;" disabled="disabled">
+							</td>
+							<td style="word-break:break-all;">[ID:{$parent['id']}] {if $parent['lesson_type']==3}<img src="{MODULE_URL}template/mobile/default/images/icon-live.png" height="18">{/if}{$parent['bookname']}</td>
+							<td style="text-align:center;"><span class="label label-info">{$parent['category']['name']}</span><br/>{$parent['teacher']}</td>
+							<td style="text-align:center;">{$parent['price']}</td>
+							<td style="text-align:center;">{$parent['buynum']}/{$parent['stock']}</td>
+							<td style="text-align:center;">{$parent['visit_number']}</td>
+							<td style="text-align:center;">{$parent['vip_number']}/{$parent['teacher_number']}</td>
+							<td style="text-align:center;">
+								<span class="label {if $parent['status']==-1 || $parent['status']==0 || $parent['status']==3}label-default{elseif $parent['status']==1}label-success{elseif $parent['status']==2 }label-danger{/if}">{$lessonStatusList[$parent['status']]}</span>
+								<br/>
+								{if $parent['section_status']==1}
+									<span class="label label-success" style="margin-top:5px; display:inline-block;">更新中</span>
+								{elseif $parent['section_status']==0}
+									<span class="label label-default" style="margin-top:5px; display:inline-block;">已完结</span>
+								{/if}
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody></tbody>
+				</table>
+			 </div>
+		 </div>
+		 {$pager}
+	</form>
+</div>
+
+<script type="text/javascript">
+	
+</script>
+
+{template 'common/footer'}

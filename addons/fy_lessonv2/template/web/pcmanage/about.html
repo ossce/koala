@@ -1,0 +1,69 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">关于我们</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">关于我们</label>
+					<div class="col-sm-9">
+						<input type="text" name="about_title[aboutus]" value="{$about_title['aboutus']}" class="form-control" />
+						<span class="help-block">如果您不希望显示默认名称，请输入自定义名称</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('aboutus_desc', $setting_pc['aboutus_desc']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">企业文化</label>
+					<div class="col-sm-9">
+						<input type="text" name="about_title[culture]" value="{$about_title['culture']}" class="form-control" />
+						<span class="help-block">如果您不希望显示默认名称，请输入自定义名称</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('culture_desc', $setting_pc['culture_desc']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">办公环境</label>
+					<div class="col-sm-9">
+						<input type="text" name="about_title[environment]" value="{$about_title['environment']}" class="form-control" />
+						<span class="help-block">如果您不希望显示默认名称，请输入自定义名称</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('environment_desc', $setting_pc['environment_desc']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">联系我们</label>
+					<div class="col-sm-9">
+						<input type="text" name="about_title[contact]" value="{$about_title['contact']}" class="form-control" />
+						<span class="help-block">如果您不希望显示默认名称，请输入自定义名称</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9">
+						{php echo tpl_ueditor('contact_desc', $setting_pc['contact_desc']);}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="保存设置" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>

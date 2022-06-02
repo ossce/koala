@@ -1,0 +1,36 @@
+<div class="search-section-wrap">
+	<div class="btn-search-section">
+		<img src="{MODULE_URL}static/mobile/{$template}/images/icon-search-section.png?v=1">
+	</div>
+	<div class="search-box hide">
+		<input type="text" name="section-keyword" value="{$section_keyword}" class="search_input" autocorrect="off" placeholder="{php echo $lesson_page['search_section'] ? $lesson_page['search_section'] : '搜索章节标题';}" />
+	</div>
+</div>
+
+<script type="text/javascript">
+	/* 搜索章节标题 start */
+	$(".btn-search-section").on("click",function(){
+		if($(".search-section-wrap .search-box").hasClass('hide')){
+			$(".search-section-wrap .search-box, .flick-menu-mask").removeClass('hide');
+		}else{
+			searchSection();
+		}
+	});
+
+	$(".flick-menu-mask").on("click",function(){
+		$(".search-section-wrap .search-box, .flick-menu-mask").addClass('hide');
+	});
+
+	$(".search-section-wrap .search-box .search_input").keydown(function(event){
+		event=event ||window.event;
+		if(event.keyCode==13){
+			searchSection();
+		}
+	});
+
+	function searchSection(){
+		var section_keyword = $("input[name=section-keyword]").val().trim();
+		window.location.href = "{php echo $this->createMobileUrl('lesson', array('id'=>$id))}&section_keyword=" + section_keyword;
+	}
+	/* 搜索章节标题 end */
+</script>

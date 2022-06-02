@@ -1,0 +1,66 @@
+<div class="main">
+	<div class="alert alert-info">
+		<p>
+			【<strong class="margin-left:20px;">各广告位尺寸表</strong>】</span>
+		</p>
+		<p>
+			{$bannerType[0]}：<span style="margin-left:27px;">【<strong>750 * 100px；</strong>】</span>
+		</p>
+	</div>
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">添加广告位</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 广告位名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="banner_name" class="form-control" value="{$banner['banner_name']}">
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>位置类型</label>
+                    <div class="col-sm-3">
+						<select name="banner_type" class="form-control">
+						    <option value="">请选择...</option>
+							{loop $bannerType $key $item}
+							<option value="{$key}" {if $banner['banner_type'] == "$key"} selected="selected" {/if}>{$item}</option>
+							{/loop}
+						</select>
+					</div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 广告位图片</label>
+					 <div class="col-sm-9">
+                        {php echo tpl_form_field_image('picture', $banner['picture'])}
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 广告链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="link" class="form-control" value="{$banner['link']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 状态</label>
+					<div class="col-sm-9">
+						<label class="radio-inline"><input type="radio" name="is_show" value="1" {if $banner['is_show']=='1' || empty($banner['is_show'])}checked{/if} /> 显示</label> &nbsp;
+						<label class="radio-inline"><input type="radio" name="is_show" value="0" {if $banner['is_show']=='0'}checked{/if} /> 隐藏</label>
+						<span class="help-block">隐藏的的广告位不会显示在前端</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$banner['displayorder']}">
+						<span class="help-block">排序越大，排序越靠前</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="id" value="{$banner_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>

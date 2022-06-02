@@ -1,0 +1,42 @@
+<div class="mloading-bar" style="margin-top: -31px; margin-left: -140px;"><img src="{MODULE_URL}template/mobile/{$template}/images/download.gif"><span class="mloading-text">同步数据中，请勿关闭或刷新...</span></div>
+<div id="overlay"></div>
+<script type="text/javascript">
+/* 显示遮罩层 */
+function showOverlay() {
+    $("#overlay").height("100%");
+    $("#overlay").width("100%");
+    $("#overlay").fadeTo(200, 0);
+	$(".mloading-bar").show();
+}
+</script>
+<div class="main">
+	<div class="alert alert-info">
+	    <span style="color:red;">【请勿重复操作不同VIP等级】</span>由于微课堂V1系统仅存在单VIP等级，升级到微课堂V2版本后，请在先在“VIP等级管理”里增加VIP会员等级，然后在下面选择指定的VIP等级，即可同步原先的VIP会员到指定的VIP等级之下。
+	</div>
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">同步会员VIP</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">VIP等级</label>
+                    <div class="col-sm-9">
+                    	<select name="level_id" class="form-control">
+                    		<option>请选择...</option>
+                    		{loop $level_list $level}
+                    		<option value="{$level['id']}">{$level['level_name']}</option>
+                    		{/loop}
+                    	</select>
+                        <div class="help-block">
+                        	选择指定VIP等级操作后，原微课堂系统的VIP用户将自动完成迁移到该指定VIP等级之下，请勿重复选择不同VIP等级进行操作。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" onclick="showOverlay()"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>

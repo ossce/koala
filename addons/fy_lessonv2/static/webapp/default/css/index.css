@@ -1,0 +1,321 @@
+@charset "utf-8";
+
+.banner {
+	height: 400px;
+}
+
+#full-screen-slider {
+	width: 100%;
+	height: 400px;
+	float: left;
+	position: relative;
+}
+
+#slides {
+	display: block;
+	height: 400px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: relative
+}
+
+#slides li {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-width: 1200px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute
+}
+
+#slides li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-indent: -9999px
+}
+
+#pagination {
+	display: block;
+	list-style: none;
+	position: absolute;
+	left: 50%;
+	top: 360px;
+	z-index: 901;
+	height: 16px;
+	margin: 0;
+}
+
+#pagination li {
+	display: block;
+	list-style: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	float: left;
+	margin: 0px 5px;
+	background-image: url("../images/qf_icon.png");
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+#pagination li a {
+	display: block;
+	padding: 0;
+	margin: 0;
+	text-indent: -9999px;
+	width: 10px;
+	height: 10px;
+}
+
+#pagination li.current {
+	width: 72px;
+	background-position: -10px 0px;
+}
+
+#pagination li.current a {
+	width: 72px;
+}
+
+.hot_news a {
+	position: relative;
+}
+
+.hot_news a img {
+	width: 285px;
+	height: 64px;
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.hot_news a:hover img {
+	width: 300px;
+	height: 69px;
+	left: -15px;
+	top: -5px;
+	transition: all 0.5s;
+}
+
+.hot_news a:hover h3,.hot_news a:hover p {
+	padding-left: 15px;
+	transition: all 0.5s;
+}
+
+.hot_news a:hover h3 {
+	color: #fc0503;
+}
+
+.hot_news a:hover p {
+	color: #f98e8e;
+}
+
+.hotnew {
+	overflow: hidden;
+	padding-top: 6px;
+}
+
+.hotnew li {
+	position: relative;
+}
+
+.hotnew li a {
+	position: relative;
+	overflow: hidden;
+}
+
+.hotnew li a img {
+	position: absolute;
+	width: 290px;
+	height: 164px;
+	top: 0px;
+	left: 0px;
+}
+
+.hotnew li:hover,#hotnewlist li:hover,.home_ad:hover {
+	-webkit-box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);
+	box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.1);
+	top: -8px;
+	transition: all 0.5s;
+}
+
+.hotnew li:hover img {
+	width: 348px;
+	height: 197px;
+	left: -29px;
+	top: -16.5px;
+	transition: all 0.5s;
+}
+
+#hotnewlist {
+	position: relative;
+}
+
+#hotnewlist p {
+	position: absolute;
+	top: 18px;
+	left: 440px;
+	border-right: 1px dashed #d3d3d3;
+}
+
+#hotnewlist li {
+	float: left;
+	width: 385px;
+	padding-left: 5px;
+}
+
+#hotnewlist li a {
+	display: block;
+	width: 100%;
+	line-height: 32px;
+	float: left;
+}
+
+#hotnewlist li a:hover h3,#hotnewlist li a:hover span {
+	color: #fc0503;
+	transition: all 0.5s;
+}
+
+#hotnewlist li.note {
+	float: right;
+}
+
+.homead {
+	position: relative;
+}
+
+.homead img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 380px;
+	height: 170px;
+}
+
+.homead:hover img {
+	width: 456px;
+	left: -38px;
+	height: 204px;
+	top: -17px;
+	transition: all 0.5s;
+}
+
+.home_ad {
+	position: relative;
+}
+
+.home_ad:hover img {
+	padding-left: 5px;
+	transition: all 0.5s;
+}
+
+
+/* 名师风采 */
+.home_tearch li {
+	padding: 75px 23px 25px 23px;
+	position: relative;
+	width: 340px;
+	height: 193px;
+	background: url("../images/h_tearchbg.png") no-repeat 3px top;
+	float: left;
+	margin: 6px 4px;
+}
+
+.home_tearch li .h_tea_img {
+	position: absolute;
+	top: 0px;
+	width: 120px;
+	right: 20px;
+}
+
+.home_tearch li .h_tea_img a {
+	width: 120px;
+	height: 120px;
+	-webkit-border-radius: 60px;
+	-moz-border-radius: 60px;
+	border-radius: 60px;
+	background-color: #f0f0f0;
+}
+
+.home_tearch li:hover {
+	background: url("../images/h_tearchbg2.png") no-repeat 0px top;
+	top: -6px;
+	transition: all 0.5s;
+}
+
+.home_tearch li .h_tea_img a img {
+	border-radius: 50%;
+	width: 120px;
+	height:120px;
+}
+
+.home_tearch li h3{
+	text-align: center;
+}
+
+.home_tearch li h3.lesson-total{
+    font-size: 13px;
+    color: #616161;
+}
+
+.home_tearch li h3.all-lesson{
+	color: #e9511b;
+}
+
+.home_tearch li h3.all-lesson>em{
+	display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 3px;
+    vertical-align: middle;
+    background: url(../images/index_go_teacher_icon.png) no-repeat 0px top;
+}
+
+.home_tearch li .teacher-descript{
+	height: 115px;
+	overflow: hidden;
+	text-indent: 2em;
+}
+
+.index-menu-display {
+	display: block !important;
+}
+
+/* 直播标志 */
+.icon-live{
+	cursor: pointer;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+.icon-live-nostart{
+	background-image: url('../images/icon-live-nostart.png');
+}
+.icon-live-starting{
+	background-image: url('../images/icon-live-starting.png');
+}
+.lesson-live-starting{
+	background-image: url('../images/lesson-live-starting.png');
+}
+.icon-live-ended{
+	background-image: url('../images/icon-live-ended.png');
+}
+
+/* 学习记录进度条 */
+.play-record progress,.play-record progress::-webkit-progress-bar{
+    height: 12px;
+	color:#69bdf5;
+	border-radius: 1rem;
+	background-color:#d4d4d4;
+}
+.play-record progress::-webkit-progress-value{
+	background: #69bdf5;
+	border-radius: 1rem;
+}

@@ -1,0 +1,12 @@
+<script type="text/template" id="tpl_block_singleimg">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>">
+        <div style="background:<% if(style.show_background==1){%><%= style.background %><% }else{ %>none<% } %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>;">
+			<div class="block_content singleimg_block">
+				<img src="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>" style="border-radius:<%= style.image_radius %>;" />
+			</div>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

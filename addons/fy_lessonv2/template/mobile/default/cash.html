@@ -1,0 +1,265 @@
+<!-- 
+ * 用户分销佣金提现
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/commission.css?v={$versions}" rel="stylesheet" />
+<style type="text/css">
+.tabbar_wrap {
+	-webkit-overflow-scrolling: unset;
+}
+</style>
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<form method="post" action="" onsubmit="return checknum();">
+	<div class="lesson_cash">
+		<div class="balance_img" style="background-image:url({$avatar});"></div>
+		<div class="balance_text">当前总金额</div>
+		<div class="balance_num">￥{$member['nopay_commission']}</div>
+		<div class="input-group">
+			<label>提现方式</label>
+			<select name="cash_way" class="form_select xl" id="cash_way" onchange="selCashType(this.value)">
+				{if !empty($setting_cashway)}
+						<option value="">请选择提现方式</option>
+					{loop $setting_cashway $way}
+						{if $way=='credit'}
+						<option value="1"> 系统余额</option>
+						{/if}
+						{if $way=='weachat'}
+						<option value="2"> 微信钱包</option>
+						{/if}
+						{if $way=='alipay'}
+						<option value="3"> 支付宝</option>
+						{/if}
+						{if $way=='bank'}
+						<option value="4"> 银行卡</option>
+						{/if}
+						{if $way=='qrcode'}
+						<option value="5"> 二维码收款</option>
+						{/if}
+					{/loop}
+				{else}
+					<option value="">暂无有效提现方式，请联系管理员</option>
+				{/if}
+			</select>
+		</div>
+
+		{if in_array('bank', $setting_cashway)}
+		<div class="input-group bank-group" style="display:none;">
+			<label>提现银行</label>
+			<select name="bank_name" id="bank_name" class="form_select xl">
+				<option value="">请选择银行</option>
+				{loop $bankList $item}
+				<option value="{$item}">{$item}</option>
+				{/loop}
+			</select>
+		</div>
+		<div class="input-group bank-group" style="display:none;">
+			<label>银行开户行</label>
+			<input type="text" name="bank_row" id="bank_row" placeholder="请输入银行开户行">
+		</div>
+		{/if}
+
+		{if in_array('alipay', $setting_cashway) || in_array('bank', $setting_cashway)}
+		<div class="input-group alipay-bank" style="display:none;">
+			<label>提现帐号</label>
+			<input type="text" name="pay_account" placeholder="请输入提现帐号">
+		</div>
+		<div class="input-group alipay-bank" style="display:none;">
+			<label>收款人姓名</label>
+			<input type="text" name="pay_name" placeholder="请输入收款人姓名">
+		</div>
+		{/if}
+
+		{if in_array('qrcode', $setting_cashway)}
+		<div class="weui-cell__bd qrcode-group" style="display:none;">
+			<div class="weui-uploader">
+				<div class="weui-uploader__hd" style="padding:0;">
+					<label>收款二维码</label>
+					<div class="weui-uploader__bd" style="width:70%; padding:3% 5%;">
+						<ul class="weui-uploader__files" id="image-region">
+							<input type="hidden" name="user_img" id="user_img" />
+						</ul>
+						<div class="weui-uploader__input-box">
+							<input class="weui-uploader__input" type="file" accept="image/*" onchange="uploadimgs(this)">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+
+		<div class="input-group">
+			<label>提现金额</label>
+			<input type="tel" name="cash_num" id="cash_num" placeholder="请输入提现金额" onkeyup="countServiceAmount()" onBlur="countServiceAmount()">
+		</div>
+		<div class="input-group service-tip">
+			<label></label>
+			<input class="service-tip-input" id="service-tip-input" value="" readonly>
+		</div>
+	</div>
+	<div class="weui-btn-area" style="margin-top:16px;">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		<input type="submit" name="submit" class="weui-btn weui-btn_primary" style="width:90%;" value="提交">
+	</div>
+</form>
+
+
+<script type="text/javascript">
+var cash_lower = {php echo $cash_lower};
+var nopay_commission = {php echo $member['nopay_commission']};
+var cash_service_num = {php echo $comsetting['cash_service_num']};
+var total = Math.floor(nopay_commission/(1 + cash_service_num*0.01)*100)/100;
+
+function checknum(){
+	var cash_way = $("#cash_way").val();
+	var num = $("#cash_num").val();
+	var pay_account = $("input[name=pay_account]").val();
+	var pay_name  = $("input[name=pay_name]").val();
+	var bank_name = $("#bank_name").val();
+	var bank_row  = $("#bank_row").val();
+	var user_img  = $("#user_img").val();
+
+	if(cash_way==''){
+		alert("请选择提现方式");
+		return false;
+	}
+	if(cash_way==3 && (pay_account=='' || pay_name=='')){
+		alert("请完整填写各项支付宝提现信息");
+		return false;
+	}
+	if(cash_way==4 && (pay_account=='' || pay_name=='' || bank_name=='' || bank_row=='')){
+		alert("请完整填写各项银行卡提现信息");
+		return false;
+	}
+	if(cash_way==5 && user_img==''){
+		alert("请上传收款二维码");
+		return false;
+	}
+	if(num=='' || num<=0 || isNaN(num)){
+		alert("提现金额输入有误，请重新输入");
+		return false;
+	}
+	if(cash_way==1){
+		if(num > nopay_commission){
+			alert("您当前可提现额度为"+nopay_commission+"元");
+			return false;
+		}
+	}else{
+		if(num > total){
+			alert("您当前可提现额度为"+total+"元");
+			return false;
+		}
+	}
+	
+	if(num < cash_lower){
+		alert("当前系统最低提现额度为"+cash_lower+"元");
+		return false;
+	}
+
+	$("#loadingToast").show();
+}
+
+function countServiceAmount(){
+	var cash_way = $("#cash_way").val();
+	var num = ($("#cash_num").val()) * 1;
+	if(cash_way >1){
+		var service_amount = num * cash_service_num * 0.01;
+		service_amount = service_amount.toFixed(2);
+		if(service_amount>0){
+			if(num > total){
+				$("#service-tip-input").val("输入金额超过可提现金额");
+				$("#service-tip-input").addClass('red-color');
+			}else{
+				if(cash_service_num>0){
+					$("#service-tip-input").val("额外扣除￥" + service_amount + "手续费");
+					$("#service-tip-input").removeClass('red-color');
+				}
+			}
+		}else{
+			if(cash_service_num>0){
+				$("#service-tip-input").val("额外扣除{$comsetting['cash_service_num']}%的手续费");
+				$("#service-tip-input").removeClass('red-color');
+			}
+		}
+	}else{
+		if(num > nopay_commission){
+			$("#service-tip-input").val("输入金额超过可提现金额");
+			$("#service-tip-input").addClass('red-color');
+		}else{
+			$("#service-tip-input").val("");
+			$("#service-tip-input").removeClass('red-color');
+		}
+	}
+}
+
+function selCashType(cash_type){
+
+	{if in_array('alipay', $setting_cashway) || in_array('bank', $setting_cashway)}
+		
+		if(cash_type==3 || cash_type==4){
+			if(cash_type==4){
+				$(".bank-group").show();
+			}else{
+				$(".bank-group").hide();
+			}
+			$(".alipay-bank").show();
+		}else{
+			$(".alipay-bank").hide();
+			$(".bank-group").hide();
+		}
+	{/if}
+
+	{if in_array('qrcode', $setting_cashway)}
+		if(cash_type==5){
+			$(".qrcode-group").show();
+		}else{
+			$(".qrcode-group").hide();
+		}
+	{/if}
+
+		countServiceAmount();
+}
+</script>
+
+<script type="text/javascript">
+	function uploadimgs(obj) {
+		var files = obj.files;
+		var attachurl = "{$_W['attachurl']}";
+		var uploadPath = "{php echo $this->createMobileUrl('ajaxuploadimage',array('type'=>'base64'));}";
+
+		lrz(files[0], {width: 900, fieldName: "file"}).then(function (data) {
+			$.post(uploadPath, {imageData: data.base64}, function (rs) {
+				$(obj).parent().prev().append('<li onclick="removeimgs(this)" class="weui-uploader__file " style="background-image:url(' + attachurl + rs.path + ')"></li>');
+				$("#user_img").val(rs.path);
+				$(".weui-uploader__input-box").hide();
+			}, 'json');
+
+		}).then(function (data) {
+
+		}).catch(function (err) {
+			console.log(err);
+		});
+	}
+
+	function removeimgs(obj){
+		if(confirm('确定删除图片?')){
+			$(obj).remove();
+			$(".weui-uploader__input-box").show();
+		}
+		return false;
+	}
+</script>
+
+{template $template.'/_footerv2'}

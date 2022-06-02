@@ -1,0 +1,15 @@
+{if !empty($list)}
+	{loop $list $item}
+	<div class="modal-item" style="margin:15px 14px;" onclick="selectAccount({$item['uniacid']}, '{$item['name']}');">
+		<div class="logo">
+			<img class="account-logo" src="{$_W['attachurl']}/headimg_{$item['uniacid']}.jpg?time={$time}">
+			<div class="mark">
+				<i class="wi wi-right"></i>
+			</div>
+		</div>
+		<div class="name text-over">{$item['name']}</div>
+	</div>
+	{/loop}
+{else}
+	<p style="font-size:16px;padding:150px;text-align:center;">没有找到任何公众号</p>
+{/if}

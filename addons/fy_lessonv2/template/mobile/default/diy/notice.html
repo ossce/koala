@@ -1,0 +1,43 @@
+<div class="article_div flex0_1" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<i class="flex_g0 icon_new" style="background-image:url({$diy['style']['imgsrc']});border-color:{$diy['style']['vertical_color']};"></i>
+	<ul class="article_div_list flex_all">
+		{loop $diy['data'] $article}
+		<li>
+			<a href="{$article['link']}" style="color:{$article['color']};">
+				{if $article['is_vip']}
+					<img src="{MODULE_URL}static/mobile/default/images/article-title-vip.png?v=3" height="18" style="vertical-align:-4px;" >
+				{/if}
+				{$article['title']}
+			</a>
+		</li>
+		{/loop}
+	</ul>
+	<a class="flex_g0 more" href="{php echo $this->createMobileUrl('article', array('op'=>'list'));}" style="color:{$diy['style']['more_color']};border-color:{$diy['style']['vertical_color']};">{$diy['style']['more_font']} <i class="fa fa-angle-right"></i></a>
+</div>
+<script type="text/javascript">
+    var scroll_height = "40px";
+    var tsq;
+    var showidx = 0;
+
+    var notice = function () {
+      var len = $(".article_div_list li").length;
+      var m = $(".article_div_list li");
+      clearInterval(tsq);
+      if (len > 1) {
+        tsq = setInterval(function () {
+          m.eq(showidx).animate({
+            top: "-=" + scroll_height
+          }, 500, 'linear', function () {
+            $(this).css("top", scroll_height);
+          });
+          showidx++;
+          if (showidx == len) {
+            showidx = 0;
+          }
+          m.eq(showidx).animate({
+            top: "-=" + scroll_height
+          }, 500, 'linear');
+        }, {php echo intval($diy['style']['speed'])*1000});
+      }
+    }();
+</script>

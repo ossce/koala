@@ -1,0 +1,2 @@
+<?php
+ goto r5pQv; EUbAl: K5sSw: goto okiEo; h_7eK: exit; goto EUbAl; r5pQv: if (!($uid && !$_GPC["\165\x69\144"])) { goto K5sSw; } goto QHRKU; QHRKU: header("\114\157\x63\141\164\151\157\x6e\x3a" . $_W["\163\151\x74\145\x75\x72\x6c"] . "\x26\x75\x69\144\75" . $uid); goto h_7eK; okiEo: include $this->template("\56\x2e\57\155\x6f\x62\151\154\145\x2f\163\x68\x6f\x70");

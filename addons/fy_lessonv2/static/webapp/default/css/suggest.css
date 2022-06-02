@@ -1,0 +1,145 @@
+.suggest{
+    width: 1200px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px;
+    box-sizing: border-box;
+}
+.suggest button{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width:88px;
+    height:32px;
+    border-radius:2px;
+    border:1px solid rgba(248,92,91,1);
+    font-size:14px;
+    color:rgba(248,92,91,1);
+    cursor: pointer;
+}
+.suggest button:hover{
+    background: rgba(248,92,91,1);
+    color: #ffffff;
+}
+.suggest_flex{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.suggest_flex1{
+    justify-content: space-between;
+}
+.suggest_flex1 ul{
+    flex: 1;
+}
+.suggest_flex span{
+    width: 96px;
+    text-align: left;
+    font-size:16px;
+    font-weight:500;
+    color:#333333;
+}
+.suggest_flex span i{
+    color: #3296fa;
+}
+.suggest_flex_s{
+    align-items: flex-start;
+}
+.suggest_flex textarea{
+    flex: 1;
+    height:260px;
+    border-radius:4px;
+    border:1px solid rgba(238,238,238,1);
+    font-size:14px;
+    padding: 16px 20px;
+}
+.suggest_flex > div > div{
+    width:120px;
+    height:120px;
+    border-radius:4px;
+    border:1px solid rgba(238,238,238,1);
+    padding-top: 35px;
+    box-sizing: border-box;
+    position: relative;
+}
+.suggest_flex div input{
+    position: absolute;
+    width:120px;
+    height:120px;
+    top: 0px;
+    opacity: 0;
+}
+.suggest_flex div div i{
+    display: block;
+    margin: 0 auto;
+    width: 24px;
+    height: 22px;
+    margin-bottom: 6px;
+    background: url(../images/icon-suggest-upload.png) no-repeat center center;
+}
+.suggest_flex div div p{
+    text-align: center;
+    font-size:14px;
+    color:rgba(204,204,204,1);
+}
+.suggest_flex div{
+    margin-bottom: 10px;
+}
+.suggest_flex div p{
+    font-size:12px;
+    color:rgba(204,204,204,1);
+}
+.suggest_flex input{
+    flex: 1;
+    height:40px;
+    border-radius:4px;
+    border:1px solid rgba(238,238,238,1);
+    text-indent: 20px;
+    font-size:14px;
+}
+.suggest_flex .suggest_picture .picture_item{
+	width: 120px;
+    height: 120px;
+    border-radius: 4px;
+    border: 1px solid rgba(238,238,238,1);
+    padding-top: 35px;
+    box-sizing: border-box;
+    position: relative;
+    margin-right: 20px;
+	float: left;
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.suggest_flex .suggest_picture .picture_item .remove {
+    position: absolute;
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: url(../images/btn-close-circle.png) no-repeat center center;
+    right: -8px;
+    top: -8px;
+	background-size: cover;
+}
+.btn-submit{
+	display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 150px;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #F85C5B;
+}
+
+.radio_list li{
+    display: inline-block;
+    margin-right: 21px;
+	margin-top: 7px;
+}
+.radio_list li .category_name{
+	vertical-align: 14px;
+}

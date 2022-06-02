@@ -1,0 +1,153 @@
+<!-- 
+ * 确认订单
+ * ============================================================================
+ * 版权所有 2015-2020 风影科技，并保留所有权利。
+ * 网站地址: https://www.fylesson.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件，未购买授权用户无论是否用于商业行为都是侵权行为！
+ * 允许已购买用户对程序代码进行修改并在授权域名下使用，但是不允许对程序代码以
+ * 任何形式任何目的进行二次发售，作者将依法保留追究法律责任的权力和最终解释权。
+ * ============================================================================
+ -->
+{template '_header'}
+<link rel="stylesheet" href="{MODULE_URL}static/mobile/css/shop-confirm.css?v={$versions}">
+
+<form method="post" action="{php echo $this->createMobileUrl('shopaddorder')}" id="orderForm">
+	<div class="address_defalut_wrap">
+		<div>
+			<div class="address_defalut address_border">
+				{if $address}
+					<ul>
+						<li>
+							<strong>{$address['realname']}</strong>
+							<strong>{$address['mobile']}</strong>
+						</li>
+						<li class="address">
+							{if $address['isdefault']}
+							<span class="tag tag_red">默认</span>
+							{/if}
+							{$address['province']}{$address['city']}{$address['area']}{$address['address']}
+						</li>
+					</ul>
+				{else}
+					<div class="no-address"><img class="plus" src="{MODULE_URL}static/mobile/images/icon-add-red.svg">请先填写收货地址</div>
+				{/if}
+				<input type="hidden" id="province" value="{$address['province']}" />
+			</div>
+		</div>
+	</div>
+
+	<section>
+		<div class="order_info">
+			<div class="order_title">商品清单</div>
+			<ul>
+				{loop $list $item}
+				<li class="goods-wrap">
+					<div class="product_info">
+						<img src="{$_W['attachurl']}{$item['cover']}" class="goods_cover">
+						<div class="goods_title">{$item['title']}</div>
+						<p class="sku_name">{$item['sku_name']}</p>
+						<p class="sku_price">
+							<span class="price_area">
+								{if $item['sell_type'] == 1}
+									<span class="large_text">{$item['integral']}</span>积分
+								{elseif $item['sell_type'] == 2}
+									¥<span class="large_text">{$item['price']}</span>
+								{elseif $item['sell_type'] == 3}
+									¥<span class="large_text">{$item['price']}</span>+<span class="large_text">{$item['integral']}</span>积分
+								{/if}
+								
+							</span>
+						</p>
+					</div>
+					<div class="sku">
+						<div class="sku_num">×{$item['total']}</div>
+					</div>
+				</li>
+				{/loop}
+			</ul>
+
+			{if $goods_type == 1}
+			<div class="h-15"></div>
+			<div>
+				<ul class="order_info_list">
+					<li class="shipping">
+						<strong class="fl">配送方式</strong>
+						<div class="shipping_content text-r">
+							请选择...
+						</div>
+					</li>
+				</ul>
+			</div>
+			{/if}
+			<div class="h-5"></div>
+		</div>
+
+		<div class="buy_checkout">
+			<ul>
+				<li>
+					<div class="content desc">
+						<strong>商品总额</strong>
+						<span>¥{$totalprice}</span>
+					</div>
+				</li>
+				<li>
+					<div class="content desc">
+						<strong>商品积分</strong>
+						<span>{$totalintegral} 积分</span>
+					</div>
+				</li>
+				<li>
+					<div class="content desc">
+						<strong>运费</strong>
+						<span class="express-price">￥0.00</span>
+					</div>
+				</li>
+			</ul>
+			<div class="total_price">
+				总计：
+				<span class="color-fd5a45">
+					{if $sell_type == 1}
+						<span class="total-integral">{$totalintegral}</span> 积分
+					{elseif $sell_type == 2}
+						￥<span class="total-price">{$totalprice}</span>
+					{elseif $sell_type == 3}
+						￥<span class="total-price">{$totalprice}</span> + <span class="total-integral">{$totalintegral}</span> 积分
+					{/if}
+				</span>
+			</div>
+		</div>
+
+		<div class="buy_checkout">
+			<div class="order_remark">
+				<textarea name="remark" placeholder="订单备注，选填"></textarea>
+			</div>
+			<div class="order_buttom">
+				<a href="javascript:;" class="btn-submit-order">提交订单</a>
+			</div>
+			<div class="h-15"></div>
+		</div>
+	</section>
+	<input type="hidden" name="address_id" value="{$address['id']}">
+	<input type="hidden" name="cart_ids" value="{$cart_ids}">
+	<input type="hidden" name="express_id" value="">
+	<input type="hidden" id="original_totalprice" value="{$totalprice}">
+</form>
+
+<script type="text/javascript">
+	window.config = {
+		   uniacid: "{$uniacid}",
+		       uid: "{$uid}",
+		 sell_type: "{$sell_type}",
+		goods_type: "{$goods_type}",
+	   totalnumber: "{$totalnumber}",
+	 express_label: {php echo json_encode($express_label)},
+	  express_list: {php echo json_encode($express_list)},
+	    confirmurl: "{$returnurl}",
+		addressurl: "{php echo $this->createMobileUrl('shopaddress',array('address_id'=>$address['id']))}",
+	};
+</script>
+<script type="text/javascript" src="{MODULE_URL}static/mobile/js/shopconfirm.js?v={$versions}"></script>
+
+
+{template '_footer'}

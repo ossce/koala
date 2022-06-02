@@ -1,0 +1,297 @@
+{php include $this->template($template.'/_header')}
+<link type="text/css" href="{MODULE_URL}/static/public/photoClip/css/index.css" rel="stylesheet">
+<script type="text/javascript" src="{MODULE_URL}/static/webapp/{$template}/js/ajaxfileupload.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/iscroll-zoom.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/hammer.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/lrz.all.bundle.js" charset="utf-8"></script>
+<script type="text/javascript" src="{MODULE_URL}/static/public/photoClip/js/jquery.photoClip.js" charset="utf-8"></script>
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="commonTitle flex flex-v memberCenter">
+				<div class="flex flex-v commonContent userInfo">
+					<form id="memberInfoForm" method="post" action="/{$uniacid}/memberInfo.html?op=postMemberInfo">
+						<dl class="items flex">
+							<dt class="m-t-20"><span class="ft-w-b ftc-e9511b">*</span> 个人头像：</dt>
+							<dd class="uploadImg flex1">
+								<img id="view" src="{$avatar}" class="img">
+								<input type="hidden" id="avatar" name="avatar" value="{$member['avatar']}">
+								<input type="file" id="pickfiles" class="hide" accept="image/*">
+								<div class="uploadBox"><a id="btnUploadAvatar" href="javascript:;" class="camera"><i class="iconfont icon-camera"></i></a></div>
+								<div class="tips">
+									<p>仅支持JPG、PNG格式图片</p>
+								</div>
+								<div class="cover-wrap">
+									<div class="clipBgn" id="clipBgn">
+										<div id="clipArea" style="margin:10px;height: 520px;"></div>
+										<div class="clipButton">
+											<a href="javascript:;" id="clipBtn">保存图片</a>
+										</div>
+									</div>
+								</div>
+							</dd>
+						</dl>
+
+					{loop $common_member_fields $item}
+						{if in_array($item['field_short'], $user_info)}
+							<dl class="items flex">
+								<dt><span class="ft-w-b ftc-e9511b">*</span> {$item['field_name']}：</dt>
+								<dd class="flex1">
+									{if $item['field_short']=='mobile' && $member['mobile']}
+										{$encrypt_mobile}  <a href="/{$uniacid}/account.html" class="fs-12 m-l-15" target="_blank">修改手机?</a>
+									{else}
+										<input type="text" class="inputTxt" name="{$item['field_short']}" value="{$member[$item['field_short']]}">
+									{/if}
+								</dd>
+							</dl>
+							{if $item['field_short']=='mobile' && $sms['template_id'] && !$member['mobile']}
+							<dl class="items flex">
+								<dt><span class="ft-w-b ftc-e9511b">*</span> 验证码：</dt>
+								<dd class="flex1">
+									<input type="text" class="inputTxt" name="verify_code" style="width:106px;">
+									<a href="javascript:;" id="btn-send-code" class="smBtn btn-default" style="height:36px; line-height:36px;">获取验证码</a>
+								</dd>
+							</dl>
+							{/if}
+						{/if}
+					{/loop}
+					{if $setting['privacy_agreement']}
+						<dl class="items flex">
+							<dt></dt>
+							<dd class="flex1">
+								<input type="checkbox" name="privacy_agreement" value="1" style="vertical-align:-2px;" checked> 我已阅读并同意<a href="javascript:;" id="btn-agreement">《用户服务(隐私)协议》</a>
+							</dd>
+						</dl>
+						<div class="agreement-area-mask" style="display:none;">
+							<div class="agreement-area">
+								<div class="close">
+									<img src="{MODULE_URL}static/webapp/{$template}/images/btn-close.png" width="32" height="32">
+								</div>
+								<h3 class="notice-title">用户服务(隐私)协议</h3>
+								<ul class="notice-body">
+									{php echo htmlspecialchars_decode($setting['privacy_agreement'])}
+								</ul>
+							</div>
+						</div>
+					{/if}
+						<dl class="items flex mt50">
+							<dt></dt>
+							<dd class="btns flex1">
+								<input type="hidden" name="type" value="{$_GPC['type']}">
+								<input type="hidden" name="lessonid" value="{$_GPC['lessonid']}">
+								<input type="hidden" name="spec_id" value="{$_GPC['spec_id']}">
+								<input type="hidden" name="sectionid" value="{$_GPC['sectionid']}">
+								<input type="hidden" name="teacherid" value="{$_GPC['teacherid']}">
+								<input type="hidden" name="level_id" value="{$_GPC['level_id']}">
+								<input type="hidden" name="token" value="{$_W['token']}">
+								<a id="btnSubmit" class="miBtn btn-primary" href="javascript:;">确认提交</a>
+							</dd>
+						</dl>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+//定位提示框
+if (window.innerHeight){
+	winHeight = window.innerHeight;
+}else if ((document.body) && (document.body.clientHeight)){
+	winHeight = document.body.clientHeight;
+}
+window.onload = function() { 
+	var marginTop = (winHeight-604)/2;
+	document.getElementById("clipBgn").style.marginTop = marginTop + 'px';
+}
+</script>
+
+<script type="text/javascript">
+	$('#btnUploadAvatar').click(function(){
+		document.getElementById('pickfiles').click();
+	});
+
+	$("#clipArea").photoClip({
+		size: [200, 200],
+		outputSize:[200, 200],
+		file: "#pickfiles",
+		ok: "#clipBtn",
+		view:"#view",
+		loadStart: function() {
+			$('.cover-wrap').fadeIn();
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			$("#loadingToast").show();
+			$('.cover-wrap').fadeOut();
+			uploadPhotoImage(dataURL);
+		}
+	});
+
+	var uploadPhotoImage = function(dataURL){
+		$.ajax({
+			url: "/{$uniacid}/ajaxUploadImage.html?type=base64",
+			type: 'POST',
+			data: {imageData: dataURL},
+			dataType: "json",
+			success:function(res){
+				$("#loadingToast").hide();
+				$('#view').attr('src', "{$_W['attachurl']}" + res.imagePath);
+				$("#avatar").val(res.imagePath);
+			},
+			error: function(data, status, e) {
+				$("#loadingToast").hide();
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			}
+		})
+	}
+
+	var countdown = 60;
+	$("#btn-send-code").click(function(){
+		var result = checkMobile();
+		if(!result){
+			return;
+		}
+		if ($('#btn-send-code').hasClass('has_send')) {
+			return false;
+		}
+
+		var mobile = $('input[name="mobile"]').val();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/sendcode.html",
+			data: {mobile:mobile},
+			success: function (data) {
+				if(data.code==0){
+					settime($("#btn-send-code"));
+					swal("系统提示", "短信发送成功，请注意查收", "success");
+				}else{
+					swal("系统提示", data.msg, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	});
+
+	//发送验证码倒计时
+	function settime(obj) {
+		if(countdown == 0) {
+			$('#btn-send-code').removeClass('has_send').text('重新发送');
+			countdown = 60;
+			return;
+		} else {
+			$('#btn-send-code').addClass('has_send').text('重新获取(' + countdown + ')');
+			countdown--;
+		}
+		setTimeout(function() {
+			settime(obj)
+		}, 1000)
+	}
+
+	//校验手机号是否合法
+	function checkMobile() {
+		var mobile = $('input[name="mobile"]').val();
+		var myreg = /^((1)+\d{10})$/;
+		if(!myreg.test(mobile)) {
+			swal("系统提示", "请输入有效的手机号码", "error");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	$('#btnSubmit').click(function(){
+		var avatar = $("input[name=avatar]").val();
+		if(avatar==''){
+			swal("系统提示", "请上传头像", "error");
+		}
+
+		<?php foreach($common_member_fields as $item){ ?>
+			<?php if (in_array($item['field_short'], $user_info)){ ?>
+				<?php if($item['field_short']=='mobile' && $member['mobile']) continue; ?>
+				<?php if($item['field_short']=='mobile' && !$member['mobile']){ ?>
+					if($("input[name=verify_code]").val()==''){
+						swal("系统提示", "请输入验证码", "error");
+						return false;
+					}
+				<?php } ?>
+				
+				var {$item['field_short']} = $("input[name={$item['field_short']}]").val();
+				if({$item['field_short']}==''){
+					swal("系统提示", "请填写{$item['field_name']}", "error");
+					return false;
+				}
+			<?php } ?>
+		<?php } ?>
+
+		<?php if($setting['privacy_agreement']){ ?>
+			var agreement = false;
+			$("input[name='privacy_agreement']").each(function () {
+				if ($(this).is(":checked")) {
+					agreement = true;
+				}
+			});
+			if(!agreement){
+				swal("系统提示", "请阅读并同意用户服务(隐私)协议", "error");
+				return false;
+			}
+		<?php } ?>
+
+
+	<?php if(in_array('mobile', $user_info) && !$member['mobile']){ ?>
+		$("#loadingToast").show();
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url: "/{$uniacid}/memberInfo.html?op=checkMobile",
+			data: {
+					mobile:$("input[name=mobile]").val(),
+					verify_code:$("input[name=verify_code]").val(),
+				  },
+			success: function (res) {
+				$("#loadingToast").hide();
+				if(res.code==0){
+					$("#memberInfoForm").submit();
+				}else{
+					swal("系统提示", res.message, "error");
+					return false;
+				}
+			},
+			error: function(e){
+				$("#loadingToast").hide();
+				swal("系统提示", "网络超时，请重新获取", "error");
+				return false;
+			}
+		});
+	<?php }else{ ?>
+		$("#loadingToast").show();
+		$("#memberInfoForm").submit();
+	<?php } ?>
+	});
+
+	//查看协议
+	$("#btn-agreement").click(function(){
+		$('.agreement-area-mask').show();
+	});
+	$(".close").click(function(){
+		$('.agreement-area-mask').hide();
+	});
+</script>
+
+{php include $this->template($template.'/_footer')}

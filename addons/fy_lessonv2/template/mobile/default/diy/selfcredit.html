@@ -1,0 +1,22 @@
+<div style="background:{if $diy['style']['show_background']}{$diy['style']['background']}{else}none{/if};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="mine_info_grid flex0 ios-system" style="border-radius:{$diy['style']['bg_radius']};margin:0;">
+		{if $diy['style']['show_credit1']}
+		<a href="{php echo $this->createMobileUrl('credit', array('type'=>1))}" id="go-credit1" class="mine_info flex-al1">
+			<div class="num">{$memberinfo['credit1']}</div>
+			<span>{php echo $common['self_page']['credit1'] ? $common['self_page']['credit1'] : '会员积分';}</span>
+		</a>
+		{/if}
+		{if $diy['style']['show_credit2']}
+		<a href="{php echo $this->createMobileUrl('credit', array('type'=>2))}" id="go-credit2" class="mine_info flex-al1" style="border-color:{$diy['style']['left_border_color']};">
+			<div class="num">{$memberinfo['credit2']}</div>
+			<span>{php echo $common['self_page']['credit2'] ? $common['self_page']['credit2'] : '会员余额';}</span>
+		</a>
+		{/if}
+		{if $diy['style']['show_coupon']}
+		<a href="{php echo $this->createMobileUrl('coupon');}" class="mine_info flex-al1" style="border-color:{$diy['style']['left_border_color']};">
+			<div class="num">{$coupon_count}</div>
+			<span>{php echo $common['self_page']['coupon'] ? $common['self_page']['coupon'] : '优惠券';}</span>
+		</a>
+		{/if}
+	</div>
+</div>

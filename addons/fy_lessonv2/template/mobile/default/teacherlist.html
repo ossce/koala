@@ -1,0 +1,161 @@
+<!-- 
+ * 讲师列表
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/teacherlist.css?v={$versions}" rel="stylesheet" />
+
+<!-- 顶部搜索框 -->
+<style type="text/css">
+
+</style>
+<div class="search_grid">
+	<div class="search flex0">
+		<i class="icon_search flex_g0"></i>
+		<input class="flex-al1" type="text" name="keyword" id="searchInput" value="{$_GPC['keyword']}" autocorrect="off" placeholder="搜索老师名称">
+		<button class="search-btn">搜索</button>
+	</div>
+</div>
+
+{if !empty($category_list)}
+<div class="category-nav">
+	<div class="category-nav-scroll">
+		<a href="{php echo $this->createMobileUrl('teacherlist', array('keyword'=>$_GPC['keyword']));}" class="category-nav-menu {if !$_GPC['cate_id']}actived{/if}">全部<i class="i-cover"></i></a>
+		{loop $category_list $key $item}
+		<a href="{php echo $this->createMobileUrl('teacherlist', array('cate_id'=>$key,'keyword'=>$_GPC['keyword']));}" class="category-nav-menu  {if $key==$_GPC['cate_id']}actived{/if}">{$item}<i class="i-cover"></i></a>
+		{/loop}
+	</div>
+</div>
+{/if}
+
+<!-- 讲师列表 -->
+<div class="section">
+	{if !empty($teacherlist)}
+	<ul class="teacher_list row2 wider">
+	</ul>
+
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+	{else}
+	<div class="my_empty">
+		<div class="empty_bd  my_course_empty">
+			<h3>没有找到任何讲师~</h3>
+			<p><a href="{php echo $this->createMobileUrl('index', array('t'=>1));}">到首页去看看</a></p>
+		</div>
+	</div>
+	{/if}
+</div>
+<!-- /讲师列表 -->
+
+<div class="apply-btn {if !in_array('teachercenter',$self_item)}hide{/if}">
+	<a href="{php echo $this->createMobileUrl('applyteacher');}">申请<br/>入驻</a>
+</div>
+
+
+<script type="text/javascript">
+$(".search-btn").click(function() {
+	var keywords = $.trim($("#searchInput").val());
+    if (keywords == '') {
+        searchUrl = '{php echo $this->createMobileUrl("teacherlist", array("cate_id"=>$_GPC[cate_id]));}';
+    } else {
+        searchUrl = '{php echo $this->createMobileUrl("teacherlist", array("cate_id"=>$_GPC[cate_id]));}&keyword=' + encodeURIComponent(keywords);
+    }
+    document.location.href = searchUrl;
+    return false;
+});
+</script>
+<script type="text/javascript">
+var ajaxUrl   = "{php echo $this->createMobileUrl('teacherlist', array('op'=>'ajaxgetteacherlist','cate_id'=>$_GPC['cate_id']));}&keyword=" + $.trim($("#searchInput").val());
+var attachUrl = "{php echo $_W['attachurl'];}";
+var teacherUrl = "{php echo $this->createMobileUrl('teacher');}";
+var loadingToast = document.getElementById("loadingToast");
+
+$(function () {
+    var nowPage = 1; //设置当前页数，全局变量
+    function getData(page) {  
+        nowPage++; //页码自动增加，保证下次调用时为新的一页。  
+        $.get(ajaxUrl, {page: page}, function (data) {  
+            if (data.length > 0) {
+            	loadingToast.style.display = 'none';
+                var jsonObj = JSON.parse(data);
+                insertDiv(jsonObj);  
+            }
+        });  
+       
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$(".teacher_list");
+        var chtml = '';  
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<li class="item">';
+			chtml += '	<a href="' + teacherUrl + '&teacherid=' + result[j].id + '">';
+			chtml += '		<img src="' + attachUrl + result[j].teacherphoto + '" alt="' + result[j].teacher + '">';
+			chtml += '		<div class="con">';
+			chtml += '			<h3 class="title te">' + result[j].teacher + '</h3>';
+			chtml += '			<div style="height:59px;overflow:hidden;">';
+			for(var d = 0; d < result[j].teacherdes.length; d++){
+				chtml += '			<p class="info">' + result[j].teacherdes[d] + '</p>';
+			}
+			chtml += '			</div>';
+			chtml += '			<div class="cbox overview">';
+			if(result[j].lessonCount>0){
+				chtml += '				<p class="flex te">共<em class="c-green">' + result[j].lessonCount + '</em>课程</p>';
+				chtml += '				<span class="te"><i class="fa fa-exclamation-circle"> 查看全部课程</i></span>';
+			}else{
+				chtml += '				<p class="flex te">暂无课程</p>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '	</a>';
+			chtml += '	</li>';
+        }
+		mainDiv.append(chtml);
+		if(result.length==0){
+			document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+		}
+    }  
+  
+    //==============核心代码=============  
+    var winH = $(window).height(); //页面可视区域高度   
+  
+    var scrollHandler = function () {  
+        var pageH = $(document.body).height();  
+        var scrollT = $(window).scrollTop(); //滚动条top   
+        var aa = (pageH - winH - scrollT) / winH;  
+        if (aa < 0.02) { 
+            if (nowPage % 1 === 0) {
+                getData(nowPage);  
+                $(window).unbind('scroll');  
+                $("#btn_Page").show();
+            } else {  
+                getData(nowPage);  
+                $("#btn_Page").hide();
+            }  
+        }  
+    }  
+    //定义鼠标滚动事件
+    $(window).scroll(scrollHandler);
+    //继续加载按钮事件
+    $("#btn_Page").click(function () {
+    	loadingToast.style.display = 'block';
+        getData(nowPage);
+        $(window).scroll(scrollHandler);
+    });
+  
+});
+</script>
+
+{template $template.'/_footerv2'}

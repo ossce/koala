@@ -1,0 +1,67 @@
+<!-- 
+ * 讲师帐号设置
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/teacherAccount.css?v={$versions}" rel="stylesheet" />
+<style type="text/css">
+.tabbar_wrap {
+	-webkit-overflow-scrolling: unset;
+}
+</style>
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title">{$title}</div>
+</div>
+
+<form method="post" onsubmit="return confrimSubmit();">
+	<div class="weui-cells weui-cells_form">
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">登录帐号</label></div>
+			<div class="weui-cell__bd">
+				<input type="text" class="weui-input" name="account" placeholder="请输入讲师帐号,支持数字和字母" {if !empty($teacher['account'])}value="{$teacher['account']} [不可修改]" readonly{/if} autocomplete="off">
+			</div>
+		</div>
+		<div class="weui-cell">
+			<div class="weui-cell__hd"><label class="weui-label" for="registerform-mobile">登录密码</label></div>
+			<div class="weui-cell__bd">
+				<input type="password" class="weui-input" name="password" placeholder="{php echo $teacher['account'] ? '可输入密码重置讲师平台登录密码' : '请输入6-16位的讲师平台登录密码';}" autocomplete="new-password">
+			</div>
+		</div>
+	</div>
+	<div class="weui-btn-area">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		<input type="submit" name="submit" class="weui-btn weui-btn_primary w90-per" value="确定">
+	</div>
+</form>
+
+
+<script type="text/javascript">
+function confrimSubmit(){
+	var account = $("input[name=account]").val();
+	var password = $("input[name=password]").val();
+	if(account==''){
+		alert('请输入登录帐号');
+		return false;
+	}
+	if(password==''){
+		alert('请输入登录密码');
+		return false;
+	}
+
+	if(!confirm('登录帐号设置后将无法修改，确定提交?')){
+		return false;
+	}
+}
+</script>
+
+{template $template.'/_footerv2'}
+

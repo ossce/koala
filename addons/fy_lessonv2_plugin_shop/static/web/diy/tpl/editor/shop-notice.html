@@ -1,0 +1,155 @@
+<script>
+    Diy.Editor.defaultData.notice = {
+        style: {
+            background: '#FFFFFF',
+            vertical_padding: '10px',
+            horizontal_padding: '10px',
+            icon_image: '{MODULE_URL}static/web/diy/img/icon-index-news.png',
+			icon_link: '',
+            speed: 5,
+			notice_from: '0',
+        },
+        data: [
+            {
+                title: '运动超级品类日活动公告，等你来参加',
+                color: '#3F3F3F',
+				em_title: '重要',
+				em_color: '#FF1010',
+                link: '',
+            },
+			{
+                title: '智慧生活家装节活动公告，你还在犹豫什么呢？',
+                color: '#3F3F3F',
+				em_title: '热门',
+				em_color: '#FEC10D',
+                link: '',
+            },
+        ]
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="notice">
+    <div class="editor-notice">
+		<div class="alert alert-info">
+            <i class="fa fa-info-circle"></i> 存在多条公告，将以上下滚动方式展示。公告图标建议尺寸40 * 40px
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">滚动间隔</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.speed %>" data-type="style" data-key="speed">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.speed %>" data-unit="秒" data-min="1" data-max="10" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.speed %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-5">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">公告图标</div>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.icon_image %>" data-type="style" data-key="icon_image" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.icon_image %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="icon_image" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group more-wrap">
+            <div class="col-sm-2 control-label text-right">公告图标跳转网址</div>
+            <div class="col-sm-9">
+                <input type="text" class="form-control input-sm input_binding" value="<%= style.icon_link %>" data-type="style" data-key="icon_link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="链接以http://或https://开头，留空将跳转到通知公告列表">
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">公告来源</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="notice_from" class="input_binding" value="0" data-type="style" data-key="notice_from" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.notice_from!=1){ %>checked<% } %>> 下方公告
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="notice_from" class="input_binding" value="1" data-type="style" data-key="notice_from" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.notice_from==1){ %>checked<% } %>> 系统公告
+                </label>
+                <span class="help-block">
+                    选择系统公告后，您无需在下方填写公告标题和链接，系统自动调用“商城公告”里上架状态的公告。
+                </span>
+            </div>
+        </div>
+        <hr/>
+        <div class="form-group ui-sortable ep-item-sortable">
+            <% _.each(data, function(item) { %>
+            <div class="notice-item ep-item">
+                <div class="notice-sort-icon">
+                    <i class="fa fa-arrows"></i>
+                </div>
+                <div class="notice-params">
+                    <div class="input-group" style="margin-top: 5px;">
+                        <span class="input-group-addon ep-input-lable">公告标题</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.title %>" data-type="data" data-key="title" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                        <input type="color" class="form-control input-sm input_color input_binding" value="<%= item.color %>" data-type="data" data-key="color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                        <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#3F3F3F').trigger('change')">
+                            <i class="fa fa-remove"></i>
+                        </span>
+                    </div>
+					<div class="input-group" style="margin-top: 5px;">
+                        <span class="input-group-addon ep-input-lable">公告标识</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.em_title %>" data-type="data" data-key="em_title" data-name="<%= name %>" data-guid="<%= guid %>" style="width:80%;">
+                        <input type="color" class="form-control input-sm input_color input_binding" value="<%= item.em_color %>" data-type="data" data-key="em_color" data-name="<%= name %>" data-guid="<%= guid %>" style="width:20%;">
+                        <span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#FF1010').trigger('change')">
+                            <i class="fa fa-remove"></i>
+                        </span>
+                    </div>
+                    <div class="input-group" style="margin-top: 5px;">
+                        <span class="input-group-addon ep-input-lable">公告链接</span>
+                        <input type="text" class="form-control input-sm input_binding" value="<%= item.link %>" data-type="data" data-key="link" data-name="<%= name %>" data-guid="<%= guid %>" placeholder="跳转链接以http://或https://开头"/>
+                        <span class="input-group-addon hide"></span>
+                    </div>
+                </div>
+                <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>"></span>
+            </div>
+            <% }); %>
+        </div>
+        <div class="form-group text-center">
+            <button class="btn btn-default btn-block ep-item-add" type="button" data-name="<%= name %>" data-guid="<%= guid %>">
+                <i class="fa fa-plus-circle"></i> 新增公告
+            </button>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,36 @@
+<div style="background:{if $diy['style']['show_background']}{$diy['style']['background']}{else}none{/if};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="mine_menu_grid li4 flex0_1" style="border-radius:{$diy['style']['bg_radius']};margin:0;">
+		{if $diy['style']['show_college']}
+		<a href="{php echo $this->createMobileUrl('collect',array('ctype'=>1))}" class="mine_menu">
+			<div class="img">
+				<img src="{$diy['style']['college_imgsrc']}" />
+			</div>
+			<div>{php echo $common['self_page']['collect'] ? $common['self_page']['collect'] : '收藏';}</div>
+		</a>
+		{/if}
+		{if $diy['style']['show_history']}
+		<a href="{php echo $this->createMobileUrl('history')}" class="mine_menu">
+			<div class="img">
+				<img src="{$diy['style']['history_imgsrc']}" />
+			</div>
+			<div>{php echo $common['self_page']['history'] ? $common['self_page']['history'] : '学习记录';}</div>
+		</a>
+		{/if}
+		{if $memberVipCount || $diy['style']['show_vip']}
+		<a href="{php echo $this->createMobileUrl('vip')}" class="mine_menu">
+			<div class="img">
+				<img src="{$diy['style']['vip_imgsrc']}" />
+			</div>
+			<div>{php echo $common['self_page']['vip'] ? $common['self_page']['vip'] : 'VIP服务';}</div>
+		</a>
+		{/if}
+		{if $diy['style']['show_order']}
+		<a href="{php echo $this->createMobileUrl('mylesson')}" class="mine_menu">
+			<div class="img">
+				<img src="{$diy['style']['order_imgsrc']}" />
+			</div>
+			<div>{php echo $common['self_page']['myorder'] ? $common['self_page']['myorder'] : '课程订单';}</div>
+		</a>
+		{/if}
+	</div>
+</div>

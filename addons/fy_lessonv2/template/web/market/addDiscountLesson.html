@@ -1,0 +1,141 @@
+<div class="main">
+	<div class="alert alert-info">
+	    已添加的课程表示该课程已被添加到其他的限时折扣活动里，您可以从其他的限时折扣活动里删除该课程的活动，过期的限时折扣活动可以删掉整个活动。
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="module_name" value="fy_lessonv2">
+                <input type="hidden" name="do" value="market">
+                <input type="hidden" name="op" value="addDiscountLesson">
+				<input type="hidden" name="discount_id" value="{$discount_id}">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">课程名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="bookname" type="text" value="{$_GPC['bookname']}">
+                    </div>
+					<div class="col-sm-3 col-lg-3" style="width: 18%;">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	<div class="panel panel-default">
+        <form id="myform" name="myform" method="post" class="form-horizontal form" >
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="text-align:center;width:40px;">
+							<input type="checkbox" id="btnSelect" class="btn btn-default" onclick="checkAll(myform.hidnSelectFlag.value);" />
+						</th>
+						<th style="width:50%;padding-left:30px;">课程名称</th>
+						<th style="width:15%;">课程价格</th>
+						<th style="width:12%;">状态</th>
+						<th style="width:18%;">发布时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $list $item}
+					<tr>
+						<td style="text-align:center;">
+							{if in_array($item['id'], $lesson_ids)}
+								<input type="checkbox" disabled="true" title="已添加">
+							{else}
+								<input type="checkbox" name="id[]" value="{$item['id']}">
+							{/if}
+						</td>
+						<td style="padding-left:30px;">[ID: {$item['id']}] {$item['bookname']}</td>
+						<td>{php echo $item['price']?$item['price'].'元':'免费';}</td>
+						<td>
+							{if in_array($item['id'], $lesson_ids)}
+								<span class="label label-danger">已添加</span>
+							{else}
+								<span class="label label-success">未添加</span>
+							{/if}
+						</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime']);}</td>
+					</tr>
+					{/loop}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" style="padding-top: 30px;">
+								<a class="btn btn-success" onclick="batchAdd()"><i class="fa fa-plus"></i> 批量添加</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				{$pager}
+			</div>
+			<div class="modal fade in" id="discount" tabindex="-1">
+				<div class="we7-modal-dialog modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<div class="modal-title">设置课程折扣</div>
+						</div>
+						<div class="modal-body">
+							<div class="we7-form">
+								<div class="form-group">
+									<label class="control-label col-sm-2">课程折扣</label>
+									<div class="form-controls col-sm-10">
+										<div class="input-group">
+											<input type="text" name="discount" value="" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="请输入小于100的整数">
+											<a href="javascript:;" class="input-group-addon">%</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" onclick="addclassToRec('add');">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="hidden"  name="discount_id" value="{$discount_id}"/>
+			<input type="hidden"  name="hidnSelectFlag" value="1"/>
+		</form>
+    </div>
+</div>
+<script language="javascript">
+function checkAll(type) {
+    var type = Number(type);
+    var inputs = document.getElementsByTagName("input");
+    for(var i = 0; i < inputs.length; i++) {
+        if(inputs[i].type == "checkbox") {
+            inputs[i].checked = type;
+        }
+    }
+    myform.hidnSelectFlag.value = Number(!type);
+}
+
+function batchAdd(){
+	var check = $("input[type=checkbox][class!=check_all]:checked");
+	if(check.length < 1){
+		alert('您还没有没有任何课程');
+		return false;
+	}
+	$('#discount').modal();
+}
+
+function addclassToRec(obj){
+	if(obj!=''){
+		var check = $("input[type=checkbox][class!=check_all]:checked");
+        if(check.length < 1){
+            alert('您还没有没有任何课程');
+            return false;
+        }
+
+		document.getElementById("myform").action="{php echo $this->createWebUrl('market', array('op'=>'discountLessonPost'));}";
+
+		document.getElementById("myform").submit();
+	}
+}
+</script>

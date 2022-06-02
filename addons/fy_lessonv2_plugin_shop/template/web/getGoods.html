@@ -1,0 +1,6 @@
+{loop $list $item}
+<div class="item bg-size" data-id="{$item['id']}" data-title="{$item['title']}" data-cover="{$_W['attachurl']}{$item['cover']}" style="background:#eee url({$_W['attachurl']}{$item['cover']});" onclick="select_goods(this);">
+	<div class="text">{$item['title']}</div>
+</div>
+{/loop}
+<span class="hide curr_page">{$pindex}</span><span class="hide total_page">{$total_page}</span>

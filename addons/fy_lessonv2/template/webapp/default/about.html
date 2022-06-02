@@ -1,0 +1,60 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/about.css?v={$versions}">
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="w-1200 m-auto">
+		<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-10 m-b-10">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; {$title}
+		</div>
+
+		<div class="container page-content">
+			<div class="page-sidebar show">
+				<ul class="menu-page">
+					<li class="current-menu-item"><a href="javascript:;"><span>{php echo $about_title['aboutus'] ? $about_title['aboutus'] : '关于我们';}</span></a></li>
+					<li><a href="javascript:;"><span>{php echo $about_title['culture'] ? $about_title['culture'] : '企业文化';}</span></a></li>
+					<li><a href="javascript:;"><span>{php echo $about_title['environment'] ? $about_title['environment'] : '办公环境';}</span></a></li>
+					<li><a href="javascript:;"><span>{php echo $about_title['contact'] ? $about_title['contact'] : '联系我们';}</span></a></li>
+				</ul>
+			</div>
+			<div class="page-content-main">
+				<div class="about">
+					{php echo htmlspecialchars_decode($setting_pc['aboutus_desc'])}
+				</div>
+				<div class="about hide">
+					{php echo htmlspecialchars_decode($setting_pc['culture_desc'])}
+				</div>
+				<div class="about hide">
+					{php echo htmlspecialchars_decode($setting_pc['environment_desc'])}
+				</div>
+				<div class="about hide">
+					{php echo htmlspecialchars_decode($setting_pc['contact_desc'])}
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="hg-40"></div>
+</div>
+
+<script type="text/javascript">
+$(document).scroll(function() {
+	var scroH = $(document).scrollTop();
+	if(scroH >280){
+		$(".page-sidebar").addClass("autofixed-fixed");
+	}else{
+		$(".page-sidebar").removeClass("autofixed-fixed");
+	}
+});
+
+$(".menu-page").on("click", 'li', function() {
+	var $currItem = $(this),
+	index = $currItem.index();
+
+	$currItem.addClass('current-menu-item').siblings().removeClass('current-menu-item');
+	$(".about").hide().eq(index).show();
+
+});
+</script>
+
+
+{php include $this->template($template.'/_footer')}

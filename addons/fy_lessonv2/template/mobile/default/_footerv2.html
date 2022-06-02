@@ -1,0 +1,130 @@
+	{if !in_array($_GPC['do'], array('confirm','diypage','lessonqrcode','qrcode','qrcoderec','search'))}
+	<footer {if !empty($diy_data) && $_GPC['do']=='index'}class="hide"{/if}>
+		<a href="{php echo $this->createMobileUrl('index', array('t'=>1));}">{$setting['copyright']}</a>
+		{if $setting['site_icp']}
+		<a href="http://beian.miit.gov.cn" class="mt5">{$setting['site_icp']}</a>
+		{/if}
+	</footer>
+	{/if}
+
+	<!-- 非微信端预览聊天图片 -->
+	<div class="cmt-picture-view cmt-modal-mask">
+		<div class="cmt-picture-view cmt-modal-main">
+			<img src="{MODULE_URL}static/mobile/{$template}/images/icon-live-image.png" style="width:100%;">
+		</div>
+	</div>
+
+	{if $common['right_bar'] && $right_menu}
+		{template $template.'/_rightMenu'}
+	{/if}
+
+	{if $_GPC['do']=='lesson' && $lesson_config['search_section'] && $lesson['lesson_type']!=3}
+		{template $template.'/_searchSection'}
+	{/if}
+
+	<!-- 底部导航 -->
+	<div id="footer-nav" class="footer-nav {if ($_GPC['do']=='lesson' && $section['sectiontype']!=2) || in_array($_GPC['do'], array('confirm','lessonqrcode','myexamine','qrcode','qrcoderec'))}hidden{/if}">
+		{if !empty($diy_data)}
+			{template $template.'/diy/footnav'}
+		{else}
+			<a href="{$navigation['index']['url_link']}" class="weui-tabbar__item {if $foot_params['index']}weui-bar__item_on{/if}">
+				{if $foot_params['index']}
+					<img src="{$navigation['index']['selected_icon']}" class="weui-tabbar__icon" />
+				{else}
+					<img src="{$navigation['index']['unselected_icon']}" class="weui-tabbar__icon" />
+				{/if}
+				<p class="weui-tabbar__label">{$navigation['index']['nav_name']}</p>
+			</a>
+			<a href="{$navigation['search']['url_link']}" class="weui-tabbar__item {if $foot_params['search']}weui-bar__item_on{/if}">
+				{if $foot_params['search']}
+					<img src="{$navigation['search']['selected_icon']}" class="weui-tabbar__icon" />
+				{else}
+					<img src="{$navigation['search']['unselected_icon']}" class="weui-tabbar__icon" />
+				{/if}
+				<p class="weui-tabbar__label">{$navigation['search']['nav_name']}</p>
+			</a>
+			{if $navigation['diynav']}
+				<a href="{$navigation['diynav']['url_link']}" class="weui-tabbar__item {if $foot_params['diynav']}weui-bar__item_on{/if}">
+					{if $foot_params['diynav']}
+						<img src="{$navigation['diynav']['selected_icon']}" class="weui-tabbar__icon" />
+					{else}
+						<img src="{$navigation['diynav']['unselected_icon']}" class="weui-tabbar__icon" />
+					{/if}
+					<p class="weui-tabbar__label">{$navigation['diynav']['nav_name']}</p>
+				</a>
+			{/if}
+			{if $navigation['mylesson']}
+			<a href="{$navigation['mylesson']['url_link']}" class="weui-tabbar__item {if $foot_params['mylesson']}weui-bar__item_on{/if}">
+				{if $foot_params['mylesson']}
+					<img src="{$navigation['mylesson']['selected_icon']}" class="weui-tabbar__icon" />
+				{else}
+					<img src="{$navigation['mylesson']['unselected_icon']}" class="weui-tabbar__icon" />
+				{/if}
+				<p class="weui-tabbar__label">{$navigation['mylesson']['nav_name']}</p>
+			</a>
+			{/if}
+			<a href="{$navigation['self']['url_link']}" class="weui-tabbar__item {if $foot_params['self']}weui-bar__item_on{/if}">
+				{if $foot_params['self']}
+					<img src="{$navigation['self']['selected_icon']}" class="weui-tabbar__icon" />
+				{else}
+					<img src="{$navigation['self']['unselected_icon']}" class="weui-tabbar__icon" />
+				{/if}
+				<p class="weui-tabbar__label">{$navigation['self']['nav_name']}</p>
+			</a>
+		{/if}
+	</div>
+	<!-- /底部导航 -->
+</div>
+
+{if !empty($config['statis_code'])}
+	<div style="display:none;">
+		{php echo html_entity_decode($config['statis_code']);}
+	</div>
+{/if}
+
+<script type="text/javascript">
+	var uniacid = "{$uniacid}";
+	<?php if($_GPC['do']=='lesson'){ ?>
+		var lastPage = localStorage.getItem('lastPage_' + uniacid);
+		$("#lesson-back").click(function(){
+			if(lastPage){
+				window.location.href = lastPage;
+			}else{
+				window.history.go(-1);
+			}
+		})
+
+		window.localStorage.setItem('lesson_back_' + uniacid, 1);
+	<?php }elseif(in_array($_GPC['do'], array('index','history'))){ ?>
+		localStorage.setItem('lastPage_' + uniacid, "");
+	<?php }else{ ?>
+		localStorage.setItem('lastPage_' + uniacid, "{$_W['siteurl']}");
+	<?php } ?>
+
+	<?php if(!in_array($_GPC['do'], array('lesson','search'))){ ?>
+		window.localStorage.setItem('lesson_back_' + uniacid, 0);
+	<?php } ?>
+
+
+	//兼容iphoneX、XSMax、XR底部菜单
+	var isIPhoneX = /iphone/gi.test(window.navigator.userAgent) && window.devicePixelRatio && window.devicePixelRatio === 3 && window.screen.width === 375 && window.screen.height === 812;
+	var isIPhoneXSMax = /iphone/gi.test(window.navigator.userAgent) && window.devicePixelRatio && window.devicePixelRatio === 3 && window.screen.width === 414 && window.screen.height === 896;
+	var isIPhoneXR = /iphone/gi.test(window.navigator.userAgent) && window.devicePixelRatio && window.devicePixelRatio === 2 && window.screen.width === 414 && window.screen.height === 896;
+	if(isIPhoneX || isIPhoneXSMax || isIPhoneXR){
+		var footer_nav = document.getElementById("footer-nav");
+		var footer_nav_height = (footer_nav.clientHeight || footer_nav.offsetHeight) * 1 + 20;
+
+		var iphonex_head = document.head || document.getElementsByTagName('head')[0];
+		var iphonex_system = document.createElement('style');
+		iphonex_system.innerHTML = '.page-container{padding-bottom:20px;}.footer-nav{height:' + footer_nav_height + 'px;}.iphone-max-height{bottom:73px !important;}';
+
+		<?php if($_GPC['do']=='lesson'){ ?>
+			iphonex_system.innerHTML += '.d-buynow,#bottom-contact{padding-bottom:20px;}.spec-menu-content{bottom:20px !important;}.bottom_bar{bottom:70px !important;}';
+		<?php } ?>
+
+		iphonex_head.appendChild(iphonex_system);
+	}
+</script>
+
+</body>
+</html>

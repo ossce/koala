@@ -1,0 +1,66 @@
+<!-- 
+ * 自定义模板页面
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+{template $template.'/_headerv2'}
+<link href="{MODULE_URL}static/mobile/{$template}/css/swiper.fylesson.css?v={$versions}" rel="stylesheet" />
+
+<div>
+	{loop $page_data $key $diy}
+		{if $diy['name'] != 'validity'}
+			{template $template.'/diy/'.$diy['name']}
+		{/if}
+	{/loop}
+	<div class="h-70"></div>
+</div>
+
+<script type="text/javascript">
+/* 搜索 */
+$(".search-btn").click(function() {
+	var keywords = $.trim($("input[name=keyword]").val());
+    if (keywords == '') {
+        searchUrl = "{php echo $this->createMobileUrl('search');}";
+    } else {
+        searchUrl = searchUrl = "{php echo $this->createMobileUrl('search');}&keyword=" + encodeURIComponent(keywords);
+    }
+    document.location.href = searchUrl;
+    return false;
+});
+</script>
+
+<script>
+	//图片延迟加载
+	$(document).ready(function(){ 
+		$("img.lazy").lazyload({
+			effect:"fadeIn"
+		});
+	});
+
+	wx.ready(function(){
+		var shareData = {
+			title: '{$title}',
+			desc: '{php echo $descript ? $descript : $sharelink["desc"]}',
+			link: '{php echo $_W["siteurl"] ? $_W["siteurl"]."&uid=".$_W["member"]["uid"] : $shareurl;}',
+			imgUrl: '{$_W["attachurl"]}{$sharelink["images"]}',
+			trigger: function (res) {},
+			complete: function (res) {},
+			success: function (res) {},
+			cancel: function (res) {},
+			fail: function (res) {}
+		};
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareWeibo(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+</script>
+{template $template.'/_footerv2'}

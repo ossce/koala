@@ -1,0 +1,67 @@
+ <!-- 
+ * 一键复制
+ * ============================================================================
+ * 版权所有 2015-2018 微课堂团队，并保留所有权利。
+ * 网站地址: https://wx.haoshu888.com
+ * ----------------------------------------------------------------------------
+ * 这不是一个自由软件！不允许对程序代码以任何形式任何目的的再发布，作者将保留
+ * 追究法律责任的权力和最终解释权。
+ * ============================================================================
+-->
+
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('authdomain', array('op'=>'display'));}">域名授权</a>
+	</li>
+	<li {if $op=='addDomain'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('authdomain', array('op'=>'addDomain'));}">新增/修改授权</a>
+	</li>
+</ul>
+
+<style type="text/css">
+.navigation{height: 200px; overflow-y: auto;}
+.navigation-ul li{float:left;}
+.navigation-ul .name{width: 10%; text-align: right;}
+.navigation-ul .link{width: 88%;}
+</style>
+<div class="main">
+	<form method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $_GPC['nav_id']}修改{else}添加{/if}域名控制</div>
+			<div class="panel-body">
+			
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="domain_name" class="form-control" value="{$domain['domain_name']}">
+						<span class="help-block">请去掉http://或https://  例如：www.weike.com</span>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span> 状态</label>
+					<div class="col-sm-9 col-xs-12" style="margin-top:7px;font-size:16px;">
+						开启<input type="radio" name="status" value="1" {if $domain['status'] == 1} checked {/if}/>
+						禁止<input type="radio" name="status" value="0" {if $domain['status'] == 0} checked {/if}/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">备注</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="remark" class="form-control" value="{$domain['remark']}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="nav_id" value="{$nav_id}">
+			<input type="hidden" name="token" value="{$_W['token']}">
+		</div>
+	</form>
+</div>
+
+
+{template 'common/footer'}

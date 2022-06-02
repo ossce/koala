@@ -1,0 +1,34 @@
+<div class="index_unit" style="background-color:{$diy['style']['background']};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="index_title flex1">
+		<div class="img flex0">
+			<img class="flex_g0" src="{$diy['style']['imgurl']}" style="width: 19px;">
+		</div>
+		<div class="flex_all" style="color:{$diy['style']['title_color']};">{$diy['style']['title_font']}</div>
+		<a href="{php echo $this->createMobileUrl('teacherlist');}" class="more" style="color:{$diy['style']['more_color']};">{$diy['style']['more_font']} <i class="fa fa-angle-right"></i></a>
+	</div>
+
+	<div style="overflow:hidden;">
+		<div class="teacher_swiper">
+			<div class="swiper-wrapper">
+				{loop $diy['data'] $teacher}
+				<div class="swiper-slide">
+					<a href="{php echo $this->createMobileUrl('teacher', array('teacherid'=>$teacher['id']));}">
+						<div class="img-box">
+							<div class="img"><img src="{$_W['attachurl']}{$teacher['teacherphoto']}"></div>
+						</div>
+						<div class="name">{$teacher['teacher']}</div>
+					</a>
+				</div>
+				{/loop}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var teacherSwiper = new Swiper('.teacher_swiper', {
+		slidesPerView: 3,
+		autoplay: {php echo intval($diy['style']['speed'])*1000},
+		autoplayDisableOnInteraction: false,
+		spaceBetween: $(".teacher_swiper").width() * 0.08,
+	});
+</script>

@@ -1,0 +1,256 @@
+@charset "utf-8";
+
+.course-total-title {
+    font-size: 20px;
+    color: #000;
+	padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px #e3e3e3 solid;
+}
+.agency-big-banner {
+    overflow: hidden;
+    position: relative;
+    max-height: 300px;
+}
+
+.agency-new-box {
+    margin: 0 auto;
+    width: 1200px;
+}
+.inner-center {
+    box-sizing: border-box;
+    width: 1200px;
+}
+.inner-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+.agency-head {
+	width: 1200px;
+	margin: 0 auto;
+	margin-top: -85px;
+	position: relative;
+	background: linear-gradient(to top,rgba(0,0,0,.6),transparent);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#00000000', endColorstr='#99000000')
+}
+
+.agency-head-logo {
+	width: 150px;
+	height: 150px;
+	margin-left: 20px;
+	background-color: #fff;
+	position: absolute;
+	top: -16px;
+	box-shadow: 0 0 1px 1px #ececec;
+	z-index: 2
+}
+
+.agency-head-main {
+	padding-bottom: 16px;
+	margin-left: 190px
+}
+
+.agency-head-mask {
+	width: 190px;
+	height: 1px;
+	background-color: #fff;
+	position: absolute;
+	bottom: -54px;
+	z-index: 1
+}
+
+.ag-title {
+	width: 960px
+}
+
+.ag-title-lv {
+	float: left;
+	margin: 9px 4px 0 19px
+}
+
+.ag-title-renzheng {
+	float: left;
+	margin: 9px 6px 0 3px
+}
+
+.ag-title-main {
+	max-width: 680px;
+	font-size: 28px;
+	color: #f1f4f6;
+	float: left
+}
+
+.ag-title-sub {
+	display: block;
+	margin-top: 8px
+}
+
+.ag-info {
+	margin-top: 4px;
+	font-size: 14px;
+	color: #fff
+}
+
+.ag-info-split {
+	margin: 0 10px -1px;
+	display: inline-block;
+	height: 13px;
+	border-left: 1px solid #fff
+}
+
+.ag-info-btn {
+	display: inline-block;
+	width: 89px;
+	height: 26px;
+	line-height: 26px;
+	text-align: center;
+	border-radius: 3px;
+	border: 1px solid #fff;
+	font-size: 14px;
+	color: #fff
+}
+
+.ag-info-des {
+	max-width: 500px;
+	display: inline-block;
+	margin-bottom: -5px;
+	font-size: 14px;
+	color: #fff
+}
+
+@media only screen and (max-width:1199px) {
+	.agency-head {
+		width: 990px
+	}
+
+	.ag-info-des {
+		max-width: 360px
+	}
+}
+
+.agency-wrap-mod {
+	position: relative;
+	margin: 0 auto;
+	border-bottom: 1px solid #e5e5e5;
+	width: 1200px;
+	text-align: center
+}
+
+.agency-tab {
+	margin: 0 auto;
+	padding: 20px 0 40px;
+}
+
+.agency-tab_ul {
+	display: inline-block
+}
+
+.agency-tab_li {
+	display: inline-block;
+	padding: 13px 35px;
+}
+
+.agency-tab_li h2 {
+	font-size: 16px;
+	color: #333
+}
+
+.agency-tab_li.agency-tab_li_curr h2{
+	font-weight: bold;
+	color: #e9511b;
+}
+
+.agency-tab_li_curr {
+	border-bottom: 3px solid #e9511b;
+}
+.agency-new-box {
+	margin: 0 auto;
+	width: 1200px
+}
+
+.agency-big-banner {
+	overflow: hidden;
+	position: relative;
+	height: 360px
+}
+
+.agency-about {
+    width: 1200px;
+}
+.inner-center {
+    box-sizing: border-box;
+}
+.about-agency-intr {
+    font-size: 16px;
+    line-height: 30px;
+    word-wrap: break-word;
+    color: #333;
+	padding: 0 40px;
+}
+
+.about-agency-intr img{
+	vertical-align: top;
+	max-width: 100%;
+}
+
+.buy-teacher{
+	margin: 0 auto;
+}
+.buy-teacher .priv-total-item {
+	width: 330px;
+    position: relative;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.16);
+    padding: 25px;
+    border-radius: 4px;
+}
+.buy-teacher .priv-total-item .recommend {
+    position: absolute;
+    background: #d9bc82;
+    background: -webkit-linear-gradient(90deg,#d9bc82,#e6dab8);
+    background: linear-gradient(90deg,#d9bc82,#e6dab8);
+    left: 0;
+    top: 0;
+    line-height: 26px;
+    padding: 0 12px;
+    font-size: 16px;
+    color: #4c3b1e;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 12px;
+}
+.buy-teacher .priv-total-item .priv-total-count li {
+    padding-top: 10px;
+    overflow: hidden;
+    font-size: 16px;
+    color: #333;
+}
+.buy-teacher .priv-total-item .priv-total-type {
+    margin-top: 15px;
+}
+.buy-teacher .priv-total-item .priv-total-type .priv-total-paymoney {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.buy-teacher .priv-total-paymoney .cur-price {
+    font-size: 24px;
+    color: #c3721d;
+    margin: 0 5px;
+}
+.buy-teacher .priv-total-type .priv-total-buy {
+    margin: 10px 0;
+}
+
+.buy-teacher .priv-total-buy .btn-buyteacher {
+    display: block;
+    width: 190px;
+    height: 42px;
+    line-height: 42px;
+    margin: 0 auto;
+    background: #fb850a;
+    background: -webkit-linear-gradient(90deg,#fb850a,#ffb363)));
+    background: linear-gradient(90deg,#fb850a,#ffb363);
+    color: #ffffff;
+    border-radius: 25px;
+    font-size: 16px;
+    text-align: center;
+}

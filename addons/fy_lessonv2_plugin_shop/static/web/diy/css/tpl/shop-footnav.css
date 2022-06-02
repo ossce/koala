@@ -1,0 +1,89 @@
+.footnav_block a{
+    position: relative;
+    display: table-cell;
+    width: 1%;
+    height: 4.5rem;
+    color: #929292;
+    text-align: center;
+    vertical-align: middle;
+}
+.footnav_block a img {
+    top: 0.05rem;
+    height: 2rem;
+    font-size: 2.6rem;
+    line-height: 1.2rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.footnav_block a span{
+    display: block;
+    font-size: 0.55rem;
+    position: relative;
+    top: 0.15rem;
+}
+.editor-footnav .footnav-item {
+    border: 1px solid #e1e1e1;
+    background: #fcfcfc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+.editor-footnav .footnav-item .footnav-image {
+    width: 50px;
+    height: 80px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #ececec;
+    text-align: center;
+    vertical-align: middle;
+    background: #ececec;
+}
+.editor-footnav .footnav-item .footnav-image .ep-select-image {
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    height: 13px;
+    line-height: 13px;
+}
+.editor-footnav .footnav-item .footnav-image img {
+    width: 24px;
+    height: 24px;
+    margin: 1px;
+}
+.editor-footnav .footnav-item .footnav-params {
+    margin-left: 60px;
+}
+.editor-footnav .footnav-params .input-text-color{
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.editor-footnav .footnav-params .input-text-color .input-text{
+    width: 40%;
+    float: left;
+    display: flex;
+}
+.editor-footnav .footnav-params .input-text-color .input-text>span{
+    width: 49px;
+    float:left;
+    line-height: 35px;
+    padding: 0;
+    border-color: #e7e7eb;
+}
+.editor-footnav .footnav-params .input-text-color .input-text>input{
+    flex: 1;
+}
+.editor-footnav .footnav-params .input-text-color .input-color{
+    width: 30%;
+    float: left;
+}
+.editor-footnav .footnav-params .input-text-color .input-color>input{
+    width: 65%;
+}
+.editor-footnav .footnav-params input{
+    height: 35px;
+    float: left;
+}
+.editor-footnav .footnav-params span{
+    height: 35px;
+}
+

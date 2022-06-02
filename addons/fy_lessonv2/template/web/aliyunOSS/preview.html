@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.9.11/skins/default/aliplayer-min.css" />
+<script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.9.11/aliplayer-min.js"></script>
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">视频预览</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9">
+					<div class="prism-player" id="J_prismPlayer"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<script>
+	var player = new Aliplayer({
+		id: "J_prismPlayer",
+		autoplay: false,
+		isLive:false,
+		playsinline:true,
+		width:"640px",
+		height:"400px",
+		controlBarVisibility:"hover",
+		showBarTime:"3000",
+		useH5Prism:false,
+		useFlashPrism:false,
+		x5_type:"h5",
+		x5_video_position:"top",
+		source: "<?php echo $play_url; ?>",
+		<?php if($audio){ ?>
+			mediaType: "audio",
+		<?php } ?>
+	});
+</script>

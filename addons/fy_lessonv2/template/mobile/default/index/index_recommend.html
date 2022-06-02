@@ -1,0 +1,302 @@
+{if !empty($list)}
+	{loop $list $rec}
+	<div class="index_unit {if $common['small_index']}mar10-15 b-radius-10{/if}">
+		<div class="index_title flex1">
+			<div class="img flex0">
+				<img class="flex_g0" src="{php echo $rec['icon'] ? $_W['attachurl'].$rec['icon'] : MODULE_URL.'static/mobile/'.$template.'/images/index_default_rec_icon.png'}" style="width: 19px;" />
+			</div>
+			<div class="flex_all index_recommend_title">{$rec['rec_name']}</div>
+			<a href="{php echo $this->createMobileUrl('recommend', array('recid'=>$rec['recid']));}" class="more icon_right index_recommend_more">查看更多</a>
+		</div>
+		
+		{if $rec['show_style']==1}
+		<!-- 单图文 -->
+		<div class="small_grid">
+			{loop $rec['lesson'] $item}
+			<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']))}" class="small_grid_a">
+				<div class="img-box">
+					<div class="img">
+						<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" />
+						<div class="icon-live {$item['icon_live_status']}"></div>
+					</div>
+					{if $setting['show_study_number']}
+					<div class="learned {if $item['lesson_type']==3}hide{/if}">
+						{$item['study_number']}
+						{if $item['lesson_type'] == 0}
+							{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+						{elseif $item['lesson_type'] == 1}
+							{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+						{/if}
+					</div>
+					{/if}
+					{if !empty($item['ico_name'])}
+						<i class="ico_common {$item['ico_name']}"></i>
+					{/if}
+				</div>
+				<div class="grid_title flex1">
+					{if !$item['section_status']}<i class="section-status-btn">已完结</i>{/if} {$item['bookname']}
+				</div>
+				<div class="grid_info flex0">
+				{if $item['price']==0}
+					<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+				{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+					<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+				{else}
+					<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+				{/if}
+				{if $item['count']}
+					<span class="index_section_number mar-l-a">{$item['count']}节</span>
+				{/if}
+				</div>
+			</a>
+			{/loop}
+		</div>
+
+		{elseif $rec['show_style']==2}
+		<!-- 专题+图文 -->
+			<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$rec['lesson'][0]['id']));}" class="big_grid">
+				<div class="img-box big-img-box">
+					<div class="img">
+						<img class="lazy" data-original="{$_W['attachurl']}{$rec['lesson'][0]['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" />
+						<div class="icon-live {$rec['lesson'][0]['icon_live_status']}"></div>
+					</div>
+					{if $setting['show_study_number']}
+					<div class="learned {if $rec['lesson'][0]==3}hide{/if}">
+						{$rec['lesson'][0]['study_number']}
+						{if $rec['lesson'][0]['lesson_type'] == 0}
+							{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+						{elseif $rec['lesson'][0]['lesson_type'] == 1}
+							{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+						{/if}
+					</div>
+					{/if}
+					{if !empty($rec['lesson'][0]['ico_name'])}
+						<i class="ico_common {$rec['lesson'][0]['ico_name']}"></i>
+					{/if}
+				</div>
+				<div class="grid_title flex1">
+					<span class="overhidden flex_all">
+						{if !$rec['lesson'][0]['section_status']}<i class="section-status-btn">已完结</i>{/if} {$rec['lesson'][0]['bookname']}
+					</span>
+					<span class="teacher">{$rec['lesson'][0]['teacher']['teacher']}</span>
+				</div>
+				<div class="grid_info flex0">
+				{if $rec['lesson'][0]['price']==0}
+					<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+				{elseif $setting['lesson_vip_status']==1 && $rec['lesson'][0]['vipview']}
+					<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+				{else}
+					<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$rec['lesson'][0]['price']}</span>
+				{/if}
+				{if $rec['lesson'][0]['count']}
+					<span class="index_section_number mar-l-a">{$rec['lesson'][0]['count']}节</span>
+				{/if}
+				</div>
+			</a>
+
+			<div class="small_grid">
+				{loop $rec['lesson'] $key $item}
+				  {if $key>0}
+					<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']))}" class="small_grid_a">
+						<div class="img-box">
+							<div class="img">
+								<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" />
+								<div class="icon-live {$item['icon_live_status']}"></div>
+							</div>
+							{if $setting['show_study_number']}
+							<div class="learned {if $item['lesson_type']==3}hide{/if}">
+								{$item['study_number']}
+								{if $item['lesson_type'] == 0}
+									{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+								{elseif $item['lesson_type'] == 1}
+									{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+								{/if}
+							</div>
+							{/if}
+							{if !empty($item['ico_name'])}
+								<i class="ico_common {$item['ico_name']}"></i>
+							{/if}
+						</div>
+						<div class="grid_title flex1">
+							{if !$item['section_status']}<i class="section-status-btn">已完结</i>{/if} {$item['bookname']}
+						</div>
+						<div class="grid_info flex0">
+						{if $item['price']==0}
+							<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+						{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+							<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+						{else}
+							<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+						{/if}
+						{if $item['count']}
+							<span class="index_section_number mar-l-a">{$item['count']}节</span>
+						{/if}
+						</div>
+					</a>
+				  {/if}
+				{/loop}
+			</div>
+
+		{elseif $rec['show_style']==3}
+		<!-- 单专题 -->
+			{loop $rec['lesson'] $item}
+			<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']))}" class="big_grid">
+				<div class="img-box big-img-box">
+					<div class="img">
+						<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" />
+						<div class="icon-live {$item['icon_live_status']}"></div>
+					</div>
+					{if $setting['show_study_number']}
+					<div class="learned {if $item['lesson_type']==3}hide{/if}">
+						{$item['study_number']}
+						{if $item['lesson_type'] == 0}
+							{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+						{elseif $item['lesson_type'] == 1}
+							{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+						{/if}
+					</div>
+					{/if}
+					{if !empty($item['ico_name'])}
+						<i class="ico_common {$item['ico_name']}"></i>
+					{/if}
+				</div>
+				<div class="grid_title flex1">
+					<span class="overhidden flex_all">
+						{if !$item['section_status']}<i class="section-status-btn">已完结</i>{/if} {$item['bookname']}
+					</span>
+					<span class="teacher">{$item['teacher']['teacher']}</span>
+				</div>
+				<div class="grid_info flex0">
+				{if $item['price']==0}
+					<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+				{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+					<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+				{else}
+					<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+				{/if}
+				{if $item['count']}
+					<span class="index_section_number mar-l-a">{$item['count']}节</span>
+				{/if}
+				</div>
+			</a>
+			{/loop}
+
+		{elseif $rec['show_style']==4}
+		<!-- 单标题 -->
+		<div>
+			<ul class="article_title_grid">
+				{loop $rec['lesson'] $item}
+				<li>
+					<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}">
+						<i class="index-book-ico"></i> {$item['bookname']}
+					</a>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+
+		{elseif $rec['show_style']==5}
+		<!-- 最新课程样式 -->
+		<div>
+			{loop $rec['lesson'] $item}
+			<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']));}" class="new_lesson flex0_1">
+				<div class="new_lesson_a flex_g0">
+					<div class="img-box flex_g0">
+						<div class="img">
+							<img class="lazy" data-original="{$_W['attachurl']}{$item['images']}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" />
+							<div class="icon-live {$item['icon_live_status']}"></div>
+						</div>
+						{if $setting['show_study_number']}
+						<div class="learned {if $item['lesson_type']==3}hide{/if}">
+							{$item['study_number']}
+							{if $item['lesson_type'] == 0}
+								{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+							{elseif $item['lesson_type'] == 1}
+								{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+							{/if}
+						</div>
+						{/if}
+						{if !empty($item['ico_name'])}
+							<i class="ico_common {$item['ico_name']}"></i>
+						{/if}
+					</div>
+				</div>
+
+				<div class="flex_all flex10">
+					<div>
+						<div class="new_lesson_title">{$item['bookname']}</div>
+						<div class="new_lesson_info">{$item['section']['title']}</div>
+					</div>
+					<div class="new_lesson_bottom flex1">
+						{if $item['price']==0}
+							<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+						{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+							<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+						{else}
+							<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+						{/if}
+					</div>
+				</div>
+			</a>
+			{/loop}
+		</div>
+
+		{elseif $rec['show_style']==6}
+		<!-- 左右滚动样式 -->
+		<div class="lesson_swiper_{$rec['recid']}" style="padding:15px 0;overflow: hidden;">
+			<div class="swiper-wrapper">
+				{loop $rec['lesson'] $item}
+				<div class="swiper-slide">
+					<a href="{php echo $this->createMobileUrl('lesson', array('op'=>'display', 'id'=>$item['id']))}" class="small_grid_a">
+						<div class="img-box" style="margin-left:4px;margin-right:4px;padding-bottom:56%;">
+							<div class="img">
+								<img src="{$_W['attachurl']}{$item['images']}" />
+								<div class="icon-live {$item['icon_live_status']}"></div>
+							</div>
+							{if $setting['show_study_number']}
+							<div class="learned {if $item['lesson_type']==3}hide{/if}">
+								{$item['study_number']}
+								{if $item['lesson_type'] == 0}
+									{php echo $index_page['videoLessonNum'] ? $index_page['videoLessonNum'] : '人已学习';}
+								{elseif $item['lesson_type'] == 1}
+									{php echo $index_page['appointLessonNum'] ? $index_page['appointLessonNum'] : '人已报名';}
+								{/if}
+							</div>
+							{/if}
+							{if !empty($item['ico_name'])}
+								<i class="ico_common {$item['ico_name']}"></i>
+							{/if}
+						</div>
+						<div class="grid_title flex1 h-40" style="margin-left:4px;margin-right:4px;">
+							{if !$item['section_status']}<i class="section-status-btn">已完结</i>{/if} {$item['bookname']}
+						</div>
+						<div class="grid_info flex0">
+						{if $item['price']==0}
+							<span class="price flex_g0 index_price_lesson fs-14">免费</span>
+						{elseif $setting['lesson_vip_status']==1 && $item['vipview']}
+							<span class="price flex_g0 index_price_lesson fs-14 ios-system">VIP免费</span>
+						{else}
+							<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ {$item['price']}</span>
+						{/if}
+						{if $item['count']}
+							<span class="index_section_number mar-l-a">{$item['count']}节</span>
+						{/if}
+						</div>
+					</a>
+				</div>
+				{/loop}
+			</div>
+		</div>
+		<script type="text/javascript">
+			var lesson_swiper_{$rec['recid']} = new Swiper(".lesson_swiper_{$rec['recid']}", {
+				slidesPerView:2, 
+				spaceBetween:5, 
+				autoplay: 4000, 
+				loop : true,
+				autoplayDisableOnInteraction: false,
+			});
+		</script>
+		{/if}
+	</div>
+	{/loop}
+{/if}

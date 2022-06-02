@@ -1,0 +1,213 @@
+@charset "utf-8";
+
+/* 轮播图尺寸 */
+#full-screen-slider{
+    position: relative;
+    width: 1200px;
+	height:300px;
+    padding: 10px 0;
+    background: #fff;
+    box-shadow: 0 0 16px rgba(0,0,0,.24);
+}
+#slides{
+	height:300px;
+}
+#pagination{
+	top:280px;
+}
+
+/* 标题 */
+.course-total-title {
+    font-size: 20px;
+    color: #000;
+    padding-bottom: 7px;
+    margin-bottom: 30px;
+    border-bottom: 1px #e3e3e3 solid;
+}
+.course-total-title .my-coupon{
+    float: right;
+    font-size: 13px;
+	color: #6b6b6b;
+	width: 120px;
+    height: 28px;
+    border: 1px solid #DFDFDF;
+    padding: 0;
+    background: #F9F9F9;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 5px;
+}
+.course-total-title .my-coupon:hover{
+	background-color: #fff;
+}
+.course-total-title .my-coupon .icon-coupon{
+    color: red;
+}
+
+
+/* 优惠券样式 */
+.cate-cont {
+    display: inline-block;
+    display: block;
+}
+.cate-cont .quan-item {
+    position: relative;
+    float: left;
+    width: 384px;
+    margin: 0 15px 20px 0;
+	overflow: visible;
+}
+.cate-cont .quan-item .q-img {
+    float: left;
+    width: 104px;
+    height: 104px;
+    margin: 20px;
+    border: 1px solid #f1f2f6;
+    transition: all .2s ease-in-out,opacity 1s;
+}
+.cate-cont .quan-item .q-type{
+    position: relative;
+    float: left;
+    z-index: 2;
+    width: 175px;
+    height: 120px;
+    padding: 10px 0 15px;
+    color: #333;
+    outline: 0;
+}
+.cate-cont .quan-item .q-price {
+    width: 170px;
+    height: 45px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.cate-cont .quan-item .q-price em{
+	font-style: normal;
+}
+.cate-cont .quan-item .q-price .q-limit{
+	display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    font-size: 12px;
+    margin: 12px 0 0 10px;
+    vertical-align: top;
+}
+.cate-cont .quan-item .q-price strong{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    font: 400 34px arial;
+    vertical-align: top;
+}
+ .cate-cont .quan-item .q-range{
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 0 15px;
+}
+.cate-cont .quan-item .q-progress .txt{
+    font-size: 12px;
+    float: left;
+    margin-right: 5px;
+    color: #666;
+}
+ .cate-cont .quan-item .q-progress .progress-wrap{
+    display: block;
+    position: relative;
+    float: left;
+    width: 100px;
+    height: 9px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+.cate-cont .quan-item .q-progress .progress-bg{
+    display: block;
+    position: relative;
+    width: 100px;
+    height: 9px;
+    border-radius: 5px;
+    background: #eee;
+}
+.cate-cont .quan-item .progress-wrap .progress {
+    background: #ffb2b2;
+	display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 8px;
+    border-radius: 5px;
+}
+.cate-cont .quan-item .q-circle .i1{
+	top: -1px;
+    background-position: 0 -9px;
+}
+ .cate-cont .quan-item .q-circle .i2{
+    bottom: -1px;
+    background-position: 0 0;
+}
+.cate-cont .quan-item .q-circle i{
+	position: absolute;
+    z-index: 3;
+    display: block;
+    width: 18px;
+    height: 9px;
+    background: url('../images/mid-circle.png') no-repeat;
+    overflow: hidden;
+    right: 42px;
+}
+.cate-cont .quan-item .normal {
+    background-color: #fb0f3a;
+    background-image: -moz-linear-gradient(top,#fb0f3a,#f02353);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#fb0f3a),color-stop(1,#f02353));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb0f3a', endColorstr='#f02353', GradientType='0');
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fb0f3a', endColorstr='#f02353');
+    background-image: linear-gradient(to bottom,#fb0f3a 0,#f02353 100%);
+}
+.cate-cont .quan-item .end {
+    background-color: #d0d0d0;
+    background-image: -moz-linear-gradient(top,#d0d0d0,#c7c7c7);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#d0d0d0),color-stop(1,#c7c7c7));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0d0d0', endColorstr='#c7c7c7', GradientType='0');
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0d0d0', endColorstr='#c7c7c7');
+    background-image: linear-gradient(to bottom,#d0d0d0 0,#c7c7c7 100%);
+}
+.cate-cont .quan-item .q-opbtns{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 52px;
+    height: 145px;
+}
+.cate-cont .quan-item .q-opbtns a.btn{
+    position: relative;
+    display: block;
+    width: 52px;
+    height: 100%;
+    line-height: 22px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+.cate-cont .quan-item .q-opbtns a.btn b{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: -1px;
+    display: block;
+    width: 3px;
+    height: 100%;
+    background: url('../images/small-circle.png') top left repeat-y;
+}
+
+.cate-cont .quan-item .q-opbtns a.btn .txt{
+    position: relative;
+    display: block;
+    top: 25px;
+    width: 20px;
+    margin: 0 auto;
+    font-size: 16px;
+}

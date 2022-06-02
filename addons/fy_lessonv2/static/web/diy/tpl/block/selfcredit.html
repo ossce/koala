@@ -1,0 +1,21 @@
+<script type="text/template" id="tpl_block_selfcredit">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="<% if(style.show_background==1){ %>background:<%= style.background %>;<% } %>padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+		<div class="mine_info_grid flex0" style="border-radius: <%= style.bg_radius %>;">
+			<a class="mine_info flex-al1" style="<% if(style.show_credit1 != 1){ %>display:none;<% } %>;">
+				<div class="num">1024</div>
+				<span>会员积分</span>
+			</a>
+			<a class="mine_info flex-al1" style="<% if(style.show_credit2 != 1){ %>display:none;<% } %>;<% if(style.show_credit1 == 1){ %>border-left: 1px solid <%= style.left_border_color %><% } %>;">
+				<div class="num">688.80</div>
+				<span>会员余额</span>
+			</a>
+			<a class="mine_info flex-al1" style="<% if(style.show_coupon != 1){ %>display:none;<% } %>;<% if(style.show_credit1 == 1 || style.show_credit2 == 1){ %>border-left: 1px solid <%= style.left_border_color %><% } %>;">
+				<div class="num">10</div>
+				<span>优惠券</span>
+			</a>
+		</div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>

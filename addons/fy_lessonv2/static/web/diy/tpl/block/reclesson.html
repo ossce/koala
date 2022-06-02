@@ -1,0 +1,216 @@
+<script type="text/template" id="tpl_block_reclesson">
+    <div id="<%= guid %>" class="block" data-name="<%= name %>" data-guid="<%= guid %>" style="background: <%= style.background %>;padding: <%= style.vertical_padding %> <%= style.horizontal_padding %>">
+        <div class="block_content reclesson_block">
+            <% if (style.type == 1) { %>
+				<div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+						<a class="more reclesson-browse-more" style="color:<%= style.more_color %>;<% if(style.show_more != 1){ %>display:none;<% } %>"><%= style.more_font %> &gt;</a>
+					</div>
+					<div class="small_grid">
+						<% _.each(data, function(item) { %>
+						<a class="small_grid_a">
+							<div class="reclesson-imgBox">
+								<div class="img">
+									<img src="<%= item.imgurl %>" style="display: inline;">
+									<div class="icon-live"></div>
+								</div>
+								<div class="learned">999 人已学习</div>
+							</div>
+							<div class="grid_title flex1"><%= item.bookname %></div>
+							<div class="grid_info flex0">
+								<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ 99</span>
+								<span class="index_section_number mar-l-a">10节</span>
+							</div>
+						</a>
+						<% }); %>
+					</div>
+				</div>
+            <% } else if (style.type == 2) { %>
+                <div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+					</div>
+					<a class="big_grid">
+						<div class="reclesson-imgBox big-img-box">
+							<div class="img">
+								<img src="<%= data[0].imgurl %>" style="display: inline;">
+								<div class="icon-live"></div>
+							</div>
+							<div class="learned">100 人已学习</div>
+							<i class="ico_common"></i>
+						</div>
+						<div class="grid_title flex1">
+							<span class="overhidden flex_all"><%= data[0].bookname %></span>
+							<span class="teacher">李晓涵</span>
+						</div>
+						<div class="grid_info flex0">
+							<span class="price flex_g0 fs-15">¥ 99</span>
+							<span class="index_section_number mar-l-a">10节</span>
+						</div>
+					</a>
+					<div class="small_grid">
+						<% _.each(data, function(item,index) { %>
+							<% if(index>0){ %>
+							<a class="small_grid_a">
+								<div class="reclesson-imgBox">
+									<div class="img">
+										<img src="<%= item.imgurl %>" style="display: inline;">
+										<div class="icon-live"></div>
+									</div>
+									<div class="learned">999 人已学习</div>
+								</div>
+								<div class="grid_title flex1"><%= item.bookname %> </div>
+								<div class="grid_info flex0">
+									<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ 99</span>
+									<span class="index_section_number mar-l-a">10节</span>
+								</div>
+							</a>
+							<% } %>
+						<% }); %>
+					</div>
+				</div>
+            <% } else if (style.type == 3) { %>
+                <div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+					</div>
+
+					<% _.each(data, function(item) { %>
+					<a class="big_grid">
+						<div class="reclesson-imgBox big-img-box">
+							<div class="img">
+								<img src="<%= item.imgurl %>" style="display: inline;">
+								<div class="icon-live"></div>
+							</div>
+							<div class="learned">100 人已学习</div>
+							<i class="ico_common"></i>
+						</div>
+						<div class="grid_title flex1">
+							<span class="overhidden flex_all"><%= item.bookname %></span>
+							<span class="teacher">李晓涵</span>
+						</div>
+						<div class="grid_info flex0">
+							<span class="price flex_g0 fs-15">¥ 99</span>
+							<span class="index_section_number mar-l-a">10节</span>
+						</div>
+					</a>
+					<% }); %>
+				</div>
+            <% } else if (style.type == 4) { %>
+				<div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+					</div>
+					<div>
+						<ul class="article_title_grid">
+							<% _.each(data, function(item) { %>
+							<li>
+								<a><i class="index-book-ico"></i> <%= item.bookname %> </a>
+							</li>
+							<% }); %>
+						</ul>
+					</div>
+				</div>
+			<% } else if (style.type == 5) { %>
+				<div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+					</div>
+					<div>
+						<% _.each(data, function(item) { %>
+						<a class="new_lesson flex0_1">
+							<div class="new_lesson_a flex_g0">
+								<div class="img-box flex_g0">
+									<div class="img">
+										<img src="<%= item.imgurl %>" style="display: inline;">
+										<div class="icon-live "></div>
+									</div>
+									<div class="learned ">100人已学习</div>
+									<i class="ico_common ico-hot"></i>
+								</div>
+							</div>
+							<div class="flex_all flex10">
+								<div>
+									<div class="new_lesson_title"><%= item.bookname %></div>
+									<div class="new_lesson_info">1-1、重点内容快速解读</div>
+								</div>
+								<div class="new_lesson_bottom flex1">
+									<span class="price fs-15">¥ 99</span>
+								</div>
+							</div>
+						</a>
+						<% }); %>
+					</div>
+				</div>
+			<% }else if (style.type == 6) { %>
+				<div class="index_unit">
+					<div class="index_title flex1">
+						<div class="img flex0">
+							<img class="flex_g0" src="<%= style.icon_imgsrc %>" style="width: 19px;">
+						</div>
+						<div class="flex_all index_recommend_title" style="color: <%= style.title_color %>"><%= style.title_font %></div>
+						<a class="more reclesson-browse-more" style="color:<%= style.more_color %>;<% if(style.show_more != 1){ %>display:none;<% } %>"><%= style.more_font %> &gt;</a>
+					</div>
+					<div class="small_grid">
+						<% _.each(data, function(item, index) { %>
+							<% if(index <= 1){ %>
+							<a class="small_grid_a">
+								<div class="reclesson-imgBox">
+									<div class="img">
+										<img src="<%= item.imgurl %>" style="display: inline;">
+										<div class="icon-live"></div>
+									</div>
+									<div class="learned">999 人已学习</div>
+								</div>
+								<div class="grid_title flex1"><%= item.bookname %></div>
+								<div class="grid_info flex0">
+									<span class="price flex_g0 index_price_lesson fs-15 ios-system">¥ 99</span>
+									<span class="index_section_number mar-l-a">10节</span>
+								</div>
+							</a>
+							<% } %>
+						<% }); %>
+					</div>
+				</div>
+            <% } %>
+        </div>
+        <div class="block_btn text-right">
+            <div class="delete" data-id="<%= guid %>">删除</div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="tpl_block_reclesson_item">
+    <div class="reclesson-item ep-item" <% if (itemIndex>=0) { %>id="ep-item-<%= guid %>-<%= itemIndex %>"<% } %>>
+        <div class="reclesson-image">
+            <img src="<%= data[0].imgurl %>" data-type="data" data-key="imgurl" data-name="<%= name %>" data-guid="<%= guid %>"/>
+        </div>
+        <div class="reclesson-params">
+            <div class="input-group" style="margin-bottom: .8rem">
+                <input type="text" class="form-control input-sm" value="<%= data[0].bookname %>" data-type="data" data-key="bookname" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+                <span class="input-group-addon btn btn-default ep-select-lesson">选择课程</span>
+            </div>
+            <div class="input-group">
+				<span class="input-group-addon">课程ID</span>
+                <input type="text" class="form-control input-sm input_binding" value="<%= data[0].lessonid %>" data-type="data" data-key="lessonid" data-name="<%= name %>" data-guid="<%= guid %>" readonly/>
+                <span class="input-group-addon hide"></span>
+            </div>
+        </div>
+        <span class="ep-item-delete fa fa-times-circle" data-name="<%= name %>" data-guid="<%= guid %>" data-item-min="1"></span>
+    </div>
+</script>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[课堂小程序版]]></name>
+		<identifie><![CDATA[fy_lessonv2_plugin_wxapp]]></identifie>
+		<version><![CDATA[3.9.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[课堂小程序版是微课堂V2主模块的一个插件，是微课堂V2的小程序版延伸，课堂小程序版继续使用公众号版课程数据，因此您需要在微课堂公众号版里管理分类、课程、讲师、订单等数据。]]></ability>
+		<description><![CDATA[课堂小程序版是微课堂V2主模块的一个插件，是微课堂V2的小程序版延伸，课堂小程序版继续使用公众号版课程数据，因此您需要在微课堂公众号版里管理分类、课程、讲师、订单等数据。]]></description>
+		<author><![CDATA[微擎]]></author>
+		<url><![CDATA[http://www.we7.cc/]]></url>
+	</application>
+
+	<platform>
+		<subscribes>
+		</subscribes>
+
+		<handles>
+			<message type="text" />
+		</handles>
+
+		<rule embed="false" /> 
+		<card embed="false" />
+		<oauth type="1" />
+		
+		<supports>
+			<item type="app" />
+		</supports>
+		<plugin-main name="fy_lessonv2" />
+	</platform>
+
+	<bindings>
+		<menu call="getMenus"> 
+		</menu>
+	</bindings>
+
+	<permissions>
+	</permissions>
+
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[ru_rpgrade.php]]></upgrade>
+
+</manifest>

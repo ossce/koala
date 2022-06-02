@@ -1,0 +1,56 @@
+<link href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}" rel="stylesheet">
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market');}">积分设置</a>
+	</li>
+	<li {if $op=='coupon' ||  $op=='addCoupon'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'coupon'));}">优惠券管理</a>
+	</li>
+
+	{if $op=='couponRule'}
+		<li class="active">
+			<a href="{php echo $this->createWebUrl('market', array('op'=>'couponRule'));}">优惠券规则</a>
+		</li>
+	{/if}
+	{if $op=='sendCoupon'}
+		<li class="active">
+			<a href="{php echo $this->createWebUrl('market', array('op'=>'sendCoupon'));}">发放优惠券</a>
+		</li>
+	{/if}
+	{if $op=='couponLog' || $op=='couponDetail'}
+		<li class="active">
+			<a href="{php echo $this->createWebUrl('market', array('op'=>'couponLog'));}">优惠券记录</a>
+		</li>
+	{/if}
+
+	<li {if $op=='lessonCard' || $op=='addLessonCard'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'lessonCard'));}">课程卡密</a>
+	</li>
+
+	<li {if $op=='couponCode' || $op=='addCouponCode'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'couponCode'));}">课程优惠码</a>
+	</li>
+	<li {if in_array($op, array('discount','addDiscount','discountLesson','addDiscountLesson'))}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'discount'));}">	
+			{if $op=='addDiscount' && !$_GPC['discount_id']}
+				添加限时活动
+			{elseif $op=='addDiscount' && $_GPC['discount_id']}
+				编辑限时活动
+			{elseif $op=='discountLesson'}
+				限时活动课程
+			{elseif $op=='addDiscountLesson'}
+				添加课程到活动
+			{else}
+				限时折扣
+			{/if}
+		</a>
+	</li>
+	<li {if $op=='signin'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'signin'));}">签到明细</a>
+	</li>
+	<!-- <li {if $op=='signinPoster'}class="active" {/if}>
+		<a href="{php echo $this->createWebUrl('market', array('op'=>'poster'));}">签到海报</a>
+	</li> -->
+</ul>
+
+{template 'web/_loadingToast'}

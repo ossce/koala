@@ -1,0 +1,156 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/teacherlist.css?v={$versions}">
+
+<div class="w-all w-minw bg-c-fcfcfc ovhidden">
+	<div class="w-main m-auto">
+		<div class="w-main fs-14 ftc-7a7a7a line-h45 m-t-18 m-b-8">
+			当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; {$title}
+		</div>
+	</div>
+
+	<div class="w-main m-auto">
+		{if $category_list}
+		<div class="bg-c-ffffff p-l-20 p-r-20 fl">
+            <div class="ql_ftclass">
+                <div class="w-all p-t-10 p-b-10 ovhidden">
+                    <div class="w-80 fs-14 line-h28 ftc-888888 fl">讲师分类</div>
+                    <ul class="w-1080 fl">
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/teacherlist.html?keyword={$keyword}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if !$cate_id}class_cur{/if}">全部</a>
+						</li>
+						{loop $category_list $key $item}
+                        <li class="w-min80 w-max120 ovhidden m-l-24 fl">
+							<a href="/{$uniacid}/teacherlist.html?keyword={$keyword}&cate_id={$key}" class="dsblock w-all fs-14 line-h28 ftc-525252 curpter text-c fl search-condition {if $key==$cate_id}class_cur{/if}">{$item}</a>
+						</li>
+						{/loop}
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+				<div class="w-all fl hg-1 bg-c-d2d2d2"></div>
+            </div>
+        </div>
+		{/if}
+
+		{if $list}
+		<div class="w-1200 bg-c-ffffff p-t-10 p-b-10 m-t-10 fl">
+            <dl class="ql_sort">
+                <dd class="w-75 p-l-10 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/teacherlist.html?keyword={$keyword}&cate_id={$cate_id}" {if !$_GPC['sort']}class="cur"{/if}>综合排序<i class="iconfont icon-default-sort"></i> </a>
+				</dd>
+                <dd class="w-75 p-l-10 curpter fs-14 ftc-000000 line-h24 m-l-12 fl">
+					<a href="/{$uniacid}/teacherlist.html?sort=time&keyword={$keyword}&cate_id={$cate_id}" {if $_GPC['sort']=='time'}class="cur"{/if}>时间排序<i class="iconfont icon-sort"></i> </a>
+				</dd>
+                <div class="clear"></div>
+            </dl>
+        </div>
+		{/if}
+
+		<div class="w-1200 bg-c-ffffff ovhidden fl">
+			{if $list}
+			<div class="teacher-list">
+				{loop $list $item}
+				<div class="teacher-agency">
+					<div>
+						<div class="teacher-agency-avatar">
+							<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank">
+								<img src="{$_W['attachurl']}{$item['teacherphoto']}" width="130" height="130">
+							</a>
+						</div>
+						<div class="teacher-agency-main-content">
+							<h2 class="teacher-agency-name">
+								<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank" title="{$item['teacher']}">{$item['teacher']}</a>
+							</h2>
+							<div class="teacher-agency-div">
+								{loop $item['teacherdes'] $digest}
+								<p class="teacher-agency-intro" title="{$item['teacherdes']}">{$digest}</p>
+								{/loop}
+							</div>
+							<p class="teacher-agency-relation">
+								{if $item['lessonCount']}
+								<span class="fl">共{$item['lessonCount']}{php echo $lesson_page['lessonNum'] ? $lesson_page['lessonNum'] : '个课程'}</span>
+								{/if}
+								<a href="/{$uniacid}/teacher.html?teacherid={$item['id']}" target="_blank"><i class="iconfont icon-information all-lesson fr"> {php echo $lesson_page['allLesson'] ? $lesson_page['allLesson'] : '查看全部课程'}</i></a>
+							</p>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="teacher-agency-right">
+						{if $item['lessonlist']}
+						<div class="teacher-agency-right-content">
+							<div style="width:708px; overflow:hidden; position:relative">
+								<div class="teacher-agency-course-list">
+									<ul class="course-card-list">
+										{loop $item['lessonlist'] $lesson}
+										<li class="course-card-item">
+											<a href="/{$uniacid}/lesson.html?id={$lesson['id']}" target="_blank">
+												<img src="{$_W['attachurl']}{$lesson['images']}" title="{$lesson['bookname']}" class="item-img" width="220" height="134">
+												<div class="icon-live {$lesson['icon_live_status']}" style="top:7px;width:220px;height:134px;"></div>
+												{if $lesson['ico_name']}
+													{if $value['ico_name']=='ico-vip' && (!empty($value['vipview']) && $value['vipview']!='null')}
+														<i class="ico_common ico-vip"></i>
+													{else}
+														<i class="ico_common {$lesson['ico_name']}"></i>
+													{/if}
+												{/if}
+											</a>
+											<h4 class="item-tt">
+												<a href="/{$uniacid}/lesson.html?id={$lesson['id']}" target="_blank" title="{$lesson['bookname']}">{$lesson['bookname']}</a>
+											</h4>
+											<div class="item-line item-line-bottom">
+												{if $setting['show_study_number']}
+												<span class="line-cell item-user ftc-909090">
+													<i class="iconfont icon-eye vertical-middle"></i> 
+													{if $lesson['price']>0}
+														{php echo $lesson['buynum']+$lesson['virtual_buynum'];}
+													{else}
+														{php echo $lesson['buynum']+$lesson['virtual_buynum']+$lesson['visit_number'];}
+													{/if}
+												</span>
+												{/if}
+
+												<span class="line-cell item-price line-h30 item-user-right price">
+												{if $lesson['price']==0}
+													免费
+												{elseif $setting['lesson_vip_status']==1 && $lesson['vipview']}
+													VIP免费
+												{else}
+													{if $lesson['market_price']}<i class="market-price">¥{$lesson['market_price']}</i>{/if} <strong>¥ {$lesson['price']}</strong>
+												{/if}
+												</span>
+											</div>
+										</li>
+										{/loop}
+									</ul>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						{else}
+							<div class="teacher-agency-course-nodata">
+								<i class="iconfont icon-information i-info i-msg-middle"></i><span calss="nodata-text">此讲师暂时未发布课程！</span>
+							</div>
+						{/if}
+					</div>
+				</div>
+				{/loop}
+			</div>
+			{else}
+
+			<div class="no-content">
+					<div class="msg-inner">
+						<div class="msg-text">
+							<i class="iconfont i-info icon-information"></i> 未找到相关的讲师：)
+						</div>
+					</div>
+				</div>
+			{/if}
+
+			<div class="w-1140 hg-30"></div>
+			{$pager}
+			<div class="w-1140 hg-30"></div>
+		</div>
+	</div>
+</div>
+
+
+{php include $this->template($template.'/_footer')}

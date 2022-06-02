@@ -1,0 +1,259 @@
+/* 申请退货 */
+.refund_info {
+    margin-bottom: 10px;
+    padding: 15px;
+    background: #fff;
+    position: relative;
+    border-radius: 0 0 10px 10px;
+}
+.refund_title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    line-height: 21px;
+    font-size: 15px;
+    font-weight: 700;
+	margin-bottom: 10px;
+}
+.goods-wrap-ul{
+	padding-bottom: 15px;
+}
+.goods-wrap-ul .goods-wrap {
+    position: relative;
+    min-height: 75px;
+    padding: 0;
+    font-size: 12px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+	border-bottom: #f2f2f2 1px solid;
+}
+.goods-wrap-ul .goods-wrap:last-child{
+	border-bottom: none;
+}
+.goods-wrap-ul .goods-wrap .product_info {
+    position: relative;
+}
+.goods-wrap-ul .goods-wrap .goods_cover {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 6px;
+}
+.goods-wrap-ul .goods-wrap .goods_title {
+    color: #333;
+    line-height: 20px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    overflow: hidden;
+	padding-left: 85px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.goods-wrap-ul .goods-wrap .sku_name {
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #999;
+    line-height: 1;
+	padding-left: 85px;
+}
+.goods-wrap-ul .goods-wrap .sku_price {
+    padding-left: 85px;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    font-size: 10px;
+}
+.goods-wrap-ul .goods-wrap .sku_price .large_text {
+    font-size: 13px;
+}
+.goods-wrap-ul .goods-wrap .sku {
+    height: 30px;
+    margin-top: -30px;
+    text-align: right;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.goods-wrap-ul .goods-wrap .sku_num {
+    line-height: 30px;
+    color: #999;
+    font-size: 13px;
+    margin-right: 2px;
+}
+.refund_info .refund_reason{
+	padding: 15px 0;
+    border-top: #f2f2f2 1px solid;
+}
+.refund_info .refund_reason_ul li {
+    padding-right: 23px;
+    position: relative;
+}
+.refund_info .reason > strong {
+    position: absolute;
+    left: 0;
+    font-weight: 400;
+    font-size: 14px;
+}
+.reason_content p {
+    margin: 5px 0;
+}
+.refund_info .refund_reason_ul li:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid #ccc;
+    border-left: 2px solid #ccc;
+    top: 50%;
+    -webkit-transform: translate(0,-50%) rotate(135deg);
+    transform: translate(0,-50%) rotate(135deg);
+    right: 6px;
+}
+.submit_buttom{
+	padding: 15px;
+    margin-top: 1px;
+}
+.submit_buttom .btn-submit {
+	width: 100%;
+    color: #fff;
+    background: #ff6565;
+    box-shadow: 0 3px 6px 0 rgb(0 58 152 / 20%);
+    border: none;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.weui-uploader__input-box,.weui-uploader__file{
+	width: 70px;
+    height: 70px;
+	border: 1px #ccc solid;
+}
+
+
+/* 退货详情 */
+.refund-details .order-list {
+    background-image: url(../images/refund-details-top-bg.png);
+    background-size: cover;
+    position: relative;
+}
+.refund-details .order-list .order-status {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    color: #fff;
+    padding: 20px 15px;
+    font-size: 0.99rem;
+}
+.refund-details .order-list .order-status i{
+	font-size: 28px;
+    margin-right: 8px;
+}
+.refund-flexcell {
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    -ms-flex: 1;
+    flex: 1;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-order: 0;
+    order: 0;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.refund-order-info .refund-wrap {
+	font-size: 15px;
+    padding: 10px;
+    background-color: #fff;
+    text-decoration: none;
+    line-height: 1.5;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.refund-order-info .refund-wrap .refund-amount{
+	color: rgb(255, 0, 54);
+	margin-top: 3px;
+}
+.refund-order-info .refund-wrap .refund-amount .value{
+	font-family: arial;
+	font-size: 16px;
+}
+
+.refund-flex-view {
+    position: relative;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    min-width: 0;
+    min-height: 0;
+}
+.refund.picture .img {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    margin-right: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    text-align: center;
+    border: #f3f3f3 1px solid;
+    margin-bottom: 6px;
+    vertical-align: middle;
+}
+.refund.picture .img img {
+    width: 100%;
+    height: 100%;
+}
+.empty-circle{
+	width: 8px;
+    height: 8px;
+    border-radius: 5px;
+    background-color: rgb(218, 218, 218);
+}
+.active-circle{
+	width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(240,37,15,0.2);
+	background-color:rgb(240,37,15);
+}
+.flex-110{
+	flex: 110%;
+}

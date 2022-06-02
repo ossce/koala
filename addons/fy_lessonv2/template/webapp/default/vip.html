@@ -1,0 +1,187 @@
+{php include $this->template($template.'/_header')}
+<link rel="stylesheet" href="{MODULE_URL}static/webapp/{$template}/css/vip.css?v={$versions}">
+<style type="text/css">
+fieldset{
+	display: block;
+}
+</style>
+
+<div class="w-all w-minw bg-c-f6f6f6 m-auto">
+	<div class="w-minw bg-c-222222">
+		<img src="{$vip_bg}" width="100%">
+	</div>
+
+	<div class="m-auto w-1200">
+		<div class=" product_wp p-t-40 p-b-30 {if count($level_list)<=4}text-c{else}text-l{/if}">
+			<div style="margin-left:55px; width:1040px;">
+				{loop $level_list $item}
+				<div class="pt_item">
+					{if $item['market_price']}
+						<i class="discount_tips"></i>
+					{/if}
+					<p class="txt_pt p-b-10">
+						<em>{$item['level_name']}</em>
+					</p>
+					<div class="ic_box">
+						<img src="{$item['level_icon']}" width="80" height="80">
+					</div>
+					<p class="txt_pt p-t-5 txt_desc">
+						有效期{$item['level_validity']}天
+					</p>
+					{if $item['integral']}
+					<p class="txt_pt p-t-5 txt_desc">
+						购买送{$item['integral']}积分
+					</p>
+					{/if}
+					{if $item['discount'] && $item['discount'] < 100 }
+					<p class="txt_pt p-t-5 txt_desc">
+						购买课程享受{$item['discount']}%优惠
+					</p>
+					{/if}
+					<p class="txt_pt p-t-5 txt_desc">
+						<a href="/{$uniacid}/viplesson.html?level_id={$item['id']}" target="_blank"><span class="go-study">{php echo $common['vip_page']['free_lesson'] ? $common['vip_page']['free_lesson'] : '查看可免费学习课程';}</span></a>
+					</p>
+					<p class="txt_pt p-t-5">
+						￥<strong class="price">{$item['level_price']}</strong> {if $item['market_price']}<span class="market-price m-l-6"> ￥{$item['market_price']}</span>{/if}
+					</p>
+					<a href="javaScript:;" class="btn_pt btn_cpink" onclick="buyvip({$item['id']}, '{$item['level_name']}', '{$item['renew']}');">{php echo $item['renew'] ? '续费' : '立即开通';}</a>
+				</div>
+				{/loop}
+				
+				<div class="clear"></div>
+			</div>
+
+			{if $comsetting['vip_agreement']}
+			<div class="fs-14 m-t-20">
+				<input type="checkbox" name="vip_agreement" value="1" style="vertical-align:-2px;" checked=""> 我已阅读并同意<a href="javascript:;" id="btn-agreement" class="ftc-c78800">《VIP服务协议》</a>
+			</div>
+			<div class="agreement-area-mask" style="display:none;">
+				<div class="agreement-area">
+					<div class="close">
+						<img src="{MODULE_URL}static/webapp/{$template}/images/btn-close.png" width="32" height="32">
+					</div>
+					<h3 class="notice-title">VIP服务协议</h3>
+					<ul class="notice-body text-l">
+						{php echo htmlspecialchars_decode($comsetting['vip_agreement'])}
+					</ul>
+				</div>
+			</div>
+			{/if}
+
+		</div>
+
+		<div class="hg-22"></div>
+
+		{if $comsetting['vipcard_show']}
+		<div class="vip-card">	
+			<a href="javascript:;" class="vip-gallery" id="btn-vipcard">{php echo $common['vip_page']['card_open'] ? $common['vip_page']['card_open'] : 'VIP服务卡密开通入口'}</a>
+		</div>
+		{/if}
+
+		<div class="hg-22"></div>
+
+		<div class="p-t-20 p-l-20 p-b-20 p-r-20 bg-c-ffffff">
+			<div class="content">{$comsetting['vipdesc']}</div>
+		</div>
+	</div>
+	<div class="hg-40"></div>
+</div>
+
+<script type="text/javascript">
+	//VIP服务内容
+	$("#btn-agreement").click(function(){
+		$('.agreement-area-mask').show();
+	});
+	$(".close").click(function(){
+		$('.agreement-area-mask').hide();
+	});
+
+	function buyvip(id, name, renew){
+		if(!login()) return false;
+
+		<?php if($comsetting['vip_agreement']){ ?>
+			var agreement = false;
+			$("input[name='vip_agreement']").each(function () {
+				if ($(this).is(":checked")) {
+					agreement = true;
+				}
+			});
+			if(!agreement){
+				swal("系统提示", "请阅读并同意《VIP服务协议》");
+				return false;
+			}
+		<?php } ?>
+
+
+		var renew_name = renew ? '续费' : '开通';
+		swal({
+			title: "系统提示",
+			text: "确认" + renew_name + name + "?",
+			type: "warning",
+			html: true,
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonText: "确定",
+			confirmButtonColor: "#1AB61B"
+		}, function() {
+			window.location.href = "/{$uniacid}/vip.html?op=buyvip&level_id="+id;
+		});
+	}
+
+	$("#btn-vipcard").click(function(){
+	    if(!login()) return false;
+
+		<?php if($comsetting['vip_agreement']){ ?>
+			var agreement = false;
+			$("input[name='vip_agreement']").each(function () {
+				if ($(this).is(":checked")) {
+					agreement = true;
+				}
+			});
+			if(!agreement){
+				swal("系统提示", "请阅读并同意《VIP服务协议》");
+				return false;
+			}
+		<?php } ?>
+
+		swal({
+			title: "卡密开通VIP服务",
+			text: "",
+			type: "input",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			confirmButtonColor: "#ec6c62",
+			cancelButtonColor: "#ec6c62",
+			animation: "slide-from-top",
+			inputPlaceholder: "请输入卡密"
+		}, function(card_password) {
+			if (card_password === false)
+				return false;
+			if (card_password === "") {
+				swal.showInputError("请输入卡密");
+				return false
+			}
+			if (card_password.length != 18) {
+				swal.showInputError("卡密长度有误，请重新输入");
+				return false
+			}
+
+			$.ajax({
+				url:  "/{$uniacid}/vipcard.html",
+				type: "POST",
+				data: {card_password:card_password}
+			}).done(function(resdata) {
+				var res =  JSON.parse(resdata);
+				if(res.code==0){
+					swal("系统提示", res.message, "success");
+				}else if(res.code==-1){
+					swal("系统提示", res.message, "error");
+				}
+			}).error(function(err) {
+				swal("系统提示", "网络错误，请稍候重试", "error");
+			});
+		});
+	})
+</script>
+
+{php include $this->template($template.'/_footer')}

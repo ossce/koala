@@ -1,0 +1,127 @@
+@charset "utf-8";
+
+.product_wp{
+	margin: -60px auto 0;
+	position: relative;
+	background: #f6f6f6;
+	box-shadow: 0 4px 16px rgba(211,217,228,.4);
+	border-radius: 10px;
+}
+.product_wp .pt_item {
+	padding: 20px 0;
+    margin: 10px 0;
+	margin-left: 50px;
+    position: relative;
+    float: left;
+    vertical-align: top;
+    width: 295px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 20px;
+}
+.product_wp .pt_item:nth-child(3n){
+	margin-right: 0;
+}
+
+.product_wp .pt_item .discount_tips{
+	display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+	background-image: url(../images/vip-discount-icon.png);
+}
+.product_wp .pt_item+.pt_item:before {
+/*	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 240px;
+	border-left: 1px dashed #d9ddec;
+*/
+}
+.product_wp .txt_pt {
+	position: relative;
+	font-size: 14px;
+	line-height: 27px;
+	color: #8b8b8b;
+}
+.product_wp .txt_pt em {
+	display: block;
+	font-size: 20px;
+	line-height: 33px;
+	color: #000;
+	font-style: normal;
+}
+.product_wp .txt_pt .price {
+	font-size: 24px;
+    color: #c59830;
+}
+
+.product_wp .txt_desc{
+	line-height: 20px;
+}
+.product_wp .txt_desc a{
+	color: #8b8b8b;
+}
+.product_wp .txt_desc .go-study{
+	display: inline-block;
+	margin-right: 3px;
+	font-size: 12px;
+    border-radius: 5px;    
+    color: #ffffff;
+    padding: 1px 8px;
+    background-color: #E4AD73;
+}
+.product_wp .ic_box {
+	position: relative;
+	margin-top: 1px;
+}
+.product_wp .ic_box:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: transform .3s;
+	-webkit-transition: transform .3s;
+}
+.product_wp .btn_pt {
+	margin-top: 15px;
+	width: 140px;
+	font-size: 16px;
+	line-height: 40px;
+	border-radius: 40px;
+}
+.product_wp .pt_item:hover .ic_box:before {
+	transform: translate(0,-5px);
+	-webkit-transform: translate(0,-5px);
+}
+.btn_cpink {
+	display: block;
+    margin: 0 auto;
+    color: #ffffff;
+    text-align: center;
+    background: #c39e4c;
+    background: linear-gradient(112deg, #c39e4c 0%,#dea62b 100%);
+}
+.vip-card {
+    padding: 10px 0;
+    text-align: center;
+}
+.vip-card .vip-gallery {
+    font-size: 20px;
+    text-align: center;
+    font-family: "微软雅黑";
+    color: #333333;
+    display: inline-block;
+    padding: 9px 0;
+    background-image: url('../images/vipcard-bg.png');
+    width: 320px;
+    height: 40px;
+	line-height: 40px;
+    border-radius: 50px;
+}

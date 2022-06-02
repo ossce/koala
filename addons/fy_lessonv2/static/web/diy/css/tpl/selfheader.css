@@ -1,0 +1,129 @@
+.mine_head {
+	position: relative;
+	padding-bottom: 55%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.mine_head .aui-member-setting {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    text-shadow: 0 1px 0 #666;
+	z-index: 1;
+}
+
+.mine_head .aui-member-setting img {
+    width: 26px;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
+.mine_head.mine_head2 {
+  padding-bottom: 52%;
+}
+
+.mine_head .mine_head_body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.mine_head.mine_head2 .mine_head_body {
+  top: 58%;
+}
+
+.mine_head .tx {
+  margin: 0 auto;
+  width: 63px;
+  height: 63px;
+  font-size: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e0ef;
+  background-color: #e0e0ef;
+}
+
+.mine_head .tx img {
+  width: 100%;
+  height: 100%;
+}
+
+.mine_head .nickname,
+.mine_head .tip {
+  text-align: center;
+  font-size: 16px;
+}
+
+.mine_head .idno {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.mine_head .idno .vip_crown {
+	height: 20px;
+    vertical-align: -6px;
+	margin-right: 2px;
+}
+
+.mine_head .icon_setting {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  width: 19px;
+  height: 19px;
+  top: 15px;
+  right: 15px;
+  background-image: url("../image/icon_setting.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.mine_head .titlebar {
+  color: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  background-color: transparent;
+}
+
+.mine_head .signin-button{
+	position: absolute;
+    left: 0;
+    top: 0;
+    padding: 15px;
+	z-index: 1;
+}
+.mine_head .signin-button a {
+	display: inline-block;
+    background: rgba(255, 255, 255, 0.41);
+    color: #fff;
+    font-size: 13px;
+    border: none;
+    padding: 3px 8px;
+}
+.mine_head .signin-button .icon-pic {
+	margin-right: 3px;
+    background-size: 14px;
+}
+.mine_head .signin-button .icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border: none;
+    float: left;
+    background-size: 20px;
+    background-repeat: no-repeat;
+	margin-top: -1px;
+}

@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting');}">直播配置</a></li>
+	<li {if $op=='im'}class="active"{/if}><a href="{php echo $this->createWebUrl('setting', array('op'=>'im'));}">直播聊天室</a></li>
+</ul>

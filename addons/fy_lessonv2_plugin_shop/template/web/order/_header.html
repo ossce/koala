@@ -1,0 +1,12 @@
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/fycommon.css?v={$versions}">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}static/web/css/order.css?v={$versions}">
+
+<ul class="nav nav-tabs">
+	<li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('order');}">订单列表</a></li>
+	{if $op=='details'}
+	<li class="active"><a href="{php echo $this->createWebUrl('order',array('op'=>'details','id'=>$_GPC['id']));}">订单详情</a></li>
+	{/if}
+	{if $op=='refund'}
+	<li class="active"><a href="{php echo $this->createWebUrl('order',array('op'=>'refund','id'=>$_GPC['id']));}">退款详情</a></li>
+	{/if}
+</ul>

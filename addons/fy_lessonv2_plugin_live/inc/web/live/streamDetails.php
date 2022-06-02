@@ -1,0 +1,2 @@
+<?php
+ goto HgvAR; lc5q8: if (!empty($stream)) { goto H1h1n; } goto J5dBu; KUE3Y: $stream = pdo_get($this->table_live_stream, array("\x75\156\151\141\x63\151\x64" => $uniacid, "\151\144" => $id)); goto lc5q8; J5dBu: message("\347\x9b\264\xe6\x92\xad\346\xb5\x81\xe5\x9c\260\xe5\x9d\200\xe9\x94\x99\xe8\xaf\xaf"); goto ZyPG6; HgvAR: $id = intval($_GPC["\x69\x64"]); goto KUE3Y; ZyPG6: H1h1n:

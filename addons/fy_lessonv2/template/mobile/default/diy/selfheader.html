@@ -1,0 +1,45 @@
+<div style="background:{if $diy['style']['show_background']}{$diy['style']['background']}{else}none{/if};padding:{$diy['style']['vertical_padding']} {$diy['style']['horizontal_padding']};">
+	<div class="mine_head" style="background-image:url({$diy['style']['bg_imgsrc']});border-radius:{$diy['style']['bg_radius']};margin:0;">
+		{if $diy['style']['show_setting']}
+		<a class="aui-member-setting" href="{php echo url('mc/profile')}">
+			<img src="{$diy['style']['setting_imgsrc']}">
+		</a>
+		{/if}
+		<div class="mine_head_body">
+			<div class="tx get-memberInfo" style="border-radius:{$diy['style']['avatar_radius']};">
+				<img src="{$avatar}" id="btn-avatar" alt="会员头像">
+			</div>
+			{if $diy['style']['show_nickname']}
+			<div class="nickname get-memberInfo" style="color:{$diy['style']['nickname_color']};">
+				{if $memberinfo['nickname']}
+					{$memberinfo['nickname']}
+				{else}
+					{php echo $userAgent ? '点击同步昵称' : '未设置';}
+				{/if}
+			</div>
+			{/if}
+			<div class="idno">
+				{if $diy['style']['show_vip']}
+				<a href="{php echo $this->createMobileUrl('vip')}">
+					{if $memberVipCount}
+					<img src="{MODULE_URL}static/mobile/{$template}/images/self-icon-vip-ident-actived.png" class="vip_crown">
+					{else}
+					<img src="{MODULE_URL}static/mobile/{$template}/images/self-icon-vip-ident.png" class="vip_crown">
+					{/if}
+				</a>
+				{/if}
+				{if $diy['style']['show_nickname']}
+				<span style="color:{$diy['style']['nickname_color']};">{php echo $common['self_page']['studentno'] ? $common['self_page']['studentno'] : '学号';}：{$memberid}</span>
+				{/if}
+			</div>
+		</div>
+		{if $diy['style']['show_sign']}
+		<div class="signin-button">
+			<a href="{php echo $this->createMobileUrl('signin');}" style="color:{$diy['style']['sign_color']};border-radius:{$diy['style']['sign_radius']};">
+				<i class="icon icon-pic" style="background-image:url({$diy['style']['sign_imgsrc']});"></i>{php echo $signin_log ? '已签到' : '签到';}
+			</a>
+		</div>
+		{/if}
+	</div>
+</div>
+

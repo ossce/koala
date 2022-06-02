@@ -1,0 +1,325 @@
+<div class="main">
+	<div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="module_name" value="fy_lessonv2_plugin_shop" />
+                <input type="hidden" name="do" value="goods" />
+                <input type="hidden" name="op" value="display" />
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品名称</label>
+                    <div class="col-sm-2 col-lg-3">
+                        <input class="form-control" name="title" type="text" value="{$_GPC['title']}">
+                    </div>
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品类型</label>
+                    <div class="col-sm-2 col-lg-3">
+						<select name="goods_type" class="form-control">
+								<option value="">不限</option>
+                            {loop $goods_types $key $item}
+								<option value="{$key}" {if $_GPC['goods_type']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">购买方式</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="sell_type" class="form-control">
+								<option value="">不限</option>
+							{loop $sell_types $key $item}
+								<option value="{$key}" {if $_GPC['sell_type']==$key}selected{/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品状态</label>
+                    <div class="col-sm-8 col-lg-3 col-xs-12">
+                        <select name="status" class="form-control">
+								<option value="">不限</option>
+                            {loop $status_types $key $item}
+								<option value="{$key}" {if $_GPC['status']=="$key"}selected{/if}>{$item}</option>
+							{/loop}
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width:100px;">商品分类</label>
+                    <div class="col-xs-12 max-w-200">
+						<select class="form-control" id="pid" name="pid" onchange="renderCategory(this.value)">
+							<option value="0">请选择一级分类</option>
+							{loop $category $item}
+							<option value="{$item['id']}">{$item['name']}</option>
+							{/loop}
+						</select>
+					</div>
+					<div class="col-xs-12 max-w-200">
+						<select class="form-control" id="cid" name="cid" onchange="renderSecondCategory(this.value)">
+							<option value="0">请选择二级分类</option>
+						</select>
+					</div>
+					<div class="col-xs-12 max-w-200">
+						<select class="form-control" id="ccid" name="ccid">
+							<option value="0">请选择三级分类</option>
+						</select>
+					</div>
+					<div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('goods', array('op'=>'postGoods'));}" class="btn btn-success"><i class="fa fa-plus"></i> 添加商品</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<ul class="page-nav page-nav-tabs">
+				<li {if $_GPC['status'] == 1}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('goods',array('status'=>1));}">出售中的商品</a>
+				</li>
+				<li {if $_GPC['status'] == '0'}class="active"{/if}>
+					<a href="{php echo $this->createWebUrl('goods',array('status'=>0));}">仓库中的商品</a>
+				</li>
+				<li class="mar-l-10">
+					<a class="no-border"><span class="red-bold">商品数量：{$total}</span></a>
+				</li>
+			</ul>
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:60px;">全选</th>
+							<th style="width:5%;text-align:center;">排序</th>
+							<th style="width:26%;">商品名称</th>
+							<th style="width:8%;text-align:center;">商品类型</th>
+							<th style="width:10%;text-align:center;">购买方式</th>
+							<th style="width:15%;text-align:center;">价格</th>
+							<th style="width:8%;text-align:center;">状态</th>
+							<th style="width:10%;text-align:center;">库存/销量</th>
+							<th style="text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $list $item}
+						<tr>
+							<td><input type="checkbox" name="goods_ids[]" value="{$item['id']}"></td>
+							<td style="text-align:center;">
+								<input type="text" class="form-control" name="displayorder[{$item['id']}]" value="{$item['displayorder']}" style="width: 70px;display:inline-block;">
+							</td>
+							<td style="word-break:break-all;">
+								<img src="{$_W['attachurl']}{$item['cover']}" width="40" height="40">
+								[ID:{$item['id']}] {$item['title']}
+							</td>
+							<td style="text-align:center;">
+								{if $item['goods_type'] == 1}
+									<span class="label label-primary">{$goods_types[$item['goods_type']]}</span>
+								{elseif $item['goods_type'] == 2}
+									<span class="label label-warning">{$goods_types[$item['goods_type']]}</span>
+								{/if}
+							</td>
+							<td style="text-align:center;">{$sell_types[$item['sell_type']]}</td>
+							<td style="text-align:center;">{$item['goods_price']}</td>
+							<td style="text-align:center;">
+								{if $item['status'] == 0}
+									<span class="label label-danger">{$status_types[$item['status']]}</span>
+								{elseif $item['status'] == 1}
+									<span class="label label-success">{$status_types[$item['status']]}</span>
+								{/if}
+							</td>
+							<td style="text-align:center;">{$item['stock']} / {$item['sales']}</td>
+							<td style="text-align:center;">
+								<div class="btn-group btn-group-sm">
+									<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="javascript:;">功能列表 <span class="caret"></span></a>
+									<ul class="dropdown-menu dropdown-menu-left" role="menu" style="z-index:99999">
+										<li><a href="{php echo $this->createWebUrl('goods', array('op'=>'postGoods','id'=>$item['id'],'refurl'=>base64_encode($_SERVER['QUERY_STRING'])));}"><i class="fa fa-edit"></i> 编辑商品</a></li>
+										{if $item['goods_type'] == 2}
+										<li><a href="{php echo $this->createWebUrl('goods', array('op'=>'postVirtual','id'=>$item['id']));}"><i class="fa fa-credit-card"></i> 卡密管理</a></li>
+										{/if}
+										<li><a href="{php echo $this->createWebUrl('goods', array('op'=>'downQrcode','id'=>$item['id']));}"><i class="fa fa-download"></i> 下载二维码</a></li>
+										<li><a href="{php echo $this->createWebUrl('comment', array('op'=>'addComment','goodsid'=>$item['id']));}" target="_blank"><i class="fa fa-comment"></i> 发布评价</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<input type="checkbox" id="selAll" class="mar-r-15">
+								<input name="submit" type="submit" class="btn btn-primary mar-r-15" value="批量排序" />
+								{if $_GPC['status'] == '0'}
+									<a href="javascript:;" id="online" data-type="online" class="btn btn-success mar-r-15">上架</a>
+									<a href="javascript:;" id="delAll" class="btn btn-danger mar-r-15">批量删除</a>
+								{/if}
+								{if $_GPC['status'] == '1'}
+									<a href="javascript:;" id="offline" data-type="offline" class="btn btn-danger">下架</a>
+								{/if}
+								<input type="hidden" name="token" value="{$_W['token']}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		{$pager}
+	</form>
+</div>
+
+<script type="text/javascript">
+/* 选择商品分类 START */
+	var category = {php echo json_encode($category);};
+	var pid		 = {php echo intval($_GPC['pid'])};
+	var cid		 = {php echo intval($_GPC['cid'])};
+	var ccid	 = {php echo intval($_GPC['ccid'])};
+
+	$(function(){
+		$("#pid").find("option[value='"+pid+"']").attr("selected",true);
+		document.getElementById("pid").onchange();
+	});
+
+	//选择一级分类
+	function renderCategory(pid){
+		var chtml2 = '<option value="0">请选择二级分类</option>';
+		if(pid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						if(second[j].id==cid){
+							chtml2 += '<option value="' + second[j].id+'" selected>' + second[j].name + '</option>';
+						}else{
+							chtml2 += '<option value="' + second[j].id+'">' + second[j].name + '</option>';
+						}
+					}
+					$("#cid").html(chtml2);
+				}
+			}
+		}else{
+			$("#cid").html(chtml2);
+		}
+
+		if(pid){
+			renderSecondCategory();
+		}
+	}
+
+	//选择二级分类
+	function renderSecondCategory(){
+		pid = $("#pid").val() ? $("#pid").val() : pid;
+		cid = $("#cid").val() ? $("#cid").val() : cid;
+
+		var chtml3 = '<option value="0">请选择三级分类</option>';
+		if(pid && cid){
+			for(var i in category){
+				if(category[i].id==pid){
+					var second = category[i].second;
+					for(var j in second){
+						var third = category[i].second[j].third;
+						for(var k in third){
+							if(third[k].id==ccid){
+								chtml3 += '<option value="' + third[k].id+'" selected>' + third[k].name + '</option>';
+							}else{
+								chtml3 += '<option value="' + third[k].id+'">' + third[k].name + '</option>';
+							}
+						}
+
+					}
+					$("#ccid").html(chtml3);
+				}
+			}
+		}else{
+			$("#ccid").html(chtml3);
+		}
+	}
+/* 选择商品分类 END */
+
+
+/* 批量操作 START */
+	var ids = document.getElementsByName("goods_ids[]");
+	var selectAll = false;
+	$("#selAll").click(function(){
+		selectAll = !selectAll;
+		for(var i=0; i<ids.length; i++){
+			ids[i].checked = selectAll;
+		}
+	});
+
+	function checkStatus(){
+		var checkids = "";
+		for(var i=0; i<ids.length; i++){
+			if(ids[i].checked){
+				checkids += (checkids === '' ? ids[i].value : ',' + ids[i].value);
+			}
+		}
+		if(checkids===''){
+			util.message('未选中任何商品', '', 'error');
+			return false;
+		}else{
+			return checkids;
+		}
+	}
+
+	var goods_ids = '';
+	$("#online,#offline").click(function(){
+		goods_ids = checkStatus();
+		var request_type = $(this).data('type');
+		if(request_type=='online'){
+			var confirm_msg = '确认批量上架?';
+		}else if(request_type=='offline'){
+			var confirm_msg = '确认批量下架?';
+		}
+
+		if(goods_ids && confirm(confirm_msg)){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('goods', array('op'=>'batchHandle'));}",
+				data: {goods_ids:goods_ids, type:request_type},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						}, 1500);
+					}else{
+						util.message(res.errmsg, '', 'error');
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+
+	$("#delAll").click(function(){
+		goods_ids = checkStatus();
+
+		if(goods_ids && confirm('该操作无法撤销，确认批量删除?')){
+			$.ajax({
+				type: "POST",
+				url: "{php echo $this->createWebUrl('goods', array('op'=>'batchHandle'));}",
+				data: {goods_ids:goods_ids, type:'delete'},
+				dataType:"json",
+				success: function(res){
+					if(res.code===0){
+						util.message(res.msg, '', 'success');
+						setTimeout(function(){
+							location.reload();
+						}, 1500);
+					}else{
+						util.message(res.errmsg, '', 'error');
+					}
+				},
+				error: function(error){
+					util.message('网络请求超时，请稍后重试', '', 'error');
+				}
+			});
+		}
+	});
+/* 批量操作 END */
+</script>

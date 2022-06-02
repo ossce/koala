@@ -1,0 +1,10 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('recommend');}">板块列表</a></li>
+    <li {if $op=='post'}class="active"{/if}><a href="{php echo $this->createWebUrl('recommend', array('op'=>'post', 'id'=>$_GPC['id']));}">{if $_GPC['id']>0}编辑{else}添加{/if}板块</a></li>
+	{if $op=='details'}
+	<li class="active"><a href="{php echo $this->createWebUrl('recommend', array('op'=>'details', 'id'=>$_GPC['id']));}">【{$recommend['rec_name']}】板块详情</a></li>
+	{/if}
+	{if $op=='addtorec'}
+	<li class="active"><a href="{php echo $this->createWebUrl('recommend', array('op'=>'addtorec'));}">新增推荐课程</a></li>
+	{/if}
+</ul>

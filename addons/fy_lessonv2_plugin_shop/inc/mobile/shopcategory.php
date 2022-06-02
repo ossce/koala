@@ -1,0 +1,2 @@
+<?php
+ goto CMNnI; CMNnI: $title = "\345\225\206\345\223\x81\xe5\210\x86\347\261\273"; goto jhcWu; jhcWu: $list = $shop_common->getCategoryList(); goto ysupq; ysupq: include $this->template("\x2e\x2e\57\x6d\157\x62\151\154\145\x2f\163\x68\x6f\x70\x63\141\164\x65\x67\157\162\x79");

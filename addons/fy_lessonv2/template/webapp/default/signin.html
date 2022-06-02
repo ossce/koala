@@ -1,0 +1,106 @@
+{php include $this->template($template.'/_header')}
+
+<div class="baseWidth w-1200">
+	<div class="w-main fs-12 ftc-7a7a7a line-h45 m-b-10">
+		当前位置：<a href="/{$uniacid}/index.html" class="more ftc-414141">首页</a> &gt; <a href="/{$uniacid}/self.html" class="more ftc-414141">个人中心</a> &gt; {$title}
+	</div>
+	<div class="memberContent flex">
+		{php include $this->template($template.'/_memberLeft')}
+
+		<div class="memberRightLayout">
+			<div class="signin-con clear">
+				<div class="signin-left">
+					<div class="signin-left-top clear">
+						<div class="current-date">签到日历</div>
+					</div>
+					<div class="signin-main">
+						<ul class="signin-list" id="js-signin-list">
+						</ul>
+					</div>
+				</div>
+				<div class="signin-right">
+					<div class="signin-top">
+						<div class="just-signin signin-sprits {php echo $today_log ? 'actived' : '';}" id="signIn">
+						</div>
+						<p class="signin-notic">{if $today_log}今天已签到，获得{$today_log['award']}个积分{else}连续签到{$sign_count}天{/if}</p>
+					</div>
+					<div class="signin-bottom">
+						<div class="signin-rule-list">
+							<h4>【签到规则】</h4>
+							<p>{$rule}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+    var signFun = function() {
+
+        var dateArray = {$signDay};
+        
+        var $dateBox = $("#js-signin-list"),
+            $currentDate = $(".current-date"),
+            _html = '',
+            _handle = true,
+            myDate = new Date();
+        $currentDate.text('签到日历（' + parseInt(myDate.getMonth() + 1) + '月）');
+
+        var monthFirst = new Date(myDate.getFullYear(), parseInt(myDate.getMonth()), 1).getDay();
+
+        var d = new Date(myDate.getFullYear(), parseInt(myDate.getMonth() + 1), 0);
+        var totalDay = d.getDate();
+
+        for (var i = 0; i < 42; i++) {
+            _html += ' <li><div class="qiandao-icon"></div></li>'
+        }
+        $dateBox.html(_html)
+
+        var $dateLi = $dateBox.find("li");
+        for (var i = 0; i < totalDay; i++) {
+            $dateLi.eq(i + monthFirst).addClass("date" + parseInt(i + 1));
+            for (var j = 0; j < dateArray.length; j++) {
+                if (i == dateArray[j]-1) {
+                    $dateLi.eq(i + monthFirst).addClass("qiandao");
+                }
+            }
+        }
+    }();
+})
+
+{if !$today_log}
+	var isjump = false;
+	$("#signIn").click(function(){
+		$.ajax({
+			type: "post",
+			url: "/{$uniacid}/signin.html?op=sign",
+			dataType: "json",
+			success:function(res){
+				if(res.code == -1){
+					if(res.message){
+						swalalert('系统提示', res.message, 'error');
+					}
+					return;
+				}else if(res.code == 0){
+					isjump = true;
+					swal("系统提示", res.message, "success");
+				}
+			}, 
+			error:function(){
+				swalalert('系统提示', '网络异常，请稍候重试', 'error');
+			},   
+		});
+	});
+
+	$(document).on("click",".swal-confirm",function(){
+		if(isjump){
+			location.reload();
+		}
+	});
+{/if}
+</script>
+
+{php include $this->template($template.'/_footer')}

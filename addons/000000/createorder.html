@@ -1,0 +1,198 @@
+{template 'common/header'}
+
+
+<style>
+.label{
+	line-height:2;
+}
+.page-nav {
+	margin: 0;
+	width: 100%;
+	min-width: 800px;
+}
+
+.page-nav > li > a {
+	display: block;
+}
+
+.page-nav-tabs {
+	background: #EEE;
+}
+
+.page-nav-tabs > li {
+	line-height: 40px;
+	float: left;
+	list-style: none;
+	display: block;
+	text-align: -webkit-match-parent;
+}
+
+.page-nav-tabs > li > a {
+	font-size: 14px;
+	color: #666;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 10px;
+	margin: 0;
+	border: 1px solid transparent;
+	border-bottom-width: 0px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.page-nav-tabs > li > a, .page-nav-tabs > li > a:focus {
+	border-radius: 0 !important;
+	background-color: #f9f9f9;
+	color: #999;
+	margin-right: -1px;
+	position: relative;
+	z-index: 11;
+	border-color: #c5d0dc;
+	text-decoration: none;
+}
+
+.page-nav-tabs >li >a:hover {
+	background-color: #FFF;
+}
+
+.page-nav-tabs > li.active > a, .page-nav-tabs > li.active > a:hover, .page-nav-tabs > li.active > a:focus {
+	color: #576373;
+	border-color: #c5d0dc;
+	border-top: 2px solid #4c8fbd;
+	border-bottom-color: transparent;
+	background-color: #FFF;
+	z-index: 12;
+	margin-top: -1px;
+	box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+.spec-name{
+	font-style: normal;
+    font-size: 12px;
+    color: #999;
+}
+</style>
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">操作</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="fy_lessonv2_plugin_supersync" />
+                <input type="hidden" name="do" value="createorder" />
+                <input type="hidden" name="op" value="create_order" />
+                
+				<div class="form-group">
+                    <div class="col-sm-3 col-lg-3">
+						<button type="submit" class="btn btn-success">生成订单</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+	
+    <ul class="page-nav page-nav-tabs" style="background:none;float: left;margin-left: 0px;padding-left: 0px;border-bottom:1px #c5d0dc solid;">
+        <li{if $_GPC['status']=='' && !$_GPC['is_delete']} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('createorder', array('op' => 'display'))}">全部订单</a>
+        </li>
+		<!--<li{if in_array($_GPC['status'], array('0'))} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 0))}">待付款订单</a>-->
+  <!--      </li>-->
+  <!--      <li{if $_GPC['status']==1} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 1))}">已付款订单</a>-->
+  <!--      </li>-->
+  <!--      <li{if $_GPC['status']==2} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 2))}">已评价订单</a>-->
+  <!--      </li>-->
+  <!--      <li{if $_GPC['status']==-1} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -1))}">已取消订单</a>-->
+  <!--      </li>-->
+  <!--      <li{if $_GPC['status']==-2} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -2))}">已退款订单</a>-->
+  <!--      </li>-->
+		<!--<li{if $_GPC['is_delete']==1} class="active"{/if}>-->
+  <!--      <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'is_delete' => 1))}">订单回收站</a>-->
+  <!--      </li>-->
+		<li style="float:right;">
+			<a style="font-weight:bold;color:#d9534f;">订单总数：{$total}<span style="margin-left:40px;">订单总额：{$statis[0]['price']}</span></a>
+        </li>
+    </ul>
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+					<th style="width:60px;">全选</th>
+                    <th style="width:15%;">订单编号</th>
+                    <th style="width:18%;">昵称/姓名/手机号码</th>
+                    <th style="width:18%;">课程名称</th>
+                    <th style="width:8%;">价格</th>
+					<th style="width:9%;">会员状态</th>
+                    <th style="width:8%;">订单状态</th>
+                    <th style="width:10%;">下单时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $item}
+                <tr>
+					<td><input type="checkbox" name="ids[]" value="{$item['id']}"></td>
+                    <td>{$item['ordersn']}</td>
+                    <td>
+						<!--<a href="{php echo $this->createWebUrl('agent', array('op'=>'detail','uid'=>$item['uid']));}" target="_blank">-->
+						    {$item['nickname']}<br/>{$item['realname']}，{$item['mobile']}
+						<!--</a>-->
+					</td>
+                    <td>
+						{$item['bookname']}
+						<br/>
+						<em class="spec-name">
+							规格:
+							{if $item['lesson_type']=='0' || $item['lesson_type']==3}
+								{php echo $item['spec_day']>0 ? '有效期'.$item['spec_day'].'天' : '长期有效';}
+							{elseif $item['lesson_type']=='1'}
+								{$item['spec_name']}
+							{/if}
+						</em>
+						
+					</td>
+                    <td>{$item['price']} 元</td>
+					<td>
+						<!--<a href="{php echo $this->createWebUrl('viporder', array('op'=>'createOrder', 'uid'=>$item['uid']));}" target="_blank">-->
+                        {if $item['vip'] == 0}<span class="label label-default">普通</span>{/if}
+						{if $item['vip'] == 1}<span class="label label-primary">VIP</span>{/if}
+						<!--</a>-->
+                    </td>
+                    <td>
+                        {if $item['status'] == 0}<span class="label label-danger">待付款</span>{/if}
+						{if $item['status'] >0}
+							<span class="label label-success">
+								{if $item['paytype']}
+									{$orderPayType[$item['paytype']]}
+								{else}
+									已支付
+								{/if}
+							</span>
+							<br/>
+						{/if}
+                        {if $item['status'] == 2}<span class="label label-warning">已评价</span>{/if}
+                        {if $item['status'] == -1}<span class="label label-default">已取消</span>{/if}
+                        {if $item['status'] == -2}<span class="label label-default">已退款</span>{/if}
+                    </td>
+                    <td>{php echo date('Y-m-d H:i', $item['addtime'])}</td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+			<table class="table">
+				<tbody></tbody>
+			</table>
+            {$pager}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+
+{template 'common/footer'}

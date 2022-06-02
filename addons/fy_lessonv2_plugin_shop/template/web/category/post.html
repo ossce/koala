@@ -1,0 +1,82 @@
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">分类信息</div>
+            <div class="panel-body">
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>分类名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="name" class="form-control" value="{$category['name']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图片</label>
+                    <div class="col-sm-6">
+                        {php echo tpl_form_field_image('icon', $category['icon']);}
+						<span class="help-block">建议尺寸200px * 200px</span>
+                    </div>
+                </div>
+				{if !$sign_parentid}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类广告图</label>
+					<div class="col-sm-6">
+						{php echo tpl_form_field_image('adv_cover', $category['adv_cover']);}
+					</div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类广告链接</label>
+					<div class="col-sm-6">
+						<input type="text" name="adv_link" value="{$category['adv_link']}" class="form-control">
+						<span class="help-block">如需设置链接，请输入http://或https://开头</span>
+					</div>
+                </div>
+				{/if}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义链接</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon">手机端</span>
+							<input type="text" name="link" value="{$category['link']}" class="form-control">
+						</div>
+						<span class="help-block">如需设置自定义链接，请输入http://或https://开头</span>
+					</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="displayorder" class="form-control" value="{$category['displayorder']}" />
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;font-weight:bolder;">*</span>状态</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline"><input type="radio" name="status" value="1" {if $category['status'] || !$id}checked{/if} /> 上架</label>
+                        <label class="radio-inline"><input type="radio" name="status" value="0" {if $category['status']=='0'}checked{/if} /> 下架</label>
+                    </div>
+                </div>
+				{if $category['id']}
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类链接(手机端)</label>
+                    <div class="col-sm-6">
+                        <div style="padding-top:8px;font-size: 14px;"><a href="javascript:;" id="copy-btn">{$category_url}</a></div>
+                    </div>
+                </div>
+				{/if}
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$id}" />
+			<input type="hidden" name="parentid" value="{$_GPC['parentid']}" />
+			<input type="hidden" name="pageurl" value="{$_W['siteurl']}" />
+        </div>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		util.clip($("#copy-btn")[0], $("#copy-btn").text());
+	});
+});
+</script>

@@ -1,0 +1,2 @@
+<?php
+ defined("IN_IA") or exit("Access Denied"); class Fy_lessonv2_plugin_shopModule extends WeModule { public function settingsDisplay($settings) { goto OEnbW; vbaDQ: if (!checksubmit()) { goto Vv31K; } goto XAN4t; rRbX0: $this->saveSettings($dat); goto b2DQA; b2DQA: message("更新成功", referer(), "success"); goto B4mzL; XAN4t: $dat = array(); goto rRbX0; yZ22_: include $this->template("settings"); goto Q6j7l; OEnbW: global $_W, $_GPC; goto vbaDQ; B4mzL: Vv31K: goto yZ22_; Q6j7l: } } ?>

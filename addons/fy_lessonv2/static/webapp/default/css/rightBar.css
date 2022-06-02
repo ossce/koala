@@ -1,0 +1,110 @@
+@charset "utf-8";
+@keyframes two-up-down {
+	from {
+		-webkit-transform: translate(0,6px);
+		transform: translate(0,6px)
+	}
+
+	to {
+		-webkit-transform: translate(0,-6px);
+		transform: translate(0,-6px)
+	}
+}
+.sideBar-animate {
+    -webkit-animation: two-up-down .8s ease infinite 80ms alternate;
+    animation: two-up-down .8s ease infinite 80ms alternate;
+}
+
+.right-bar {
+    position: fixed;
+    right: 10px;
+    top: 48%;
+    width: 62px;
+    z-index: 999;
+    margin-top: -180px;
+}
+.right-bar .top-regbox {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    line-height: 17px;
+    background: linear-gradient(to bottom,#fac257,#ffad09);
+    padding: 10px 0;
+    border-radius: 4px;
+    display: block;
+    cursor: pointer;
+}
+.right-bar .top-regbox a:hover{
+	color: #fff;
+}
+.right-bar .top-regbox .icon-crown{
+	color: #fff;
+}
+.right-bar a {
+	display: inline-block;
+    color: #fff;
+}
+.right-bar .top-regbox>a>i {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    color: #666;
+    font-size: 32px;
+	font-style: normal;
+}
+.right-bar .btm-cont {
+    width: 100%;
+    background: #fff;
+    margin-top: 5px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.right-bar .btm-cont .qrBox {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    line-height: 17px;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.right-bar .btm-cont .qrBox .introduce {
+	display: none;
+	width: 200px;
+    right: 62px;
+    top: -54px;
+    border: 1px solid #e8e8e8;
+	position: absolute;
+    z-index: 7;
+	background: #fff;
+	cursor: default;
+	padding: 15px 10px;
+	text-align: center;
+}
+.right-bar .btm-cont .qrBox .introduce img{
+	width: 180px;
+}
+.right-bar .btm-cont .qrBox:hover{
+	color: #fff;
+	background-color: #009af3;
+}
+.right-bar .btm-cont .qrBox a {
+    display: block;
+    color: #666;
+}
+.right-bar .btm-cont .qrBox a:hover{
+	color: #fff;
+}
+.right-bar .btm-cont .qrBox i{
+	font-size: 26px;
+}
+.right-bar .btm-cont .qrBox span{
+	display: block;
+}

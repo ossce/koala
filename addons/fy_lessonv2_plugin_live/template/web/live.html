@@ -1,0 +1,23 @@
+{template 'common/header'}
+{template 'web/live/_header'}
+
+{if $op == 'qcloud'}
+
+	{template 'web/live/qcloud'}
+
+{elseif $op == 'aliyun'}
+
+	{template 'web/live/aliyun'}
+
+{elseif $op == 'stream'}
+
+	{template 'web/live/stream'}
+
+{elseif $op == 'streamDetails'}
+
+	{template 'web/live/streamDetails'}
+
+{/if}
+
+
+{template 'common/footer'}

@@ -1,0 +1,72 @@
+.weui-tabbar__label{
+	color: #818085   !important;  /* 底部导航栏字体未选中颜色 */
+}
+.weui-bar__item_on .weui-tabbar__label{
+	color: #FD5A45   !important;  /* 底部导航栏字体选中颜色 */
+}
+
+.article_div .article_div_list > li > a{
+	color: #494949   !important;  /* 首页公告颜色 */
+}
+.article_div .more{
+	color: #969696   !important;  /* 首页公告右侧[更多]颜色 */
+}
+.index_teacher_title{
+	color: #1d1d1d   !important;  /* 首页讲师风采字体颜色 */
+}
+
+.index_newlesson_title{
+	color: #1d1d1d   !important;  /* 首页最新更新字体颜色 */
+}
+
+.new_lesson_title{
+	color: #1d1d1d   !important;  /* 首页最新更新课程标题颜色 */
+}
+.new_lesson_info{
+	color: #494949   !important;  /* 首页最新更新课程章节颜色 */
+}
+.new_lesson_bottom .time{
+	color: #969696   !important;  /* 首页最新更新课程更新时间颜色 */
+}
+
+.index_recommend_title{
+	color: #1d1d1d   !important;  /* 首页课程板块名称颜色 */
+}
+.index_recommend_more{
+	color: #969696   !important;  /* 首页课程板块[查看更多]颜色 */
+}
+
+.index_free_lesson {
+    color: #fd5a45   !important;  /* [免费课程]字体颜色 */
+}
+.index_price_lesson {
+    color: #fd5a45   !important;  /* 课程价格字体颜色 */
+}
+.index_section_number {
+    color: #737373   !important;  /* 课程章节数量字体颜色 */
+}
+.index_lesson_evaluation {
+    color: #969696   !important;  /* 课程好评率字体颜色 */
+}
+
+.section-status-btn{
+	color: #ffffff;  /* 课程[已完结]颜色 */
+	background-color: #17a2b8   !important;  /* 课程列表[已完结]背景颜色 */
+}
+
+.course-sections .free-time-content .free-play-box{
+	color: #e85308 !important;		  /* 课程详情页[免费试听]字体颜色 */
+	border-color: #e85308 !important; /* 课程详情页[免费试听]边框颜色 */
+}
+.course-sections .free-time-content .buy-play-box{
+	color: #eaa712 !important;		  /* 课程详情页[点击播放]字体颜色 */
+	border-color: #eaa712 !important; /* 课程详情页[点击播放]边框颜色 */
+}
+
+.video-wrap .newbuy_wrap .newbuy_info{
+	background: #f83735b8 !important;  /* 课程详情页面最新购买文字背景色 */
+}
+
+.myvip-bg .newbuy_wrap .newbuy_info{
+	background: #f83735b8 !important;  /* VIP服务页面最新购买文字背景色 */
+}

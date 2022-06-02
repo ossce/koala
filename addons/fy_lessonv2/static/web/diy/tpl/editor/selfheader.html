@@ -1,0 +1,247 @@
+<script>
+    Diy.Editor.defaultData.selfheader = {
+        style: {
+			show_background: 0,
+            background: '#FFFFFF',
+			bg_imgsrc: '{MODULE_URL}static/web/diy/img/selfheader_bg.jpg',
+			bg_radius: '10px',
+            vertical_padding: '5px',
+            horizontal_padding: '15px',
+			show_sign: 1,
+			sign_color: '#ffffff',
+			sign_radius: '18px',
+			sign_imgsrc: '{MODULE_URL}static/web/diy/img/selfheader_sign.png',
+			show_setting: 1,
+			setting_imgsrc: '{MODULE_URL}static/web/diy/img/selfheader_setting.png',
+			avatar_imgsrc: '{MODULE_URL}static/web/diy/img/selfheader_avatar.jpg',
+			avatar_radius: '50%',
+			show_nickname: 1,
+			nickname_color: '#ffffff',
+			show_vip: 1,
+        },
+    };
+</script>
+<script type="text/template" class="editor_params" data-name="selfheader">
+    <div class="editor-selfheader">
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景色选择</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_background" class="input_binding self_header_show_background" value="0" data-type="style" data-key="show_background" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_background!=1){ %>checked<% } %>> 无背景色
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="show_background" class="input_binding self_header_show_background" value="1" data-type="style" data-key="show_background" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_background==1){ %>checked<% } %>> 有背景颜色
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="display:<% if(style.show_background==1){ %>block<% }else{ %>none<% } %>;">
+            <div class="col-sm-2 control-label text-right">背景色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.background %>" data-type="style" data-key="background" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#FFFFFF').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景图</div>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.bg_imgsrc %>" data-type="style" data-key="bg_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.bg_imgsrc %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="bg_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>">
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">背景图圆角</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.bg_radius %>" data-type="style" data-key="bg_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.bg_radius %>" data-unit="px" data-min="1" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.bg_radius %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">上下边距</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.vertical_padding %>" data-type="style" data-key="vertical_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.vertical_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.vertical_padding %></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label text-right">左右边距</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.horizontal_padding %>" data-type="style" data-key="horizontal_padding">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.horizontal_padding %>" data-unit="px" data-min="0" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.horizontal_padding %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">签到按钮</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_sign" class="input_binding self_show_sign" value="1" data-type="style" data-key="show_sign" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_sign==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_sign" class="input_binding self_show_sign" value="0" data-type="style" data-key="show_sign" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_sign!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+		<div class="form-group self_sign_area" style="<% if(style.show_sign != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">签到颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.sign_color %>" data-type="style" data-key="sign_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#ffffff').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group self_sign_area" style="<% if(style.show_sign != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">签到圆角</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.sign_radius %>" data-type="style" data-key="sign_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.sign_radius %>" data-unit="px" data-min="1" data-max="30" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.sign_radius %></small>
+            </div>
+        </div>
+		<div class="form-group self_sign_area" style="<% if(style.show_sign != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">签到图标</div>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.sign_imgsrc %>" data-type="style" data-key="sign_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.sign_imgsrc %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="sign_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" style="width:64px;height:64px;">
+                </div>
+				<span class="help-block">建议尺寸 60 * 60px，png格式</span>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">设置按钮</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_setting" class="input_binding self_show_setting" value="1" data-type="style" data-key="show_setting" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_setting==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_setting" class="input_binding self_show_setting" value="0" data-type="style" data-key="show_setting" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_setting!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+		<div class="form-group" style="<% if(style.show_setting != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">设置图标</div>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" value="<%= style.setting_imgsrc %>" data-type="style" data-key="setting_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" readonly>
+                    <span class="input-group-addon btn btn-default ep-select-image">选择图片</span>
+                </div>
+                <div class="input-group preview-image" style="margin-top: 10px;">
+                    <img src="<%= style.setting_imgsrc %>" class="img-responsive img-thumbnail" width="60" height="60" data-type="style" data-key="setting_imgsrc" data-name="<%= name %>" data-guid="<%= guid %>" style="width:64px;height:64px;">
+                </div>
+				<span class="help-block">建议尺寸 100 * 100px，png格式</span>
+            </div>
+        </div>
+		<div class="form-group" >
+            <div class="col-sm-2 control-label text-right">头像圆角</div>
+            <div class="col-sm-4">
+                <input type="hidden" value="<%= style.avatar_radius %>" data-type="style" data-key="avatar_radius">
+                <div class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-value="<%= style.avatar_radius %>" data-unit="%" data-min="1" data-max="50" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 slider_counter">
+                <small class="text-muted"><%= style.avatar_radius %></small>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">昵称学号</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_nickname" class="input_binding self_show_nickname" value="1" data-type="style" data-key="show_nickname" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_nickname==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_nickname" class="input_binding self_show_nickname" value="0" data-type="style" data-key="show_nickname" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_nickname!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+		<div class="form-group" style="<% if(style.show_nickname != 1){ %>display:none;<% } %>">
+            <div class="col-sm-2 control-label text-right">昵称学号颜色</div>
+            <div class="col-sm-4">
+                <div class="input-group input-group-sm">
+                    <input type="color" class="form-control input-sm input_color input_binding" value="<%= style.nickname_color %>" data-type="style" data-key="nickname_color" data-name="<%= name %>" data-guid="<%= guid %>">
+                    <span class="btn btn-default input-group-addon" onclick="$(this).prev().val('#ffffff').trigger('change')">
+                        <i class="fa fa-remove"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-sm-2 control-label text-right">VIP图标</div>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="show_vip" class="input_binding" value="1" data-type="style" data-key="show_vip" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_vip==1){ %>checked<% } %>> 显示
+                </label>
+				<label class="radio-inline">
+                    <input type="radio" name="show_vip" class="input_binding" value="0" data-type="style" data-key="show_vip" data-name="<%= name %>" data-guid="<%= guid %>" data-toggle="params"  <% if(style.show_vip!=1){ %>checked<% } %>> 隐藏
+                </label>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+	$(document).on('click', '.self_header_show_background',function () {
+	   if ($(this).val()=='0') {
+			$(this).parent().parent().parent().next().hide();
+		} else {
+			$(this).parent().parent().parent().next().show();
+		}
+	});
+
+	$(document).on('click', '.self_show_sign',function () {
+	   if ($(this).val()=='0') {
+			$(".self_sign_area").hide();
+		} else {
+			$(".self_sign_area").show();
+		}
+	});
+
+	$(document).on('click', '.self_show_setting',function () {
+	   if ($(this).val()=='0') {
+			$(this).parent().parent().parent().next().hide();
+		} else {
+			$(this).parent().parent().parent().next().show();
+		}
+	});
+
+	$(document).on('click', '.self_show_nickname',function () {
+	   if ($(this).val()=='0') {
+			$(this).parent().parent().parent().next().hide();
+		} else {
+			$(this).parent().parent().parent().next().show();
+		}
+	});
+</script>

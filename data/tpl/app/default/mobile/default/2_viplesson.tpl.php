@@ -1,0 +1,130 @@
+<?php defined('IN_IA') or exit('Access Denied');?><!-- 
+ * VIP服务等级课程
+ * ============================================================================
+ 
+ * 为维护开发者的合法权益，源码仅供学习，不可用于商业行为。
+
+ * 牛牛网提供1000+源码和教程用于学习：www.niuphp.com
+
+ * 精品资源、二开项目、技术问题，请联系QQ：353395558
+ 
+ * ============================================================================
+-->
+<?php (!empty($this) && $this instanceof WeModuleSite) ? (include $this->template($template.'/_headerv2', TEMPLATE_INCLUDEPATH)) : (include template($template.'/_headerv2', TEMPLATE_INCLUDEPATH));?>
+<link href="<?php echo MODULE_URL;?>static/mobile/<?php  echo $template;?>/css/search.css?v=<?php  echo $versions;?>" rel="stylesheet" />
+
+<div class="header-2 cbox">
+	<a href="javascript:history.go(-1);" class="ico go-back"></a>
+	<div class="flex title"><?php  echo $title;?></div>
+</div>
+
+<!-- VIP服务等级课程列表 -->
+<?php  if(!empty($list)) { ?>
+	<div class="list_grid" id="lesson-list">
+	</div>
+	<div id="loading_div" class="loading_div">
+		<a href="javascript:void(0);" id="btn_Page"><i class="fa fa-arrow-circle-down"></i> 加载更多</a>
+	</div>
+<?php  } else { ?>
+	<div class="my_empty">
+		<div class="empty_bd  my_course_empty">
+			<h3>没有找到相关的课程</h3>
+			<p><a href="<?php  echo $this->createMobileUrl('index', array('t'=>1));?>">到首页去看看</a></p>
+		</div>
+	</div>
+<?php  } ?>
+<!-- /VIP服务等级课程列表 -->
+
+
+<script type="text/javascript">
+var ajaxUrl = "<?php  echo $this->createMobileUrl('viplesson', array('op'=>'ajaxgetlist','level_id'=>$level_id));?>";
+var attachUrl = "<?php  echo $_W['attachurl'];?>";
+var lessonUrl = "<?php  echo $this->createMobileUrl('lesson');?>";
+var loadingToast = document.getElementById("loadingToast");
+var get_status = true;
+
+$(function () {
+    var nowPage = 1;
+    function getData(page) {
+		if(get_status){
+			nowPage++;
+			$.get(ajaxUrl, {page: page}, function (data) {
+				var jsonObj = JSON.parse(data);
+				loadingToast.style.display = 'none';
+				if (jsonObj.length > 0) {
+					insertDiv(jsonObj);
+				}else{
+					get_status = false;
+					document.getElementById("loading_div").innerHTML='<div class="loading_bd">没有了，已经到底了</div>';
+				}
+			});
+		}
+    } 
+    //初始化加载第一页数据  
+    getData(1);
+
+    //生成数据html,append到div中  
+    function insertDiv(result) {  
+        var mainDiv =$("#lesson-list");
+        var chtml = '';
+        for (var j = 0; j < result.length; j++) {
+			chtml += '<a href="' + lessonUrl + '&id=' + result[j].id + '" class="normal_grid flex0_1">';
+			chtml += '	<div class="normal_grid_a flex_g0">';
+			chtml += '		<div class="img-box flex_g0">';
+			chtml += '			<div class="img"><img src="' + attachUrl + result[j].images + '"></div>';
+			chtml += '			<div class="icon-live ' + result[j].icon_live_status + '"></div>';
+		<?php  if($setting['show_study_number']){ ?>
+			chtml += '			<div class="learned ' + result[j].learned_hide + '">' + result[j].buyTotal + result[j].study_word + '</div>';
+		<?php  } ?>
+			chtml += '			<i class="ico_common '+ result[j].ico_name +'"></i>';
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '	<div class="flex-al1 flex10">';
+			chtml += '		<div>';
+			chtml += '			<div class="grid_title2">' + result[j].bookname + '</div>';
+			chtml += '			<div class="grid_info flex0">';
+			if(result[j].price==0){
+				chtml += '		<span class="price flex_g0 index_price_lesson fs-14">免费</span>';
+			}else{
+				chtml += '		<span class="price flex_g0 index_price_lesson fs-14">VIP免费</span>';
+			}
+			if(result[j].soncount>0){
+				chtml += '		<span class="index_section_number mar-l-a">' + result[j].soncount + '节</span>';
+			}
+			chtml += '			</div>';
+			chtml += '		</div>';
+			chtml += '		<div class="grid_bottom2 flex1">';
+			if(result[j].score>0){
+				chtml += '		<span class="eva index_lesson_evaluation">' + result[j].score_rate + '%好评</span>';
+			}
+			if(result[j].section_status==0){
+				chtml += '		<div class="text">已完结</div>';
+			}
+			chtml += '		</div>';
+			chtml += '	</div>';
+			chtml += '</a>';
+        }
+		mainDiv.append(chtml);
+    }  
+  
+    //定义鼠标滚动事件
+	var scroll_loading = false;
+    $(window).scroll(function(){
+	　　var scrollTop = $(this).scrollTop();
+	　　var scrollHeight = $(document).height();
+	　　var windowHeight = $(this).height();
+	　　if(scrollTop + windowHeight >= scrollHeight && !scroll_loading){
+			scroll_loading = true;
+			getData(nowPage);  
+			scroll_loading = false;
+	　　}
+	});
+    $("#btn_Page").click(function () {
+		loadingToast.style.display = 'block';
+        getData(nowPage);
+    });
+  
+});
+</script>
+
+<?php (!empty($this) && $this instanceof WeModuleSite) ? (include $this->template($template.'/_footerv2', TEMPLATE_INCLUDEPATH)) : (include template($template.'/_footerv2', TEMPLATE_INCLUDEPATH));?>
