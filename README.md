@@ -1,8 +1,5 @@
-<p align="center">
-	<img alt="logo" src="http://www.ossce.org.cn/attachment/images/2/2022/04/J6fWg4b5w8bc5D3zB8669IDGgWz8g6.jpg">
-</p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">koala v2.3.1</h1>
-<h4 align="center">OSSCE开源知识付费平台搭建平台</h4>
+<h4 align="center">OSSCE开源知识分享平台</h4>
 
 ## 平台简介
 
