@@ -45,6 +45,6 @@
 </table>
 
 
-## 若依交流群
+## 交流群
 
 QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)]
