@@ -42,6 +42,11 @@
 </table>
 
 
-## 交流群
+## 微信咨询
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)]
+<table>
+    <tr>
+        <td><img src="https://github.com/ossce/koala/blob/main/image/%E5%BE%AE%E4%BF%A1%E5%90%8D%EF%BC%9Aossce666.jpg?raw=true"/></td>
+        <td><img src="https://github.com/ossce/koala/blob/main/image/%E5%85%AC%E4%BC%97%E5%8F%B7%E5%B9%B3%E5%8F%B0-%E6%89%8B%E6%9C%BA%E7%89%88.jpg?raw=true"/></td>
+    </tr>	 
+</table>
