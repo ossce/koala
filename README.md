@@ -29,7 +29,7 @@ Koala是一套开源的知识分享平台，通过源码方式搭建，可以拥
 - 后台口令：123456a?
 
 前台演示地址：http://www.ossce.org.cn/2/  
-后台演示地址：http://www.ossce.org.cn/web/home.php#/platform
+后台演示地址：******（请添加微信：ossce666）
 
 ## 演示图
 
